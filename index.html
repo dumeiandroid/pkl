@@ -1,11 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Pro - LIDAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        body { background-color: #f1f5f9; }
+    </style>
 </head>
-<body>
-	<h1>Selamat Datang</h1>
+<body class="min-h-screen font-sans text-slate-900">
+
+    <div id="login-screen" class="hidden flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-sm border border-slate-200">
+            <div class="text-center mb-8">
+                <div class="inline-block p-4 bg-blue-50 rounded-2xl mb-4 text-blue-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-2-2m0 0l2-2m-2 2h8m-9 3h11a2 2 0 002-2v-13a2 2 0 00-2-2H9a2 2 0 00-2 2v13a2 2 0 002 2z"></path></svg>
+                </div>
+                <h1 class="text-2xl font-black text-slate-800">Presensi Karyawan</h1>
+            </div>
+            <div class="space-y-4">
+                <input type="text" id="username" placeholder="Username" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                <input type="password" id="password" placeholder="Password" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                
+                <label class="flex items-center cursor-pointer group py-2">
+                    <input type="checkbox" id="remember-me" class="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                    <span class="ml-3 text-sm text-slate-500 group-hover:text-slate-700">Ingat Saya (Remember Me)</span>
+                </label>
+
+                <button onclick="handleLogin()" id="btn-login" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 shadow-lg shadow-blue-200 active:scale-[0.98] transition-all">MASUK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-content" class="hidden max-w-4xl mx-auto p-4 pt-8 md:pt-12">
+        <div class="glass p-6 rounded-3xl shadow-sm mb-8 flex flex-col md:flex-row justify-between items-center gap-4 border border-white">
+            <div class="flex items-center gap-4 text-center md:text-left">
+                <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-200">
+                    <span id="user-initial">L</span>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Karyawan Aktif</p>
+                    <h2 id="user-display" class="text-xl font-black text-slate-800">-</h2>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button id="btn-open-modal" onclick="openModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-blue-100 transition-all">
+                    ABSEN SEKARANG
+                </button>
+                <button onclick="handleLogout()" class="bg-white border border-slate-200 p-3 rounded-2xl text-red-500 hover:bg-red-50 transition-all shadow-sm">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6 bg-slate-50/50 border-b">
+                <h3 class="font-black text-slate-700">Rekap Absensi Harian</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase tracking-wider font-bold">
+                        <tr>
+                            <th class="p-4 border-b">Tanggal</th>
+                            <th class="p-4 border-b text-center">Masuk</th>
+                            <th class="p-4 border-b text-center">Foto Masuk</th>
+                            <th class="p-4 border-b text-center">Pulang</th>
+                            <th class="p-4 border-b text-center">Foto Pulang</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body" class="divide-y divide-slate-100">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-absen" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
+        <div class="bg-white w-full max-w-sm rounded-[2rem] overflow-hidden shadow-2xl">
+            <div class="p-6 border-b flex justify-between items-center bg-slate-50">
+                <span class="font-black text-slate-800">Ambil Foto Absensi</span>
+                <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-red-100 hover:text-red-600 transition-all">✕</button>
+            </div>
+            <div class="p-8">
+                <div id="camera-area">
+                    <video id="video" autoplay playsinline class="w-full aspect-square object-cover rounded-[1.5rem] mb-6 bg-slate-200 scale-x-[-1] border-4 border-white shadow-inner"></video>
+                    
+                    <div id="group-tombol" class="grid grid-cols-1 gap-4">
+                        <button id="btn-proses-masuk" onclick="processAbsensi('MASUK')" class="hidden bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-emerald-100 active:scale-95 transition-all">ABSEN MASUK</button>
+                        <button id="btn-proses-pulang" onclick="processAbsensi('PULANG')" class="hidden bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-orange-100 active:scale-95 transition-all">ABSEN PULANG</button>
+                        <div id="pesan-selesai" class="hidden p-4 bg-slate-100 text-slate-500 rounded-2xl text-sm font-bold text-center">
+                            🎉 Absensi hari ini selesai.<br>Sampai jumpa besok!
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="loading-area" class="hidden py-12 text-center">
+                    <div class="relative w-16 h-16 mx-auto mb-6">
+                        <div class="absolute inset-0 border-4 border-blue-100 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                    <p id="status-text" class="text-sm font-bold text-slate-600 animate-pulse">Memproses...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="canvas" class="hidden"></canvas>
+
+    <script>
+        const API_R2 = 'https://lidan.co.id/api/upload_r2_lidan'; // API Stabil
+        const API_DB = 'https://lidan-co-id.pages.dev/api/contacts_filter_dinamis7'; // Database
+        const SECRET = 'admin';
+
+        let userData = null;
+        let stream = null;
+        let statusHariIni = { masuk: false, pulang: false };
+
+        // 1. AUTO LOGIN (Remember Me)
+        window.onload = () => {
+            const saved = localStorage.getItem('lidan_user');
+            if (saved) {
+                userData = JSON.parse(saved);
+                showDashboard();
+            } else {
+                document.getElementById('login-screen').classList.remove('hidden');
+            }
+        };
+
+        async function handleLogin() {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            const remember = document.getElementById('remember-me').checked;
+            if(!u || !p) return alert("Username & Password wajib diisi");
+
+            try {
+                const res = await fetch(`${API_DB}?action=login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': SECRET, 'X-Role': 'user' },
+                    body: JSON.stringify({ username: u, password: p })
+                });
+                const result = await res.json();
+                if(result.success) {
+                    userData = result.data;
+                    if(remember) localStorage.setItem('lidan_user', JSON.stringify(userData));
+                    showDashboard();
+                } else { alert("Gagal: " + result.message); }
+            } catch (e) { alert("Error koneksi database"); }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('lidan_user');
+            location.reload();
+        }
+
+        function showDashboard() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('app-content').classList.remove('hidden');
+            document.getElementById('user-display').innerText = userData.x_01;
+            document.getElementById('user-initial').innerText = userData.x_01.charAt(0).toUpperCase();
+            loadHistory();
+        }
+
+        // 2. KONTROL MODAL & KAMERA
+        async function openModal() {
+            document.getElementById('modal-absen').classList.remove('hidden');
+            document.getElementById('camera-area').classList.remove('hidden');
+            document.getElementById('loading-area').classList.add('hidden');
+            updateButtonState(); // Update tampilan tombol saat modal dibuka
+            
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                document.getElementById('video').srcObject = stream;
+            } catch (e) { alert("Gagal akses kamera"); closeModal(); }
+        }
+
+        function closeModal() {
+            document.getElementById('modal-absen').classList.add('hidden');
+            if(stream) stream.getTracks().forEach(t => t.stop());
+        }
+
+        // 3. LOGIKA TOMBOL (Satu Masuk, Satu Pulang)
+        function updateButtonState() {
+            const btnM = document.getElementById('btn-proses-masuk');
+            const btnP = document.getElementById('btn-proses-pulang');
+            const msgS = document.getElementById('pesan-selesai');
+
+            // Sembunyikan semua dulu
+            btnM.classList.add('hidden');
+            btnP.classList.add('hidden');
+            msgS.classList.add('hidden');
+
+            if (!statusHariIni.masuk) {
+                btnM.classList.remove('hidden'); // Belum absen masuk
+            } else if (!statusHariIni.pulang) {
+                btnP.classList.remove('hidden'); // Sudah masuk, tampilkan pulang
+            } else {
+                msgS.classList.remove('hidden'); // Sudah keduanya
+            }
+        }
+
+        // 4. PROSES ABSENSI (R2 + D1)
+        async function processAbsensi(tipe) {
+            const statusLabel = document.getElementById('status-text');
+            document.getElementById('camera-area').classList.add('hidden');
+            document.getElementById('loading-area').classList.remove('hidden');
+
+            try {
+                const video = document.getElementById('video');
+                const canvas = document.getElementById('canvas');
+                canvas.width = 640; canvas.height = 480;
+                const ctx = canvas.getContext('2d');
+                ctx.translate(canvas.width, 0); ctx.scale(-1, 1);
+                ctx.drawImage(video, 0, 0, 640, 480);
+                
+                const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.8));
+                const fileName = `absensi/${userData.x_01}_${Date.now()}.jpg`;
+
+                // A. Upload Foto ke R2
+                statusLabel.innerText = "Mengunggah foto...";
+                const fd = new FormData();
+                fd.append('file', blob);
+                fd.append('customName', fileName);
+
+                const r2Res = await fetch(API_R2, {
+                    method: 'POST',
+                    headers: { 'X-Custom-Auth': SECRET },
+                    body: fd
+                });
+                const r2Data = await r2Res.json();
+                if(!r2Data.success) throw new Error("Gagal simpan foto");
+
+                // B. Simpan Data ke D1
+                statusLabel.innerText = "Mencatat ke database...";
+                const now = new Date();
+                const dateKey = now.toISOString().split('T')[0];
+                const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+                const payload = {
+                    x_01: userData.x_01,
+                    x_02: dateKey,
+                    x_03: timeStr,
+                    x_04: fileName,
+                    x_05: tipe
+                };
+
+                await fetch(`${API_DB}?table=absensi`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': SECRET },
+                    body: JSON.stringify(payload)
+                });
+
+                closeModal();
+                loadHistory();
+            } catch (e) {
+                alert("Kesalahan: " + e.message);
+                document.getElementById('camera-area').classList.remove('hidden');
+                document.getElementById('loading-area').classList.add('hidden');
+            }
+        }
+
+        // 5. MUAT RIWAYAT & GROUPING PER HARI
+        async function loadHistory() {
+            const tableBody = document.getElementById('history-table-body');
+            try {
+                const res = await fetch(`${API_DB}?table=absensi&x_01_eq=${userData.x_01}&limit=50`, {
+                    headers: { 'X-Custom-Auth': SECRET }
+                });
+                const result = await res.json();
+                const rawData = result.data || [];
+
+                const dailyGroup = {};
+                const todayStr = new Date().toISOString().split('T')[0];
+                
+                // Reset status harian
+                statusHariIni = { masuk: false, pulang: false };
+
+                rawData.forEach(item => {
+                    const date = item.x_02;
+                    if (!dailyGroup[date]) dailyGroup[date] = { m: '-', fm: '', p: '-', fp: '' };
+                    
+                    if (item.x_05 === 'MASUK') {
+                        dailyGroup[date].m = item.x_03;
+                        dailyGroup[date].fm = item.x_04;
+                        if(date === todayStr) statusHariIni.masuk = true;
+                    } else if (item.x_05 === 'PULANG') {
+                        dailyGroup[date].p = item.x_03;
+                        dailyGroup[date].fp = item.x_04;
+                        if(date === todayStr) statusHariIni.pulang = true;
+                    }
+                });
+
+                const sortedDates = Object.keys(dailyGroup).sort((a, b) => new Date(b) - new Date(a));
+                tableBody.innerHTML = sortedDates.map(date => {
+                    const d = dailyGroup[date];
+                    return `
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="p-4 text-sm font-bold text-slate-700">${date}</td>
+                            <td class="p-4 text-sm font-mono text-center text-emerald-600">${d.m}</td>
+                            <td class="p-4 text-center">
+                                ${d.fm ? `<img src="https://assets.lidan.co.id/${d.fm}" class="w-10 h-10 object-cover rounded-lg border mx-auto shadow-sm">` : '-'}
+                            </td>
+                            <td class="p-4 text-sm font-mono text-center text-orange-600">${d.p}</td>
+                            <td class="p-4 text-center">
+                                ${d.fp ? `<img src="https://assets.lidan.co.id/${d.fp}" class="w-10 h-10 object-cover rounded-lg border mx-auto shadow-sm">` : '-'}
+                            </td>
+                        </tr>
+                    `;
+                }).join('') || '<tr><td colspan="5" class="p-10 text-center text-slate-400 italic">Belum ada riwayat absensi</td></tr>';
+            } catch (e) { console.error("Gagal muat data"); }
+        }
+    </script>
 </body>
 </html>
