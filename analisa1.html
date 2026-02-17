@@ -12,8 +12,7 @@
             --warning: #f39c12;
         }
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        
-        body { background: var(--bg); color: var(--dark); margin: 0; padding: 20px; padding-top: 100px; display: flex; justify-content: center; }
+        body { background: var(--bg); color: var(--dark); margin: 0; padding: 20px; display: flex; justify-content: center; }
         
         .container { width: 100%; max-width: 650px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         h2 { text-align: center; color: var(--primary); margin-bottom: 25px; font-weight: 800; border-bottom: 2px solid #eee; padding-bottom: 10px; }
@@ -37,9 +36,6 @@
     </style>
 </head>
 <body>
-
-<!-- Header Placeholder -->
-<div id="header-placeholder"></div>
 
 <div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
@@ -226,17 +222,6 @@
             alert("Gagal melakukan Auto-Save. Silahkan coba lagi.");
         }
     }
-
-    // ===== LOAD HEADER =====
-    fetch('header.html')
-        .then(response => {
-            if (!response.ok) throw new Error('Gagal memuat header');
-            return response.text();
-        })
-        .then(data => {
-            document.getElementById('header-placeholder').innerHTML = data;
-        })
-        .catch(error => console.error('Error memuat header:', error));
 </script>
 </body>
 </html>

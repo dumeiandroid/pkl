@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Lidan</title>
+    <style>
+        :root {
+            --primary: #2563eb; --primary-dark: #1d4ed8;
+            --bg: #f1f5f9; --dark: #1e293b; --sidebar-w: 240px;
+            --success: #10b981; --warning: #f59e0b; --danger: #ef4444; --info: #6c5ce7;
+        }
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--dark); }
+
+        /* LOGIN */
+        #loginPage { position: fixed; inset: 0; background: linear-gradient(135deg, #1e293b 0%, #2563eb 100%); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .login-card { background: white; padding: 40px; border-radius: 16px; width: 100%; max-width: 360px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+        .lc-logo { text-align: center; margin-bottom: 28px; }
+        .lc-logo h2 { font-size: 26px; font-weight: 900; color: var(--dark); }
+        .lc-logo h2 span { color: var(--primary); }
+        .lc-logo p { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
+        .lc-label { display: block; font-size: 11px; font-weight: 700; color: #64748b; margin-bottom: 6px; text-transform: uppercase; }
+        .lc-input { width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 16px; transition: 0.2s; }
+        .lc-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .btn-login { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; }
+        #loginError { color: #ef4444; font-size: 13px; text-align: center; margin-top: 12px; display: none; }
+
+        /* LAYOUT */
+        #appLayout { display: none; min-height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--dark); color: white; display: flex; flex-direction: column; z-index: 100; overflow-y: auto; }
+        .sb-logo { padding: 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .sb-logo h1 { font-size: 19px; font-weight: 900; }
+        .sb-logo h1 span { color: var(--primary); }
+        .sb-logo p { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+        .sb-nav { flex: 1; padding: 12px 0; }
+        .sb-sec { font-size: 10px; color: #475569; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 14px 20px 5px; }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 20px; color: #94a3b8; font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
+        .nav-item.active { background: rgba(37,99,235,0.15); color: white; border-left-color: var(--primary); }
+        .nav-item .icon { font-size: 15px; width: 20px; text-align: center; }
+        .sb-foot { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); }
+        .admin-badge { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .admin-av { width: 34px; height: 34px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
+        .admin-info p { font-size: 13px; font-weight: 600; color: white; }
+        .admin-info small { font-size: 10px; color: #64748b; }
+        .btn-logout-sb { width: 100%; padding: 8px; background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+        /* MAIN */
+        .main { margin-left: var(--sidebar-w); padding: 28px; min-height: 100vh; }
+        .pg-header { margin-bottom: 22px; }
+        .pg-header h2 { font-size: 21px; font-weight: 800; }
+        .pg-header p { font-size: 13px; color: #64748b; margin-top: 3px; }
+
+        /* STATS */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+        .scard { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+        .scard .si { font-size: 22px; float: right; }
+        .scard .sl { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .scard .sv { font-size: 26px; font-weight: 900; }
+        .scard .ss { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+
+        /* FILTER */
+        .fbar { background: white; padding: 14px 18px; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+        .fbar select, .fbar input[type=number], .fbar input[type=date] { padding: 7px 11px; border: 1px solid #e2e8f0; border-radius: 7px; font-size: 13px; outline: none; background: #f8fafc; color: var(--dark); transition: 0.2s; }
+        .fbar select:focus, .fbar input:focus { border-color: var(--primary); }
+        .fbar label { font-size: 12px; font-weight: 600; color: #64748b; }
+        .btn-f { padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-add-j { padding: 8px 16px; background: var(--success); color: white; border: none; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; margin-left: auto; }
+
+        /* TABS */
+        .s-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+        .stab { padding: 6px 16px; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; background: white; color: #64748b; transition: 0.2s; }
+        .stab.a-aktif { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+        .stab.a-pending { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
+        .stab.a-done { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+
+        /* TABLE */
+        .tcard { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; overflow: hidden; }
+        .tcard table { width: 100%; border-collapse: collapse; }
+        .tcard thead th { background: #f8fafc; padding: 11px 14px; text-align: left; font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
+        .tcard tbody td { padding: 11px 14px; font-size: 13px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        .tcard tbody tr:last-child td { border-bottom: none; }
+        .tcard tbody tr:hover { background: #f8fafc; cursor: pointer; }
+        .lr td { text-align: center; padding: 36px; color: #94a3b8; font-size: 13px; }
+        .er td { text-align: center; padding: 40px; color: #94a3b8; }
+
+        /* BADGES */
+        .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+        .b-aktif { background: #dbeafe; color: #1d4ed8; }
+        .b-pending { background: #fef3c7; color: #b45309; }
+        .b-done { background: #d1fae5; color: #065f46; }
+        .b-masuk { background: #d1fae5; color: #065f46; }
+        .b-pulang { background: #fef3c7; color: #b45309; }
+        .b-sesuai { background: #d1fae5; color: #065f46; }
+        .b-sebagian { background: #fef3c7; color: #b45309; }
+        .b-gagal { background: #fee2e2; color: #b91c1c; }
+
+        .jtag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; color: #2d3436; }
+        .uchip { display: inline-flex; align-items: center; gap: 5px; background: #f1f5f9; padding: 3px 9px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .udot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+        .btn-edit { padding: 4px 10px; background: #e0e7ff; color: #4338ca; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-del { padding: 4px 10px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
+
+        /* USER CARDS */
+        .users-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
+        .ucard { background: white; padding: 18px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); transition: 0.2s; }
+        .ucard:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.1); transform: translateY(-2px); }
+        .ucard-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .uav { width: 42px; height: 42px; border-radius: 10px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; }
+        .ucard h3 { font-size: 14px; font-weight: 700; }
+        .ucard small { font-size: 11px; color: #94a3b8; }
+        .ustat-row { display: flex; gap: 6px; }
+        .ustat { flex: 1; background: #f8fafc; padding: 7px; border-radius: 6px; text-align: center; }
+        .ustat .n { font-size: 17px; font-weight: 800; }
+        .ustat .l { font-size: 9px; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
+        .btn-vu { width: 100%; margin-top: 10px; padding: 8px; background: var(--primary); color: white; border: none; border-radius: 7px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+        /* FOTO */
+        .foto-thumb { width: 38px; height: 38px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0; cursor: pointer; }
+
+        /* EXPAND */
+        .expand-btn { padding: 4px 10px; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 5px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .xrow { display: none; background: #fafbfc; }
+        .xrow td { padding: 14px 20px !important; font-size: 12px; color: #475569; border-bottom: 1px solid #e2e8f0 !important; }
+        .xrow.open { display: table-row; }
+        .xgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .xi { background: white; padding: 10px 14px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .xi .xil { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px; }
+        .xi .xiv { font-size: 13px; color: var(--dark); line-height: 1.5; }
+
+        /* MODAL */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(2px); }
+        .mbox { background: white; border-radius: 14px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+        .mhead { padding: 18px 22px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; z-index: 10; }
+        .mhead h3 { font-size: 15px; font-weight: 800; }
+        .mhead button { background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8; }
+        .mbody { padding: 22px; }
+        .fg { margin-bottom: 14px; }
+        .fg label { display: block; font-size: 10px; font-weight: 700; color: #64748b; margin-bottom: 5px; text-transform: uppercase; }
+        .fg input, .fg select, .fg textarea { width: 100%; padding: 10px 13px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none; transition: 0.2s; background: #f8fafc; }
+        .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--primary); background: white; }
+        .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .mfoot { padding: 14px 22px; border-top: 1px solid #e2e8f0; display: flex; gap: 8px; justify-content: flex-end; }
+        .btn-cancel { padding: 9px 18px; background: #f1f5f9; color: #64748b; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-submit { padding: 9px 22px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
+        .s-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 4px; }
+        .btn-s { padding: 8px; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; display: none; }
+        .bs-aktif { background: #d1fae5; color: #065f46; }
+        .bs-pending { background: #fef3c7; color: #b45309; }
+        .bs-done { background: #dbeafe; color: #1d4ed8; }
+
+        /* SPINNER */
+        .sp { display: inline-block; width: 16px; height: 16px; border: 2px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 5px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* PAGES */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* SECTION SEP */
+        .ssep { font-size: 13px; font-weight: 700; color: #475569; margin: 24px 0 14px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+        .ssep-row { display: flex; align-items: center; justify-content: space-between; margin: 24px 0 14px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+        .ssep-title { font-size: 13px; font-weight: 700; color: #475569; }
+        .dash-tabs { display: flex; gap: 5px; }
+        .dtab { padding: 4px 12px; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; background: white; color: #64748b; transition: 0.2s; }
+        .dtab:hover { background: #f1f5f9; }
+        .dtab.da-aktif   { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+        .dtab.da-pending { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
+        .dtab.da-done    { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+        .dtab.da-all     { background: #f1f5f9; color: #1e293b; border-color: #cbd5e1; }
+
+        @media (max-width: 900px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 640px) { .main { margin-left: 0; padding: 14px; } .stats-grid { grid-template-columns: 1fr 1fr; } }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage">
+    <div class="login-card">
+        <div class="lc-logo"><h2>LIDAN<span>PSIKOLOGI</span></h2><p>Admin Dashboard</p></div>
+        <label class="lc-label">Username Admin</label>
+        <input class="lc-input" type="text" id="l_user" placeholder="Username...">
+        <label class="lc-label">Password</label>
+        <input class="lc-input" type="password" id="l_pass" placeholder="Password..." onkeydown="if(event.key==='Enter') handleLogin()">
+        <button class="btn-login" onclick="handleLogin()">MASUK SEBAGAI ADMIN</button>
+        <p id="loginError">Username atau password salah!</p>
+    </div>
+</div>
+
+<!-- APP -->
+<div id="appLayout">
+    <aside class="sidebar">
+        <div class="sb-logo"><h1>LIDAN<span>PSIKOLOGI</span></h1><p>Admin Panel</p></div>
+        <nav class="sb-nav">
+            <div class="sb-sec">Overview</div>
+            <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard"><span class="icon">📊</span> Dashboard</div>
+            <div class="sb-sec">Data</div>
+            <div class="nav-item" onclick="showPage('jadwal')" id="nav-jadwal"><span class="icon">📅</span> Jadwal</div>
+            <div class="nav-item" onclick="showPage('absensi')" id="nav-absensi"><span class="icon">🕐</span> Absensi</div>
+            <div class="nav-item" onclick="showPage('analisa')" id="nav-analisa"><span class="icon">🔍</span> Analisa</div>
+            <div class="nav-item" onclick="showPage('pengendalian')" id="nav-pengendalian"><span class="icon">⚙️</span> Pengendalian</div>
+            <div class="sb-sec">User</div>
+            <div class="nav-item" onclick="showPage('users')" id="nav-users"><span class="icon">👥</span> Daftar User</div>
+        </nav>
+        <div class="sb-foot">
+            <div class="admin-badge">
+                <div class="admin-av" id="adminInitial">A</div>
+                <div class="admin-info"><p id="adminName">Admin</p><small>Administrator</small></div>
+            </div>
+            <button class="btn-logout-sb" onclick="handleLogout()">🚪 Logout</button>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <!-- DASHBOARD -->
+        <div class="page active" id="page-dashboard">
+            <div class="pg-header"><h2>Dashboard Admin</h2><p>Ringkasan semua aktivitas — bulan <span id="dashPeriode"></span></p></div>
+            <div class="stats-grid">
+                <div class="scard"><span class="si">📋</span><div class="sl">Total Jadwal</div><div class="sv" id="stTotal">-</div><div class="ss">Bulan ini</div></div>
+                <div class="scard"><span class="si">✅</span><div class="sl">Jadwal Aktif</div><div class="sv" id="stAktif" style="color:#2563eb">-</div><div class="ss">Bulan ini</div></div>
+                <div class="scard"><span class="si">🏁</span><div class="sl">Jadwal Done</div><div class="sv" id="stDone" style="color:#10b981">-</div><div class="ss">Bulan ini</div></div>
+                <div class="scard"><span class="si">🕐</span><div class="sl">Absensi Hari Ini</div><div class="sv" id="stAbsensi" style="color:#f59e0b">-</div><div class="ss">Total kehadiran</div></div>
+            </div>
+            <div class="ssep-row">
+                <span class="ssep-title">📅 Jadwal Terbaru (Bulan Ini)</span>
+                <div class="dash-tabs">
+                    <button class="dtab da-aktif" id="dtab-aktif"   onclick="setDashTab('aktif')">Aktif</button>
+                    <button class="dtab"          id="dtab-pending" onclick="setDashTab('pending')">Pending</button>
+                    <button class="dtab"          id="dtab-done"    onclick="setDashTab('done')">Done</button>
+                    <button class="dtab"          id="dtab-all"     onclick="setDashTab('all')">All</button>
+                </div>
+            </div>
+            <div class="tcard" style="margin-bottom:24px;"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Status</th></tr></thead>
+                <tbody id="dJadwal"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+            <div class="ssep">🕐 Absensi Hari Ini</div>
+            <div class="tcard" style="margin-bottom:24px;"><table>
+                <thead><tr><th>Tanggal</th><th>User</th><th>Tipe</th><th>Jam</th><th>Foto</th></tr></thead>
+                <tbody id="dAbsensi"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+            <div class="ssep-row">
+                <span class="ssep-title">🔍 Analisa Terbaru</span>
+                <div class="dash-tabs">
+                    <button class="dtab da-aktif" id="atab-aktif"   onclick="setAnalisaTab('aktif')">Aktif</button>
+                    <button class="dtab"          id="atab-pending" onclick="setAnalisaTab('pending')">Pending</button>
+                    <button class="dtab"          id="atab-done"    onclick="setAnalisaTab('done')">Done</button>
+                    <button class="dtab"          id="atab-all"     onclick="setAnalisaTab('all')">All</button>
+                </div>
+            </div>
+            <div class="tcard" style="margin-bottom:24px;"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Masalah</th><th>Rencana</th><th>Target</th></tr></thead>
+                <tbody id="dAnalisa"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+            <div class="ssep-row">
+                <span class="ssep-title">⚙️ Pengendalian Terbaru</span>
+                <div class="dash-tabs">
+                    <button class="dtab da-aktif" id="ptab-aktif"   onclick="setPengendalianTab('aktif')">Aktif</button>
+                    <button class="dtab"          id="ptab-pending" onclick="setPengendalianTab('pending')">Pending</button>
+                    <button class="dtab"          id="ptab-done"    onclick="setPengendalianTab('done')">Done</button>
+                    <button class="dtab"          id="ptab-all"     onclick="setPengendalianTab('all')">All</button>
+                </div>
+            </div>
+            <div class="tcard"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Hasil Aktual</th><th>Kesimpulan</th><th>Saran</th></tr></thead>
+                <tbody id="dPengendalian"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+        </div>
+
+        <!-- JADWAL -->
+        <div class="page" id="page-jadwal">
+            <div class="pg-header"><h2>Jadwal Semua User</h2><p>Kelola jadwal untuk semua pengguna</p></div>
+            <div class="fbar">
+                <label>User:</label><select id="jFU"><option value="">-- Semua --</option></select>
+                <label>Bln:</label><input type="number" id="jFB" min="1" max="12" style="width:65px;">
+                <label>Thn:</label><input type="number" id="jFT" style="width:85px;">
+                <button class="btn-f" onclick="loadJadwal()">🔍 Tampilkan</button>
+                <button class="btn-add-j" onclick="openModalAdd()">+ Tambah Jadwal</button>
+            </div>
+            <div class="s-tabs">
+                <button class="stab a-aktif" id="stab-aktif" onclick="setTab('aktif')">Aktif</button>
+                <button class="stab" id="stab-pending" onclick="setTab('pending')">Pending</button>
+                <button class="stab" id="stab-done" onclick="setTab('done')">Done</button>
+            </div>
+            <div class="tcard"><table>
+                <thead><tr><th>Tgl/Jam</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>Aksi</th></tr></thead>
+                <tbody id="jTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+        </div>
+
+        <!-- ABSENSI -->
+        <div class="page" id="page-absensi">
+            <div class="pg-header"><h2>Data Absensi</h2><p>Rekap kehadiran semua user</p></div>
+            <div class="fbar">
+                <label>User:</label><select id="aFU"><option value="">-- Semua --</option></select>
+                <label>Dari:</label><input type="date" id="aFD">
+                <label>s/d:</label><input type="date" id="aFS">
+                <button class="btn-f" onclick="loadAbsensi()">🔍 Tampilkan</button>
+            </div>
+            <div class="tcard"><table>
+                <thead><tr><th>Tanggal</th><th>User</th><th>Tipe</th><th>Jam</th><th>Foto</th></tr></thead>
+                <tbody id="aTable"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+        </div>
+
+        <!-- ANALISA -->
+        <div class="page" id="page-analisa">
+            <div class="pg-header"><h2>Data Analisa Strategis</h2><p>Rekap analisa semua jadwal</p></div>
+            <div class="fbar">
+                <label>User:</label><select id="anFU"><option value="">-- Semua --</option></select>
+                <label>Bln:</label><input type="number" id="anFB" min="1" max="12" style="width:65px;">
+                <label>Thn:</label><input type="number" id="anFT" style="width:85px;">
+                <button class="btn-f" onclick="loadAnalisa()">🔍 Tampilkan</button>
+            </div>
+            <div class="tcard"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Masalah</th><th>Rencana</th><th>Target</th><th></th></tr></thead>
+                <tbody id="anTable"><tr class="lr"><td colspan="7"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+        </div>
+
+        <!-- PENGENDALIAN -->
+        <div class="page" id="page-pengendalian">
+            <div class="pg-header"><h2>Data Pengendalian & Evaluasi</h2><p>Rekap pengendalian semua jadwal</p></div>
+            <div class="fbar">
+                <label>User:</label><select id="pnFU"><option value="">-- Semua --</option></select>
+                <label>Bln:</label><input type="number" id="pnFB" min="1" max="12" style="width:65px;">
+                <label>Thn:</label><input type="number" id="pnFT" style="width:85px;">
+                <button class="btn-f" onclick="loadPengendalian()">🔍 Tampilkan</button>
+            </div>
+            <div class="tcard"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Hasil Aktual</th><th>Deviasi</th><th>Kesimpulan</th><th></th></tr></thead>
+                <tbody id="pnTable"><tr class="lr"><td colspan="7"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+        </div>
+
+        <!-- USERS -->
+        <div class="page" id="page-users">
+            <div class="pg-header"><h2>Daftar User</h2><p>Semua pengguna terdaftar</p></div>
+            <div class="users-grid" id="usersGrid"><div style="color:#94a3b8;font-size:13px;"><span class="sp"></span>Memuat...</div></div>
+        </div>
+
+    </main>
+</div>
+
+<!-- MODAL JADWAL -->
+<div class="overlay" id="modalJadwal" onclick="closeModal('modalJadwal')">
+    <div class="mbox" onclick="event.stopPropagation()">
+        <div class="mhead"><h3 id="mJudul">Tambah Jadwal</h3><button onclick="closeModal('modalJadwal')">✕</button></div>
+        <div class="mbody">
+            <input type="hidden" id="mf_id">
+            <div class="fg"><label>User Pemilik</label><select id="mf_user"><option value="">-- Pilih User --</option></select></div>
+            <div class="form-row2">
+                <div class="fg"><label>Tanggal</label><input type="date" id="mf_date"></div>
+                <div class="fg"><label>Jam</label><input type="time" id="mf_jam" value="08:00"></div>
+            </div>
+            <div class="fg"><label>Jenis</label>
+                <select id="mf_jenis">
+                    <option value="meeting">Meeting</option><option value="tes">Tes</option>
+                    <option value="konseling">Konseling</option><option value="seminar">Seminar</option>
+                    <option value="others">Other</option>
+                </select>
+            </div>
+            <div class="fg"><label>Keterangan</label><textarea id="mf_ket" rows="3" placeholder="Nama peserta / lokasi..."></textarea></div>
+            <div class="fg" id="mStatusArea" style="display:none;">
+                <label>Ubah Status</label>
+                <div class="s-actions">
+                    <button class="btn-s bs-aktif" id="bsa" onclick="saveJadwal('aktif')">✅ AKTIF</button>
+                    <button class="btn-s bs-pending" id="bsp" onclick="saveJadwal('pending')">⏳ PENDING</button>
+                    <button class="btn-s bs-done" id="bsd" onclick="saveJadwal('done')">🏁 DONE</button>
+                </div>
+            </div>
+        </div>
+        <div class="mfoot">
+            <button class="btn-cancel" onclick="closeModal('modalJadwal')">Batal</button>
+            <button class="btn-submit" onclick="saveJadwal(null)">💾 Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL FOTO -->
+<div class="overlay" id="modalFoto" onclick="closeModal('modalFoto')">
+    <div class="mbox" style="max-width:380px;" onclick="event.stopPropagation()">
+        <div class="mhead"><h3>Foto Absensi</h3><button onclick="closeModal('modalFoto')">✕</button></div>
+        <div class="mbody" style="text-align:center;"><img id="mFotoImg" src="" style="max-width:100%;border-radius:10px;border:1px solid #e2e8f0;"></div>
+    </div>
+</div>
+
+<script>
+const API  = 'https://lidan-co-id.pages.dev/api/contacts_filter_dinamis7';
+const AUTH = 'admin';
+const TJ   = 'jadwal_magang';
+const TA   = 'absensi';
+const ASSETS = 'https://assets.lidan.co.id/';
+const JC = { meeting:'#ff7675', tes:'#74b9ff', konseling:'#55efc4', seminar:'#ffeaa7', others:'#b2bec3' };
+
+let currentTab = 'aktif';
+let dashJadwalTab      = 'aktif';
+let dashAnalisaTab     = 'aktif';
+let dashPengendalianTab = 'aktif';
+let allUsers   = [];
+let adminUser  = '';
+
+// ===== HELPERS =====
+const api = q => fetch(API + q, { headers: { 'X-Custom-Auth': AUTH } }).then(r => r.json());
+const pj  = s => { try { return s ? JSON.parse(s) : null; } catch { return null; } };
+const tr  = (s, n=40) => s && s.length > n ? s.slice(0,n)+'…' : (s||'-');
+const loading = (id, cols) => document.getElementById(id).innerHTML = `<tr class="lr"><td colspan="${cols}"><span class="sp"></span>Memuat...</td></tr>`;
+
+// ===== AUTH =====
+async function handleLogin() {
+    const u = document.getElementById('l_user').value.trim();
+    const p = document.getElementById('l_pass').value.trim();
+    if (!u || !p) return;
+    const res = await api(`?table=admins&x_01_eq=${u}&x_02_eq=${p}`);
+    if (res.success && res.data?.length > 0) {
+        adminUser = res.data[0].x_01;
+        sessionStorage.setItem('lidan_admin', adminUser);
+        showApp();
+    } else { document.getElementById('loginError').style.display = 'block'; }
+}
+function checkAuth() {
+    const s = sessionStorage.getItem('lidan_admin');
+    if (s) { adminUser = s; showApp(); }
+}
+function handleLogout() { sessionStorage.removeItem('lidan_admin'); location.reload(); }
+
+async function showApp() {
+    document.getElementById('loginPage').style.display  = 'none';
+    document.getElementById('appLayout').style.display  = 'flex';
+    document.getElementById('adminName').textContent    = adminUser;
+    document.getElementById('adminInitial').textContent = adminUser.charAt(0).toUpperCase();
+    await loadAllUsers();
+    loadDashboard();
+}
+
+// ===== NAV =====
+function showPage(pg) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-'+pg).classList.add('active');
+    document.getElementById('nav-'+pg).classList.add('active');
+    const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, analisa: loadAnalisa, pengendalian: loadPengendalian, users: loadUsers };
+    if (map[pg]) map[pg]();
+}
+
+// ===== USERS =====
+async function loadAllUsers() {
+    const res = await api(`?table=users`);
+    if (res.success && res.data) {
+        allUsers = res.data;
+        const opts = allUsers.map(u => `<option value="${u.x_01}">${u.x_01}</option>`).join('');
+        ['jFU','aFU','anFU','pnFU'].forEach(id => document.getElementById(id).innerHTML = '<option value="">-- Semua --</option>' + opts);
+        document.getElementById('mf_user').innerHTML = '<option value="">-- Pilih User --</option>' + opts;
+    }
+}
+
+// ===== DASHBOARD =====
+async function loadDashboard() {
+    const now = new Date(), bln = now.getMonth()+1, thn = now.getFullYear();
+    const today = now.toISOString().split('T')[0];
+    document.getElementById('dashPeriode').textContent = `${bln}/${thn}`;
+
+    const [rA,rP,rD,rAbs] = await Promise.all([
+        api(`?table=${TJ}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=aktif`),
+        api(`?table=${TJ}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=pending`),
+        api(`?table=${TJ}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=done`),
+        api(`?table=${TA}&x_02_eq=${today}`),
+    ]);
+    const jAll = [...(rA.data||[]),(rP.data||[]),...(rD.data||[])];
+    document.getElementById('stTotal').textContent   = jAll.length;
+    document.getElementById('stAktif').textContent   = rA.data?.length||0;
+    document.getElementById('stDone').textContent    = rD.data?.length||0;
+    document.getElementById('stAbsensi').textContent = rAbs.data?.length||0;
+
+    // Simpan semua data jadwal ke variabel global agar bisa difilter tab
+    window._dashJadwalData = { aktif: rA.data||[], pending: rP.data||[], done: rD.data||[] };
+    renderDashJadwal();
+
+    const absData = (rAbs.data||[]).slice(0,10);
+    document.getElementById('dAbsensi').innerHTML = absData.length
+        ? absData.map(d => `<tr><td>${d.x_02||'-'}</td><td><span class="uchip"><span class="udot"></span>${d.x_01||'-'}</span></td><td><span class="badge b-${(d.x_05||'').toLowerCase()}">${d.x_05||'-'}</span></td><td><b>${d.x_03||'-'}</b></td><td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')">`:'-'}</td></tr>`).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada absensi hari ini</td></tr>';
+
+    // Cache data analisa & pengendalian berdasarkan status
+    const allJ = [...(rA.data||[]),...(rP.data||[]),...(rD.data||[])];
+    window._dashAnalisaData = {
+        aktif:   (rA.data||[]).filter(j=>j.x_10),
+        pending: (rP.data||[]).filter(j=>j.x_10),
+        done:    (rD.data||[]).filter(j=>j.x_10),
+    };
+    window._dashPengendalianData = {
+        aktif:   (rA.data||[]).filter(j=>j.x_15),
+        pending: (rP.data||[]).filter(j=>j.x_15),
+        done:    (rD.data||[]).filter(j=>j.x_15),
+    };
+    renderDashAnalisa();
+    renderDashPengendalian();
+}
+
+// ===== DASH JADWAL TAB =====
+function setDashTab(tab) {
+    dashJadwalTab = tab;
+    // Update tampilan tombol
+    ['aktif','pending','done','all'].forEach(t => {
+        const el = document.getElementById('dtab-'+t);
+        if (el) el.className = 'dtab' + (t === tab ? ' da-'+tab : '');
+    });
+    renderDashJadwal();
+}
+
+function renderDashJadwal() {
+    const d = window._dashJadwalData;
+    if (!d) return;
+    let data;
+    if (dashJadwalTab === 'all') {
+        data = [...d.aktif, ...d.pending, ...d.done];
+    } else {
+        data = d[dashJadwalTab] || [];
+    }
+    data = data.sort((a,b) => parseInt(b.x_01)-parseInt(a.x_01)).slice(0, 15);
+    document.getElementById('dJadwal').innerHTML = data.length
+        ? data.map(d => `<tr><td><b>${d.x_01}</b></td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td><td>${tr(d.x_04)}</td><td><span class="badge b-${d.x_05}">${d.x_05}</span></td></tr>`).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada data</td></tr>';
+}
+
+function setAnalisaTab(tab) {
+    dashAnalisaTab = tab;
+    ['aktif','pending','done','all'].forEach(t => {
+        const el = document.getElementById('atab-'+t);
+        if (el) el.className = 'dtab' + (t === tab ? ' da-'+tab : '');
+    });
+    renderDashAnalisa();
+}
+
+function renderDashAnalisa() {
+    const d = window._dashAnalisaData;
+    if (!d) return;
+    const data = (dashAnalisaTab === 'all'
+        ? [...d.aktif, ...d.pending, ...d.done]
+        : d[dashAnalisaTab] || []
+    ).slice(0, 10);
+    document.getElementById('dAnalisa').innerHTML = data.length
+        ? data.map(d => { const a=pj(d.x_10)||{}; return `<tr><td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td>${tr(a.masalah,35)}</td><td>${tr(a.rencana,35)}</td><td>${tr(a.target,35)}</td></tr>`; }).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada data analisa</td></tr>';
+}
+
+function setPengendalianTab(tab) {
+    dashPengendalianTab = tab;
+    ['aktif','pending','done','all'].forEach(t => {
+        const el = document.getElementById('ptab-'+t);
+        if (el) el.className = 'dtab' + (t === tab ? ' da-'+tab : '');
+    });
+    renderDashPengendalian();
+}
+
+function renderDashPengendalian() {
+    const d = window._dashPengendalianData;
+    if (!d) return;
+    const data = (dashPengendalianTab === 'all'
+        ? [...d.aktif, ...d.pending, ...d.done]
+        : d[dashPengendalianTab] || []
+    ).slice(0, 10);
+    document.getElementById('dPengendalian').innerHTML = data.length
+        ? data.map(d => { const p=pj(d.x_15)||{}; return `<tr><td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td>${tr(p.aktual,35)}</td><td><span class="badge b-${p.kesimpulan||'sesuai'}">${p.kesimpulan||'-'}</span></td><td>${tr(p.saran,35)}</td></tr>`; }).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada data pengendalian</td></tr>';
+}
+
+// ===== JADWAL =====
+function setTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.stab').forEach(b => b.className='stab');
+    document.getElementById('stab-'+tab).className = `stab a-${tab}`;
+    loadJadwal();
+}
+async function loadJadwal() {
+    const bln=document.getElementById('jFB').value, thn=document.getElementById('jFT').value, user=document.getElementById('jFU').value;
+    let q=`?table=${TJ}&x_05_eq=${currentTab}`;
+    if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`; if(user) q+=`&x_09_eq=${user}`;
+    loading('jTable',6);
+    const res = await api(q);
+    const data = (res.data||[]).sort((a,b)=>parseInt(a.x_01)-parseInt(b.x_01));
+    document.getElementById('jTable').innerHTML = data.length
+        ? data.map(d => `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
+            <td><b>${d.x_01}</b><br><small style="color:#94a3b8">${d.x_02||''}</small></td>
+            <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
+            <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td>
+            <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.x_04||'-'}</td>
+            <td><span class="badge b-${d.x_05}">${d.x_05}</span></td>
+            <td onclick="event.stopPropagation()">
+                <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
+                <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
+            </td></tr>`).join('')
+        : '<tr class="er"><td colspan="6">Tidak ada data</td></tr>';
+}
+
+// ===== ABSENSI =====
+async function loadAbsensi() {
+    const user=document.getElementById('aFU').value, dari=document.getElementById('aFD').value, sampai=document.getElementById('aFS').value;
+    let q=`?table=${TA}`; if(user) q+=`&x_01_eq=${user}`; if(dari) q+=`&x_02_gte=${dari}`; if(sampai) q+=`&x_02_lte=${sampai}`;
+    loading('aTable',5);
+    const res = await api(q);
+    const data = (res.data||[]).sort((a,b)=>(b.x_02||'').localeCompare(a.x_02||''));
+    document.getElementById('aTable').innerHTML = data.length
+        ? data.map(d => `<tr>
+            <td>${d.x_02||'-'}</td>
+            <td><span class="uchip"><span class="udot"></span>${d.x_01||'-'}</span></td>
+            <td><span class="badge b-${(d.x_05||'').toLowerCase()}">${d.x_05||'-'}</span></td>
+            <td><b>${d.x_03||'-'}</b></td>
+            <td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')">`:'-'}</td></tr>`).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada data absensi</td></tr>';
+}
+
+// ===== ANALISA =====
+async function loadAnalisa() {
+    const user=document.getElementById('anFU').value, bln=document.getElementById('anFB').value, thn=document.getElementById('anFT').value;
+    let q=`?table=${TJ}`; if(user) q+=`&x_09_eq=${user}`; if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`;
+    loading('anTable',7);
+    const res  = await api(q);
+    const data = (res.data||[]).filter(j=>j.x_10);
+    document.getElementById('anTable').innerHTML = data.length
+        ? data.map((d,i) => {
+            const a=pj(d.x_10)||{}, rid=`ar${i}`;
+            return `<tr onclick="toggleX('${rid}')">
+                <td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td>
+                <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
+                <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td>
+                <td>${tr(a.masalah,35)}</td><td>${tr(a.rencana,35)}</td><td>${tr(a.target,35)}</td>
+                <td><button class="expand-btn">Detail</button></td></tr>
+              <tr class="xrow" id="${rid}"><td colspan="7"><div class="xgrid">
+                <div class="xi"><div class="xil">Masalah Utama</div><div class="xiv">${a.masalah||'-'}</div></div>
+                <div class="xi"><div class="xil">Rencana Tindakan</div><div class="xiv">${a.rencana||'-'}</div></div>
+                <div class="xi"><div class="xil">Alasan Memilih Rencana</div><div class="xiv">${a.alasan||'-'}</div></div>
+                <div class="xi"><div class="xil">Hasil yang Diharapkan</div><div class="xiv">${a.target||'-'}</div></div>
+              </div></td></tr>`;}).join('')
+        : '<tr class="er"><td colspan="7">Tidak ada data analisa</td></tr>';
+}
+
+// ===== PENGENDALIAN =====
+async function loadPengendalian() {
+    const user=document.getElementById('pnFU').value, bln=document.getElementById('pnFB').value, thn=document.getElementById('pnFT').value;
+    let q=`?table=${TJ}`; if(user) q+=`&x_09_eq=${user}`; if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`;
+    loading('pnTable',7);
+    const res  = await api(q);
+    const data = (res.data||[]).filter(j=>j.x_15);
+    document.getElementById('pnTable').innerHTML = data.length
+        ? data.map((d,i) => {
+            const p=pj(d.x_15)||{}, rid=`pr${i}`;
+            return `<tr onclick="toggleX('${rid}')">
+                <td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td>
+                <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
+                <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td>
+                <td>${tr(p.aktual,35)}</td><td>${tr(p.deviasi,30)}</td>
+                <td><span class="badge b-${p.kesimpulan||'sesuai'}">${p.kesimpulan||'-'}</span></td>
+                <td><button class="expand-btn">Detail</button></td></tr>
+              <tr class="xrow" id="${rid}"><td colspan="7"><div class="xgrid">
+                <div class="xi"><div class="xil">Hasil Aktual</div><div class="xiv">${p.aktual||'-'}</div></div>
+                <div class="xi"><div class="xil">Deviasi / Kendala</div><div class="xiv">${p.deviasi||'-'}</div></div>
+                <div class="xi"><div class="xil">Kesimpulan</div><div class="xiv"><span class="badge b-${p.kesimpulan||'sesuai'}">${p.kesimpulan||'-'}</span></div></div>
+                <div class="xi"><div class="xil">Saran & Rekomendasi</div><div class="xiv">${p.saran||'-'}</div></div>
+              </div>
+              <div style="font-size:11px;color:#94a3b8;margin-top:8px;">Dicatat: ${p.executed_at?new Date(p.executed_at).toLocaleString('id-ID'):'-'}</div>
+              </td></tr>`;}).join('')
+        : '<tr class="er"><td colspan="7">Tidak ada data pengendalian</td></tr>';
+}
+
+// ===== USERS PAGE =====
+async function loadUsers() {
+    const grid = document.getElementById('usersGrid');
+    grid.innerHTML = '<div style="color:#94a3b8;font-size:13px;"><span class="sp"></span> Memuat...</div>';
+    const now = new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=now.toISOString().split('T')[0];
+    const stats = await Promise.all(allUsers.map(u => Promise.all([
+        api(`?table=${TJ}&x_09_eq=${u.x_01}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=aktif`),
+        api(`?table=${TJ}&x_09_eq=${u.x_01}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=pending`),
+        api(`?table=${TJ}&x_09_eq=${u.x_01}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=done`),
+        api(`?table=${TA}&x_01_eq=${u.x_01}&x_02_eq=${today}`),
+    ])));
+    grid.innerHTML = allUsers.map((u,i) => {
+        const a=stats[i][0].data?.length||0, p=stats[i][1].data?.length||0, d=stats[i][2].data?.length||0, abs=stats[i][3].data?.length||0;
+        return `<div class="ucard">
+            <div class="ucard-head"><div class="uav">${u.x_01.charAt(0).toUpperCase()}</div>
+            <div><h3>${u.x_01}</h3><small>Bulan ini: ${a+p+d} jadwal • Absen hari ini: ${abs}</small></div></div>
+            <div class="ustat-row">
+                <div class="ustat"><div class="n" style="color:#2563eb">${a}</div><div class="l">Aktif</div></div>
+                <div class="ustat"><div class="n" style="color:#f59e0b">${p}</div><div class="l">Pending</div></div>
+                <div class="ustat"><div class="n" style="color:#10b981">${d}</div><div class="l">Done</div></div>
+                <div class="ustat"><div class="n" style="color:#6c5ce7">${abs}</div><div class="l">Absen</div></div>
+            </div>
+            <button class="btn-vu" onclick="viewUserJadwal('${u.x_01}')">📅 Lihat Jadwal</button>
+        </div>`;
+    }).join('');
+}
+function viewUserJadwal(u) { showPage('jadwal'); document.getElementById('jFU').value=u; loadJadwal(); }
+
+// ===== MODAL JADWAL =====
+function openModalAdd() {
+    document.getElementById('mJudul').textContent = 'Tambah Jadwal Baru';
+    ['mf_id','mf_date','mf_ket'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('mf_user').value=''; document.getElementById('mf_jam').value='08:00'; document.getElementById('mf_jenis').value='meeting';
+    document.getElementById('mStatusArea').style.display='none';
+    document.getElementById('modalJadwal').style.display='flex';
+}
+function openModalEdit(item) {
+    document.getElementById('mJudul').textContent = 'Edit Jadwal';
+    document.getElementById('mf_id').value   = item.id_x;
+    document.getElementById('mf_user').value = item.x_09||'';
+    document.getElementById('mf_date').value = `${item.x_07}-${String(item.x_06).padStart(2,'0')}-${String(item.x_01).padStart(2,'0')}`;
+    document.getElementById('mf_jam').value  = item.x_02||'08:00';
+    document.getElementById('mf_jenis').value= item.x_03||'meeting';
+    document.getElementById('mf_ket').value  = item.x_04||'';
+    document.getElementById('mStatusArea').style.display='block';
+    document.querySelectorAll('.btn-s').forEach(b=>b.style.display='none');
+    if(item.x_05==='aktif')   { document.getElementById('bsp').style.display='block'; document.getElementById('bsd').style.display='block'; }
+    else if(item.x_05==='pending') { document.getElementById('bsa').style.display='block'; document.getElementById('bsd').style.display='block'; }
+    else if(item.x_05==='done')    { document.getElementById('bsa').style.display='block'; document.getElementById('bsp').style.display='block'; }
+    document.getElementById('modalJadwal').style.display='flex';
+}
+async function saveJadwal(fs) {
+    const id=document.getElementById('mf_id').value, user=document.getElementById('mf_user').value, date=document.getElementById('mf_date').value;
+    if(!user) return alert('Pilih user!'); if(!date) return alert('Isi tanggal!');
+    const d=new Date(date);
+    const payload={ x_01:d.getDate().toString(), x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:(d.getMonth()+1).toString(), x_07:d.getFullYear().toString(), x_09:user };
+    if(fs) payload.x_05=fs; else if(!id) payload.x_05='aktif';
+    const url=id?`${API}?table=${TJ}&id_x=${id}`:`${API}?table=${TJ}`, method=id?'PUT':'POST';
+    const res=await fetch(url,{method,headers:{'Content-Type':'application/json','X-Custom-Auth':AUTH},body:JSON.stringify(payload)}).then(r=>r.json());
+    if(res.success){ closeModal('modalJadwal'); loadJadwal(); loadDashboard(); } else alert('Gagal menyimpan!');
+}
+async function deleteJadwal(id) {
+    if(!confirm('Yakin hapus jadwal ini?')) return;
+    const res=await fetch(`${API}?table=${TJ}&id_x=${id}`,{method:'DELETE',headers:{'X-Custom-Auth':AUTH}}).then(r=>r.json());
+    if(res.success){ loadJadwal(); loadDashboard(); } else alert('Gagal menghapus!');
+}
+
+// ===== UTILS =====
+function closeModal(id) { document.getElementById(id).style.display='none'; }
+function showFoto(url) { document.getElementById('mFotoImg').src=url; document.getElementById('modalFoto').style.display='flex'; }
+function toggleX(id) { document.getElementById(id).classList.toggle('open'); }
+
+// ===== INIT =====
+window.onload = function() {
+    const now=new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=now.toISOString().split('T')[0];
+    ['jFB','anFB','pnFB'].forEach(id=>document.getElementById(id).value=bln);
+    ['jFT','anFT','pnFT'].forEach(id=>document.getElementById(id).value=thn);
+    document.getElementById('aFD').value=today.slice(0,7)+'-01';
+    document.getElementById('aFS').value=today;
+    checkAuth();
+};
+</script>
+</body>
+</html>

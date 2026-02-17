@@ -26,7 +26,6 @@
             background: #fff; padding: 10px; border-bottom: 2px solid #ddd; 
             display: flex; flex-direction: column; gap: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; z-index: 100;
-            margin-top: 80px; /* Geser ke bawah agar tidak tertutup header Lidan fixed 80px */
         }
         h1.title { margin: 0; font-size: 18px; color: #2d3436; text-align: center; }
 
@@ -50,8 +49,7 @@
         .dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; vertical-align: middle; margin-right: 3px; }
 
         /* --- TABLE AREA --- */
-        .wrapper { width: 100vw; height: calc(100vh - 255px); overflow-y: auto; background: #fff; scroll-behavior: smooth; position: relative; }
-        /* 255px = 175px (header-nav mobile) + 80px (header Lidan fixed) */
+        .wrapper { width: 100vw; height: calc(100vh - 175px); overflow-y: auto; background: #fff; scroll-behavior: smooth; position: relative; }
         table { border-collapse: collapse; min-width: 100%; table-layout: fixed; }
         th { position: sticky; top: 0; background: #f8f9fa; border: 1px solid #ccc; padding: 8px; z-index: 10; font-size: 12px; }
         
@@ -107,15 +105,11 @@
 
         @media (min-width: 769px) {
             .header-nav { flex-direction: row; height: 85px; align-items: center; justify-content: space-between; padding: 0 20px; }
-            .wrapper { height: calc(100vh - 165px); }
-            /* 165px = 85px (header-nav desktop) + 80px (header Lidan fixed) */
+            .wrapper { height: calc(100vh - 85px); }
         }
     </style>
 </head>
 <body>
-
-<!-- Header Placeholder -->
-<div id="header-placeholder"></div>
 
 <div id="loginPage" onclick="closeLoginError(event)">
     <div class="login-box" onclick="event.stopPropagation()">
@@ -298,21 +292,10 @@
         refreshData().then(() => { if (document.getElementById('scrollTarget')) document.getElementById('scrollTarget').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
     }
 
-    // Ambil username login - aman dari format JSON lama maupun string baru
-    function getLoggedUser() {
-        const raw = localStorage.getItem('lidan_user') || sessionStorage.getItem('lidan_user') || '';
-        try {
-            const parsed = JSON.parse(raw);
-            return (typeof parsed === 'object' && parsed !== null) ? (parsed.x_01 || '') : raw;
-        } catch (e) {
-            return raw;
-        }
-    }
-
     async function refreshData() {
         document.getElementById('loadingOverlay').style.display = 'flex';
         const bln = document.getElementById('view_bln').value, thn = document.getElementById('view_thn').value;
-        const loggedUser = getLoggedUser();
+        const loggedUser = localStorage.getItem('lidan_user') || sessionStorage.getItem('lidan_user') || '';
         
         // FILTER: Bulan, Tahun, Tab Status, DAN Username login (x_09)
         const query = `?table=${TABLE}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=${currentTab}&x_09_eq=${loggedUser}`;
@@ -383,7 +366,7 @@
 
     async function saveData(forcedStatus) {
         const id = document.getElementById('f_id').value;
-        const loggedUser = getLoggedUser() || 'system';
+        const loggedUser = localStorage.getItem('lidan_user') || sessionStorage.getItem('lidan_user') || 'system';
 
         const payload = {
             x_01: document.getElementById('f_tgl').value.toString(),
@@ -492,17 +475,6 @@
     document.getElementById('view_thn').value = new Date().getFullYear();
     setupUIFromConfig();
     checkAuth();
-
-    // ===== LOAD HEADER =====
-    fetch('header.html')
-        .then(response => {
-            if (!response.ok) throw new Error('Gagal memuat header');
-            return response.text();
-        })
-        .then(data => {
-            document.getElementById('header-placeholder').innerHTML = data;
-        })
-        .catch(error => console.error('Error memuat header:', error));
 </script>
 </body>
 </html>
