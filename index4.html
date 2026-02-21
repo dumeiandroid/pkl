@@ -50,12 +50,6 @@
         .hdr-avatar { width: 30px; height: 30px; background: var(--primary); border-radius: 7px; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
         .hdr-name { font-size: 13px; font-weight: 700; color: var(--dark); }
         .btn-hdr-logout { background: none; border: 1.5px solid #fee2e2; border-radius: 7px; color: var(--red); cursor: pointer; padding: 5px 9px; font-size: 11px; font-weight: 700; }
-        .btn-hdr-chpw  { background: none; border: 1.5px solid #dbeafe; border-radius: 7px; color: var(--blue); cursor: pointer; padding: 5px 9px; font-size: 11px; font-weight: 700; }
-        /* MODAL CHANGE PASSWORD */
-        .cpw-msg { font-size: 12px; text-align: center; margin-top: 8px; padding: 8px; border-radius: 7px; display: none; }
-        .cpw-msg.ok  { background: #d1fae5; color: #065f46; display: block; }
-        .cpw-msg.err { background: #fee2e2; color: var(--red); display: block; }
-        .btn-save-cpw { width: 100%; padding: 13px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 4px; }
 
         /* ========== BOTTOM NAV ========== */
         .bot-nav {
@@ -222,7 +216,6 @@
         <div class="hdr-right">
             <div class="hdr-avatar" id="hdrAv">U</div>
             <span class="hdr-name" id="hdrName">User</span>
-            <button class="btn-hdr-chpw" onclick="bukaGantiPassword()">🔑 Password</button>
             <button class="btn-hdr-logout" onclick="doLogout()">Logout</button>
         </div>
     </header>
@@ -428,29 +421,6 @@
 
 <canvas id="canvas" style="display:none;"></canvas>
 
-<!-- MODAL GANTI PASSWORD -->
-<div class="m-overlay" id="modalChPw">
-    <div class="mbox">
-        <div class="mhead"><h3>🔑 Ganti Password</h3><button class="x" onclick="tutupGantiPassword()">✕</button></div>
-        <div class="mbody">
-            <div class="fg">
-                <label>Password Lama</label>
-                <input type="password" id="cpw_lama" placeholder="Masukkan password lama...">
-            </div>
-            <div class="fg">
-                <label>Password Baru</label>
-                <input type="password" id="cpw_baru" placeholder="Masukkan password baru...">
-            </div>
-            <div class="fg">
-                <label>Konfirmasi Password Baru</label>
-                <input type="password" id="cpw_konfirm" placeholder="Ulangi password baru...">
-            </div>
-            <button class="btn-save-cpw" id="btnSaveChPw" onclick="simpanGantiPassword()">💾 SIMPAN PASSWORD BARU</button>
-            <div class="cpw-msg" id="cpwMsg"></div>
-        </div>
-    </div>
-</div>
-
 <script>
 /* ==============================
    KONSTANTA & STATE
@@ -520,84 +490,6 @@ function cekAuth() {
 function doLogout() {
     ['lidan_auth','lidan_user'].forEach(k=>{ localStorage.removeItem(k); sessionStorage.removeItem(k); });
     location.reload();
-}
-
-/* ==============================
-   GANTI PASSWORD
-   ============================== */
-function bukaGantiPassword() {
-    document.getElementById('cpw_lama').value    = '';
-    document.getElementById('cpw_baru').value    = '';
-    document.getElementById('cpw_konfirm').value = '';
-    const msg = document.getElementById('cpwMsg');
-    msg.className = 'cpw-msg'; msg.textContent = '';
-    document.getElementById('modalChPw').classList.add('open');
-}
-
-function tutupGantiPassword() {
-    document.getElementById('modalChPw').classList.remove('open');
-}
-
-async function simpanGantiPassword() {
-    const lama    = document.getElementById('cpw_lama').value.trim();
-    const baru    = document.getElementById('cpw_baru').value.trim();
-    const konfirm = document.getElementById('cpw_konfirm').value.trim();
-    const msg     = document.getElementById('cpwMsg');
-    msg.className = 'cpw-msg'; msg.textContent = '';
-
-    if (!lama || !baru || !konfirm) {
-        msg.className = 'cpw-msg err'; msg.textContent = 'Semua kolom harus diisi!'; return;
-    }
-    if (baru !== konfirm) {
-        msg.className = 'cpw-msg err'; msg.textContent = 'Password baru tidak cocok!'; return;
-    }
-    if (baru.length < 4) {
-        msg.className = 'cpw-msg err'; msg.textContent = 'Password minimal 4 karakter!'; return;
-    }
-
-    // Verifikasi password lama
-    gl('Memverifikasi password...');
-    const cek = await req(`?table=${TBLU}&x_01_eq=${me}&x_02_eq=${lama}`);
-    if (!cek.success || !cek.data?.length) {
-        gh();
-        msg.className = 'cpw-msg err'; msg.textContent = 'Password lama salah!'; return;
-    }
-
-    // Cari id user untuk update
-    const userId = cek.data[0].id || cek.data[0].x_id || cek.data[0].id_x;
-
-    gl('Menyimpan password baru...');
-    try {
-        let res;
-        if (userId) {
-            res = await fetch(`${API}?table=${TBLU}&id_x=${userId}`, {
-                method:'PUT',
-                headers:{'Content-Type':'application/json','X-Custom-Auth':KEY},
-                body: JSON.stringify({ x_02: baru })
-            }).then(r=>r.json());
-        } else {
-            // fallback: cari berdasar username
-            res = await fetch(`${API}?table=${TBLU}&x_01_eq=${me}`, {
-                method:'PUT',
-                headers:{'Content-Type':'application/json','X-Custom-Auth':KEY},
-                body: JSON.stringify({ x_02: baru })
-            }).then(r=>r.json());
-        }
-        gh();
-        if (res.success) {
-            msg.className = 'cpw-msg ok';
-            msg.textContent = '✅ Password berhasil diubah! Silakan login ulang.';
-            document.getElementById('btnSaveChPw').disabled = true;
-            setTimeout(() => { doLogout(); }, 2000);
-        } else {
-            msg.className = 'cpw-msg err';
-            msg.textContent = 'Gagal menyimpan password. Coba lagi.';
-        }
-    } catch(e) {
-        gh();
-        msg.className = 'cpw-msg err';
-        msg.textContent = 'Error: ' + e.message;
-    }
 }
 
 function startApp() {
