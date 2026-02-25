@@ -97,11 +97,7 @@
         table.abs-tbl th { background: #f8fafc; padding: 9px 10px; text-align: left; font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; white-space: nowrap; }
         table.abs-tbl td { padding: 9px 10px; border-bottom: 1px solid #f8fafc; vertical-align: middle; }
         table.abs-tbl tr:last-child td { border: none; }
-        .abs-foto { width: 40px; height: 52px; object-fit: cover; object-position: center top; border-radius: 5px; border: 1px solid #e2e8f0; cursor: pointer; }
-        .foto-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 9998; display: none; align-items: center; justify-content: center; }
-        .foto-modal-overlay.open { display: flex; }
-        .foto-modal-overlay img { max-width: 92vw; max-height: 88vh; border-radius: 10px; object-fit: contain; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        .foto-modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.2); border: none; color: #fff; font-size: 22px; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .abs-foto { width: 30px; height: 30px; object-fit: cover; border-radius: 5px; border: 1px solid #e2e8f0; }
 
         /* ========== PAGE: JADWAL ========== */
         #pg-jadwal { background: #fff; overflow: hidden; }
@@ -432,12 +428,6 @@
 
 <canvas id="canvas" style="display:none;"></canvas>
 
-<!-- MODAL FOTO FULLSCREEN -->
-<div class="foto-modal-overlay" id="fotoModal" onclick="tutupFotoModal()">
-    <button class="foto-modal-close" onclick="tutupFotoModal()">✕</button>
-    <img id="fotoModalImg" src="" alt="Foto Absensi">
-</div>
-
 <!-- MODAL GANTI PASSWORD -->
 <div class="m-overlay" id="modalChPw">
     <div class="mbox">
@@ -670,9 +660,9 @@ async function muatRiwayat() {
             return `<tr>
                 <td style="font-weight:700;">${d}</td>
                 <td style="color:var(--green);font-weight:700;">${r.m}</td>
-                <td>${r.fm ? `<img src="${CDN}${r.fm}" class="abs-foto" onclick="bukaFotoModal('${CDN}${r.fm}')" title="Klik untuk perbesar">` : '-'}</td>
+                <td>${r.fm ? `<img src="${CDN}${r.fm}" class="abs-foto">` : '-'}</td>
                 <td style="color:var(--orange);font-weight:700;">${r.p}</td>
-                <td>${r.fp ? `<img src="${CDN}${r.fp}" class="abs-foto" onclick="bukaFotoModal('${CDN}${r.fp}')" title="Klik untuk perbesar">` : '-'}</td>
+                <td>${r.fp ? `<img src="${CDN}${r.fp}" class="abs-foto">` : '-'}</td>
             </tr>`;
         }).join('') || '<tr><td colspan="5" style="text-align:center;padding:20px;color:#94a3b8;">Belum ada riwayat</td></tr>';
     } catch(e) { console.error(e); }
@@ -683,7 +673,7 @@ function bukaKamera() {
     document.getElementById('camLoading').style.display  = 'none';
     document.getElementById('modalKam').classList.add('open');
     updateBtnKamera();
-    navigator.mediaDevices.getUserMedia({ video:{ facingMode:{ ideal:'user' } } })
+    navigator.mediaDevices.getUserMedia({ video:{ facingMode:'user' } })
         .then(s => { stream=s; document.getElementById('video').srcObject=s; })
         .catch(() => { alert('Gagal akses kamera'); tutupKamera(); });
 }
@@ -706,15 +696,10 @@ async function prosesAbsensi(tipe) {
     const st = document.getElementById('cam-status');
     try {
         const vid=document.getElementById('video'), cvs=document.getElementById('canvas');
-        // Gunakan dimensi ASLI video stream (bukan paksa 640x480)
-        const vw = vid.videoWidth  || 640;
-        const vh = vid.videoHeight || 480;
-        cvs.width=vw; cvs.height=vh;
+        cvs.width=640; cvs.height=480;
         const ctx=cvs.getContext('2d');
-        // Mirror horizontal (selfie) tanpa mengubah orientasi portrait/landscape
-        ctx.translate(vw,0); ctx.scale(-1,1);
-        ctx.drawImage(vid,0,0,vw,vh);
-        const blob = await new Promise(r=>cvs.toBlob(r,'image/jpeg',0.85));
+        ctx.translate(640,0); ctx.scale(-1,1); ctx.drawImage(vid,0,0,640,480);
+        const blob = await new Promise(r=>cvs.toBlob(r,'image/jpeg',0.8));
         const fn   = `absensi/${me}_${Date.now()}.jpg`;
 
         st.textContent = 'Mengunggah foto...';
@@ -979,15 +964,6 @@ async function simpanPengendalian() {
     gh();
     if(res.success){ alert('Pengendalian disimpan! Status jadwal: DONE.'); showPg('jadwal'); }
     else alert('Gagal menyimpan!');
-}
-
-function bukaFotoModal(url) {
-    document.getElementById('fotoModalImg').src = url;
-    document.getElementById('fotoModal').classList.add('open');
-}
-function tutupFotoModal() {
-    document.getElementById('fotoModal').classList.remove('open');
-    document.getElementById('fotoModalImg').src = '';
 }
 
 /* ==============================

@@ -103,8 +103,6 @@
         .udot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
         .btn-edit { padding: 4px 10px; background: #e0e7ff; color: #4338ca; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-del { padding: 4px 10px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
-        .btn-foto { padding: 4px 10px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
-        .btn-foto:hover { background: #dcfce7; }
 
         /* USER CARDS */
         .users-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
@@ -384,30 +382,11 @@
     </div>
 </div>
 
-<!-- MODAL FOTO ABSENSI -->
+<!-- MODAL FOTO -->
 <div class="overlay" id="modalFoto" onclick="closeModal('modalFoto')">
     <div class="mbox" style="max-width:380px;" onclick="event.stopPropagation()">
         <div class="mhead"><h3>Foto Absensi</h3><button onclick="closeModal('modalFoto')">✕</button></div>
         <div class="mbody" style="text-align:center;"><img id="mFotoImg" src="" style="max-width:100%;border-radius:10px;border:1px solid #e2e8f0;"></div>
-    </div>
-</div>
-
-<!-- MODAL FOTO BUKTI JADWAL DONE -->
-<div class="overlay" id="modalFotoBukti" onclick="closeModal('modalFotoBukti')">
-    <div class="mbox" style="max-width:420px;" onclick="event.stopPropagation()">
-        <div class="mhead">
-            <h3>📸 Foto Bukti Kegiatan</h3>
-            <button onclick="closeModal('modalFotoBukti')">✕</button>
-        </div>
-        <div class="mbody" style="text-align:center;">
-            <div id="fotoBuktiInfo" style="background:#f8fafc;border-radius:8px;padding:10px 14px;margin-bottom:14px;text-align:left;font-size:12px;color:#475569;"></div>
-            <img id="mFotoBuktiImg" src="" style="max-width:100%;border-radius:10px;border:1px solid #e2e8f0;display:block;margin:0 auto;" onerror="this.style.display='none';document.getElementById('fotoBuktiErr').style.display='block'">
-            <div id="fotoBuktiErr" style="display:none;color:#ef4444;font-size:13px;padding:20px;">&#9888;&#65039; Gambar tidak dapat dimuat atau URL tidak valid.</div>
-        </div>
-        <div class="mfoot" style="justify-content:space-between;">
-            <a id="fotoBuktiLink" href="#" target="_blank" style="font-size:12px;color:#2563eb;text-decoration:none;">&#128279; Buka di tab baru</a>
-            <button class="btn-cancel" onclick="closeModal('modalFotoBukti')">Tutup</button>
-        </div>
     </div>
 </div>
 
@@ -606,11 +585,7 @@ async function loadJadwal() {
     const res = await api(q);
     const data = (res.data||[]).sort((a,b)=>parseInt(a.x_01)-parseInt(b.x_01));
     document.getElementById('jTable').innerHTML = data.length
-        ? data.map(d => {
-            const fotoBtnHtml = (d.x_05 === 'done' && d.x_08)
-                ? `<button class="btn-foto" onclick="showFotoBukti('${d.x_08.replace(/'/g,"\\'")}','${(d.x_09||'').replace(/'/g,"\\'")}','${d.x_04?.replace(/'/g,"\\'").replace(/\n/g,' ')||''}')">📷 Foto</button>`
-                : (d.x_05 === 'done' ? `<button class="btn-foto" disabled style="opacity:0.4;cursor:default;" title="Tidak ada foto">📷</button>` : '');
-            return `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
+        ? data.map(d => `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
             <td><b>${d.x_01}</b><br><small style="color:#94a3b8">${d.x_02||''}</small></td>
             <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
             <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td>
@@ -619,8 +594,7 @@ async function loadJadwal() {
             <td onclick="event.stopPropagation()">
                 <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
                 <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
-                ${fotoBtnHtml}
-            </td></tr>`;}).join('')
+            </td></tr>`).join('')
         : '<tr class="er"><td colspan="6">Tidak ada data</td></tr>';
 }
 
@@ -764,16 +738,6 @@ async function deleteJadwal(id) {
 // ===== UTILS =====
 function closeModal(id) { document.getElementById(id).style.display='none'; }
 function showFoto(url) { document.getElementById('mFotoImg').src=url; document.getElementById('modalFoto').style.display='flex'; }
-function showFotoBukti(url, user, ket) {
-    const img = document.getElementById('mFotoBuktiImg');
-    const err = document.getElementById('fotoBuktiErr');
-    img.style.display = 'block';
-    err.style.display = 'none';
-    img.src = url;
-    document.getElementById('fotoBuktiLink').href = url;
-    document.getElementById('fotoBuktiInfo').innerHTML = '<b>User:</b> ' + (user||'-') + '<br><b>Kegiatan:</b> ' + (ket||'-');
-    document.getElementById('modalFotoBukti').style.display='flex';
-}
 function toggleX(id) { document.getElementById(id).classList.toggle('open'); }
 
 // ===== INIT =====
