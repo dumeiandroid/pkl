@@ -543,7 +543,7 @@ function renderDashJadwal() {
     } else {
         data = d[dashJadwalTab] || [];
     }
-    data = data.sort((a,b) => parseInt(b.x_01)-parseInt(a.x_01)).slice(0, 15);
+    data = data.sort((a,b) => Number(b.x_01)-Number(a.x_01)).slice(0, 15);
     document.getElementById('dJadwal').innerHTML = data.length
         ? data.map(d => `<tr><td><b>${d.x_01}</b></td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td><td>${tr(d.x_04)}</td><td><span class="badge b-${d.x_05}">${d.x_05}</span></td></tr>`).join('')
         : '<tr class="er"><td colspan="5">Tidak ada data</td></tr>';
@@ -604,7 +604,7 @@ async function loadJadwal() {
     if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`; if(user) q+=`&x_09_eq=${user}`;
     loading('jTable',6);
     const res = await api(q);
-    const data = (res.data||[]).sort((a,b)=>parseInt(a.x_01)-parseInt(b.x_01));
+    const data = (res.data||[]).sort((a,b)=>Number(b.x_01)-Number(a.x_01));
     document.getElementById('jTable').innerHTML = data.length
         ? data.map(d => {
             const fotoBtnHtml = (d.x_05 === 'done' && d.x_08)
