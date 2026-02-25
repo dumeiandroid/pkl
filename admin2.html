@@ -136,27 +136,6 @@
         /* MODAL */
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(2px); }
         .mbox { background: white; border-radius: 14px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
-
-        /* CHECKBOX USER MULTI SELECT */
-        .user-checkbox-panel { border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; overflow: hidden; }
-        .ucp-search { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; }
-        .ucp-search input { width: 100%; padding: 6px 10px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; outline: none; background: white; }
-        .ucp-search input:focus { border-color: var(--primary); }
-        .ucp-list { max-height: 180px; overflow-y: auto; }
-        .ucp-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; cursor: pointer; transition: 0.15s; border-bottom: 1px solid #f1f5f9; }
-        .ucp-item:last-child { border-bottom: none; }
-        .ucp-item:hover { background: #eff6ff; }
-        .ucp-item input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; }
-        .ucp-item label { font-size: 13px; font-weight: 500; cursor: pointer; flex: 1; display: flex; align-items: center; gap: 7px; }
-        .ucp-avatar { width: 26px; height: 26px; border-radius: 6px; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-        .ucp-footer { padding: 6px 12px; border-top: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; background: white; }
-        .ucp-count { font-size: 11px; color: #64748b; font-weight: 600; }
-        .ucp-selall { font-size: 11px; color: var(--primary); font-weight: 700; cursor: pointer; border: none; background: none; padding: 0; }
-        .ucp-selall:hover { text-decoration: underline; }
-        .selected-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; min-height: 0; }
-        .sel-tag { display: inline-flex; align-items: center; gap: 4px; background: #dbeafe; color: #1d4ed8; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
-        .sel-tag .rm { cursor: pointer; font-size: 13px; line-height: 1; color: #3b82f6; margin-left: 1px; }
-        .sel-tag .rm:hover { color: #1d4ed8; }
         .mhead { padding: 18px 22px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; z-index: 10; }
         .mhead h3 { font-size: 15px; font-weight: 800; }
         .mhead button { background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8; }
@@ -376,24 +355,7 @@
         <div class="mhead"><h3 id="mJudul">Tambah Jadwal</h3><button onclick="closeModal('modalJadwal')">✕</button></div>
         <div class="mbody">
             <input type="hidden" id="mf_id">
-            <!-- USER PEMILIK: multi-checkbox untuk Tambah, dropdown untuk Edit -->
-            <div class="fg" id="fg_user_multi">
-                <label>User Pemilik <span style="font-weight:400;color:#94a3b8;text-transform:none;font-size:10px;">(bisa pilih lebih dari satu)</span></label>
-                <div class="user-checkbox-panel">
-                    <div class="ucp-search"><input type="text" id="ucpSearch" placeholder="🔍 Cari user..." oninput="filterUCP()"></div>
-                    <div class="ucp-list" id="ucpList"><!-- diisi JS --></div>
-                    <div class="ucp-footer">
-                        <span class="ucp-count" id="ucpCount">0 user dipilih</span>
-                        <button class="ucp-selall" onclick="toggleSelectAll()">Pilih Semua</button>
-                    </div>
-                </div>
-                <div class="selected-tags" id="selectedTags"></div>
-            </div>
-            <!-- USER PEMILIK: dropdown untuk mode Edit -->
-            <div class="fg" id="fg_user_single" style="display:none;">
-                <label>User Pemilik</label>
-                <select id="mf_user"><option value="">-- Pilih User --</option></select>
-            </div>
+            <div class="fg"><label>User Pemilik</label><select id="mf_user"><option value="">-- Pilih User --</option></select></div>
             <div class="form-row2">
                 <div class="fg"><label>Tanggal</label><input type="date" id="mf_date"></div>
                 <div class="fg"><label>Jam</label><input type="time" id="mf_jam" value="08:00"></div>
@@ -515,63 +477,7 @@ async function loadAllUsers() {
         const opts = allUsers.map(u => `<option value="${u.x_01}">${u.x_01}</option>`).join('');
         ['jFU','aFU','anFU','pnFU'].forEach(id => document.getElementById(id).innerHTML = '<option value="">-- Semua --</option>' + opts);
         document.getElementById('mf_user').innerHTML = '<option value="">-- Pilih User --</option>' + opts;
-        // Render checkbox list
-        renderUCPList(allUsers);
     }
-}
-
-function renderUCPList(users) {
-    const list = document.getElementById('ucpList');
-    if(!list) return;
-    list.innerHTML = users.map(u => `
-        <div class="ucp-item" onclick="toggleUCPItem('${u.x_01}')">
-            <input type="checkbox" class="ucp-cb" id="ucb_${u.x_01}" value="${u.x_01}" onclick="event.stopPropagation(); updateSelectedTags()">
-            <label for="ucb_${u.x_01}" onclick="event.stopPropagation()">
-                <div class="ucp-avatar">${u.x_01.charAt(0).toUpperCase()}</div>
-                ${u.x_01}
-            </label>
-        </div>`).join('');
-}
-
-function toggleUCPItem(val) {
-    const cb = document.getElementById('ucb_' + val);
-    if(cb) { cb.checked = !cb.checked; updateSelectedTags(); }
-}
-
-function filterUCP() {
-    const q = document.getElementById('ucpSearch').value.toLowerCase();
-    const filtered = allUsers.filter(u => u.x_01.toLowerCase().includes(q));
-    renderUCPList(filtered);
-    // Restore checked state
-    document.querySelectorAll('.ucp-cb').forEach(cb => {
-        const prevChecked = window._ucpChecked && window._ucpChecked.has(cb.value);
-        cb.checked = prevChecked || false;
-    });
-}
-
-function updateSelectedTags() {
-    const checked = Array.from(document.querySelectorAll('.ucp-cb:checked'));
-    window._ucpChecked = new Set(checked.map(cb => cb.value));
-    const count = checked.length;
-    document.getElementById('ucpCount').textContent = count + ' user dipilih';
-    document.getElementById('selectedTags').innerHTML = checked.map(cb =>
-        `<span class="sel-tag">${cb.value} <span class="rm" onclick="uncheckUser('${cb.value}')">×</span></span>`
-    ).join('');
-}
-
-function uncheckUser(val) {
-    const cb = document.getElementById('ucb_' + val);
-    if(cb) cb.checked = false;
-    if(window._ucpChecked) window._ucpChecked.delete(val);
-    updateSelectedTags();
-}
-
-function toggleSelectAll() {
-    const cbs = document.querySelectorAll('.ucp-cb');
-    const allChecked = Array.from(cbs).every(cb => cb.checked);
-    cbs.forEach(cb => cb.checked = !allChecked);
-    updateSelectedTags();
-    document.getElementById('ucpSelall') && (document.getElementById('ucpSelall').textContent = allChecked ? 'Pilih Semua' : 'Batal Semua');
 }
 
 // ===== DASHBOARD =====
@@ -820,30 +726,18 @@ function viewUserJadwal(u) { showPage('jadwal'); document.getElementById('jFU').
 function openModalAdd() {
     document.getElementById('mJudul').textContent = 'Tambah Jadwal Baru';
     ['mf_id','mf_date','mf_ket'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('mf_jam').value='08:00';
-    document.getElementById('mf_jenis').value='meeting';
+    document.getElementById('mf_user').value=''; document.getElementById('mf_jam').value='08:00'; document.getElementById('mf_jenis').value='meeting';
     document.getElementById('mStatusArea').style.display='none';
-    // Tampilkan multi-checkbox, sembunyikan single dropdown
-    document.getElementById('fg_user_multi').style.display='block';
-    document.getElementById('fg_user_single').style.display='none';
-    // Reset checkbox
-    document.querySelectorAll('.ucp-cb').forEach(cb => cb.checked = false);
-    document.getElementById('ucpSearch').value = '';
-    filterUCP();
-    updateSelectedTags();
     document.getElementById('modalJadwal').style.display='flex';
 }
 function openModalEdit(item) {
     document.getElementById('mJudul').textContent = 'Edit Jadwal';
     document.getElementById('mf_id').value   = item.id_x;
+    document.getElementById('mf_user').value = item.x_09||'';
     document.getElementById('mf_date').value = `${item.x_07}-${String(item.x_06).padStart(2,'0')}-${String(item.x_01).padStart(2,'0')}`;
     document.getElementById('mf_jam').value  = item.x_02||'08:00';
     document.getElementById('mf_jenis').value= item.x_03||'meeting';
     document.getElementById('mf_ket').value  = item.x_04||'';
-    // Tampilkan single dropdown, sembunyikan multi-checkbox
-    document.getElementById('fg_user_multi').style.display='none';
-    document.getElementById('fg_user_single').style.display='block';
-    document.getElementById('mf_user').value = item.x_09||'';
     document.getElementById('mStatusArea').style.display='block';
     document.querySelectorAll('.btn-s').forEach(b=>b.style.display='none');
     if(item.x_05==='aktif')   { document.getElementById('bsp').style.display='block'; document.getElementById('bsd').style.display='block'; }
@@ -852,39 +746,14 @@ function openModalEdit(item) {
     document.getElementById('modalJadwal').style.display='flex';
 }
 async function saveJadwal(fs) {
-    const id = document.getElementById('mf_id').value;
-    const date = document.getElementById('mf_date').value;
-    if(!date) return alert('Isi tanggal!');
-    const d = new Date(date);
-
-    if(id) {
-        // MODE EDIT: single user
-        const user = document.getElementById('mf_user').value;
-        if(!user) return alert('Pilih user!');
-        const payload = { x_01:d.getDate().toString(), x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:(d.getMonth()+1).toString(), x_07:d.getFullYear().toString(), x_09:user };
-        if(fs) payload.x_05=fs;
-        const res = await fetch(`${API}?table=${TJ}&id_x=${id}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Custom-Auth':AUTH},body:JSON.stringify(payload)}).then(r=>r.json());
-        if(res.success){ closeModal('modalJadwal'); loadJadwal(); loadDashboard(); } else alert('Gagal menyimpan!');
-    } else {
-        // MODE TAMBAH: multi user via checkbox
-        const selectedUsers = Array.from(document.querySelectorAll('.ucp-cb:checked')).map(cb => cb.value);
-        if(selectedUsers.length === 0) return alert('Pilih minimal satu user!');
-        const basePayload = { x_01:d.getDate().toString(), x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:(d.getMonth()+1).toString(), x_07:d.getFullYear().toString(), x_05: fs||'aktif' };
-        let successCount = 0, failCount = 0;
-        for(const user of selectedUsers) {
-            const payload = {...basePayload, x_09: user};
-            const res = await fetch(`${API}?table=${TJ}`,{method:'POST',headers:{'Content-Type':'application/json','X-Custom-Auth':AUTH},body:JSON.stringify(payload)}).then(r=>r.json()).catch(()=>({success:false}));
-            if(res.success) successCount++; else failCount++;
-        }
-        if(failCount === 0){
-            closeModal('modalJadwal');
-            if(selectedUsers.length > 1) alert(`✅ Jadwal berhasil ditambahkan ke ${successCount} user!`);
-            loadJadwal(); loadDashboard();
-        } else {
-            alert(`⚠️ ${successCount} berhasil, ${failCount} gagal.`);
-            loadJadwal(); loadDashboard();
-        }
-    }
+    const id=document.getElementById('mf_id').value, user=document.getElementById('mf_user').value, date=document.getElementById('mf_date').value;
+    if(!user) return alert('Pilih user!'); if(!date) return alert('Isi tanggal!');
+    const d=new Date(date);
+    const payload={ x_01:d.getDate().toString(), x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:(d.getMonth()+1).toString(), x_07:d.getFullYear().toString(), x_09:user };
+    if(fs) payload.x_05=fs; else if(!id) payload.x_05='aktif';
+    const url=id?`${API}?table=${TJ}&id_x=${id}`:`${API}?table=${TJ}`, method=id?'PUT':'POST';
+    const res=await fetch(url,{method,headers:{'Content-Type':'application/json','X-Custom-Auth':AUTH},body:JSON.stringify(payload)}).then(r=>r.json());
+    if(res.success){ closeModal('modalJadwal'); loadJadwal(); loadDashboard(); } else alert('Gagal menyimpan!');
 }
 async function deleteJadwal(id) {
     if(!confirm('Yakin hapus jadwal ini?')) return;
