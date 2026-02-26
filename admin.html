@@ -197,6 +197,126 @@
 
         @media (max-width: 900px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 640px) { .main { margin-left: 0; padding: 14px; } .stats-grid { grid-template-columns: 1fr 1fr; } }
+
+        /* ===== MOBILE HAMBURGER & RESPONSIVE SIDEBAR ===== */
+        .topbar-mobile {
+            display: none;
+            position: fixed; top: 0; left: 0; right: 0; height: 52px;
+            background: var(--dark); color: white; z-index: 10000;
+            align-items: center; justify-content: space-between;
+            padding: 0 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        /* Hanya tampil setelah login & di mobile */
+        body.app-ready .topbar-mobile { display: none; }
+        .topbar-mobile h1 { font-size: 15px; font-weight: 900; }
+        .topbar-mobile h1 span { color: var(--primary); }
+        .btn-burger {
+            background: none; border: none; cursor: pointer;
+            display: flex; flex-direction: column; gap: 5px; padding: 6px;
+        }
+        .btn-burger span {
+            display: block; width: 22px; height: 2px;
+            background: white; border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .btn-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .btn-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .btn-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .sb-overlay-adm {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 140;
+        }
+        .sb-overlay-adm.open { display: block; }
+
+        @media (max-width: 768px) {
+            body.app-ready .topbar-mobile { display: flex; }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 150;
+                top: 52px;
+                height: calc(100vh - 52px);
+            }
+            .sidebar.sb-open { transform: translateX(0); }
+            .main { margin-left: 0 !important; padding: 14px; padding-top: 64px !important; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .fbar { flex-wrap: wrap; }
+            .fbar select, .fbar input[type=number], .fbar input[type=date] { flex: 1; min-width: 80px; }
+            .btn-add-j { width: 100%; margin-left: 0; margin-top: 4px; }
+            .tcard table { font-size: 12px; }
+            .tcard thead th, .tcard tbody td { padding: 8px 10px; }
+            .s-tabs { flex-wrap: wrap; }
+            .form-row2 { grid-template-columns: 1fr; }
+            .xgrid { grid-template-columns: 1fr; }
+            .mbox { max-width: 100% !important; margin: 10px; }
+            .users-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== GALLERY BUKTI MODAL ===== */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px; margin-top: 12px;
+        }
+        .gallery-item {
+            border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;
+            cursor: pointer; transition: 0.2s; position: relative;
+            background: #f8fafc;
+        }
+        .gallery-item:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37,99,235,0.15); }
+        .gallery-item img { width: 100%; height: 90px; object-fit: cover; display: block; }
+        .gallery-item .gi-name {
+            font-size: 10px; color: #64748b; padding: 4px 6px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            font-weight: 600; border-top: 1px solid #f1f5f9;
+        }
+        .gallery-file-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px;
+            cursor: pointer; transition: 0.15s; background: #f8fafc; margin-bottom: 6px;
+            text-decoration: none; color: var(--dark);
+        }
+        .gallery-file-item:hover { background: #eff6ff; border-color: #93c5fd; }
+        .gallery-file-icon { font-size: 22px; flex-shrink: 0; }
+        .gallery-file-info { flex: 1; min-width: 0; }
+        .gallery-file-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gallery-file-type { font-size: 10px; color: #94a3b8; text-transform: uppercase; font-weight: 700; margin-top: 1px; }
+        .gal-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e2e8f0; }
+        .gal-nav button { padding: 6px 14px; border: 1px solid #e2e8f0; background: white; color: var(--dark); border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .gal-nav button:hover { background: #f1f5f9; }
+        .gal-counter { font-size: 12px; color: #94a3b8; font-weight: 600; }
+
+        /* ===== MEDIA CARD (PDF / VIDEO) ===== */
+        .media-card {
+            border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;
+            margin-bottom: 10px; background: white;
+        }
+        .media-card-head {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 14px; border-bottom: 1px solid #f1f5f9;
+            background: #f8fafc;
+        }
+        .media-icon-big { font-size: 24px; flex-shrink: 0; }
+        .media-card-info { flex: 1; min-width: 0; }
+        .media-card-name { font-size: 13px; font-weight: 700; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .media-card-type { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+        .btn-open-ext {
+            flex-shrink: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+            background: var(--primary); color: white; border-radius: 7px; font-size: 14px; text-decoration: none;
+            transition: 0.15s;
+        }
+        .btn-open-ext:hover { background: var(--primary-dark); }
+        .pdf-preview {
+            width: 100%; height: 420px; border: none; display: block;
+            background: #f8fafc;
+        }
+        .video-preview {
+            width: 100%; max-height: 360px; display: block;
+            background: #000; border-radius: 0 0 10px 10px;
+        }
+        /* Modal bukti lebih lebar untuk PDF/video */
+        #modalFotoBukti .mbox { max-width: 580px !important; }
     </style>
 </head>
 <body>
@@ -213,6 +333,16 @@
         <p id="loginError">Username atau password salah!</p>
     </div>
 </div>
+
+<!-- MOBILE TOPBAR (hamburger) — di luar loginPage agar z-index benar -->
+<div class="topbar-mobile" id="mobileTopbar">
+    <button class="btn-burger" id="btnBurger" onclick="toggleSidebarMobile()">
+        <span></span><span></span><span></span>
+    </button>
+    <h1>LIDAN<span>PSIKOLOGI</span></h1>
+    <div style="width:34px;"></div>
+</div>
+<div class="sb-overlay-adm" id="sbOverlayAdm" onclick="toggleSidebarMobile()"></div>
 
 <!-- APP -->
 <div id="appLayout">
@@ -430,20 +560,38 @@
     </div>
 </div>
 
-<!-- MODAL FOTO BUKTI JADWAL DONE -->
+<!-- MODAL GALLERY BUKTI JADWAL DONE -->
 <div class="overlay" id="modalFotoBukti" onclick="closeModal('modalFotoBukti')">
-    <div class="mbox" style="max-width:420px;" onclick="event.stopPropagation()">
+    <div class="mbox" style="max-width:500px;" onclick="event.stopPropagation()">
         <div class="mhead">
-            <h3>📸 Foto Bukti Kegiatan</h3>
+            <h3>📸 Bukti Kegiatan</h3>
             <button onclick="closeModal('modalFotoBukti')">✕</button>
         </div>
-        <div class="mbody" style="text-align:center;">
+        <div class="mbody">
             <div id="fotoBuktiInfo" style="background:#f8fafc;border-radius:8px;padding:10px 14px;margin-bottom:14px;text-align:left;font-size:12px;color:#475569;"></div>
-            <img id="mFotoBuktiImg" src="" style="max-width:100%;border-radius:10px;border:1px solid #e2e8f0;display:block;margin:0 auto;" onerror="this.style.display='none';document.getElementById('fotoBuktiErr').style.display='block'">
-            <div id="fotoBuktiErr" style="display:none;color:#ef4444;font-size:13px;padding:20px;">&#9888;&#65039; Gambar tidak dapat dimuat atau URL tidak valid.</div>
+            <!-- Single image view -->
+            <div id="galleryImgWrap" style="text-align:center;display:none;">
+                <img id="mFotoBuktiImg" src="" style="max-width:100%;max-height:360px;border-radius:10px;border:1px solid #e2e8f0;display:block;margin:0 auto;" onerror="this.style.display='none';document.getElementById('fotoBuktiErr').style.display='block'">
+                <div id="fotoBuktiErr" style="display:none;color:#ef4444;font-size:13px;padding:20px;">&#9888;&#65039; Gambar tidak dapat dimuat.</div>
+            </div>
+            <!-- File list (for non-image or multiple) -->
+            <div id="galleryFileList"></div>
+            <!-- Gallery grid for multiple images -->
+            <div id="galleryGrid" class="gallery-grid"></div>
+            <!-- Single image lightbox overlay -->
+            <div id="galleryLightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;" onclick="closeLightbox()">
+                <button onclick="closeLightbox()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:white;font-size:28px;cursor:pointer;z-index:10;">✕</button>
+                <img id="lbImg" src="" style="max-width:92vw;max-height:85vh;border-radius:8px;object-fit:contain;" onclick="event.stopPropagation()">
+                <div id="lbCaption" style="color:rgba(255,255,255,0.6);font-size:12px;margin-top:10px;"></div>
+                <div class="gal-nav" style="border:none;padding-top:8px;" onclick="event.stopPropagation()">
+                    <button id="lbPrev" onclick="lbNav(-1)" style="background:rgba(255,255,255,0.15);color:white;border:none;">◀ Prev</button>
+                    <span class="gal-counter" id="lbCounter" style="color:rgba(255,255,255,0.6);"></span>
+                    <button id="lbNext" onclick="lbNav(1)" style="background:rgba(255,255,255,0.15);color:white;border:none;">Next ▶</button>
+                </div>
+            </div>
         </div>
-        <div class="mfoot" style="justify-content:space-between;">
-            <a id="fotoBuktiLink" href="#" target="_blank" style="font-size:12px;color:#2563eb;text-decoration:none;">&#128279; Buka di tab baru</a>
+        <div class="mfoot" style="justify-content:space-between;flex-wrap:wrap;gap:6px;">
+            <a id="fotoBuktiLink" href="#" target="_blank" style="font-size:12px;color:#2563eb;text-decoration:none;display:none;">&#128279; Buka di tab baru</a>
             <button class="btn-cancel" onclick="closeModal('modalFotoBukti')">Tutup</button>
         </div>
     </div>
@@ -486,11 +634,12 @@ function checkAuth() {
     const s = sessionStorage.getItem('lidan_admin');
     if (s) { adminUser = s; showApp(); }
 }
-function handleLogout() { sessionStorage.removeItem('lidan_admin'); location.reload(); }
+function handleLogout() { sessionStorage.removeItem('lidan_admin'); document.body.classList.remove('app-ready'); location.reload(); }
 
 async function showApp() {
     document.getElementById('loginPage').style.display  = 'none';
     document.getElementById('appLayout').style.display  = 'flex';
+    document.body.classList.add('app-ready');
     document.getElementById('adminName').textContent    = adminUser;
     document.getElementById('adminInitial').textContent = adminUser.charAt(0).toUpperCase();
     await loadAllUsers();
@@ -503,6 +652,13 @@ function showPage(pg) {
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('page-'+pg).classList.add('active');
     document.getElementById('nav-'+pg).classList.add('active');
+    // Close mobile sidebar
+    const sb = document.querySelector('.sidebar');
+    const ov = document.getElementById('sbOverlayAdm');
+    const btn = document.getElementById('btnBurger');
+    if (sb) sb.classList.remove('sb-open');
+    if (ov) ov.classList.remove('open');
+    if (btn) btn.classList.remove('open');
     const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, analisa: loadAnalisa, pengendalian: loadPengendalian, users: loadUsers };
     if (map[pg]) map[pg]();
 }
@@ -692,6 +848,9 @@ function setTab(tab) {
     document.getElementById('stab-'+tab).className = `stab a-${tab}`;
     loadJadwal();
 }
+// Simpan bukti data di sini agar onclick bisa akses tanpa masalah escaping
+const _buktiStore = {};
+
 async function loadJadwal() {
     const bln=document.getElementById('jFB').value, thn=document.getElementById('jFT').value, user=document.getElementById('jFU').value;
     let q=`?table=${TJ}&x_05_eq=${currentTab}`;
@@ -701,9 +860,18 @@ async function loadJadwal() {
     const data = (res.data||[]).sort((a,b)=>Number(b.x_01)-Number(a.x_01));
     document.getElementById('jTable').innerHTML = data.length
         ? data.map(d => {
-            const fotoBtnHtml = (d.x_05 === 'done' && d.x_08)
-                ? `<button class="btn-foto" onclick="showFotoBukti('${d.x_08.replace(/'/g,"\\'")}','${(d.x_09||'').replace(/'/g,"\\'")}','${d.x_04?.replace(/'/g,"\\'").replace(/\n/g,' ')||''}')">📷 Foto</button>`
-                : (d.x_05 === 'done' ? `<button class="btn-foto" disabled style="opacity:0.4;cursor:default;" title="Tidak ada foto">📷</button>` : '');
+            let fotoBtnHtml = '';
+            if (d.x_05 === 'done' && d.x_08) {
+                // Simpan data ke store, hindari escaping masalah di onclick
+                const storeKey = 'bukti_' + d.id_x;
+                _buktiStore[storeKey] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
+                let buktiCount = 1;
+                try { const p = JSON.parse(d.x_08); if(Array.isArray(p)) buktiCount = p.length; } catch {}
+                const label = buktiCount > 1 ? `📷 ${buktiCount} File` : '📷 Foto';
+                fotoBtnHtml = `<button class="btn-foto" onclick="showFotoBuktiByKey('${storeKey}')">${label}</button>`;
+            } else if (d.x_05 === 'done') {
+                fotoBtnHtml = `<button class="btn-foto" disabled style="opacity:0.4;cursor:default;" title="Tidak ada bukti">📷</button>`;
+            }
             return `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
             <td><b>${d.x_01}</b><br><small style="color:#94a3b8">${d.x_02||''}</small></td>
             <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
@@ -716,6 +884,13 @@ async function loadJadwal() {
                 ${fotoBtnHtml}
             </td></tr>`;}).join('')
         : '<tr class="er"><td colspan="6">Tidak ada data</td></tr>';
+}
+
+// Wrapper: ambil data dari store lalu panggil showFotoBukti
+function showFotoBuktiByKey(key) {
+    const d = _buktiStore[key];
+    if (!d) return;
+    showFotoBukti(d.rawUrl, d.user, d.ket);
 }
 
 // ===== ABSENSI =====
@@ -895,16 +1070,167 @@ async function deleteJadwal(id) {
 // ===== UTILS =====
 function closeModal(id) { document.getElementById(id).style.display='none'; }
 function showFoto(url) { document.getElementById('mFotoImg').src=url; document.getElementById('modalFoto').style.display='flex'; }
-function showFotoBukti(url, user, ket) {
-    const img = document.getElementById('mFotoBuktiImg');
-    const err = document.getElementById('fotoBuktiErr');
-    img.style.display = 'block';
-    err.style.display = 'none';
-    img.src = url;
-    document.getElementById('fotoBuktiLink').href = url;
+
+// ===== SIDEBAR MOBILE =====
+function toggleSidebarMobile() {
+    const sb = document.getElementById('sidebar') || document.querySelector('.sidebar');
+    const ov = document.getElementById('sbOverlayAdm');
+    const btn = document.getElementById('btnBurger');
+    if (sb) sb.classList.toggle('sb-open');
+    if (ov) ov.classList.toggle('open');
+    if (btn) btn.classList.toggle('open');
+}
+
+// ===== GALLERY / BUKTI VIEWER =====
+let _galleryImages = [];
+let _galleryIdx = 0;
+
+function isImageUrl(url) {
+    return /\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?.*)?$/i.test(url);
+}
+function isPdfUrl(url) {
+    return /\.pdf(\?.*)?$/i.test(url);
+}
+function isVideoUrl(url) {
+    return /\.(mp4|mov|avi|mkv|webm)(\?.*)?$/i.test(url);
+}
+function getFileIcon(url) {
+    if (isImageUrl(url)) return '🖼️';
+    if (isPdfUrl(url)) return '📄';
+    if (isVideoUrl(url)) return '🎬';
+    return '📎';
+}
+function getFileName(url) {
+    try { return decodeURIComponent(url.split('/').pop().split('?')[0]); } catch { return url; }
+}
+
+function renderMediaItem(url, idx) {
+    const name = getFileName(url);
+    if (isImageUrl(url)) {
+        return `<div class="gallery-item" onclick="openLightbox(${idx})">
+            <img src="${url}" onerror="this.src=\'\';this.parentElement.style.background=\'#fee2e2\'" alt="Bukti ${idx+1}">
+            <div class="gi-name">🖼️ ${name}</div>
+        </div>`;
+    } else if (isPdfUrl(url)) {
+        return `<div class="media-card">
+            <div class="media-card-head">
+                <span class="media-icon-big">📄</span>
+                <div class="media-card-info">
+                    <div class="media-card-name">${name}</div>
+                    <div class="media-card-type">PDF Document</div>
+                </div>
+                <a href="${url}" target="_blank" class="btn-open-ext" title="Buka di tab baru">↗</a>
+            </div>
+            <iframe src="${url}" class="pdf-preview" loading="lazy" title="${name}"></iframe>
+        </div>`;
+    } else if (isVideoUrl(url)) {
+        return `<div class="media-card">
+            <div class="media-card-head">
+                <span class="media-icon-big">🎬</span>
+                <div class="media-card-info">
+                    <div class="media-card-name">${name}</div>
+                    <div class="media-card-type">Video</div>
+                </div>
+                <a href="${url}" target="_blank" class="btn-open-ext" title="Buka di tab baru">↗</a>
+            </div>
+            <video controls class="video-preview" preload="metadata">
+                <source src="${url}">
+                Browser tidak mendukung video ini. <a href="${url}" target="_blank">Klik untuk buka</a>
+            </video>
+        </div>`;
+    } else {
+        // File lain - tampil sebagai link download
+        return `<a class="gallery-file-item" href="${url}" target="_blank" onclick="event.stopPropagation()">
+            <span class="gallery-file-icon">📎</span>
+            <div class="gallery-file-info">
+                <div class="gallery-file-name">${name}</div>
+                <div class="gallery-file-type">FILE — Klik untuk buka/download</div>
+            </div>
+            <span style="color:#2563eb;font-size:12px;">↗</span>
+        </a>`;
+    }
+}
+
+function showFotoBukti(rawUrl, user, ket) {
+    let urls = [];
+    try {
+        const parsed = JSON.parse(rawUrl);
+        if (Array.isArray(parsed)) urls = parsed;
+        else urls = [rawUrl];
+    } catch {
+        urls = [rawUrl];
+    }
+
     document.getElementById('fotoBuktiInfo').innerHTML = '<b>User:</b> ' + (user||'-') + '<br><b>Kegiatan:</b> ' + (ket||'-');
+
+    const imgWrap  = document.getElementById('galleryImgWrap');
+    const fileList = document.getElementById('galleryFileList');
+    const grid     = document.getElementById('galleryGrid');
+    const lnk      = document.getElementById('fotoBuktiLink');
+
+    imgWrap.style.display = 'none';
+    fileList.innerHTML = '';
+    grid.innerHTML = '';
+    lnk.style.display = 'none';
+
+    // Pisahkan gambar dari non-gambar untuk lightbox
+    _galleryImages = urls.filter(isImageUrl);
+    _galleryIdx = 0;
+
+    if (urls.length === 1) {
+        const url = urls[0];
+        if (isImageUrl(url)) {
+            // Single image - tampil langsung
+            imgWrap.style.display = 'block';
+            const img = document.getElementById('mFotoBuktiImg');
+            img.style.display = 'block';
+            document.getElementById('fotoBuktiErr').style.display = 'none';
+            img.src = url;
+            lnk.href = url; lnk.style.display = 'block';
+        } else {
+            // Single PDF/video/file
+            fileList.innerHTML = renderMediaItem(url, 0);
+        }
+    } else {
+        // Multiple files - render semua
+        let imgIdx = 0;
+        const parts = urls.map(url => {
+            const isImg = isImageUrl(url);
+            const html = renderMediaItem(url, isImg ? imgIdx : -1);
+            if (isImg) imgIdx++;
+            return html;
+        });
+        // Gambar di grid, media lain di fileList
+        const imgItems = parts.filter((_, i) => isImageUrl(urls[i]));
+        const otherItems = parts.filter((_, i) => !isImageUrl(urls[i]));
+        if (imgItems.length > 0) grid.innerHTML = imgItems.join('');
+        if (otherItems.length > 0) fileList.innerHTML = otherItems.join('');
+    }
+
     document.getElementById('modalFotoBukti').style.display='flex';
 }
+
+function openLightbox(idx) {
+    _galleryIdx = idx;
+    const lb = document.getElementById('galleryLightbox');
+    lb.style.display = 'flex';
+    updateLightbox();
+}
+function closeLightbox() {
+    document.getElementById('galleryLightbox').style.display = 'none';
+}
+function lbNav(dir) {
+    _galleryIdx = (_galleryIdx + dir + _galleryImages.length) % _galleryImages.length;
+    updateLightbox();
+}
+function updateLightbox() {
+    document.getElementById('lbImg').src = _galleryImages[_galleryIdx];
+    document.getElementById('lbCaption').textContent = `Bukti ${_galleryIdx+1} / ${_galleryImages.length}`;
+    document.getElementById('lbCounter').textContent = `${_galleryIdx+1} / ${_galleryImages.length}`;
+    document.getElementById('lbPrev').style.display = _galleryImages.length > 1 ? 'block' : 'none';
+    document.getElementById('lbNext').style.display = _galleryImages.length > 1 ? 'block' : 'none';
+}
+
 function toggleX(id) { document.getElementById(id).classList.toggle('open'); }
 
 // ===== INIT =====
