@@ -25,7 +25,6 @@
         .lc-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
         .btn-login { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; }
         #loginError { color: #ef4444; font-size: 13px; text-align: center; margin-top: 12px; display: none; }
-        .lc-rem { display: flex; align-items: center; font-size: 12px; color: #64748b; margin-bottom: 14px; cursor: pointer; }
 
         /* LAYOUT */
         #appLayout { display: none; min-height: 100vh; }
@@ -105,8 +104,6 @@
         .btn-edit { padding: 4px 10px; background: #e0e7ff; color: #4338ca; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-del { padding: 4px 10px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
         .btn-foto { padding: 4px 10px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
-        .btn-view { padding: 4px 10px; background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; transition: 0.15s; }
-        .btn-view:hover { background: #dbeafe; }
         .btn-foto:hover { background: #dcfce7; }
 
         /* USER CARDS */
@@ -177,38 +174,6 @@
         .bs-aktif { background: #d1fae5; color: #065f46; }
         .bs-pending { background: #fef3c7; color: #b45309; }
         .bs-done { background: #dbeafe; color: #1d4ed8; }
-
-        /* PERIOD TABS */
-        .period-bar {
-            display: flex; align-items: center; justify-content: space-between;
-            background: white; padding: 10px 16px; border-radius: 12px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
-            margin-bottom: 20px; flex-wrap: wrap; gap: 8px;
-        }
-        .period-bar-left { display: flex; align-items: center; gap: 8px; }
-        .period-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
-        .ptabs { display: flex; background: #f1f5f9; border-radius: 8px; padding: 3px; gap: 2px; }
-        .ptab {
-            padding: 6px 14px; border: none; border-radius: 6px;
-            font-size: 12px; font-weight: 700; cursor: pointer;
-            background: transparent; color: #64748b;
-            transition: all 0.2s; font-family: inherit;
-        }
-        .ptab:hover { color: var(--dark); background: rgba(255,255,255,0.6); }
-        .ptab.active {
-            background: white; color: var(--primary);
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-        }
-        .ptab.pt-harian.active  { color: #7c3aed; }
-        .ptab.pt-mingguan.active{ color: #0369a1; }
-        .ptab.pt-bulanan.active { color: #065f46; }
-        .period-info {
-            font-size: 11px; font-weight: 600; color: #64748b;
-            background: #f8fafc; border: 1px solid #e2e8f0;
-            padding: 4px 10px; border-radius: 20px;
-        }
-        /* Stat card subtitle update */
-        .scard .ss-period { font-size: 11px; color: #94a3b8; margin-top: 3px; }
 
         /* SPINNER */
         .sp { display: inline-block; width: 16px; height: 16px; border: 2px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 5px; }
@@ -364,10 +329,6 @@
         <input class="lc-input" type="text" id="l_user" placeholder="Username...">
         <label class="lc-label">Password</label>
         <input class="lc-input" type="password" id="l_pass" placeholder="Password..." onkeydown="if(event.key==='Enter') handleLogin()">
-        <label class="lc-rem">
-            <input type="checkbox" id="l_rem" style="width:14px;height:14px;accent-color:var(--primary);vertical-align:middle;margin-right:5px;">
-            <span>Ingat Saya (30 hari)</span>
-        </label>
         <button class="btn-login" onclick="handleLogin()">MASUK SEBAGAI ADMIN</button>
         <p id="loginError">Username atau password salah!</p>
     </div>
@@ -411,32 +372,15 @@
 
         <!-- DASHBOARD -->
         <div class="page active" id="page-dashboard">
-            <div class="pg-header"><h2>Dashboard Admin</h2><p>Ringkasan aktivitas — <span id="dashPeriodeLabel">bulan ini</span></p></div>
-
-            <!-- PERIOD BAR -->
-            <div class="period-bar">
-                <div class="period-bar-left">
-                    <span class="period-label">Tampilkan:</span>
-                    <div class="ptabs">
-                        <button class="ptab pt-harian active"  id="ptab-harian"   onclick="setPeriod('harian')">📅 Harian</button>
-                        <button class="ptab pt-mingguan" id="ptab-mingguan" onclick="setPeriod('mingguan')">📆 Mingguan</button>
-                        <button class="ptab pt-bulanan"  id="ptab-bulanan"  onclick="setPeriod('bulanan')">🗓️ Bulanan</button>
-                    </div>
-                </div>
-                <span class="period-info" id="periodInfoText">—</span>
-            </div>
-
-            <!-- STAT CARDS -->
+            <div class="pg-header"><h2>Dashboard Admin</h2><p>Ringkasan semua aktivitas — bulan <span id="dashPeriode"></span></p></div>
             <div class="stats-grid">
-                <div class="scard"><span class="si">📋</span><div class="sl">Total Jadwal</div><div class="sv" id="stTotal">-</div><div class="ss scard-period">-</div></div>
-                <div class="scard"><span class="si">✅</span><div class="sl">Jadwal Aktif</div><div class="sv" id="stAktif" style="color:#2563eb">-</div><div class="ss scard-period">-</div></div>
-                <div class="scard"><span class="si">🏁</span><div class="sl">Jadwal Done</div><div class="sv" id="stDone" style="color:#10b981">-</div><div class="ss scard-period">-</div></div>
-                <div class="scard"><span class="si">🕐</span><div class="sl">Absensi</div><div class="sv" id="stAbsensi" style="color:#f59e0b">-</div><div class="ss scard-period">-</div></div>
+                <div class="scard"><span class="si">📋</span><div class="sl">Total Jadwal</div><div class="sv" id="stTotal">-</div><div class="ss">Bulan ini</div></div>
+                <div class="scard"><span class="si">✅</span><div class="sl">Jadwal Aktif</div><div class="sv" id="stAktif" style="color:#2563eb">-</div><div class="ss">Bulan ini</div></div>
+                <div class="scard"><span class="si">🏁</span><div class="sl">Jadwal Done</div><div class="sv" id="stDone" style="color:#10b981">-</div><div class="ss">Bulan ini</div></div>
+                <div class="scard"><span class="si">🕐</span><div class="sl">Absensi Hari Ini</div><div class="sv" id="stAbsensi" style="color:#f59e0b">-</div><div class="ss">Total kehadiran</div></div>
             </div>
-
-            <!-- JADWAL -->
             <div class="ssep-row">
-                <span class="ssep-title">📅 Jadwal — <span id="dashJadwalPeriodeTitle">Bulan Ini</span></span>
+                <span class="ssep-title">📅 Jadwal Terbaru (Bulan Ini)</span>
                 <div class="dash-tabs">
                     <button class="dtab da-aktif" id="dtab-aktif"   onclick="setDashTab('aktif')">Aktif</button>
                     <button class="dtab"          id="dtab-pending" onclick="setDashTab('pending')">Pending</button>
@@ -445,20 +389,16 @@
                 </div>
             </div>
             <div class="tcard" style="margin-bottom:24px;"><table>
-                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>View</th></tr></thead>
+                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Status</th></tr></thead>
                 <tbody id="dJadwal"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
-
-            <!-- ABSENSI -->
-            <div class="ssep">🕐 Absensi — <span id="dashAbsensiPeriodeTitle">Hari Ini</span></div>
+            <div class="ssep">🕐 Absensi Hari Ini</div>
             <div class="tcard" style="margin-bottom:24px;"><table>
-                <thead><tr><th>Tanggal</th><th>User</th><th>Tipe</th><th>Jam</th><th>View</th></tr></thead>
+                <thead><tr><th>Tanggal</th><th>User</th><th>Tipe</th><th>Jam</th><th>Foto</th></tr></thead>
                 <tbody id="dAbsensi"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
-
-            <!-- ANALISA -->
             <div class="ssep-row">
-                <span class="ssep-title">🔍 Analisa — <span id="dashAnalisaPeriodeTitle">Bulan Ini</span></span>
+                <span class="ssep-title">🔍 Analisa Terbaru</span>
                 <div class="dash-tabs">
                     <button class="dtab da-aktif" id="atab-aktif"   onclick="setAnalisaTab('aktif')">Aktif</button>
                     <button class="dtab"          id="atab-pending" onclick="setAnalisaTab('pending')">Pending</button>
@@ -467,13 +407,11 @@
                 </div>
             </div>
             <div class="tcard" style="margin-bottom:24px;"><table>
-                <thead><tr><th>Tgl</th><th>User</th><th>Masalah</th><th>Rencana</th><th>Target</th><th>View</th></tr></thead>
+                <thead><tr><th>Tgl</th><th>User</th><th>Masalah</th><th>Rencana</th><th>Target</th></tr></thead>
                 <tbody id="dAnalisa"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
-
-            <!-- PENGENDALIAN -->
             <div class="ssep-row">
-                <span class="ssep-title">⚙️ Pengendalian — <span id="dashPengendalianPeriodeTitle">Bulan Ini</span></span>
+                <span class="ssep-title">⚙️ Pengendalian Terbaru</span>
                 <div class="dash-tabs">
                     <button class="dtab da-aktif" id="ptab-aktif"   onclick="setPengendalianTab('aktif')">Aktif</button>
                     <button class="dtab"          id="ptab-pending" onclick="setPengendalianTab('pending')">Pending</button>
@@ -482,7 +420,7 @@
                 </div>
             </div>
             <div class="tcard"><table>
-                <thead><tr><th>Tgl</th><th>User</th><th>Hasil Aktual</th><th>Kesimpulan</th><th>Saran</th><th>View</th></tr></thead>
+                <thead><tr><th>Tgl</th><th>User</th><th>Hasil Aktual</th><th>Kesimpulan</th><th>Saran</th></tr></thead>
                 <tbody id="dPengendalian"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
         </div>
@@ -518,7 +456,7 @@
                 <button class="btn-f" onclick="loadAbsensi()">🔍 Tampilkan</button>
             </div>
             <div class="tcard"><table>
-                <thead><tr><th>Tanggal</th><th>User</th><th>Tipe</th><th>Jam</th><th>View</th></tr></thead>
+                <thead><tr><th>Tanggal</th><th>User</th><th>Tipe</th><th>Jam</th><th>Foto</th></tr></thead>
                 <tbody id="aTable"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
         </div>
@@ -668,50 +606,11 @@ const ASSETS = 'https://assets.lidan.co.id/';
 const JC = { meeting:'#ff7675', tes:'#74b9ff', konseling:'#55efc4', seminar:'#ffeaa7', others:'#b2bec3' };
 
 let currentTab = 'aktif';
-let dashJadwalTab       = 'aktif';
-let dashAnalisaTab      = 'aktif';
+let dashJadwalTab      = 'aktif';
+let dashAnalisaTab     = 'aktif';
 let dashPengendalianTab = 'aktif';
 let allUsers   = [];
 let adminUser  = '';
-let dashPeriod = 'harian'; // 'harian' | 'mingguan' | 'bulanan'
-
-// Helper: hitung range tanggal berdasar periode
-function getPeriodRange(period) {
-    const now = new Date();
-    const today = now.toISOString().split('T')[0];
-    const bln   = now.getMonth() + 1;
-    const thn   = now.getFullYear();
-
-    if (period === 'harian') {
-        return { type:'harian', today, bln, thn, tgl: now.getDate(),
-            label: 'Hari Ini (' + today + ')',
-            shortLabel: 'Hari Ini' };
-    }
-    if (period === 'mingguan') {
-        // Senin s/d Minggu minggu ini
-        const day = now.getDay(); // 0=Sun
-        const diffMon = (day === 0) ? -6 : 1 - day;
-        const mon = new Date(now); mon.setDate(now.getDate() + diffMon);
-        const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
-        const fmt = d => d.toISOString().split('T')[0];
-        return { type:'mingguan', dateFrom: fmt(mon), dateTo: fmt(sun),
-            label: fmt(mon) + ' s/d ' + fmt(sun),
-            shortLabel: 'Minggu Ini' };
-    }
-    // bulanan
-    return { type:'bulanan', bln, thn,
-        label: 'Bulan ' + bln + '/' + thn,
-        shortLabel: 'Bulan Ini' };
-}
-
-function setPeriod(period) {
-    dashPeriod = period;
-    ['harian','mingguan','bulanan'].forEach(p => {
-        const el = document.getElementById('ptab-' + p);
-        if (el) el.classList.toggle('active', p === period);
-    });
-    loadDashboard();
-}
 
 // ===== HELPERS =====
 const api = q => fetch(API + q, { headers: { 'X-Custom-Auth': AUTH } }).then(r => r.json());
@@ -721,52 +620,21 @@ const loading = (id, cols) => document.getElementById(id).innerHTML = `<tr class
 
 // ===== AUTH =====
 async function handleLogin() {
-    const u   = document.getElementById('l_user').value.trim();
-    const p   = document.getElementById('l_pass').value.trim();
-    const rem = document.getElementById('l_rem').checked;
+    const u = document.getElementById('l_user').value.trim();
+    const p = document.getElementById('l_pass').value.trim();
     if (!u || !p) return;
-    document.getElementById('loginError').style.display = 'none';
     const res = await api(`?table=admins&x_01_eq=${u}&x_02_eq=${p}`);
     if (res.success && res.data?.length > 0) {
         adminUser = res.data[0].x_01;
-        if (rem) {
-            // Simpan ke localStorage dengan expiry 1 bulan
-            const expire = Date.now() + 30 * 24 * 60 * 60 * 1000;
-            localStorage.setItem('lidan_admin', JSON.stringify({ user: adminUser, expire }));
-        } else {
-            sessionStorage.setItem('lidan_admin', adminUser);
-        }
+        sessionStorage.setItem('lidan_admin', adminUser);
         showApp();
-    } else {
-        document.getElementById('loginError').style.display = 'block';
-    }
+    } else { document.getElementById('loginError').style.display = 'block'; }
 }
 function checkAuth() {
-    // Cek sessionStorage
-    const ss = sessionStorage.getItem('lidan_admin');
-    if (ss) { adminUser = ss; showApp(); return; }
-    // Cek localStorage (remember me) dengan validasi expiry
-    const ls = localStorage.getItem('lidan_admin');
-    if (ls) {
-        try {
-            const data = JSON.parse(ls);
-            if (data.expire && Date.now() < data.expire) {
-                adminUser = data.user;
-                showApp();
-                return;
-            } else {
-                // Expired - hapus
-                localStorage.removeItem('lidan_admin');
-            }
-        } catch { localStorage.removeItem('lidan_admin'); }
-    }
+    const s = sessionStorage.getItem('lidan_admin');
+    if (s) { adminUser = s; showApp(); }
 }
-function handleLogout() {
-    sessionStorage.removeItem('lidan_admin');
-    localStorage.removeItem('lidan_admin');
-    document.body.classList.remove('app-ready');
-    location.reload();
-}
+function handleLogout() { sessionStorage.removeItem('lidan_admin'); document.body.classList.remove('app-ready'); location.reload(); }
 
 async function showApp() {
     document.getElementById('loginPage').style.display  = 'none';
@@ -864,91 +732,47 @@ function toggleSelectAll() {
 
 // ===== DASHBOARD =====
 async function loadDashboard() {
-    const pr = getPeriodRange(dashPeriod);
-
-    // Update labels
-    document.getElementById('dashPeriodeLabel').textContent = pr.shortLabel;
-    document.getElementById('periodInfoText').textContent   = pr.label;
-    ['dashJadwalPeriodeTitle','dashAnalisaPeriodeTitle','dashPengendalianPeriodeTitle'].forEach(id => {
-        const el = document.getElementById(id); if(el) el.textContent = pr.shortLabel;
-    });
-    const absTitleEl = document.getElementById('dashAbsensiPeriodeTitle');
-    if (absTitleEl) absTitleEl.textContent = (dashPeriod==='harian') ? 'Hari Ini' : pr.shortLabel;
-    document.querySelectorAll('.scard-period').forEach(el => el.textContent = pr.shortLabel);
-
-    // Build query
-    let qBase = `?table=${TJ}`;
-    let qAbs  = `?table=${TA}`;
-    if (pr.type === 'harian') {
-        qBase += `&x_01_eq=${pr.tgl}&x_06_eq=${pr.bln}&x_07_eq=${pr.thn}`;
-        qAbs  += `&x_02_eq=${pr.today}`;
-    } else if (pr.type === 'mingguan') {
-        // Fetch bulan ini lalu filter client-side
-        qBase += `&x_06_eq=${new Date().getMonth()+1}&x_07_eq=${new Date().getFullYear()}`;
-        qAbs  += `&x_02_gte=${pr.dateFrom}&x_02_lte=${pr.dateTo}`;
-    } else {
-        qBase += `&x_06_eq=${pr.bln}&x_07_eq=${pr.thn}`;
-        qAbs  += `&x_02_gte=${pr.thn}-${String(pr.bln).padStart(2,'0')}-01`;
-    }
+    const now = new Date(), bln = now.getMonth()+1, thn = now.getFullYear();
+    const today = now.toISOString().split('T')[0];
+    document.getElementById('dashPeriode').textContent = `${bln}/${thn}`;
 
     const [rA,rP,rD,rAbs] = await Promise.all([
-        api(qBase + '&x_05_eq=aktif'),
-        api(qBase + '&x_05_eq=pending'),
-        api(qBase + '&x_05_eq=done'),
-        api(qAbs),
+        api(`?table=${TJ}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=aktif`),
+        api(`?table=${TJ}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=pending`),
+        api(`?table=${TJ}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=done`),
+        api(`?table=${TA}&x_02_eq=${today}`),
     ]);
-
-    let aktifData   = rA.data   || [];
-    let pendingData = rP.data   || [];
-    let doneData    = rD.data   || [];
-    let absData     = rAbs.data || [];
-
-    // Filter mingguan client-side
-    if (pr.type === 'mingguan') {
-        const inWeek = item => {
-            const d = `${item.x_07}-${String(item.x_06).padStart(2,'0')}-${String(item.x_01).padStart(2,'0')}`;
-            return d >= pr.dateFrom && d <= pr.dateTo;
-        };
-        aktifData   = aktifData.filter(inWeek);
-        pendingData = pendingData.filter(inWeek);
-        doneData    = doneData.filter(inWeek);
-        absData     = absData.filter(d => d.x_02 >= pr.dateFrom && d.x_02 <= pr.dateTo);
-    }
-
-    const jAll = [...aktifData, ...pendingData, ...doneData];
+    const jAll = [...(rA.data||[]),(rP.data||[]),...(rD.data||[])];
     document.getElementById('stTotal').textContent   = jAll.length;
-    document.getElementById('stAktif').textContent   = aktifData.length;
-    document.getElementById('stDone').textContent    = doneData.length;
-    document.getElementById('stAbsensi').textContent = absData.length;
+    document.getElementById('stAktif').textContent   = rA.data?.length||0;
+    document.getElementById('stDone').textContent    = rD.data?.length||0;
+    document.getElementById('stAbsensi').textContent = rAbs.data?.length||0;
 
-    window._dashJadwalData = { aktif: aktifData, pending: pendingData, done: doneData };
+    // Simpan semua data jadwal ke variabel global agar bisa difilter tab
+    window._dashJadwalData = { aktif: rA.data||[], pending: rP.data||[], done: rD.data||[] };
     renderDashJadwal();
 
-    const absShow = absData.slice(0, 15)
-        .sort((a,b) => (b.x_02||'').localeCompare(a.x_02||''));
-    document.getElementById('dAbsensi').innerHTML = absShow.length
-        ? absShow.map(d => `<tr>
-            <td>${d.x_02||''}</td>
-            <td><span class="uchip"><span class="udot"></span>${d.x_01||'-'}</span></td>
-            <td><span class="badge b-${(d.x_05||'').toLowerCase()}">${d.x_05||'-'}</span></td>
-            <td><b>${d.x_03||'-'}</b></td>
-            <td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')">`:'-'}</td>
-          </tr>`).join('')
-        : `<tr class="er"><td colspan="5">Tidak ada absensi ${pr.shortLabel.toLowerCase()}</td></tr>`;
+    const absData = (rAbs.data||[]).slice(0,10);
+    document.getElementById('dAbsensi').innerHTML = absData.length
+        ? absData.map(d => `<tr><td>${d.x_02||'-'}</td><td><span class="uchip"><span class="udot"></span>${d.x_01||'-'}</span></td><td><span class="badge b-${(d.x_05||'').toLowerCase()}">${d.x_05||'-'}</span></td><td><b>${d.x_03||'-'}</b></td><td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')">`:'-'}</td></tr>`).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada absensi hari ini</td></tr>';
 
+    // Cache data analisa & pengendalian berdasarkan status
+    const allJ = [...(rA.data||[]),...(rP.data||[]),...(rD.data||[])];
     window._dashAnalisaData = {
-        aktif:   aktifData.filter(j=>j.x_10),
-        pending: pendingData.filter(j=>j.x_10),
-        done:    doneData.filter(j=>j.x_10),
+        aktif:   (rA.data||[]).filter(j=>j.x_10),
+        pending: (rP.data||[]).filter(j=>j.x_10),
+        done:    (rD.data||[]).filter(j=>j.x_10),
     };
     window._dashPengendalianData = {
-        aktif:   aktifData.filter(j=>j.x_15),
-        pending: pendingData.filter(j=>j.x_15),
-        done:    doneData.filter(j=>j.x_15),
+        aktif:   (rA.data||[]).filter(j=>j.x_15),
+        pending: (rP.data||[]).filter(j=>j.x_15),
+        done:    (rD.data||[]).filter(j=>j.x_15),
     };
     renderDashAnalisa();
     renderDashPengendalian();
 }
+
 // ===== DASH JADWAL TAB =====
 function setDashTab(tab) {
     dashJadwalTab = tab;
@@ -971,19 +795,8 @@ function renderDashJadwal() {
     }
     data = data.sort((a,b) => Number(b.x_01)-Number(a.x_01)).slice(0, 15);
     document.getElementById('dJadwal').innerHTML = data.length
-        ? data.map(d => {
-            let viewBtn = '';
-            if (d.x_05 === 'done' && d.x_08) {
-                const sk = 'dash_j_' + d.id_x;
-                _buktiStore[sk] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
-                let cnt = 1; try { const p=JSON.parse(d.x_08); if(Array.isArray(p)) cnt=p.length; } catch {}
-                viewBtn = `<button class="btn-view" onclick="event.stopPropagation();showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
-            } else if (d.x_05 === 'done') {
-                viewBtn = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;">👁 View</button>`;
-            }
-            return `<tr><td><b>${d.x_01}</b>/${d.x_06}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td><td>${tr(d.x_04)}</td><td><span class="badge b-${d.x_05}">${d.x_05}</span></td><td>${viewBtn}</td></tr>`;
-          }).join('')
-        : '<tr class="er"><td colspan="6">Tidak ada data</td></tr>';
+        ? data.map(d => `<tr><td><b>${d.x_01}</b></td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td><td>${tr(d.x_04)}</td><td><span class="badge b-${d.x_05}">${d.x_05}</span></td></tr>`).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada data</td></tr>';
 }
 
 function setAnalisaTab(tab) {
@@ -1003,20 +816,8 @@ function renderDashAnalisa() {
         : d[dashAnalisaTab] || []
     ).slice(0, 10);
     document.getElementById('dAnalisa').innerHTML = data.length
-        ? data.map(d => {
-            const a = pj(d.x_10)||{};
-            let viewBtn = '';
-            if (d.x_08) {
-                const sk = 'dash_a_' + d.id_x;
-                _buktiStore[sk] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
-                let cnt = 1; try { const p=JSON.parse(d.x_08); if(Array.isArray(p)) cnt=p.length; } catch {}
-                viewBtn = `<button class="btn-view" onclick="event.stopPropagation();showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
-            } else {
-                viewBtn = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;">👁 View</button>`;
-            }
-            return `<tr><td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td>${tr(a.masalah,35)}</td><td>${tr(a.rencana,35)}</td><td>${tr(a.target,35)}</td><td>${viewBtn}</td></tr>`;
-          }).join('')
-        : '<tr class="er"><td colspan="6">Tidak ada data analisa</td></tr>';
+        ? data.map(d => { const a=pj(d.x_10)||{}; return `<tr><td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td>${tr(a.masalah,35)}</td><td>${tr(a.rencana,35)}</td><td>${tr(a.target,35)}</td></tr>`; }).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada data analisa</td></tr>';
 }
 
 function setPengendalianTab(tab) {
@@ -1036,20 +837,8 @@ function renderDashPengendalian() {
         : d[dashPengendalianTab] || []
     ).slice(0, 10);
     document.getElementById('dPengendalian').innerHTML = data.length
-        ? data.map(d => {
-            const p = pj(d.x_15)||{};
-            let viewBtn = '';
-            if (d.x_08) {
-                const sk = 'dash_p_' + d.id_x;
-                _buktiStore[sk] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
-                let cnt = 1; try { const pp=JSON.parse(d.x_08); if(Array.isArray(pp)) cnt=pp.length; } catch {}
-                viewBtn = `<button class="btn-view" onclick="event.stopPropagation();showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
-            } else {
-                viewBtn = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;">👁 View</button>`;
-            }
-            return `<tr><td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td>${tr(p.aktual,35)}</td><td><span class="badge b-${p.kesimpulan||'sesuai'}">${p.kesimpulan||'-'}</span></td><td>${tr(p.saran,35)}</td><td>${viewBtn}</td></tr>`;
-          }).join('')
-        : '<tr class="er"><td colspan="6">Tidak ada data pengendalian</td></tr>';
+        ? data.map(d => { const p=pj(d.x_15)||{}; return `<tr><td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td>${tr(p.aktual,35)}</td><td><span class="badge b-${p.kesimpulan||'sesuai'}">${p.kesimpulan||'-'}</span></td><td>${tr(p.saran,35)}</td></tr>`; }).join('')
+        : '<tr class="er"><td colspan="5">Tidak ada data pengendalian</td></tr>';
 }
 
 // ===== JADWAL =====
@@ -1078,10 +867,10 @@ async function loadJadwal() {
                 _buktiStore[storeKey] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
                 let buktiCount = 1;
                 try { const p = JSON.parse(d.x_08); if(Array.isArray(p)) buktiCount = p.length; } catch {}
-                const label = buktiCount > 1 ? `👁 View (${buktiCount})` : '👁 View';
-                fotoBtnHtml = `<button class="btn-view" onclick="showFotoBuktiByKey('${storeKey}')">${label}</button>`;
+                const label = buktiCount > 1 ? `📷 ${buktiCount} File` : '📷 Foto';
+                fotoBtnHtml = `<button class="btn-foto" onclick="showFotoBuktiByKey('${storeKey}')">${label}</button>`;
             } else if (d.x_05 === 'done') {
-                fotoBtnHtml = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;" title="Tidak ada bukti">👁 View</button>`;
+                fotoBtnHtml = `<button class="btn-foto" disabled style="opacity:0.4;cursor:default;" title="Tidak ada bukti">📷</button>`;
             }
             return `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
             <td><b>${d.x_01}</b><br><small style="color:#94a3b8">${d.x_02||''}</small></td>
@@ -1117,7 +906,7 @@ async function loadAbsensi() {
             <td><span class="uchip"><span class="udot"></span>${d.x_01||'-'}</span></td>
             <td><span class="badge b-${(d.x_05||'').toLowerCase()}">${d.x_05||'-'}</span></td>
             <td><b>${d.x_03||'-'}</b></td>
-            <td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')" title="Klik untuk lihat">`:'<span style="color:#94a3b8;font-size:11px;">-</span>'}</td></tr>`).join('')
+            <td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')">`:'-'}</td></tr>`).join('')
         : '<tr class="er"><td colspan="5">Tidak ada data absensi</td></tr>';
 }
 
