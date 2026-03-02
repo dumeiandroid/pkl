@@ -156,12 +156,13 @@
         .jhari-title { font-size: 13px; font-weight: 800; color: var(--dark); }
         .jhari-count { font-size: 11px; font-weight: 700; background: #ede9fe; color: var(--primary); padding: 3px 9px; border-radius: 20px; }
         .jhari-list { display: flex; flex-direction: column; gap: 8px; max-height: 260px; overflow-y: auto; }
-        .jhari-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg); border-radius: 10px; cursor: pointer; transition: 0.15s; border: 1px solid transparent; }
+        .jhari-item { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; background: var(--bg); border-radius: 10px; cursor: pointer; transition: 0.15s; border: 1px solid transparent; }
         .jhari-item:hover { background: #ede9fe; border-color: #c4b5fd; }
+        .jhari-item-top { display: flex; align-items: center; gap: 10px; }
         .jhari-icon-wrap { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
         .jhari-info { flex: 1; min-width: 0; }
         .jhari-jam  { font-size: 12px; font-weight: 800; color: var(--dark); font-family: 'DM Mono', monospace; }
-        .jhari-ket  { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .jhari-ket  { font-size: 11px; color: var(--muted); white-space: normal; line-height: 1.5; word-break: break-word; }
         .jhari-id   { font-size: 9px; font-weight: 700; color: var(--muted); font-family: 'DM Mono', monospace; background: var(--border); padding: 2px 5px; border-radius: 4px; }
         .jhari-empty { text-align: center; padding: 28px 0; color: var(--muted); font-size: 13px; }
 
@@ -245,7 +246,7 @@
         .m-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.6); z-index: 500; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
         .m-overlay.open { display: flex; }
         .mbox { background: #fff; border-radius: 20px; width: 100%; max-width: 400px; max-height: 92vh; overflow-y: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.25); }
-        .mhead { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; border-radius: 20px 20px 0 0; z-index: 10; gap: 8px; }
+        .mhead { padding: 18px 20px 14px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; border-radius: 20px 20px 0 0; z-index: 10; }
         .mhead h3 { font-size: 15px; font-weight: 900; letter-spacing: -0.3px; }
         .mhead .x { background: var(--bg); border: none; font-size: 16px; cursor: pointer; color: var(--muted); width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .mhead .x:hover { background: #fee2e2; color: var(--red); }
@@ -598,13 +599,7 @@
 <!-- MODAL JADWAL -->
 <div class="m-overlay" id="modalJ">
     <div class="mbox">
-        <div class="mhead">
-            <h3 id="mJudul">Detail Jadwal</h3>
-            <div style="display:flex;gap:6px;align-items:center;">
-                <button class="btn-cancel" onclick="tutupModalJ()" style="padding:7px 14px;font-size:13px;">Batal</button>
-                <button class="btn-save-j" onclick="simpanJadwal(null)" style="padding:7px 14px;font-size:13px;">💾 Simpan</button>
-            </div>
-        </div>
+        <div class="mhead"><h3 id="mJudul">Detail Jadwal</h3><button class="x" onclick="tutupModalJ()">✕</button></div>
         <div class="mbody">
             <input type="hidden" id="f_id">
             <input type="hidden" id="f_bukti_url">
@@ -648,7 +643,10 @@
             </div>
             <button class="btn-go-ana" id="btnGoAna" onclick="bukaAnalisaDariJadwal()">📊 LIHAT / ISI ANALISA STRATEGIS</button>
         </div>
-
+        <div class="mfoot">
+            <button class="btn-cancel" onclick="tutupModalJ()">Batal</button>
+            <button class="btn-save-j" onclick="simpanJadwal(null)">💾 Simpan</button>
+        </div>
     </div>
 </div>
 
@@ -919,7 +917,7 @@ function startApp() {
    ============================== */
 async function initDashboard() {
     const now = new Date();
-    const today = now.toISOString().split('T')[0];
+    const today = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
     const bln = now.getMonth()+1;
     const thn = now.getFullYear();
     const tgl = now.getDate();
@@ -980,13 +978,14 @@ async function initDashboard() {
                     lamBadge = `<div style="width:32px;height:32px;flex-shrink:0;"></div>`;
                 }
                 return `<div class="jhari-item" onclick="bukaModalEdit(${JSON.stringify(item).replace(/"/g,'&quot;')})">
-                    <div class="jhari-icon-wrap" style="background:${bg}">${icon}</div>
-                    <div class="jhari-info">
+                    <div class="jhari-item-top">
+                        <div class="jhari-icon-wrap" style="background:${bg}">${icon}</div>
                         <div class="jhari-jam">${item.x_02||'-'}</div>
-                        <div class="jhari-ket">${item.x_04||item.x_03||'-'}</div>
+                        <div style="flex:1;"></div>
+                        ${lamBadge}
+                        <div class="jhari-id">#${item.id_x}</div>
                     </div>
-                    ${lamBadge}
-                    <div class="jhari-id">#${item.id_x}</div>
+                    <div class="jhari-ket">${item.x_04||item.x_03||'-'}</div>
                 </div>`;
             }).join('');
         }
@@ -1015,7 +1014,7 @@ async function muatRiwayat() {
         const res  = await req(`?table=${TBLA}&x_01_eq=${me}&limit=60`);
         const data = res.data || [];
         const grp  = {};
-        const today= new Date().toISOString().split('T')[0];
+        const _t = new Date(); const today= `${_t.getFullYear()}-${String(_t.getMonth()+1).padStart(2,'0')}-${String(_t.getDate()).padStart(2,'0')}`;
         hariIni    = { masuk:false, pulang:false };
 
         data.forEach(d => {
@@ -1085,7 +1084,7 @@ async function prosesAbsensi(tipe) {
         const now = new Date();
         await req(`?table=${TBLA}`, {
             method:'POST', headers:{'Content-Type':'application/json','X-Custom-Auth':KEY},
-            body: JSON.stringify({ x_01:me, x_02:now.toISOString().split('T')[0], x_03:now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}), x_04:fn, x_05:tipe })
+            body: JSON.stringify({ x_01:me, x_02:`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`, x_03:now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}), x_04:fn, x_05:tipe })
         });
         tutupKamera();
         muatRiwayat();
