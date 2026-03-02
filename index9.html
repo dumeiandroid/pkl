@@ -614,24 +614,6 @@
                 <textarea id="f_ket" rows="2" placeholder="Nama peserta / lokasi..."></textarea>
                 <a id="lnkBukti" class="bukti-lnk" href="#" target="_blank" style="display:none;">🔗 Lihat Bukti Selesai</a>
             </div>
-            <!-- LAMPIRAN JADWAL -->
-            <div class="fg">
-                <label>📎 Lampiran <span style="font-weight:500;color:#94a3b8;text-transform:none;letter-spacing:0;">(opsional)</span></label>
-                <div id="lampiranTabs" style="display:flex;gap:0;background:#f1f5f9;border-radius:8px;padding:3px;margin-bottom:8px;">
-                    <button id="tabLampiranFile" onclick="switchLampiranTab('file')" style="flex:1;padding:6px;border:none;border-radius:6px;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;background:var(--dark);color:#fff;transition:0.2s;">📁 Upload</button>
-                    <button id="tabLampiranLink" onclick="switchLampiranTab('link')" style="flex:1;padding:6px;border:none;border-radius:6px;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;background:transparent;color:#64748b;transition:0.2s;">🔗 Link</button>
-                    <button id="tabLampiranNone" onclick="switchLampiranTab('none')" style="flex:1;padding:6px;border:none;border-radius:6px;font-weight:700;font-size:12px;cursor:pointer;font-family:inherit;background:transparent;color:#64748b;transition:0.2s;">✕ Tidak Ada</button>
-                </div>
-                <div id="panelLampiranFile">
-                    <input type="file" id="lampiranFile" accept="image/*,application/pdf,video/*" multiple style="width:100%;font-size:12px;">
-                    <div id="lampiranFilePreview" style="display:none;background:#f8fafc;border-radius:7px;padding:8px;margin-top:6px;border:1px solid #e2e8f0;font-size:11px;color:#64748b;"></div>
-                </div>
-                <div id="panelLampiranLink" style="display:none;">
-                    <input type="url" id="lampiranLinkInput" placeholder="https://drive.google.com/..." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;transition:0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
-                    <p style="font-size:11px;color:#94a3b8;margin-top:4px;">💡 Pastikan link dapat diakses siapapun</p>
-                </div>
-                <div id="existingLampiran" style="display:none;margin-top:6px;"></div>
-            </div>
             <div class="fg" id="stArea" style="display:none;">
                 <label>Ubah Status</label>
                 <div class="st-btns">
@@ -652,40 +634,22 @@
 <!-- MODAL UPLOAD BUKTI -->
 <div class="m-overlay" id="modalUpload">
     <div class="mbox">
-        <div class="mhead"><h3>Bukti Selesai</h3><button class="x" onclick="tutupModalUpload()">✕</button></div>
+        <div class="mhead"><h3>Upload Bukti Selesai</h3><button class="x" onclick="tutupModalUpload()">✕</button></div>
         <div class="mbody mupload">
-            <!-- Tab pilihan -->
-            <div style="display:flex;gap:0;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:14px;">
-                <button id="tabBuktiFile" onclick="switchBuktiTab('file')" style="flex:1;padding:8px;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;background:#2563eb;color:#fff;transition:0.2s;">📁 Upload File</button>
-                <button id="tabBuktiLink" onclick="switchBuktiTab('link')" style="flex:1;padding:8px;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;background:transparent;color:#64748b;transition:0.2s;">🔗 Masukkan Link</button>
+            <p>Lampirkan foto / file bukti pekerjaan telah selesai. <strong>Bisa pilih beberapa file sekaligus.</strong></p>
+            <input type="file" id="buktiFile" accept="image/*,application/pdf,video/*" multiple style="width:100%;margin-bottom:8px;">
+            <div id="buktiPreview" style="display:none;background:#f8fafc;border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid #e2e8f0;">
+                <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">File Terpilih:</div>
+                <div id="buktiFileList" style="display:flex;flex-direction:column;gap:4px;"></div>
             </div>
-
-            <!-- Panel Upload File -->
-            <div id="panelBuktiFile">
-                <p style="font-size:13px;color:#64748b;margin-bottom:10px;">Lampirkan foto / file bukti pekerjaan telah selesai. <strong>Bisa pilih beberapa file sekaligus.</strong></p>
-                <input type="file" id="buktiFile" accept="image/*,application/pdf,video/*" multiple style="width:100%;margin-bottom:8px;">
-                <div id="buktiPreview" style="display:none;background:#f8fafc;border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid #e2e8f0;">
-                    <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">File Terpilih:</div>
-                    <div id="buktiFileList" style="display:flex;flex-direction:column;gap:4px;"></div>
+            <div id="buktiProgress" style="display:none;margin-bottom:8px;">
+                <div style="font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px;" id="buktiProgressTxt">Mengunggah 0/0...</div>
+                <div style="background:#e2e8f0;border-radius:4px;height:6px;overflow:hidden;">
+                    <div id="buktiProgressBar" style="background:#2563eb;height:100%;width:0%;transition:width 0.3s;border-radius:4px;"></div>
                 </div>
-                <div id="buktiProgress" style="display:none;margin-bottom:8px;">
-                    <div style="font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px;" id="buktiProgressTxt">Mengunggah 0/0...</div>
-                    <div style="background:#e2e8f0;border-radius:4px;height:6px;overflow:hidden;">
-                        <div id="buktiProgressBar" style="background:#2563eb;height:100%;width:0%;transition:width 0.3s;border-radius:4px;"></div>
-                    </div>
-                </div>
-                <button class="btn-upload-go" id="btnUploadGo" onclick="prosesUploadDone()">📤 UNGGAH & SELESAIKAN</button>
             </div>
-
-            <!-- Panel Masukkan Link -->
-            <div id="panelBuktiLink" style="display:none;">
-                <p style="font-size:13px;color:#64748b;margin-bottom:10px;">Upload file ke Google Drive / layanan lain, lalu tempelkan linknya di sini.</p>
-                <input type="url" id="buktiLinkInput" placeholder="https://drive.google.com/..." style="width:100%;padding:11px 13px;border:2px solid #e2e8f0;border-radius:9px;font-size:14px;font-family:inherit;outline:none;margin-bottom:8px;transition:0.2s;" onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='#e2e8f0'">
-                <p style="font-size:11px;color:#94a3b8;margin-bottom:12px;">💡 Pastikan link dapat diakses oleh siapapun (set sharing ke "Anyone with link")</p>
-                <button class="btn-upload-go" onclick="prosesLinkDone()" style="background:linear-gradient(135deg,#10b981,#059669);">🔗 SIMPAN LINK & SELESAIKAN</button>
-            </div>
-
-            <button class="btn-batal" onclick="tutupModalUpload()" style="margin-top:8px;">Batal</button>
+            <button class="btn-upload-go" id="btnUploadGo" onclick="prosesUploadDone()">📤 UNGGAH & SELESAIKAN</button>
+            <button class="btn-batal" onclick="tutupModalUpload()">Batal</button>
         </div>
     </div>
 </div>
@@ -963,26 +927,12 @@ async function initDashboard() {
                 const icon = getJenisIcon(item.x_03, item.id_x);
                 const bgMap = { meeting:'#eef2ff', tes:'#e0f2fe', konseling:'#d1fae5', seminar:'#fef3c7', others:'#f1f5f9' };
                 const bg = bgMap[item.x_03]||'#f1f5f9';
-                // Build lampiran badge for x_11
-                let lamBadge = '';
-                if (item.x_11) {
-                    if (item.x_11.startsWith('LINK:')) {
-                        const lnk = item.x_11.substring(5);
-                        lamBadge = `<a href="${lnk}" target="_blank" onclick="event.stopPropagation()" style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:7px;text-decoration:none;font-size:15px;flex-shrink:0;" title="Lihat Lampiran">🔗</a>`;
-                    } else {
-                        let cnt = 1; try { const p=JSON.parse(item.x_11); if(Array.isArray(p)) cnt=p.length; } catch {}
-                        lamBadge = `<button onclick="event.stopPropagation();lihatLampiranDashboard('${item.id_x}',${JSON.stringify(item.x_11).replace(/"/g,'&quot;')})" style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:32px;height:32px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:7px;cursor:pointer;font-size:12px;gap:1px;flex-shrink:0;" title="Lihat Lampiran (${cnt} file)">📎<span style="font-size:8px;font-weight:800;color:#2563eb;">${cnt}</span></button>`;
-                    }
-                } else {
-                    lamBadge = `<div style="width:32px;height:32px;flex-shrink:0;"></div>`;
-                }
                 return `<div class="jhari-item" onclick="bukaModalEdit(${JSON.stringify(item).replace(/"/g,'&quot;')})">
                     <div class="jhari-icon-wrap" style="background:${bg}">${icon}</div>
                     <div class="jhari-info">
                         <div class="jhari-jam">${item.x_02||'-'}</div>
                         <div class="jhari-ket">${item.x_04||item.x_03||'-'}</div>
                     </div>
-                    ${lamBadge}
                     <div class="jhari-id">#${item.id_x}</div>
                 </div>`;
             }).join('');
@@ -1177,8 +1127,6 @@ function bukaModalTambah(tgl=null) {
     document.getElementById('btnGoAna').style.display='none';
     document.getElementById('modalIdBadge').style.display='none';
     document.getElementById('mJudul').textContent='Tambah Jadwal';
-    resetLampiranForm();
-    document.getElementById('existingLampiran').dataset.cleared = '';
     document.getElementById('modalJ').classList.add('open');
 }
 
@@ -1199,9 +1147,6 @@ function bukaModalEdit(item) {
     document.getElementById('modalIdBadge').style.display='inline-flex';
     document.getElementById('modalIdVal').textContent=item.id_x;
     document.getElementById('mJudul').textContent='Edit Jadwal';
-    resetLampiranForm();
-    document.getElementById('existingLampiran').dataset.cleared = '';
-    tampilkanExistingLampiran(item.x_11||null);
     document.getElementById('modalJ').classList.add('open');
 }
 
@@ -1222,10 +1167,6 @@ async function simpanJadwal(forcedSt) {
         x_09:me
     };
     const bk=document.getElementById('f_bukti_url').value; if(bk) payload.x_08=bk;
-    // Lampiran x_11
-    const lampiranVal = await getLampiranValue();
-    if (lampiranVal === 'CLEAR') payload.x_11 = '';
-    else if (lampiranVal) payload.x_11 = lampiranVal;
     if(forcedSt) payload.x_05=forcedSt; else if(!id) payload.x_05='aktif';
     const url=id?`${API}?table=${TBL}&id_x=${id}`:`${API}?table=${TBL}`;
     gl('Menyimpan...');
@@ -1264,10 +1205,7 @@ async function prosesUploadDone() {
         gl('Menyimpan...');
         const res = await fetch(`${API}?table=${TBL}&id_x=${id}`, {method:'PUT', headers:{'Content-Type':'application/json','X-Custom-Auth':KEY}, body:JSON.stringify({x_05:'done', x_08:buktiValue})}).then(r=>r.json());
         gh();
-        if(res.success){
-            tutupModalUpload();
-            if(tabJadwal === 'done') muatJadwal(); else hapusItemDariDOM(id);
-        } else alert('Gagal menyimpan!');
+        if(res.success){ tutupModalUpload(); muatJadwal(); } else alert('Gagal menyimpan!');
     } catch(e){ gh(); alert('Error: '+e.message); }
     finally {
         btn.disabled = false;
@@ -1277,68 +1215,12 @@ async function prosesUploadDone() {
     }
 }
 
-function hapusItemDariDOM(idX) {
-    // Hapus dari tabel jadwal (.box)
-    document.querySelectorAll('.box').forEach(b => {
-        if (b.title && b.title.startsWith(`[#${idX}]`)) b.remove();
-    });
-    // Hapus dari dashboard Jadwal Hari Ini (.jhari-item)
-    document.querySelectorAll('.jhari-item').forEach(el => {
-        const badge = el.querySelector('.jhari-id');
-        if (badge && badge.textContent.trim() === `#${idX}`) el.remove();
-    });
-    // Update counter jadwal hari ini
-    const remaining = document.querySelectorAll('.jhari-item').length;
-    const countEl = document.getElementById('jhariCount');
-    if (countEl) countEl.textContent = remaining + ' jadwal';
-    if (remaining === 0) {
-        const list = document.getElementById('jhariList');
-        if (list) list.innerHTML = '<div class="jhari-empty">😊 Tidak ada jadwal hari ini</div>';
-    }
-    // Tutup modal
-    tutupModalJ();
-}
-
 function tutupModalJ()      { document.getElementById('modalJ').classList.remove('open'); }
 function tutupModalUpload() {
     document.getElementById('modalUpload').classList.remove('open');
     document.getElementById('buktiFile').value = '';
     document.getElementById('buktiPreview').style.display = 'none';
     document.getElementById('buktiFileList').innerHTML = '';
-    document.getElementById('buktiLinkInput').value = '';
-    switchBuktiTab('file'); // reset ke tab file
-}
-
-function switchBuktiTab(tab) {
-    const isFile = tab === 'file';
-    document.getElementById('panelBuktiFile').style.display = isFile ? 'block' : 'none';
-    document.getElementById('panelBuktiLink').style.display = isFile ? 'none' : 'block';
-    document.getElementById('tabBuktiFile').style.background = isFile ? '#2563eb' : 'transparent';
-    document.getElementById('tabBuktiFile').style.color      = isFile ? '#fff' : '#64748b';
-    document.getElementById('tabBuktiLink').style.background = isFile ? 'transparent' : '#10b981';
-    document.getElementById('tabBuktiLink').style.color      = isFile ? '#64748b' : '#fff';
-}
-
-async function prosesLinkDone() {
-    const link = document.getElementById('buktiLinkInput').value.trim();
-    if (!link) return alert('Masukkan link terlebih dahulu!');
-    if (!link.startsWith('http')) return alert('Link harus dimulai dengan http:// atau https://');
-    const id = document.getElementById('f_id').value;
-    if (!id) return alert('ID jadwal tidak ditemukan!');
-    gl('Menyimpan link bukti...');
-    try {
-        const buktiValue = 'LINK:' + link;
-        const res = await fetch(`${API}?table=${TBL}&id_x=${id}`, {
-            method:'PUT',
-            headers:{'Content-Type':'application/json','X-Custom-Auth':KEY},
-            body: JSON.stringify({x_05:'done', x_08: buktiValue})
-        }).then(r=>r.json());
-        gh();
-        if(res.success){
-            tutupModalUpload();
-            if(tabJadwal === 'done') muatJadwal(); else hapusItemDariDOM(id);
-        } else alert('Gagal menyimpan!');
-    } catch(e){ gh(); alert('Error: '+e.message); }
 }
 
 // Preview file terpilih
@@ -1365,131 +1247,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==============================
-   LAMPIRAN JADWAL (x_11)
+   ANALISA
    ============================== */
-function switchLampiranTab(tab) {
-    document.getElementById('panelLampiranFile').style.display = tab==='file' ? 'block' : 'none';
-    document.getElementById('panelLampiranLink').style.display = tab==='link' ? 'block' : 'none';
-    const tabs = {file:'tabLampiranFile', link:'tabLampiranLink', none:'tabLampiranNone'};
-    Object.entries(tabs).forEach(([k,id]) => {
-        const el = document.getElementById(id);
-        el.style.background = k===tab ? 'var(--dark)' : 'transparent';
-        el.style.color = k===tab ? '#fff' : '#64748b';
-    });
-}
-
-function resetLampiranForm() {
-    switchLampiranTab('file');
-    document.getElementById('lampiranFile').value = '';
-    document.getElementById('lampiranLinkInput').value = '';
-    document.getElementById('lampiranFilePreview').style.display = 'none';
-    document.getElementById('lampiranFilePreview').innerHTML = '';
-    document.getElementById('existingLampiran').style.display = 'none';
-    document.getElementById('existingLampiran').innerHTML = '';
-    // file change listener
-    document.getElementById('lampiranFile').onchange = function() {
-        const prev = document.getElementById('lampiranFilePreview');
-        if (this.files.length > 0) {
-            prev.style.display = 'block';
-            prev.innerHTML = Array.from(this.files).map(f => {
-                const sz = f.size > 1024*1024 ? (f.size/1024/1024).toFixed(1)+' MB' : (f.size/1024).toFixed(0)+' KB';
-                return `<div style="display:flex;align-items:center;gap:5px;padding:2px 0;">📄 <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</span> <span style="color:#94a3b8;">${sz}</span></div>`;
-            }).join('');
-        } else { prev.style.display = 'none'; }
-    };
-}
-
-function tampilkanExistingLampiran(x11val) {
-    const el = document.getElementById('existingLampiran');
-    if (!x11val) { el.style.display='none'; return; }
-    el.style.display = 'block';
-    if (x11val.startsWith('LINK:')) {
-        const url = x11val.substring(5);
-        el.innerHTML = `<div style="display:flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:7px;padding:8px 10px;font-size:12px;">
-            <span>🔗</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;">Link terlampir</span>
-            <a href="${url}" target="_blank" style="color:#059669;font-weight:700;text-decoration:none;white-space:nowrap;">Lihat ↗</a>
-            <button onclick="hapusLampiran()" style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:14px;padding:0 2px;">✕</button>
-        </div>`;
-        // pre-fill link tab
-        switchLampiranTab('link');
-        document.getElementById('lampiranLinkInput').value = url;
-    } else {
-        let files = [];
-        try { files = JSON.parse(x11val); } catch { files = [x11val]; }
-        if (!Array.isArray(files)) files = [x11val];
-        const count = files.length;
-        el.innerHTML = `<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:7px;padding:8px 10px;font-size:12px;display:flex;align-items:center;gap:6px;">
-            <span>📎</span><span style="flex:1;font-weight:600;">${count} file terlampir</span>
-            <button onclick="lihatLampiranFiles(${JSON.stringify(files).replace(/"/g,'&quot;')})" style="padding:3px 8px;background:#2563eb;color:#fff;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer;">Lihat</button>
-            <button onclick="hapusLampiran()" style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:14px;padding:0 2px;">✕</button>
-        </div>`;
-        switchLampiranTab('none');
-    }
-}
-
-function hapusLampiran() {
-    document.getElementById('existingLampiran').style.display = 'none';
-    document.getElementById('existingLampiran').innerHTML = '';
-    document.getElementById('existingLampiran').dataset.cleared = '1';
-    switchLampiranTab('file');
-}
-
-function lihatLampiranFiles(urls) {
-    // Open first file
-    if (urls && urls.length > 0) {
-        const url = CDN + urls[0];
-        const ext = url.split('.').pop().toLowerCase();
-        if (['jpg','jpeg','png','gif','webp'].includes(ext)) {
-            bukaFotoModal(url);
-        } else {
-            window.open(url, '_blank');
-        }
-    }
-}
-
-async function uploadLampiranFiles(files) {
-    const uploaded = [];
-    for (let i = 0; i < files.length; i++) {
-        const fd = new FormData();
-        fd.append('file', files[i]);
-        const res = await fetch(R2, { method:'POST', body:fd }).then(r=>r.json());
-        if (res.success && res.filename) uploaded.push(res.filename);
-    }
-    return uploaded;
-}
-
-async function getLampiranValue() {
-    // Returns x_11 value to save, or null if none, or 'CLEAR' to remove
-    const existEl = document.getElementById('existingLampiran');
-    // Check active tab
-    const tabFile = document.getElementById('tabLampiranFile');
-    const tabLink = document.getElementById('tabLampiranLink');
-    const tabNone = document.getElementById('tabLampiranNone');
-    const activeTab = tabFile.style.background.includes('dark') || tabFile.style.color==='rgb(255, 255, 255)' ? 'file'
-                    : tabLink.style.color==='rgb(255, 255, 255)' ? 'link' : 'none';
-
-    if (activeTab === 'none') {
-        // If there was existing and user clicked none tab, means no change unless cleared
-        if (existEl.dataset.cleared === '1') return 'CLEAR';
-        return null; // no lampiran, no change
-    }
-    if (activeTab === 'link') {
-        const url = document.getElementById('lampiranLinkInput').value.trim();
-        if (url) return 'LINK:' + url;
-        return null;
-    }
-    if (activeTab === 'file') {
-        const files = document.getElementById('lampiranFile').files;
-        if (files && files.length > 0) {
-            gl('Mengunggah lampiran...');
-            const uploaded = await uploadLampiranFiles(files);
-            gh();
-            if (uploaded.length > 0) return JSON.stringify(uploaded);
-        }
-        return null;
-    }
-    return null;
-}
 function bukaAnalisaDariJadwal() {
     const id=document.getElementById('f_id').value;
     if(!id) return;
@@ -1583,22 +1342,6 @@ async function simpanPengendalian() {
     gh();
     if(res.success){ alert('Pengendalian disimpan! Status jadwal: DONE.'); showPg('jadwal'); }
     else alert('Gagal menyimpan!');
-}
-
-function lihatLampiranDashboard(idJadwal, x11val) {
-    if (!x11val) return;
-    let files = [];
-    try { files = JSON.parse(x11val); } catch { files = [x11val]; }
-    if (!Array.isArray(files)) files = [x11val];
-    if (files.length === 1) {
-        const url = CDN + files[0];
-        const ext = url.split('.').pop().toLowerCase();
-        if (['jpg','jpeg','png','gif','webp'].includes(ext)) { bukaFotoModal(url); }
-        else { window.open(url, '_blank'); }
-    } else {
-        // Multiple files - open all in new tab or show first
-        files.forEach(fn => window.open(CDN + fn, '_blank'));
-    }
 }
 
 function bukaFotoModal(url) {
