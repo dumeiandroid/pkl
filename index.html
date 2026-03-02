@@ -245,7 +245,7 @@
         .m-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.6); z-index: 500; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
         .m-overlay.open { display: flex; }
         .mbox { background: #fff; border-radius: 20px; width: 100%; max-width: 400px; max-height: 92vh; overflow-y: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.25); }
-        .mhead { padding: 18px 20px 14px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; border-radius: 20px 20px 0 0; z-index: 10; }
+        .mhead { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff; border-radius: 20px 20px 0 0; z-index: 10; gap: 8px; }
         .mhead h3 { font-size: 15px; font-weight: 900; letter-spacing: -0.3px; }
         .mhead .x { background: var(--bg); border: none; font-size: 16px; cursor: pointer; color: var(--muted); width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .mhead .x:hover { background: #fee2e2; color: var(--red); }
@@ -598,7 +598,13 @@
 <!-- MODAL JADWAL -->
 <div class="m-overlay" id="modalJ">
     <div class="mbox">
-        <div class="mhead"><h3 id="mJudul">Detail Jadwal</h3><button class="x" onclick="tutupModalJ()">✕</button></div>
+        <div class="mhead">
+            <h3 id="mJudul">Detail Jadwal</h3>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <button class="btn-cancel" onclick="tutupModalJ()" style="padding:7px 14px;font-size:13px;">Batal</button>
+                <button class="btn-save-j" onclick="simpanJadwal(null)" style="padding:7px 14px;font-size:13px;">💾 Simpan</button>
+            </div>
+        </div>
         <div class="mbody">
             <input type="hidden" id="f_id">
             <input type="hidden" id="f_bukti_url">
@@ -642,10 +648,7 @@
             </div>
             <button class="btn-go-ana" id="btnGoAna" onclick="bukaAnalisaDariJadwal()">📊 LIHAT / ISI ANALISA STRATEGIS</button>
         </div>
-        <div class="mfoot">
-            <button class="btn-cancel" onclick="tutupModalJ()">Batal</button>
-            <button class="btn-save-j" onclick="simpanJadwal(null)">💾 Simpan</button>
-        </div>
+
     </div>
 </div>
 
@@ -1231,7 +1234,7 @@ async function simpanJadwal(forcedSt) {
     gl('Menyimpan...');
     const res=await fetch(url,{method:id?'PUT':'POST',headers:{'Content-Type':'application/json','X-Custom-Auth':KEY},body:JSON.stringify(payload)}).then(r=>r.json());
     gh();
-    if(res.success){ tutupModalJ(); muatJadwal(); } else alert('Gagal menyimpan!');
+    if(res.success){ tutupModalJ(); muatJadwal(); initDashboard(); } else alert('Gagal menyimpan!');
 }
 
 async function prosesUploadDone() {
@@ -1367,7 +1370,9 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ==============================
    LAMPIRAN JADWAL (x_11)
    ============================== */
+let _lampiranTab = 'file';
 function switchLampiranTab(tab) {
+    _lampiranTab = tab;
     document.getElementById('panelLampiranFile').style.display = tab==='file' ? 'block' : 'none';
     document.getElementById('panelLampiranLink').style.display = tab==='link' ? 'block' : 'none';
     const tabs = {file:'tabLampiranFile', link:'tabLampiranLink', none:'tabLampiranNone'};
@@ -1435,10 +1440,9 @@ function hapusLampiran() {
 }
 
 function lihatLampiranFiles(urls) {
-    // Open first file
     if (urls && urls.length > 0) {
-        const url = CDN + urls[0];
-        const ext = url.split('.').pop().toLowerCase();
+        const url = urls[0].startsWith('http') ? urls[0] : CDN + urls[0];
+        const ext = url.split('?')[0].split('.').pop().toLowerCase();
         if (['jpg','jpeg','png','gif','webp'].includes(ext)) {
             bukaFotoModal(url);
         } else {
@@ -1452,39 +1456,36 @@ async function uploadLampiranFiles(files) {
     for (let i = 0; i < files.length; i++) {
         const fd = new FormData();
         fd.append('file', files[i]);
-        const res = await fetch(R2, { method:'POST', body:fd }).then(r=>r.json());
-        if (res.success && res.filename) uploaded.push(res.filename);
+        fd.append('customName', `jadwal/lampiran_${Date.now()}_${files[i].name.replace(/\s+/g,'-')}`);
+        const res = await fetch(R2, { method:'POST', headers:{'X-Custom-Auth':KEY}, body:fd }).then(r=>r.json());
+        if (!res.success) throw new Error(res.error || `Gagal upload: ${files[i].name}`);
+        if (res.url) uploaded.push(res.url);
+        else if (res.filename) uploaded.push(res.filename);
     }
     return uploaded;
 }
 
 async function getLampiranValue() {
-    // Returns x_11 value to save, or null if none, or 'CLEAR' to remove
     const existEl = document.getElementById('existingLampiran');
-    // Check active tab
-    const tabFile = document.getElementById('tabLampiranFile');
-    const tabLink = document.getElementById('tabLampiranLink');
-    const tabNone = document.getElementById('tabLampiranNone');
-    const activeTab = tabFile.style.background.includes('dark') || tabFile.style.color==='rgb(255, 255, 255)' ? 'file'
-                    : tabLink.style.color==='rgb(255, 255, 255)' ? 'link' : 'none';
 
-    if (activeTab === 'none') {
-        // If there was existing and user clicked none tab, means no change unless cleared
+    if (_lampiranTab === 'none') {
         if (existEl.dataset.cleared === '1') return 'CLEAR';
-        return null; // no lampiran, no change
+        return null;
     }
-    if (activeTab === 'link') {
+    if (_lampiranTab === 'link') {
         const url = document.getElementById('lampiranLinkInput').value.trim();
         if (url) return 'LINK:' + url;
         return null;
     }
-    if (activeTab === 'file') {
+    if (_lampiranTab === 'file') {
         const files = document.getElementById('lampiranFile').files;
         if (files && files.length > 0) {
             gl('Mengunggah lampiran...');
-            const uploaded = await uploadLampiranFiles(files);
-            gh();
-            if (uploaded.length > 0) return JSON.stringify(uploaded);
+            try {
+                const uploaded = await uploadLampiranFiles(files);
+                gh();
+                if (uploaded.length > 0) return JSON.stringify(uploaded);
+            } catch(e) { gh(); alert('Gagal upload lampiran: ' + e.message); return null; }
         }
         return null;
     }
@@ -1591,13 +1592,12 @@ function lihatLampiranDashboard(idJadwal, x11val) {
     try { files = JSON.parse(x11val); } catch { files = [x11val]; }
     if (!Array.isArray(files)) files = [x11val];
     if (files.length === 1) {
-        const url = CDN + files[0];
-        const ext = url.split('.').pop().toLowerCase();
+        const url = files[0].startsWith('http') ? files[0] : CDN + files[0];
+        const ext = url.split('?')[0].split('.').pop().toLowerCase();
         if (['jpg','jpeg','png','gif','webp'].includes(ext)) { bukaFotoModal(url); }
         else { window.open(url, '_blank'); }
     } else {
-        // Multiple files - open all in new tab or show first
-        files.forEach(fn => window.open(CDN + fn, '_blank'));
+        files.forEach(fn => { const url = fn.startsWith('http') ? fn : CDN + fn; window.open(url, '_blank'); });
     }
 }
 

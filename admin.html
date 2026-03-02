@@ -445,7 +445,7 @@
                 </div>
             </div>
             <div class="tcard" style="margin-bottom:24px;"><table>
-                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>View</th></tr></thead>
+                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>📎</th><th>View</th></tr></thead>
                 <tbody id="dJadwal"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
 
@@ -1004,9 +1004,19 @@ function renderDashJadwal() {
             } else if (d.x_05 === 'done') {
                 viewBtn = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;">👁 View</button>`;
             }
-            return `<tr><td><b>${d.x_01}</b>/${d.x_06}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td><td>${tr(d.x_04)}</td><td><span class="badge b-${d.x_05}">${d.x_05}</span></td><td>${viewBtn}</td></tr>`;
+            // lampiran badge x_11
+            let lamBtn = '';
+            if (d.x_11) {
+                if (d.x_11.startsWith('LINK:')) {
+                    lamBtn = `<a href="${d.x_11.substring(5)}" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:3px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#059669;text-decoration:none;">🔗</a>`;
+                } else {
+                    let cnt=1; try{const p=JSON.parse(d.x_11);if(Array.isArray(p))cnt=p.length;}catch{}
+                    lamBtn = `<button onclick="event.stopPropagation();bukaAdmLampiranEncoded(this)" data-x11="${encodeURIComponent(d.x_11)}" style="display:inline-flex;align-items:center;gap:3px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#2563eb;cursor:pointer;">📎 ${cnt}</button>`;
+                }
+            }
+            return `<tr><td><b>${d.x_01}</b>/${d.x_06}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td><td>${tr(d.x_04)}</td><td><span class="badge b-${d.x_05}">${d.x_05}</span></td><td>${lamBtn}</td><td>${viewBtn}</td></tr>`;
           }).join('')
-        : '<tr class="er"><td colspan="6">Tidak ada data</td></tr>';
+        : '<tr class="er"><td colspan="7">Tidak ada data</td></tr>';
 }
 
 function setAnalisaTab(tab) {
@@ -1130,7 +1140,7 @@ async function loadJadwal() {
             <td onclick="event.stopPropagation()" style="text-align:center;">
                 ${d.x_11 ? (d.x_11.startsWith('LINK:')
                     ? `<a href="${d.x_11.substring(5)}" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:3px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#059669;text-decoration:none;">🔗</a>`
-                    : (() => { let cnt=1; try{const p=JSON.parse(d.x_11);if(Array.isArray(p))cnt=p.length;}catch{} return `<button onclick="event.stopPropagation();bukaAdmLampiranBadge('${d.x_11.replace(/"/g,"'")}')" style="display:inline-flex;align-items:center;gap:3px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#2563eb;cursor:pointer;">📎 ${cnt}</button>`; })()
+                    : (() => { let cnt=1; try{const p=JSON.parse(d.x_11);if(Array.isArray(p))cnt=p.length;}catch{} return `<button onclick="event.stopPropagation();bukaAdmLampiranEncoded(this)" data-x11="${encodeURIComponent(d.x_11)}" style="display:inline-flex;align-items:center;gap:3px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#2563eb;cursor:pointer;">📎 ${cnt}</button>`; })()
                 ) : ''}
             </td>
             <td onclick="event.stopPropagation()">
@@ -1253,7 +1263,9 @@ function viewUserJadwal(u) { showPage('jadwal'); document.getElementById('jFU').
 const ADM_R2 = 'https://lidan.co.id/api/upload_r2_lidan';
 const ADM_CDN = 'https://assets.lidan.co.id/';
 
+let _admLampiranTab = 'file';
 function switchAdmLampiranTab(tab) {
+    _admLampiranTab = tab;
     document.getElementById('adm_panelFile').style.display = tab==='file' ? 'block' : 'none';
     document.getElementById('adm_panelLink').style.display = tab==='link' ? 'block' : 'none';
     const tabs = {file:'adm_tabFile', link:'adm_tabLink', none:'adm_tabNone'};
@@ -1323,9 +1335,9 @@ function hapusAdmLampiran() {
 function bukaAdmLampiranFiles(urls) {
     if (!urls || !urls.length) return;
     urls.forEach((fn, i) => {
-        const url = ADM_CDN + fn;
+        const url = fn.startsWith('http') ? fn : ADM_CDN + fn;
         if (i === 0) {
-            const ext = url.split('.').pop().toLowerCase();
+            const ext = url.split('?')[0].split('.').pop().toLowerCase();
             if (['jpg','jpeg','png','gif','webp'].includes(ext)) {
                 document.getElementById('mFotoImg').src = url;
                 document.getElementById('modalFoto').style.display = 'flex';
@@ -1339,33 +1351,34 @@ async function uploadAdmLampiranFiles(files) {
     for (let i = 0; i < files.length; i++) {
         const fd = new FormData();
         fd.append('file', files[i]);
-        const res = await fetch(ADM_R2, { method:'POST', body:fd }).then(r=>r.json());
-        if (res.success && res.filename) uploaded.push(res.filename);
+        fd.append('customName', `jadwal/lampiran_${Date.now()}_${files[i].name.replace(/\s+/g,'-')}`);
+        const res = await fetch(ADM_R2, { method:'POST', headers:{'X-Custom-Auth':AUTH}, body:fd }).then(r=>r.json());
+        if (!res.success) throw new Error(res.error || `Gagal upload: ${files[i].name}`);
+        if (res.url) uploaded.push(res.url);
+        else if (res.filename) uploaded.push(res.filename);
     }
     return uploaded;
 }
 
 async function getAdmLampiranValue() {
     const existEl = document.getElementById('adm_existingLampiran');
-    const tabFile = document.getElementById('adm_tabFile');
-    const tabLink = document.getElementById('adm_tabLink');
-    const activeTab = tabFile.style.color === 'rgb(255, 255, 255)' ? 'file'
-                    : tabLink.style.color === 'rgb(255, 255, 255)' ? 'link' : 'none';
 
-    if (activeTab === 'none') {
+    if (_admLampiranTab === 'none') {
         if (existEl.dataset.cleared === '1') return 'CLEAR';
         return null;
     }
-    if (activeTab === 'link') {
+    if (_admLampiranTab === 'link') {
         const url = document.getElementById('adm_lampiranLink').value.trim();
         if (url) return 'LINK:' + url;
         return null;
     }
-    if (activeTab === 'file') {
+    if (_admLampiranTab === 'file') {
         const files = document.getElementById('adm_lampiranFile').files;
         if (files && files.length > 0) {
-            const uploaded = await uploadAdmLampiranFiles(files);
-            if (uploaded.length > 0) return JSON.stringify(uploaded);
+            try {
+                const uploaded = await uploadAdmLampiranFiles(files);
+                if (uploaded.length > 0) return JSON.stringify(uploaded);
+            } catch(e) { alert('Gagal upload lampiran: ' + e.message); return null; }
         }
         return null;
     }
@@ -1379,8 +1392,7 @@ function renderLampiranBadge(x11val, idJadwal) {
         return `<td><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;color:#059669;text-decoration:none;">🔗 Link</a></td>`;
     } else {
         let cnt = 1; try { const p=JSON.parse(x11val); if(Array.isArray(p)) cnt=p.length; } catch {}
-        const filesJson = x11val.replace(/"/g, "'");
-        return `<td><button onclick="event.stopPropagation();bukaAdmLampiranBadge('${filesJson}')" style="display:inline-flex;align-items:center;gap:4px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;color:#2563eb;cursor:pointer;">📎 ${cnt} file</button></td>`;
+        return `<td><button data-x11="${encodeURIComponent(x11val)}" onclick="event.stopPropagation();bukaAdmLampiranEncoded(this)" style="display:inline-flex;align-items:center;gap:4px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;color:#2563eb;cursor:pointer;">📎 ${cnt} file</button></td>`;
     }
 }
 
@@ -1388,6 +1400,14 @@ function bukaAdmLampiranBadge(filesJsonStr) {
     let files = [];
     try { files = JSON.parse(filesJsonStr.replace(/'/g,'"')); } catch { files = [filesJsonStr]; }
     if (!Array.isArray(files)) files = [filesJsonStr];
+    bukaAdmLampiranFiles(files);
+}
+function bukaAdmLampiranEncoded(btn) {
+    const raw = decodeURIComponent(btn.dataset.x11 || '');
+    if (!raw) return;
+    let files = [];
+    try { files = JSON.parse(raw); } catch { files = [raw]; }
+    if (!Array.isArray(files)) files = [raw];
     bukaAdmLampiranFiles(files);
 }
 
