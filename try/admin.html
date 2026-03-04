@@ -716,10 +716,16 @@ let allUsers   = [];
 let adminUser  = '';
 let dashPeriod = 'harian'; // 'harian' | 'mingguan' | 'bulanan'
 
+// Helper: format tanggal lokal (bukan UTC) ke YYYY-MM-DD
+function localDate(d) {
+    const dt = d || new Date();
+    return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+}
+
 // Helper: hitung range tanggal berdasar periode
 function getPeriodRange(period) {
     const now = new Date();
-    const today = now.toISOString().split('T')[0];
+    const today = localDate(now);
     const bln   = now.getMonth() + 1;
     const thn   = now.getFullYear();
 
@@ -734,7 +740,7 @@ function getPeriodRange(period) {
         const diffMon = (day === 0) ? -6 : 1 - day;
         const mon = new Date(now); mon.setDate(now.getDate() + diffMon);
         const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
-        const fmt = d => d.toISOString().split('T')[0];
+        const fmt = d => localDate(d);
         return { type:'mingguan', dateFrom: fmt(mon), dateTo: fmt(sun),
             label: fmt(mon) + ' s/d ' + fmt(sun),
             shortLabel: 'Minggu Ini' };
@@ -1290,7 +1296,7 @@ async function loadPengendalian() {
 async function loadUsers() {
     const grid = document.getElementById('usersGrid');
     grid.innerHTML = '<div style="color:#94a3b8;font-size:13px;"><span class="sp"></span> Memuat...</div>';
-    const now = new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=now.toISOString().split('T')[0];
+    const now = new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=localDate(now);
     const stats = await Promise.all(allUsers.map(u => Promise.all([
         api(`?table=${TJ}&x_09_eq=${u.x_01}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=aktif`),
         api(`?table=${TJ}&x_09_eq=${u.x_01}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=pending`),
@@ -1748,7 +1754,7 @@ function toggleX(id) { document.getElementById(id).classList.toggle('open'); }
 
 // ===== INIT =====
 window.onload = function() {
-    const now=new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=now.toISOString().split('T')[0];
+    const now=new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=localDate(now);
     ['jFB','anFB','pnFB'].forEach(id=>document.getElementById(id).value=bln);
     ['jFT','anFT','pnFT'].forEach(id=>document.getElementById(id).value=thn);
     document.getElementById('aFD').value=today.slice(0,7)+'-01';
