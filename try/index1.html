@@ -781,16 +781,6 @@
 
 <script>
 /* ==============================
-   KONFIGURASI ABSENSI
-   ============================== */
-const ABSENSI_CONFIG = {
-    // Jumlah minimum jadwal AKTIF hari ini yang harus ada
-    // sebelum user boleh melakukan absen masuk.
-    // Ubah angka ini sesuai kebutuhan.
-    minJadwalAktifUntukMasuk: 3
-};
-
-/* ==============================
    KONSTANTA & STATE
    ============================== */
 const API  = 'https://lidan-co-id.pages.dev/api/contacts_filter_dinamis7';
@@ -1105,17 +1095,17 @@ async function muatRiwayat() {
    KONTROL ABSENSI
    ============================== */
 function cekIzinAbsensi(tipe) {
+    console.log('[6] cekIzinAbsensi tipe:', tipe);
+    console.log('[6a] hariIni:', JSON.stringify(hariIni));
+    console.log('[6b] jadwalHariIniState length:', jadwalHariIniState.length);
+
     if (tipe === 'MASUK') {
-        const minDiperlukan = ABSENSI_CONFIG.minJadwalAktifUntukMasuk;
-        const jadwalAktif = jadwalHariIniState.filter(j => j.x_05 === 'aktif');
-        const jumlahAktif = jadwalAktif.length;
-        if (jumlahAktif < minDiperlukan) {
-            const kurang = minDiperlukan - jumlahAktif;
+        const adaJadwalAktif = jadwalHariIniState.some(j => j.x_05 === 'aktif');
+        console.log('[7] adaJadwalAktif:', adaJadwalAktif);
+        if (!adaJadwalAktif) {
             return {
                 boleh: false,
-                pesan: jumlahAktif === 0
-                    ? `📋 Anda belum punya jadwal aktif hari ini.\n\nMinimal ${minDiperlukan} jadwal aktif diperlukan sebelum absen masuk.\n\nSilahkan buat jadwal tugas Anda terlebih dahulu.`
-                    : `📋 Jadwal aktif hari ini kurang.\n\nAnda baru punya ${jumlahAktif} jadwal aktif, padahal minimal ${minDiperlukan} jadwal diperlukan.\n\nTambahkan ${kurang} jadwal aktif lagi sebelum absen masuk.`
+                pesan: '📋 Anda belum punya jadwal hari ini.\n\nSilahkan buat jadwal tugas Anda terlebih dahulu sebelum melakukan absen masuk.'
             };
         }
         return { boleh: true };
@@ -1129,12 +1119,17 @@ function cekIzinAbsensi(tipe) {
         const jadwalTidakSelesai = jadwalHariIniState.filter(j => {
             const lolos_done     = j.x_05 === 'done';
             const lolos_approved = j.x_12 === 'approved_pulang';
-            return !lolos_done && !lolos_approved;
+            const blokir = !lolos_done && !lolos_approved;
+            console.log(`[8] filter jadwal #${j.id_x}: x_05=${j.x_05}, x_12=${j.x_12} → lolos_done=${lolos_done}, lolos_approved=${lolos_approved}, BLOKIR=${blokir}`);
+            return blokir;
         });
+
+        console.log('[9] jadwalTidakSelesai:', jadwalTidakSelesai.length);
 
         if (jadwalTidakSelesai.length > 0) {
             const masihAktif  = jadwalTidakSelesai.filter(j => j.x_05 === 'aktif' && !j.x_12);
             const menungguAcc = jadwalTidakSelesai.filter(j => j.x_12 === 'needs_approval');
+            console.log('[10] masihAktif:', masihAktif.length, '| menungguAcc:', menungguAcc.length);
 
             let pesan = '🚫 Belum bisa absen pulang.\n\n';
             if (masihAktif.length > 0) {
@@ -1150,6 +1145,7 @@ function cekIzinAbsensi(tipe) {
             return { boleh: false, pesan: pesan.trim() };
         }
 
+        console.log('[11] Semua jadwal OK → boleh pulang');
         return { boleh: true };
     }
 
@@ -1164,14 +1160,20 @@ async function refreshJadwalHariIni() {
     const tgl = now.getDate();
     const bln = now.getMonth() + 1;
     const thn = now.getFullYear();
-    // Kedua query dibatasi ke tanggal hari ini saja
-    const urlHariIni       = `?table=${TBL}&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`;
-    const urlNeedsApproval = `?table=${TBL}&x_09_eq=${me}&x_12_eq=needs_approval&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`;
+    const urlHariIni    = `?table=${TBL}&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`;
+    const urlNeedsApproval = `?table=${TBL}&x_09_eq=${me}&x_12_eq=needs_approval`;
+    console.log('=== [DEBUG ABSENSI] ===');
+    console.log('[1] User:', me);
+    console.log('[2] Hari ini: tgl=' + tgl + ', bln=' + bln + ', thn=' + thn);
+    console.log('[3] Query hari ini:', urlHariIni);
+    console.log('[3b] Query needs_approval:', urlNeedsApproval);
     try {
         const [resHariIni, resNeedsApproval] = await Promise.all([
             req(urlHariIni),
             req(urlNeedsApproval)
         ]);
+        console.log('[4] Raw hari ini:', JSON.stringify(resHariIni));
+        console.log('[4b] Raw needs_approval:', JSON.stringify(resNeedsApproval));
 
         const dataHariIni = resHariIni.data || [];
         const dataNeedsApproval = resNeedsApproval.data || [];
@@ -1182,30 +1184,20 @@ async function refreshJadwalHariIni() {
         [...dataHariIni, ...dataNeedsApproval].forEach(j => {
             if (!seen.has(j.id_x)) { seen.add(j.id_x); jadwalHariIniState.push(j); }
         });
+
+        console.log('[5] Total jadwal state:', jadwalHariIniState.length);
+        jadwalHariIniState.forEach((j, i) => {
+            console.log(`[5.${i+1}] #${j.id_x}: x_01=${j.x_01}, x_05=${j.x_05}, x_12=${j.x_12}, x_04=${j.x_04}`);
+        });
     } catch(e) {
-        console.error('refreshJadwalHariIni gagal:', e);
+        console.error('[ERROR] refreshJadwalHariIni gagal:', e);
     }
 }
 
 async function bukaKamera() {
-    // Refresh jadwal state DAN status absensi hari ini agar data selalu fresh
+    // Refresh jadwal state dulu agar data selalu fresh
     gl('Memeriksa jadwal...');
     await refreshJadwalHariIni();
-
-    // Refresh hariIni (sudah masuk/pulang) secara real-time
-    try {
-        const now = new Date();
-        const today = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-        const resAbs = await req(`?table=${TBLA}&x_01_eq=${me}&limit=60`);
-        hariIni = { masuk: false, pulang: false };
-        (resAbs.data || []).forEach(d => {
-            if (d.x_02 === today) {
-                if (d.x_05 === 'MASUK')  hariIni.masuk  = true;
-                if (d.x_05 === 'PULANG') hariIni.pulang = true;
-            }
-        });
-    } catch(e) { console.error('[bukaKamera] gagal refresh hariIni:', e); }
-
     gh();
 
     // Cek kondisi SEBELUM buka kamera
@@ -1460,10 +1452,12 @@ async function simpanJadwal(forcedSt) {
         const tanggalBerubah  = (tglBaru !== tglLama || blnBaru !== blnLama || thnBaru !== thnLama);
         const jadiPending     = (payload.x_05 === 'pending');
 
+        console.log('[simpanJadwal] semulaDiHariIni:', semulaDiHariIni, '| tanggalBerubah:', tanggalBerubah, '| jadiPending:', jadiPending);
 
         if (semulaDiHariIni && (tanggalBerubah || jadiPending)) {
             // Jadwal yg tadinya hari ini digeser/pending → butuh approve sebelum pulang
             payload.x_12 = 'needs_approval';
+            console.log('[simpanJadwal] → set x_12 = needs_approval');
         } else if (payload.x_05 === 'aktif' && !tanggalBerubah) {
             payload.x_12 = '';
         }
