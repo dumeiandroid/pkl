@@ -287,33 +287,6 @@
         .btn-masuk  { padding: 14px; background: var(--green);  color: #fff; border: none; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; display: none; font-family: inherit; }
         .btn-pulang { padding: 14px; background: var(--orange); color: #fff; border: none; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; display: none; font-family: inherit; }
         .msg-done   { padding: 14px; background: var(--bg); color: var(--muted); border-radius: 10px; font-weight: 700; font-size: 14px; text-align: center; display: none; }
-
-        /* MODAL PESAN ABSENSI */
-        .m-overlay-center { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 600; display: none; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(3px); }
-        .m-overlay-center.open { display: flex; }
-        .absen-msg-box {
-            background: #fff; border-radius: 20px; width: 100%; max-width: 360px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.25); overflow: hidden;
-        }
-        .absen-msg-head {
-            background: linear-gradient(135deg, #1e293b, #334155);
-            padding: 18px 20px; display: flex; align-items: center; gap: 12px;
-        }
-        .absen-msg-head .icon { font-size: 28px; }
-        .absen-msg-head h3 { font-size: 15px; font-weight: 800; color: #fff; }
-        .absen-msg-head p  { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
-        .absen-msg-body {
-            padding: 18px 20px;
-            font-size: 13px; color: #374151; line-height: 1.75;
-        }
-        .absen-msg-body div { padding: 2px 0; }
-        .absen-msg-body div:first-child { font-weight: 800; font-size: 14px; color: #1e293b; margin-bottom: 6px; }
-        .absen-msg-footer { padding: 0 20px 18px; }
-        .btn-absen-msg-ok {
-            width: 100%; padding: 13px; background: linear-gradient(135deg, #5b5ef4, #7c3aed);
-            color: #fff; border: none; border-radius: 10px; font-weight: 800;
-            font-size: 14px; cursor: pointer; font-family: inherit;
-        }
         .cam-loading { display: none; padding: 36px 0; text-align: center; }
         #cam-spin { width: 38px; height: 38px; border: 4px solid #e2e8f0; border-top-color: var(--primary); border-radius: 50%; animation: rot 0.7s linear infinite; display: inline-block; }
         #cam-status { font-size: 13px; color: var(--muted); font-weight: 700; margin-top: 10px; }
@@ -751,30 +724,12 @@
                     <button class="btn-masuk"  id="btnMasuk"  onclick="prosesAbsensi('MASUK')">✅ ABSEN MASUK</button>
                     <button class="btn-pulang" id="btnPulang" onclick="prosesAbsensi('PULANG')">🏠 ABSEN PULANG</button>
                     <div   class="msg-done"    id="msgDone">🎉 Absensi hari ini sudah lengkap!</div>
-                    <div   class="msg-absen-warning" id="msgAbsenWarning" style="display:none;"></div>
                 </div>
             </div>
             <div class="cam-loading" id="camLoading">
                 <div id="cam-spin"></div>
                 <p id="cam-status">Memproses...</p>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL PESAN ABSENSI -->
-<div class="m-overlay-center" id="modalAbsenMsg" onclick="document.getElementById('modalAbsenMsg').classList.remove('open')">
-    <div class="absen-msg-box" onclick="event.stopPropagation()">
-        <div class="absen-msg-head">
-            <div class="icon" id="absenMsgIcon">📋</div>
-            <div>
-                <h3 id="absenMsgJudul">Perhatian</h3>
-                <p>Informasi absensi</p>
-            </div>
-        </div>
-        <div class="absen-msg-body" id="absenMsgTeks"></div>
-        <div class="absen-msg-footer">
-            <button class="btn-absen-msg-ok" onclick="document.getElementById('modalAbsenMsg').classList.remove('open')">Mengerti</button>
         </div>
     </div>
 </div>
@@ -808,8 +763,6 @@ let me         = '';
 let stream     = null;
 let hariIni    = { masuk:false, pulang:false };
 let tabJadwal  = 'aktif';
-// State kontrol absensi
-let jadwalHariIniState = []; // semua jadwal hari ini (aktif+pending+done)
 // Cache icon acak per item ID agar tidak berubah saat re-render
 const otherIconCache = {};
 
@@ -971,16 +924,12 @@ async function initDashboard() {
 
     // Load absensi & jadwal hari ini concurrently
     try {
-        const [resAbs, resJadwalAktif, resJadwalAll, resAktif, resDone] = await Promise.all([
+        const [resAbs, resJadwal, resAktif, resDone] = await Promise.all([
             req(`?table=${TBLA}&x_01_eq=${me}&limit=60`),
             req(`?table=${TBL}&x_05_eq=aktif&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`),
-            req(`?table=${TBL}&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`),
             req(`?table=${TBL}&x_05_eq=aktif&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}`),
             req(`?table=${TBL}&x_05_eq=done&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}`),
         ]);
-
-        // Simpan state jadwal hari ini (semua status) untuk kontrol absensi
-        jadwalHariIniState = resJadwalAll.data || [];
 
         // Stats
         document.getElementById('dStatAktif').textContent = resAktif.data?.length || 0;
@@ -1004,8 +953,8 @@ async function initDashboard() {
         else if (!hariIni.pulang) { dot.style.background='#fcd34d'; stxt.textContent='Sudah masuk, belum pulang'; }
         else { stxt.textContent='Absensi hari ini lengkap ✓'; }
 
-        // Jadwal hari ini (tampilkan aktif di list)
-        const jadwalHariIni = (resJadwalAktif.data||[]).sort((a,b)=>String(a.x_02).localeCompare(String(b.x_02)));
+        // Jadwal hari ini
+        const jadwalHariIni = (resJadwal.data||[]).sort((a,b)=>String(a.x_02).localeCompare(String(b.x_02)));
         document.getElementById('jhariCount').textContent = jadwalHariIni.length + ' jadwal';
         const list = document.getElementById('jhariList');
         if (jadwalHariIni.length === 0) {
@@ -1091,155 +1040,14 @@ async function muatRiwayat() {
     } catch(e) { console.error(e); }
 }
 
-/* ==============================
-   KONTROL ABSENSI
-   ============================== */
-function cekIzinAbsensi(tipe) {
-    console.log('[6] cekIzinAbsensi tipe:', tipe);
-    console.log('[6a] hariIni:', JSON.stringify(hariIni));
-    console.log('[6b] jadwalHariIniState length:', jadwalHariIniState.length);
-
-    if (tipe === 'MASUK') {
-        const adaJadwalAktif = jadwalHariIniState.some(j => j.x_05 === 'aktif');
-        console.log('[7] adaJadwalAktif:', adaJadwalAktif);
-        if (!adaJadwalAktif) {
-            return {
-                boleh: false,
-                pesan: '📋 Anda belum punya jadwal hari ini.\n\nSilahkan buat jadwal tugas Anda terlebih dahulu sebelum melakukan absen masuk.'
-            };
-        }
-        return { boleh: true };
-    }
-
-    if (tipe === 'PULANG') {
-        if (!hariIni.masuk) {
-            return { boleh: false, pesan: '⚠️ Anda belum absen masuk hari ini.' };
-        }
-
-        const jadwalTidakSelesai = jadwalHariIniState.filter(j => {
-            const lolos_done     = j.x_05 === 'done';
-            const lolos_approved = j.x_12 === 'approved_pulang';
-            const blokir = !lolos_done && !lolos_approved;
-            console.log(`[8] filter jadwal #${j.id_x}: x_05=${j.x_05}, x_12=${j.x_12} → lolos_done=${lolos_done}, lolos_approved=${lolos_approved}, BLOKIR=${blokir}`);
-            return blokir;
-        });
-
-        console.log('[9] jadwalTidakSelesai:', jadwalTidakSelesai.length);
-
-        if (jadwalTidakSelesai.length > 0) {
-            const masihAktif  = jadwalTidakSelesai.filter(j => j.x_05 === 'aktif' && !j.x_12);
-            const menungguAcc = jadwalTidakSelesai.filter(j => j.x_12 === 'needs_approval');
-            console.log('[10] masihAktif:', masihAktif.length, '| menungguAcc:', menungguAcc.length);
-
-            let pesan = '🚫 Belum bisa absen pulang.\n\n';
-            if (masihAktif.length > 0) {
-                pesan += `📋 Masih ada ${masihAktif.length} jadwal aktif yang belum selesai:\n`;
-                masihAktif.forEach(j => { pesan += `  • #${j.id_x} — ${j.x_04||j.x_03||'-'}\n`; });
-                pesan += '\nSelesaikan jadwal terlebih dahulu atau minta reschedule ke admin.\n';
-            }
-            if (menungguAcc.length > 0) {
-                pesan += `\n⏳ ${menungguAcc.length} jadwal direschedule, menunggu approval admin:\n`;
-                menungguAcc.forEach(j => { pesan += `  • #${j.id_x} — ${j.x_04||j.x_03||'-'}\n`; });
-                pesan += '\nHubungi admin untuk mendapatkan approval pulang.';
-            }
-            return { boleh: false, pesan: pesan.trim() };
-        }
-
-        console.log('[11] Semua jadwal OK → boleh pulang');
-        return { boleh: true };
-    }
-
-    return { boleh: true };
-}
-
-/* ==============================
-   REFRESH STATE JADWAL HARI INI
-   ============================== */
-async function refreshJadwalHariIni() {
-    const now = new Date();
-    const tgl = now.getDate();
-    const bln = now.getMonth() + 1;
-    const thn = now.getFullYear();
-    const urlHariIni    = `?table=${TBL}&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`;
-    const urlNeedsApproval = `?table=${TBL}&x_09_eq=${me}&x_12_eq=needs_approval`;
-    console.log('=== [DEBUG ABSENSI] ===');
-    console.log('[1] User:', me);
-    console.log('[2] Hari ini: tgl=' + tgl + ', bln=' + bln + ', thn=' + thn);
-    console.log('[3] Query hari ini:', urlHariIni);
-    console.log('[3b] Query needs_approval:', urlNeedsApproval);
-    try {
-        const [resHariIni, resNeedsApproval] = await Promise.all([
-            req(urlHariIni),
-            req(urlNeedsApproval)
-        ]);
-        console.log('[4] Raw hari ini:', JSON.stringify(resHariIni));
-        console.log('[4b] Raw needs_approval:', JSON.stringify(resNeedsApproval));
-
-        const dataHariIni = resHariIni.data || [];
-        const dataNeedsApproval = resNeedsApproval.data || [];
-
-        // Gabungkan, hindari duplikat berdasarkan id_x
-        const seen = new Set();
-        jadwalHariIniState = [];
-        [...dataHariIni, ...dataNeedsApproval].forEach(j => {
-            if (!seen.has(j.id_x)) { seen.add(j.id_x); jadwalHariIniState.push(j); }
-        });
-
-        console.log('[5] Total jadwal state:', jadwalHariIniState.length);
-        jadwalHariIniState.forEach((j, i) => {
-            console.log(`[5.${i+1}] #${j.id_x}: x_01=${j.x_01}, x_05=${j.x_05}, x_12=${j.x_12}, x_04=${j.x_04}`);
-        });
-    } catch(e) {
-        console.error('[ERROR] refreshJadwalHariIni gagal:', e);
-    }
-}
-
-async function bukaKamera() {
-    // Refresh jadwal state dulu agar data selalu fresh
-    gl('Memeriksa jadwal...');
-    await refreshJadwalHariIni();
-    gh();
-
-    // Cek kondisi SEBELUM buka kamera
-    if (!hariIni.masuk) {
-        // Akan absen masuk — cek jadwal aktif
-        const cek = cekIzinAbsensi('MASUK');
-        if (!cek.boleh) {
-            tampilPesanAbsen(cek.pesan);
-            return; // kamera tidak dibuka
-        }
-    } else if (!hariIni.pulang) {
-        // Akan absen pulang — cek semua jadwal selesai
-        const cek = cekIzinAbsensi('PULANG');
-        if (!cek.boleh) {
-            tampilPesanAbsen(cek.pesan);
-            return; // kamera tidak dibuka
-        }
-    }
-
-    // Lolos semua cek — buka kamera normal
-    const btnP = document.getElementById('btnPulang');
-    btnP.disabled = false; btnP.style.opacity = ''; btnP.style.cursor = '';
-
-    document.getElementById('cam-area').style.display   = 'block';
-    document.getElementById('camLoading').style.display = 'none';
+function bukaKamera() {
+    document.getElementById('cam-area').style.display    = 'block';
+    document.getElementById('camLoading').style.display  = 'none';
     document.getElementById('modalKam').classList.add('open');
     updateBtnKamera();
     navigator.mediaDevices.getUserMedia({ video:{ facingMode:{ ideal:'user' } } })
         .then(s => { stream=s; document.getElementById('video').srcObject=s; })
         .catch(() => { alert('Gagal akses kamera'); tutupKamera(); });
-}
-
-function tampilPesanAbsen(pesan) {
-    const lines = pesan.split('\n').filter(l => l.trim());
-    const judul = !hariIni.masuk ? 'Belum Bisa Absen Masuk' : 'Belum Bisa Absen Pulang';
-    const icon  = !hariIni.masuk ? '📋' : '🚫';
-
-    document.getElementById('absenMsgIcon').textContent  = icon;
-    document.getElementById('absenMsgJudul').textContent = judul;
-    document.getElementById('absenMsgTeks').innerHTML    =
-        lines.map((l, i) => `<div style="${i===0?'font-weight:800;font-size:14px;color:#1e293b;margin-bottom:8px;':''}">${l}</div>`).join('');
-    document.getElementById('modalAbsenMsg').classList.add('open');
 }
 
 function tutupKamera() {
@@ -1249,19 +1057,12 @@ function tutupKamera() {
 
 function updateBtnKamera() {
     ['btnMasuk','btnPulang','msgDone'].forEach(id => document.getElementById(id).style.display='none');
-    if (!hariIni.masuk)       document.getElementById('btnMasuk').style.display  = 'block';
+    if (!hariIni.masuk)       document.getElementById('btnMasuk').style.display = 'block';
     else if (!hariIni.pulang) document.getElementById('btnPulang').style.display = 'block';
-    else                      document.getElementById('msgDone').style.display   = 'block';
+    else                      document.getElementById('msgDone').style.display  = 'block';
 }
 
 async function prosesAbsensi(tipe) {
-    // Double-check sebelum proses
-    const cek = cekIzinAbsensi(tipe);
-    if (tipe === 'PULANG' && !cek.boleh) {
-        alert(cek.pesan);
-        return;
-    }
-
     document.getElementById('cam-area').style.display   = 'none';
     document.getElementById('camLoading').style.display = 'block';
     const st = document.getElementById('cam-status');
@@ -1384,7 +1185,6 @@ function bukaModalTambah(tgl=null) {
 }
 
 function bukaModalEdit(item) {
-    window._editingItem = item; // simpan data lama untuk deteksi perubahan tanggal
     document.getElementById('f_id').value=item.id_x; document.getElementById('f_bukti_url').value=item.x_08||'';
     document.getElementById('f_tgl').value=parseInt(item.x_01);
     document.getElementById('f_date').value=`${item.x_07}-${String(item.x_06).padStart(2,'0')}-${String(item.x_01).padStart(2,'0')}`;
@@ -1424,46 +1224,11 @@ async function simpanJadwal(forcedSt) {
         x_09:me
     };
     const bk=document.getElementById('f_bukti_url').value; if(bk) payload.x_08=bk;
+    // Lampiran x_11
     const lampiranVal = await getLampiranValue();
     if (lampiranVal === 'CLEAR') payload.x_11 = '';
     else if (lampiranVal) payload.x_11 = lampiranVal;
     if(forcedSt) payload.x_05=forcedSt; else if(!id) payload.x_05='aktif';
-
-    // --- KONTROL x_12: tandai jika tanggal digeser atau status pending ---
-    if (id) {
-        const itemLama = window._editingItem || {};
-        const now = new Date();
-        const hariIniTgl = String(now.getDate());
-        const hariIniBln = String(now.getMonth() + 1);
-        const hariIniThn = String(now.getFullYear());
-
-        // Normalize lama
-        const tglLama = String(parseInt(itemLama.x_01 || '0', 10));
-        const blnLama = String(parseInt(itemLama.x_06 || '0', 10));
-        const thnLama = String(itemLama.x_07 || '');
-
-        // Nilai baru dari form
-        const tglBaru = String(parseInt(payload.x_01, 10));
-        const blnBaru = String(parseInt(payload.x_06, 10));
-        const thnBaru = String(payload.x_07);
-
-        // Apakah jadwal ini semula di hari ini?
-        const semulaDiHariIni = (tglLama === hariIniTgl && blnLama === hariIniBln && thnLama === hariIniThn);
-        const tanggalBerubah  = (tglBaru !== tglLama || blnBaru !== blnLama || thnBaru !== thnLama);
-        const jadiPending     = (payload.x_05 === 'pending');
-
-        console.log('[simpanJadwal] semulaDiHariIni:', semulaDiHariIni, '| tanggalBerubah:', tanggalBerubah, '| jadiPending:', jadiPending);
-
-        if (semulaDiHariIni && (tanggalBerubah || jadiPending)) {
-            // Jadwal yg tadinya hari ini digeser/pending → butuh approve sebelum pulang
-            payload.x_12 = 'needs_approval';
-            console.log('[simpanJadwal] → set x_12 = needs_approval');
-        } else if (payload.x_05 === 'aktif' && !tanggalBerubah) {
-            payload.x_12 = '';
-        }
-    }
-    // --- END KONTROL x_12 ---
-
     const url=id?`${API}?table=${TBL}&id_x=${id}`:`${API}?table=${TBL}`;
     gl('Menyimpan...');
     const res=await fetch(url,{method:id?'PUT':'POST',headers:{'Content-Type':'application/json','X-Custom-Auth':KEY},body:JSON.stringify(payload)}).then(r=>r.json());

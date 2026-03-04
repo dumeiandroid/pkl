@@ -102,11 +102,6 @@
         .jtag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; color: #2d3436; }
         .uchip { display: inline-flex; align-items: center; gap: 5px; background: #f1f5f9; padding: 3px 9px; border-radius: 20px; font-size: 12px; font-weight: 600; }
         .udot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
-        .btn-approve-pulang { padding:5px 12px; background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; transition:0.15s; }
-        .btn-approve-pulang:hover { background:#a7f3d0; }
-        .btn-revoke-pulang { padding:5px 12px; background:#fef3c7; color:#92400e; border:1px solid #fcd34d; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; transition:0.15s; }
-        .btn-revoke-pulang:hover { background:#fde68a; }
-        #approvalCard thead th { background:#fff1f2; }
         .btn-edit { padding: 4px 10px; background: #e0e7ff; color: #4338ca; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-del { padding: 4px 10px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
         .btn-foto { padding: 4px 10px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
@@ -212,6 +207,21 @@
             background: #f8fafc; border: 1px solid #e2e8f0;
             padding: 4px 10px; border-radius: 20px;
         }
+        .day-nav-btns {
+            display: flex; align-items: center; gap: 4px;
+        }
+        .btn-day-nav {
+            padding: 5px 11px; border: 1px solid #e2e8f0; border-radius: 7px;
+            font-size: 12px; font-weight: 700; cursor: pointer; background: white;
+            color: #475569; transition: all 0.15s; font-family: inherit; white-space: nowrap;
+        }
+        .btn-day-nav:hover { background: #f1f5f9; border-color: #94a3b8; }
+        .btn-day-nav.prev { color: #7c3aed; border-color: #c4b5fd; background: #f5f3ff; }
+        .btn-day-nav.prev:hover { background: #ede9fe; }
+        .btn-day-nav.next { color: #0369a1; border-color: #bae6fd; background: #f0f9ff; }
+        .btn-day-nav.next:hover { background: #e0f2fe; }
+        .btn-day-nav.today { color: #065f46; border-color: #6ee7b7; background: #ecfdf5; }
+        .btn-day-nav.today:hover { background: #d1fae5; }
         /* Stat card subtitle update */
         .scard .ss-period { font-size: 11px; color: #94a3b8; margin-top: 3px; }
 
@@ -427,6 +437,11 @@
                         <button class="ptab pt-mingguan" id="ptab-mingguan" onclick="setPeriod('mingguan')">📆 Mingguan</button>
                         <button class="ptab pt-bulanan"  id="ptab-bulanan"  onclick="setPeriod('bulanan')">🗓️ Bulanan</button>
                     </div>
+                    <div class="day-nav-btns" id="dayNavBtns" style="display:flex;">
+                        <button class="btn-day-nav prev" onclick="goToPrevDay()" title="1 hari sebelumnya">◀ Kemarin</button>
+                        <button class="btn-day-nav next" id="btnNextDay" onclick="goToNextDay()" title="1 hari berikutnya" style="opacity:0.3;cursor:default;">Besok ▶</button>
+                        <button class="btn-day-nav today" id="btnToday" onclick="goToToday()" title="Kembali ke hari ini" style="display:none;">⟳ Hari Ini</button>
+                    </div>
                 </div>
                 <span class="period-info" id="periodInfoText">—</span>
             </div>
@@ -437,24 +452,6 @@
                 <div class="scard"><span class="si">✅</span><div class="sl">Jadwal Aktif</div><div class="sv" id="stAktif" style="color:#2563eb">-</div><div class="ss scard-period">-</div></div>
                 <div class="scard"><span class="si">🏁</span><div class="sl">Jadwal Done</div><div class="sv" id="stDone" style="color:#10b981">-</div><div class="ss scard-period">-</div></div>
                 <div class="scard"><span class="si">🕐</span><div class="sl">Absensi</div><div class="sv" id="stAbsensi" style="color:#f59e0b">-</div><div class="ss scard-period">-</div></div>
-            </div>
-
-            <!-- APPROVAL SECTION -->
-            <div id="approvalSection" style="margin-bottom:24px;">
-                <div class="ssep-row" style="border-bottom-color:#fca5a5;">
-                    <span class="ssep-title" style="color:#dc2626;">🔔 Butuh Approval Pulang
-                        <span id="approvalBadge" style="display:none;background:#dc2626;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;margin-left:8px;">0</span>
-                    </span>
-                </div>
-                <div id="approvalEmpty" style="display:none;background:white;border-radius:12px;border:1px solid #e2e8f0;padding:20px;text-align:center;color:#94a3b8;font-size:13px;">
-                    ✅ Tidak ada jadwal yang menunggu approval
-                </div>
-                <div class="tcard" id="approvalCard" style="display:none;margin-bottom:0;">
-                    <table>
-                        <thead><tr><th>User</th><th>Tgl Jadwal</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>Aksi</th></tr></thead>
-                        <tbody id="dApproval"></tbody>
-                    </table>
-                </div>
             </div>
 
             <!-- JADWAL -->
@@ -715,6 +712,7 @@ let dashPengendalianTab = 'aktif';
 let allUsers   = [];
 let adminUser  = '';
 let dashPeriod = 'harian'; // 'harian' | 'mingguan' | 'bulanan'
+let dashHarianOffset = 0; // 0 = hari ini, -1 = kemarin, dst
 
 // Helper: hitung range tanggal berdasar periode
 function getPeriodRange(period) {
@@ -724,9 +722,16 @@ function getPeriodRange(period) {
     const thn   = now.getFullYear();
 
     if (period === 'harian') {
-        return { type:'harian', today, bln, thn, tgl: now.getDate(),
-            label: 'Hari Ini (' + today + ')',
-            shortLabel: 'Hari Ini' };
+        const target = new Date(now);
+        target.setDate(now.getDate() + dashHarianOffset);
+        const targetDate = target.toISOString().split('T')[0];
+        const targetBln  = target.getMonth() + 1;
+        const targetThn  = target.getFullYear();
+        const isToday = dashHarianOffset === 0;
+        const shortLabel = isToday ? 'Hari Ini' : (dashHarianOffset === -1 ? 'Kemarin' : targetDate);
+        return { type:'harian', today: targetDate, bln: targetBln, thn: targetThn, tgl: target.getDate(),
+            label: shortLabel + ' (' + targetDate + ')',
+            shortLabel };
     }
     if (period === 'mingguan') {
         // Senin s/d Minggu minggu ini
@@ -747,11 +752,59 @@ function getPeriodRange(period) {
 
 function setPeriod(period) {
     dashPeriod = period;
+    if (period !== 'harian') dashHarianOffset = 0;
     ['harian','mingguan','bulanan'].forEach(p => {
         const el = document.getElementById('ptab-' + p);
         if (el) el.classList.toggle('active', p === period);
     });
+    updateDayNavUI();
     loadDashboard();
+}
+
+function goToPrevDay() {
+    dashPeriod = 'harian';
+    dashHarianOffset--;
+    ['harian','mingguan','bulanan'].forEach(p => {
+        const el = document.getElementById('ptab-' + p);
+        if (el) el.classList.toggle('active', p === 'harian');
+    });
+    updateDayNavUI();
+    loadDashboard();
+}
+
+function goToNextDay() {
+    if (dashHarianOffset >= 0) return;
+    dashPeriod = 'harian';
+    dashHarianOffset++;
+    ['harian','mingguan','bulanan'].forEach(p => {
+        const el = document.getElementById('ptab-' + p);
+        if (el) el.classList.toggle('active', p === 'harian');
+    });
+    updateDayNavUI();
+    loadDashboard();
+}
+
+function goToToday() {
+    dashPeriod = 'harian';
+    dashHarianOffset = 0;
+    ['harian','mingguan','bulanan'].forEach(p => {
+        const el = document.getElementById('ptab-' + p);
+        if (el) el.classList.toggle('active', p === 'harian');
+    });
+    updateDayNavUI();
+    loadDashboard();
+}
+
+function updateDayNavUI() {
+    const navEl = document.getElementById('dayNavBtns');
+    if (!navEl) return;
+    const isHarian = dashPeriod === 'harian';
+    navEl.style.display = isHarian ? 'flex' : 'none';
+    const nextBtn = document.getElementById('btnNextDay');
+    const todayBtn = document.getElementById('btnToday');
+    if (nextBtn) nextBtn.style.opacity = dashHarianOffset < 0 ? '1' : '0.3';
+    if (nextBtn) nextBtn.style.cursor = dashHarianOffset < 0 ? 'pointer' : 'default';
+    if (todayBtn) todayBtn.style.display = dashHarianOffset < 0 ? 'inline-block' : 'none';
 }
 
 // ===== HELPERS =====
@@ -905,6 +958,7 @@ function toggleSelectAll() {
 
 // ===== DASHBOARD =====
 async function loadDashboard() {
+    updateDayNavUI();
     const pr = getPeriodRange(dashPeriod);
 
     // Update labels
@@ -932,12 +986,11 @@ async function loadDashboard() {
         qAbs  += `&x_02_gte=${pr.thn}-${String(pr.bln).padStart(2,'0')}-01`;
     }
 
-    const [rA,rP,rD,rAbs,rNA] = await Promise.all([
+    const [rA,rP,rD,rAbs] = await Promise.all([
         api(qBase + '&x_05_eq=aktif'),
         api(qBase + '&x_05_eq=pending'),
         api(qBase + '&x_05_eq=done'),
         api(qAbs),
-        api('?table=' + TJ + '&x_12_eq=needs_approval'),
     ]);
 
     let aktifData   = rA.data   || [];
@@ -963,8 +1016,6 @@ async function loadDashboard() {
     document.getElementById('stDone').textContent    = doneData.length;
     document.getElementById('stAbsensi').textContent = absData.length;
 
-    window._dashNeedsApprovalData = rNA.data || [];
-    renderDashApproval();
     window._dashJadwalData = { aktif: aktifData, pending: pendingData, done: doneData };
     renderDashJadwal();
 
@@ -1045,36 +1096,6 @@ function renderDashJadwal() {
         : '<tr class="er"><td colspan="7">Tidak ada data</td></tr>';
 }
 
-function renderDashApproval() {
-    const data  = window._dashNeedsApprovalData || [];
-    const badge = document.getElementById('approvalBadge');
-    const empty = document.getElementById('approvalEmpty');
-    const card  = document.getElementById('approvalCard');
-    const tbody = document.getElementById('dApproval');
-    if (!tbody) return;
-    if (badge) { badge.textContent = data.length; badge.style.display = data.length > 0 ? 'inline-block' : 'none'; }
-    if (data.length === 0) {
-        if (empty) empty.style.display = 'block';
-        if (card)  card.style.display  = 'none';
-        return;
-    }
-    if (empty) empty.style.display = 'none';
-    if (card)  card.style.display  = 'block';
-    tbody.innerHTML = data.map(function(d) {
-        var tgl = d.x_01 + '/' + d.x_06 + '/' + d.x_07;
-        var ket = (d.x_04||d.x_03||'-').substring(0, 40);
-        var id  = d.id_x;
-        var usr = d.x_09||'-';
-        return '<tr style="background:#fff7f7;">'
-            + '<td><span class="uchip"><span class="udot" style="background:#dc2626;"></span>' + usr + '</span></td>'
-            + '<td><b>' + tgl + '</b></td>'
-            + '<td><span class="jtag" style="background:' + (JC[d.x_03]||'#eee') + '">' + (d.x_03||'-') + '</span></td>'
-            + '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + ket + '</td>'
-            + '<td><span class="badge b-' + d.x_05 + '">' + d.x_05 + '</span></td>'
-            + '<td><button class="btn-approve-pulang" onclick="approvePulang(' + "'" + id + "','" + usr + "','" + ket.substring(0,25) + "'" + ')">✅ Approve Pulang</button></td>'
-            + '</tr>';
-    }).join('');
-}
 function setAnalisaTab(tab) {
     dashAnalisaTab = tab;
     ['aktif','pending','done','all'].forEach(t => {
@@ -1200,8 +1221,6 @@ async function loadJadwal() {
                 ) : ''}
             </td>
             <td onclick="event.stopPropagation()">
-                ${d.x_12==='needs_approval' ? '<button class=\"btn-approve-pulang\" onclick=\"event.stopPropagation();approvePulang(\'' + d.id_x + '\',\'' + (d.x_09||'') + '\',\'' + (d.x_04||d.x_03||'').substring(0,25) + '\')\">✅ Acc Pulang</button>' : ''}
-                ${d.x_12==='approved_pulang' ? '<button class=\"btn-revoke-pulang\" onclick=\"event.stopPropagation();revokePulang(\'' + d.id_x + '\')\">↩ Cabut</button>' : ''}
                 <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
                 <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
                 ${fotoBtnHtml}
@@ -1470,7 +1489,6 @@ function bukaAdmLampiranEncoded(btn) {
 }
 
 function openModalAdd() {
-    window._editingItem = {};
     document.getElementById('mJudul').textContent = 'Tambah Jadwal Baru';
     ['mf_id','mf_date','mf_ket'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('mf_jam').value='08:00';
@@ -1488,7 +1506,6 @@ function openModalAdd() {
     document.getElementById('modalJadwal').style.display='flex';
 }
 function openModalEdit(item) {
-    window._editingItem = item;
     document.getElementById('mJudul').textContent = 'Edit Jadwal';
     document.getElementById('mf_id').value   = item.id_x;
     document.getElementById('mf_date').value = `${item.x_07}-${String(item.x_06).padStart(2,'0')}-${String(item.x_01).padStart(2,'0')}`;
@@ -1512,32 +1529,23 @@ async function saveJadwal(fs) {
     const id = document.getElementById('mf_id').value;
     const date = document.getElementById('mf_date').value;
     if(!date) return alert('Isi tanggal!');
-    var dp = date.split('-');
-    var thnBaru = dp[0], blnBaru = String(parseInt(dp[1],10)), tglBaru = String(parseInt(dp[2],10));
+    const d = new Date(date);
 
     if(id) {
         // MODE EDIT: single user
         const user = document.getElementById('mf_user').value;
         if(!user) return alert('Pilih user!');
-        const payload = { x_01:tglBaru, x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:blnBaru, x_07:thnBaru, x_09:user };
+        const payload = { x_01:d.getDate().toString(), x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:(d.getMonth()+1).toString(), x_07:d.getFullYear().toString(), x_09:user };
         const lamVal = await getAdmLampiranValue();
         if (lamVal === 'CLEAR') payload.x_11 = ''; else if (lamVal) payload.x_11 = lamVal;
         if(fs) payload.x_05=fs;
-        // Set x_12 otomatis
-        var item0 = window._editingItem || {};
-        var tglL = String(parseInt(item0.x_01||'0',10)), blnL = String(parseInt(item0.x_06||'0',10)), thnL = String(item0.x_07||'');
-        var tglChanged = (tglBaru!==tglL || blnBaru!==blnL || thnBaru!==thnL);
-        var stBaru = fs || item0.x_05 || '';
-        if (stBaru==='pending' || tglChanged) payload.x_12 = 'needs_approval';
-        else if (stBaru==='done') payload.x_12 = '';
-        else if (stBaru==='aktif' && !tglChanged) payload.x_12 = '';
         const res = await fetch(`${API}?table=${TJ}&id_x=${id}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Custom-Auth':AUTH},body:JSON.stringify(payload)}).then(r=>r.json());
         if(res.success){ closeModal('modalJadwal'); loadJadwal(); loadDashboard(); } else alert('Gagal menyimpan!');
     } else {
         // MODE TAMBAH: multi user via checkbox
         const selectedUsers = Array.from(document.querySelectorAll('.ucp-cb:checked')).map(cb => cb.value);
         if(selectedUsers.length === 0) return alert('Pilih minimal satu user!');
-        const basePayload = { x_01:tglBaru, x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:blnBaru, x_07:thnBaru, x_05: fs||'aktif' };
+        const basePayload = { x_01:d.getDate().toString(), x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:(d.getMonth()+1).toString(), x_07:d.getFullYear().toString(), x_05: fs||'aktif' };
         const lamValAdd = await getAdmLampiranValue();
         if (lamValAdd && lamValAdd !== 'CLEAR') basePayload.x_11 = lamValAdd;
         let successCount = 0, failCount = 0;
@@ -1555,24 +1563,6 @@ async function saveJadwal(fs) {
             loadJadwal(); loadDashboard();
         }
     }
-}
-async function approvePulang(id, user, ket) {
-    if (!confirm('Approve pulang untuk jadwal #' + id + '?\nUser: ' + user + '\n\nUser akan bisa absen pulang.')) return;
-    const res = await fetch(API + '?table=' + TJ + '&id_x=' + id, {
-        method: 'PUT', headers: {'Content-Type':'application/json','X-Custom-Auth':AUTH},
-        body: JSON.stringify({x_12:'approved_pulang'})
-    }).then(r=>r.json());
-    if (res.success) { loadDashboard(); loadJadwal(); }
-    else alert('Gagal approve.');
-}
-async function revokePulang(id) {
-    if (!confirm('Cabut approval pulang jadwal #' + id + '?')) return;
-    const res = await fetch(API + '?table=' + TJ + '&id_x=' + id, {
-        method: 'PUT', headers: {'Content-Type':'application/json','X-Custom-Auth':AUTH},
-        body: JSON.stringify({x_12:'needs_approval'})
-    }).then(r=>r.json());
-    if (res.success) { loadDashboard(); loadJadwal(); }
-    else alert('Gagal cabut approval.');
 }
 async function deleteJadwal(id) {
     if(!confirm('Yakin hapus jadwal ini?')) return;
