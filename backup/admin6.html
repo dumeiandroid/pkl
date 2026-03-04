@@ -207,21 +207,6 @@
             background: #f8fafc; border: 1px solid #e2e8f0;
             padding: 4px 10px; border-radius: 20px;
         }
-        .day-nav-btns {
-            display: flex; align-items: center; gap: 4px;
-        }
-        .btn-day-nav {
-            padding: 5px 11px; border: 1px solid #e2e8f0; border-radius: 7px;
-            font-size: 12px; font-weight: 700; cursor: pointer; background: white;
-            color: #475569; transition: all 0.15s; font-family: inherit; white-space: nowrap;
-        }
-        .btn-day-nav:hover { background: #f1f5f9; border-color: #94a3b8; }
-        .btn-day-nav.prev { color: #7c3aed; border-color: #c4b5fd; background: #f5f3ff; }
-        .btn-day-nav.prev:hover { background: #ede9fe; }
-        .btn-day-nav.next { color: #0369a1; border-color: #bae6fd; background: #f0f9ff; }
-        .btn-day-nav.next:hover { background: #e0f2fe; }
-        .btn-day-nav.today { color: #065f46; border-color: #6ee7b7; background: #ecfdf5; }
-        .btn-day-nav.today:hover { background: #d1fae5; }
         /* Stat card subtitle update */
         .scard .ss-period { font-size: 11px; color: #94a3b8; margin-top: 3px; }
 
@@ -436,11 +421,6 @@
                         <button class="ptab pt-harian active"  id="ptab-harian"   onclick="setPeriod('harian')">📅 Harian</button>
                         <button class="ptab pt-mingguan" id="ptab-mingguan" onclick="setPeriod('mingguan')">📆 Mingguan</button>
                         <button class="ptab pt-bulanan"  id="ptab-bulanan"  onclick="setPeriod('bulanan')">🗓️ Bulanan</button>
-                    </div>
-                    <div class="day-nav-btns" id="dayNavBtns" style="display:flex;">
-                        <button class="btn-day-nav prev" onclick="goToPrevDay()" title="1 hari sebelumnya">◀ Kemarin</button>
-                        <button class="btn-day-nav next" id="btnNextDay" onclick="goToNextDay()" title="1 hari berikutnya" style="opacity:0.3;cursor:default;">Besok ▶</button>
-                        <button class="btn-day-nav today" id="btnToday" onclick="goToToday()" title="Kembali ke hari ini" style="display:none;">⟳ Hari Ini</button>
                     </div>
                 </div>
                 <span class="period-info" id="periodInfoText">—</span>
@@ -712,7 +692,6 @@ let dashPengendalianTab = 'aktif';
 let allUsers   = [];
 let adminUser  = '';
 let dashPeriod = 'harian'; // 'harian' | 'mingguan' | 'bulanan'
-let dashHarianOffset = 0; // 0 = hari ini, -1 = kemarin, dst
 
 // Helper: hitung range tanggal berdasar periode
 function getPeriodRange(period) {
@@ -722,16 +701,9 @@ function getPeriodRange(period) {
     const thn   = now.getFullYear();
 
     if (period === 'harian') {
-        const target = new Date(now);
-        target.setDate(now.getDate() + dashHarianOffset);
-        const targetDate = target.toISOString().split('T')[0];
-        const targetBln  = target.getMonth() + 1;
-        const targetThn  = target.getFullYear();
-        const isToday = dashHarianOffset === 0;
-        const shortLabel = isToday ? 'Hari Ini' : (dashHarianOffset === -1 ? 'Kemarin' : targetDate);
-        return { type:'harian', today: targetDate, bln: targetBln, thn: targetThn, tgl: target.getDate(),
-            label: shortLabel + ' (' + targetDate + ')',
-            shortLabel };
+        return { type:'harian', today, bln, thn, tgl: now.getDate(),
+            label: 'Hari Ini (' + today + ')',
+            shortLabel: 'Hari Ini' };
     }
     if (period === 'mingguan') {
         // Senin s/d Minggu minggu ini
@@ -752,59 +724,11 @@ function getPeriodRange(period) {
 
 function setPeriod(period) {
     dashPeriod = period;
-    if (period !== 'harian') dashHarianOffset = 0;
     ['harian','mingguan','bulanan'].forEach(p => {
         const el = document.getElementById('ptab-' + p);
         if (el) el.classList.toggle('active', p === period);
     });
-    updateDayNavUI();
     loadDashboard();
-}
-
-function goToPrevDay() {
-    dashPeriod = 'harian';
-    dashHarianOffset--;
-    ['harian','mingguan','bulanan'].forEach(p => {
-        const el = document.getElementById('ptab-' + p);
-        if (el) el.classList.toggle('active', p === 'harian');
-    });
-    updateDayNavUI();
-    loadDashboard();
-}
-
-function goToNextDay() {
-    if (dashHarianOffset >= 0) return;
-    dashPeriod = 'harian';
-    dashHarianOffset++;
-    ['harian','mingguan','bulanan'].forEach(p => {
-        const el = document.getElementById('ptab-' + p);
-        if (el) el.classList.toggle('active', p === 'harian');
-    });
-    updateDayNavUI();
-    loadDashboard();
-}
-
-function goToToday() {
-    dashPeriod = 'harian';
-    dashHarianOffset = 0;
-    ['harian','mingguan','bulanan'].forEach(p => {
-        const el = document.getElementById('ptab-' + p);
-        if (el) el.classList.toggle('active', p === 'harian');
-    });
-    updateDayNavUI();
-    loadDashboard();
-}
-
-function updateDayNavUI() {
-    const navEl = document.getElementById('dayNavBtns');
-    if (!navEl) return;
-    const isHarian = dashPeriod === 'harian';
-    navEl.style.display = isHarian ? 'flex' : 'none';
-    const nextBtn = document.getElementById('btnNextDay');
-    const todayBtn = document.getElementById('btnToday');
-    if (nextBtn) nextBtn.style.opacity = dashHarianOffset < 0 ? '1' : '0.3';
-    if (nextBtn) nextBtn.style.cursor = dashHarianOffset < 0 ? 'pointer' : 'default';
-    if (todayBtn) todayBtn.style.display = dashHarianOffset < 0 ? 'inline-block' : 'none';
 }
 
 // ===== HELPERS =====
@@ -958,7 +882,6 @@ function toggleSelectAll() {
 
 // ===== DASHBOARD =====
 async function loadDashboard() {
-    updateDayNavUI();
     const pr = getPeriodRange(dashPeriod);
 
     // Update labels
