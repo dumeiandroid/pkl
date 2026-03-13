@@ -410,6 +410,10 @@ function formatSkor(x05) {
     if (!x05) return '';
     return x05.split('|').map((p,i) => p.trim() ? `v${i+1}` : null).filter(Boolean).join(' ');
 }
+function formatPipes(text) {
+    if (!text) return '';
+    return text.split('|').map((p,i) => p.trim() ? `v${i+1}` : null).filter(Boolean).join(' ');
+}
 function renderTimer(idX, x04Raw) {
     if (!x04Raw || !x04Raw.includes('|')) return '<span style="color:#ccc;font-size:12px">—</span>';
     const pipeIdx  = x04Raw.indexOf('|');
@@ -494,6 +498,8 @@ function todayUpdateFromCache() {
         nama:  escHtml(getNamaFromX02(row.x_02)),
         skor:  `<span style="font-size:12px;color:#374151">${escHtml(formatSkor(row.x_05))}</span>`,
         timer: renderTimer(row.id_x, row.x_04 || ''),
+        x_06:  `<span style="font-size:12px;color:#374151">${formatPipes(row.x_06)}</span>`,
+        x_07:  `<span style="font-size:12px;color:#374151">${formatPipes(row.x_07)}</span>`,
         tgl:   `<span style="font-size:12px;color:var(--muted)">${getDateFromX02(row.x_02)}</span>`
     }));
 
@@ -509,7 +515,7 @@ function todayInitTable(rows) {
         <table id="todayDataTable" class="display nowrap" style="width:100%">
             <thead><tr>
                 <th>ID</th><th>Token</th><th>Nama</th>
-                <th>Skor</th><th>⏱ Timer</th><th>Tgl Tes</th>
+                <th>Skor</th><th>⏱ Timer</th><th>Skor 1</th><th>Skor 2</th><th>Tgl Tes</th>
             </tr></thead><tbody></tbody>
         </table>`;
     todayTable = $('#todayDataTable').DataTable({
@@ -520,6 +526,8 @@ function todayInitTable(rows) {
             { data: 'nama' },
             { data: 'skor',  orderable: false },
             { data: 'timer', orderable: false },
+            { data: 'x_06', orderable: false },
+            { data: 'x_07', orderable: false },
             { data: 'tgl',   orderable: false }
         ],
         pageLength: 25,
