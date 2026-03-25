@@ -495,20 +495,21 @@ function parseHargaNum(x02Raw) {
 }
 
 function renderStatusBayar(x02Raw) {
-    const sudah = isSudahBayar(x02Raw);
-    return sudah
-        ? `<span style="background:#dcfce7;color:#166534;border:1.5px solid #86efac;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;">✅ Sudah Bayar</span>`
-        : `<span style="background:#fee2e2;color:#991b1b;border:1.5px solid #fca5a5;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;">⛔ Belum Bayar</span>`;
+    if (!x02Raw) return '<span style="background:#fee2e2;color:#991b1b;border:1.5px solid #fca5a5;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;">⛔ Belum Bayar</span>';
+    try {
+        const obj = JSON.parse(x02Raw);
+        const sudah = !!(obj.paket_laporan && obj.harga_laporan);
+        return sudah
+            ? `<span style="background:#dcfce7;color:#166534;border:1.5px solid #86efac;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;">✅ Sudah Bayar</span>`
+            : `<span style="background:#fee2e2;color:#991b1b;border:1.5px solid #fca5a5;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;">⛔ Belum Bayar</span>`;
+    } catch(e) {
+        return '<span style="background:#fee2e2;color:#991b1b;border:1.5px solid #fca5a5;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;">⛔ Belum Bayar</span>';
+    }
 }
 
 function isSudahBayar(x02Raw) {
-    // Baca dari field "payment" di x_02 JSON
-    // "done" = sudah bayar, "pending" atau tidak ada = belum bayar
     if (!x02Raw) return false;
-    try {
-        const obj = JSON.parse(x02Raw);
-        return obj.payment === 'done';
-    } catch(e) { return false; }
+    try { const o = JSON.parse(x02Raw); return !!(o.paket_laporan && o.harga_laporan); } catch(e) { return false; }
 }
 
 function renderInsentif(x02Raw) {
