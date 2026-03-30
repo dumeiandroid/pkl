@@ -406,9 +406,8 @@ function renderSkorField(raw) {
         const entries = Object.entries(obj);
         if (entries.length === 0) return '<span style="color:#ccc;font-size:12px">—</span>';
         const tooltip = entries.map(([k,v]) => `${k}: ${v}`).join(' | ');
-        const items   = entries.map(([k,v]) => {
-            const val = (v !== null && v !== undefined && v !== '') ? v : '—';
-            return `<span style="font-size:11px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:2px 6px;white-space:nowrap;flex:0 0 calc(25% - 3px);box-sizing:border-box;text-align:center"><span style="color:#1e40af;font-weight:700">${escHtml(k)}</span><span style="color:#64748b">:</span><span style="color:#0f766e;font-weight:800;margin-left:2px">${escHtml(String(val))}</span></span>`;
+        const items   = entries.map(([k]) => {
+            return `<span style="font-size:11px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:2px 6px;white-space:nowrap;flex:0 0 calc(25% - 3px);box-sizing:border-box;text-align:center"><span style="color:#1e40af;font-weight:700">${escHtml(k)}</span></span>`;
         }).join('');
         return `<div title="${escHtml(tooltip)}" style="display:flex;flex-wrap:wrap;gap:2px;width:240px;cursor:default">${items}</div>`;
     } catch(e) {
