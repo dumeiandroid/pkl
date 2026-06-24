@@ -294,18 +294,16 @@ function parseBio(x02){
   try { obj = JSON.parse(x02); } catch(e) { return escapeHtml(String(x02)); }
   const nama  = obj.bioNama || obj.nama || '—';
   const usia  = obj.bioUsia || obj.usia || '—';
-  const pend  = obj.bioPend || obj.pendidikan || '—';
-  const riwayat = parseRiwayatPendidikan(obj.riwayatPendidikan);
+  const pend  = parseRiwayatPendidikan(obj.riwayatPendidikan) || obj.bioPend || obj.pendidikan || '—';
   return `<span class="bio-line"><b>Nama:</b> ${escapeHtml(nama)}</span>`
        + `<span class="bio-line"><b>Usia:</b> ${escapeHtml(usia)}</span>`
-       + `<span class="bio-line"><b>Pendidikan:</b> ${escapeHtml(pend)}</span>`
-       + `<span class="bio-line"><b>Riwayat Pendidikan:</b> ${riwayat}</span>`;
+       + `<span class="bio-line"><b>Pendidikan:</b> ${pend}</span>`;
 }
 
 // ── Helper: parse riwayatPendidikan (array of {lembaga,jurusan,lokasi,periode,keterangan}) ──
-// jadi format singkat: "lembaga - jurusan - periode" (gabung "; " jika lebih dari 1 entri)
+// jadi format lengkap: "lembaga - jurusan - periode" (gabung "; " jika lebih dari 1 entri)
 function parseRiwayatPendidikan(arr){
-  if(!Array.isArray(arr) || arr.length === 0) return '—';
+  if(!Array.isArray(arr) || arr.length === 0) return null;
   return arr.map(item=>{
     const lembaga = item.lembaga || '—';
     const jurusan = item.jurusan || '—';
