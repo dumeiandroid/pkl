@@ -461,7 +461,18 @@ function parseBio(x02){
   const nama  = obj.bioNama || obj.nama || '—';
   const usia  = obj.bioUsia || obj.usia || '—';
   const pend  = parseRiwayatPendidikan(obj.riwayatPendidikan) || obj.bioPend || obj.pendidikan || '—';
+
+  // Tanggal lahir: format "2004-08-25" → "25 Agustus 2004, Paya Gambar"
+  let ttl = '—';
+  if(obj.bioTTLTgl){
+    const bulan = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const [y,m,d] = obj.bioTTLTgl.split('-');
+    const tgl = `${parseInt(d)} ${bulan[parseInt(m)]} ${y}`;
+    ttl = obj.bioTTLKota ? `${tgl}, ${obj.bioTTLKota}` : tgl;
+  }
+
   return `<span class="bio-line"><b>Nama:</b> ${escapeHtml(nama)}</span>`
+       + `<span class="bio-line"><b>TTL:</b> ${escapeHtml(ttl)}</span>`
        + `<span class="bio-line"><b>Usia:</b> ${escapeHtml(usia)}</span>`
        + `<span class="bio-line"><b>Pendidikan:</b> ${pend}</span>`;
 }
