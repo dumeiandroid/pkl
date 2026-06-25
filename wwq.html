@@ -82,6 +82,42 @@ tbody td{padding:8px 10px;max-width:280px;overflow:hidden;text-overflow:ellipsis
 .loading-txt::after{content:'...';animation:dots 1.2s steps(3) infinite;}
 @keyframes dots{0%{content:'.';}33%{content:'..';}66%{content:'...'}}
 
+/* AKSI BUTTON */
+.btn-aksi{
+  width:34px;height:34px;border-radius:50%;border:2px solid;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:15px;cursor:pointer;transition:all .18s;background:transparent;
+  font-weight:700;
+}
+.btn-aksi.unknown{border-color:var(--muted);color:var(--muted);}
+.btn-aksi.unknown:hover{border-color:var(--a1);color:var(--a1);transform:scale(1.1);}
+.btn-aksi.done{border-color:var(--a3);color:var(--a3);}
+.btn-aksi.done:hover{border-color:var(--danger);color:var(--danger);transform:scale(1.1);}
+.btn-aksi.loading{border-color:var(--muted);color:var(--muted);opacity:.5;cursor:not-allowed;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MODAL KONFIRMASI */
+#confirmModal{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;
+}
+#confirmModal.open{display:flex;}
+.confirm-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:28px 28px 24px;width:340px;max-width:90vw;
+  box-shadow:0 24px 64px rgba(0,0,0,.6);
+}
+.confirm-icon{font-size:28px;margin-bottom:12px;color:var(--danger);}
+.confirm-title{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;margin-bottom:6px;}
+.confirm-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;}
+.confirm-actions{display:flex;gap:8px;}
+.confirm-actions button{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid;font-family:'DM Sans',sans-serif;transition:opacity .2s;}
+.btn-confirm-ya{background:var(--danger);color:#fff;border-color:var(--danger);}
+.btn-confirm-ya:hover{opacity:.8;}
+.btn-confirm-batal{background:transparent;color:var(--text);border-color:var(--border);}
+.btn-confirm-batal:hover{border-color:var(--a1);color:var(--a1);}
+
 @media(max-width:768px){
   .topbar{padding:0 12px;gap:8px;}
   .toolbar{padding:8px 10px;gap:6px;}
@@ -135,6 +171,19 @@ tbody td{padding:8px 10px;max-width:280px;overflow:hidden;text-overflow:ellipsis
   </div>
 </div>
 
+<!-- MODAL KONFIRMASI RESET -->
+<div id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-icon"><i class="fa fa-circle-question"></i></div>
+    <div class="confirm-title">Tandai Belum Dikerjakan?</div>
+    <div class="confirm-sub">Apakah kamu yakin data ini <b>belum dikerjakan</b>? Status akan dikembalikan ke tanda tanya.</div>
+    <div class="confirm-actions">
+      <button class="btn-confirm-ya" onclick="confirmReset()">Ya, Belum Dikerjakan</button>
+      <button class="btn-confirm-batal" onclick="closeConfirm()">Batal</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── localStorage helpers ──
 const sg = k=>{try{return localStorage.getItem(k);}catch(e){return null;}};
@@ -166,7 +215,124 @@ function hdrs(){
   return { 'Content-Type':'application/json', 'X-Custom-Auth': DB_AUTH };
 }
 
-// ── Render tombol server di login ──
+// ══════════════════════════════════════════════════════════
+//  AKSI — toggle x_10 (? / ✓)
+// ══════════════════════════════════════════════════════════
+let pendingResetBtn = null;
+
+function handleAksi(btn){
+  const isDone = btn.dataset.done === '1';
+  if(isDone){
+    // Sudah done → minta konfirmasi dulu
+    pendingResetBtn = btn;
+    document.getElementById('confirmModal').classList.add('open');
+  } else {
+    // Belum done → langsung set selesai
+    setAksiDone(btn);
+  }
+}
+
+async function setAksiDone(btn){
+  const idX = btn.dataset.id;
+  btn.classList.remove('unknown');
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fa fa-circle-notch"></i>';
+  btn.disabled = true;
+
+  const ok = await updateX10(idX, makeX10Done());
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+  if(ok){
+    btn.dataset.done = '1';
+    btn.classList.add('done');
+    btn.innerHTML = '✓';
+    btn.title = 'Sudah dikerjakan — klik untuk reset';
+  } else {
+    btn.classList.add('unknown');
+    btn.innerHTML = '?';
+    btn.title = 'Belum dikerjakan — klik untuk tandai selesai';
+    alert('Gagal menyimpan ke server. Coba lagi.');
+  }
+}
+
+async function confirmReset(){
+  if(!pendingResetBtn) return;
+  const btn = pendingResetBtn;
+  pendingResetBtn = null;
+  closeConfirm();
+
+  const idX = btn.dataset.id;
+  btn.classList.remove('done');
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="fa fa-circle-notch"></i>';
+  btn.disabled = true;
+
+  const ok = await updateX10(idX, null);
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+  if(ok){
+    btn.dataset.done = '0';
+    btn.classList.add('unknown');
+    btn.innerHTML = '?';
+    btn.title = 'Belum dikerjakan — klik untuk tandai selesai';
+  } else {
+    btn.classList.add('done');
+    btn.innerHTML = '✓';
+    btn.title = 'Sudah dikerjakan — klik untuk reset';
+    alert('Gagal menyimpan ke server. Coba lagi.');
+  }
+}
+
+function closeConfirm(){
+  document.getElementById('confirmModal').classList.remove('open');
+  pendingResetBtn = null;
+}
+
+// Close modal jika klik di luar box
+document.getElementById('confirmModal').addEventListener('click', e=>{
+  if(e.target === e.currentTarget) closeConfirm();
+});
+
+// ── Helper: cek apakah x_10 sudah "done" ──
+function isX10Done(x10){
+  if(!x10 || String(x10).trim() === '') return false;
+  try {
+    const obj = JSON.parse(x10);
+    return obj.status === 'done';
+  } catch(e){
+    return String(x10).trim() !== '';
+  }
+}
+
+// ── Helper: buat nilai x_10 JSON untuk "done" ──
+function makeX10Done(){
+  return JSON.stringify({
+    status: 'done',
+    at: new Date().toISOString(),
+    by: sg('loggedUser') || 'unknown'
+  });
+}
+
+async function updateX10(idX, value){
+  // API: PUT dengan id_x di query param, x_10 di body
+  try {
+    const url = `https://${SERVERS[activeServerIdx].domain}${DB_PATH}?table=${TABLE}&id_x=${encodeURIComponent(idX)}`;
+    const body = { x_10: value };
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: hdrs(),
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    return data.success === true;
+  } catch(e){
+    console.error('updateX10 error:', e);
+    return false;
+  }
+}
+
 function renderLoginServers(){
   document.getElementById('loginServerGrid').innerHTML = SERVERS.map((s,i)=>`
     <button type="button" class="srv-btn${i===activeServerIdx?' active':''}"
@@ -280,7 +446,7 @@ async function fetchPage(offset){
 
 function buildTableShell(){
   let h = '<table id="dataTable"><thead><tr>';
-  h += '<th>ID</th><th>x_01</th><th>Bio</th><th>Jawaban (x_07)</th>';
+  h += '<th>ID</th><th>x_01</th><th>Bio</th><th>Jawaban (x_07)</th><th style="text-align:center;width:64px;">Aksi</th>';
   h += '</tr></thead><tbody id="dataTbody"></tbody></table>';
   h += '<div id="lazySentinel" style="height:1px;"></div>';
   h += '<div id="lazySpinner" style="display:none;text-align:center;padding:14px;color:var(--muted);font-family:monospace;font-size:12px;">Memuat lebih...</div>';
@@ -341,10 +507,20 @@ function appendRows(rows){
     lazySeenIds.add(row.id_x);
     added++;
     const tr = document.createElement('tr');
+    const isDone = isX10Done(row.x_10);
+    const aksiClass = isDone ? 'done' : 'unknown';
+    const aksiIcon  = isDone ? '✓' : '?';
+    const aksiTitle = isDone ? 'Sudah dikerjakan — klik untuk reset' : 'Belum dikerjakan — klik untuk tandai selesai';
     let cells = `<td class="td-id">${row.id_x}</td>`;
     cells += `<td>${escapeHtml(row.x_01||'')}</td>`;
     cells += `<td class="td-bio">${parseBio(row.x_02)}</td>`;
     cells += `<td class="td-jwb">${parseJawaban(row.x_07)}</td>`;
+    cells += `<td style="text-align:center;vertical-align:middle;">
+      <button class="btn-aksi ${aksiClass}" data-id="${row.id_x}" data-done="${isDone?'1':'0'}"
+        title="${aksiTitle}" onclick="handleAksi(this)">
+        ${aksiIcon}
+      </button>
+    </td>`;
     tr.innerHTML = cells;
     tbody.appendChild(tr);
   });
