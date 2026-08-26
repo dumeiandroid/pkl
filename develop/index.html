@@ -142,8 +142,6 @@
         .mk-chip:hover { filter: brightness(1.2); transform: translateY(-1px); }
         .mk-chip-merah { background: rgba(239,68,68,0.18); color: #fca5a5; }
         .mk-chip-hijau { background: rgba(16,185,129,0.18); color: #6ee7b7; }
-        .mk-chip-oranye { background: rgba(249,115,22,0.18); color: #fdba74; }
-        .mk-chip-biru { background: rgba(59,130,246,0.18); color: #93c5fd; }
         @media (max-width: 600px) { .mk-body { flex-direction: column; align-items: flex-start; gap: 12px; } .mk-arrow { display: none; } }
 
         /* MODAL DETAIL TIDAK HADIR / MASUK LIBUR */
@@ -152,8 +150,6 @@
         .mkd-row-merah  { background: #fef2f2; border-color: #ef4444; }
         .mkd-row-kuning { background: #fffbeb; border-color: #f59e0b; }
         .mkd-row-hijau  { background: #f0fdf4; border-color: #10b981; }
-        .mkd-row-oranye { background: #fff7ed; border-color: #f97316; }
-        .mkd-row-biru   { background: #eff6ff; border-color: #3b82f6; }
         .mkd-tgl { font-size: 13px; font-weight: 800; color: var(--dark); }
         .mkd-ket { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
         .mkd-warn { color: #ef4444; font-weight: 700; }
@@ -280,31 +276,6 @@
         .box.konseling  { background: #d1fae5; border-color: #a7f3d0; }
         .box.seminar    { background: #fef3c7; border-color: #fde68a; }
         .box.others     { background: #f1f5f9; border-color: #e2e8f0; }
-        /* Badge jumlah — muncul saat 1 icon mewakili beberapa jadwal sejenis di tanggal yang sama */
-        .box .bcount {
-            position: absolute; bottom: -5px; right: -5px;
-            min-width: 18px; height: 18px; padding: 0 4px;
-            border-radius: 9px; background: var(--dark); color: #fff;
-            font-size: 10px; font-weight: 800; font-family: 'DM Mono', monospace;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3); line-height: 1;
-        }
-
-        /* ========== MODAL GRUP JADWAL (detail beberapa jadwal sejenis) ========== */
-        .gitem {
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px;
-            margin-bottom: 8px; cursor: pointer; transition: 0.15s; background: #fff;
-        }
-        .gitem:hover { border-color: var(--primary); background: #f8fafc; transform: translateX(2px); }
-        .gitem .gicon { font-size: 20px; flex-shrink: 0; }
-        .gitem .gbody { flex: 1; min-width: 0; }
-        .gitem .gjam  { font-size: 12px; font-weight: 800; font-family: 'DM Mono', monospace; color: var(--dark); }
-        .gitem .gket  { font-size: 11.5px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 1px; }
-        .gitem .gst   { font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.3px; flex-shrink: 0; }
-        .gitem .gst.aktif   { background: #dbeafe; color: #1d4ed8; }
-        .gitem .gst.pending { background: #fef3c7; color: #b45309; }
-        .gitem .gst.done    { background: #d1fae5; color: #047857; }
 
         /* ========== MODAL JADWAL ========== */
         .m-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.6); z-index: 500; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
@@ -679,30 +650,6 @@
     </div>
 </div>
 
-<!-- MODAL GRUP JADWAL (detail beberapa jadwal sejenis dalam 1 hari) -->
-<div class="m-overlay" id="modalGrupJ">
-    <div class="mbox" style="max-width:380px;">
-        <div class="mhead">
-            <h3 id="mGrupJudul">Detail</h3>
-            <div style="display:flex;gap:6px;">
-                <button class="x" onclick="toggleTambahSerupa()" id="btnTambahSerupa" title="Tambah jadwal serupa">➕</button>
-                <button class="x" onclick="tutupModalGrupJ()">✕</button>
-            </div>
-        </div>
-        <div class="mbody">
-            <div id="mGrupAddForm" style="display:none;margin-bottom:14px;padding:12px;background:var(--bg);border:1.5px dashed var(--border);border-radius:10px;">
-                <div class="fg" style="margin-bottom:8px;"><label>Jam</label><input type="time" id="gAddJam" value="08:00"></div>
-                <div class="fg" style="margin-bottom:10px;"><label>Keterangan</label><input type="text" id="gAddKet" placeholder="Nama peserta / lokasi..."></div>
-                <div style="display:flex;gap:8px;">
-                    <button type="button" class="btn-cancel" onclick="toggleTambahSerupa(false)">Batal</button>
-                    <button type="button" class="btn-save-j" onclick="simpanTambahSerupa()">💾 Simpan</button>
-                </div>
-            </div>
-            <div id="mGrupBody"></div>
-        </div>
-    </div>
-</div>
-
 <!-- MODAL UPLOAD BUKTI -->
 <div class="m-overlay" id="modalUpload">
     <div class="mbox">
@@ -831,6 +778,16 @@
 
 <script>
 /* ==============================
+   KONFIGURASI ABSENSI
+   ============================== */
+const ABSENSI_CONFIG = {
+    // Jumlah minimum jadwal AKTIF hari ini yang harus ada
+    // sebelum user boleh melakukan absen masuk.
+    // Ubah angka ini sesuai kebutuhan.
+    minJadwalAktifUntukMasuk: 3
+};
+
+/* ==============================
    KONSTANTA & STATE
    ============================== */
 const API  = 'https://lidan-co-id.pages.dev/api/contacts_filter_dinamis7';
@@ -845,8 +802,6 @@ const KONTROL_LIBUR_ID = 5;
 const KONTROL_KET_ID = 5; // sama baris (id_x=5) dengan libur nasional, tapi kolom x_02 — read-only di sisi peserta
 const KONTROL_KET_MASUK_ID = 5; // sama baris (id_x=5), kolom x_03 — read-only di sisi peserta
 const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 — pesan pengumuman dari admin, read-only di sisi peserta
-const KONTROL_JAMKERJA_ID = 5; // sama baris (id_x=5), kolom x_05 — jam kerja standar/khusus dari admin, read-only di sisi peserta
-let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
 let liburNasionalSet  = new Set(); // Set('YYYY-MM-DD') hari libur nasional, diisi dari kontrol_admin id_x=5
 let liburNasionalList = []; // [{tanggal, ket}] untuk ditampilkan di popup info
 let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
@@ -953,38 +908,6 @@ async function ambilKetMasukLibur() {
     } catch (e) { console.error(e); ketMasukLiburMap = {}; }
 }
 
-// Ambil pengaturan jam kerja (read-only) dari kontrol_admin id_x=5, kolom x_05
-async function ambilJamKerja() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_JAMKERJA_ID}&limit=1`);
-        const row = res.data?.[0];
-        let cfg = null;
-        if (row && row.x_05) { try { cfg = JSON.parse(row.x_05); } catch { cfg = null; } }
-        if (!cfg || typeof cfg !== 'object') cfg = {};
-        jamKerjaConfig = {
-            default: { masuk: (cfg.default && cfg.default.masuk) || '08:00', pulang: (cfg.default && cfg.default.pulang) || '17:00' },
-            override: (cfg.override && typeof cfg.override === 'object') ? cfg.override : {}
-        };
-    } catch (e) {
-        console.error(e);
-        jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
-    }
-}
-function getJamKerjaSaya() {
-    const ov = jamKerjaConfig.override[me];
-    return {
-        masuk:  (ov && ov.masuk)  ? ov.masuk  : jamKerjaConfig.default.masuk,
-        pulang: (ov && ov.pulang) ? ov.pulang : jamKerjaConfig.default.pulang
-    };
-}
-// Ubah string jam ("08:00" atau "08.05" dari toLocaleTimeString id-ID) jadi total menit
-function jamKeMenit(jamStr) {
-    if (!jamStr) return null;
-    const m = String(jamStr).match(/(\d{1,2})[.:](\d{2})/);
-    if (!m) return null;
-    return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
-}
-
 /* ==============================
    PESAN PENGUMUMAN ADMIN
    (kontrol_admin id_x=5, kolom x_04 — read-only di sisi peserta)
@@ -1067,9 +990,6 @@ function hitungMasaKerjaLengkap(mulaiStr, absensiRecords) {
     const [my, mm, md] = mulaiStr.split('-').map(Number);
     const mulaiDate = new Date(my, mm - 1, md);
     const today = new Date(); today.setHours(0, 0, 0, 0);
-    const jamStandar = getJamKerjaSaya();
-    const batasMasuk  = jamKeMenit(jamStandar.masuk);
-    const batasPulang = jamKeMenit(jamStandar.pulang);
 
     // Peta per-tanggal: { masuk: '08:00', pulang: '17:00' }
     const peta = {};
@@ -1081,8 +1001,8 @@ function hitungMasaKerjaLengkap(mulaiStr, absensiRecords) {
     });
 
     // 1) Hari kerja (Sen-Jum) sejak sehari setelah mulai s/d kemarin:
-    //    Untuk hari yang SUDAH LEWAT: dianggap tidak masuk kalau salah satu tidak ada
-    //    (tidak ada absensi masuk ATAU tidak ada absensi keluar/pulang pada hari itu).
+    //    - tanpa MASUK sama sekali          -> jenis 'absen' (tidak hadir penuh)
+    //    - ada MASUK tapi tanpa PULANG      -> jenis 'lupa_pulang'
     const tidakHadir = [];
     const kemarin = new Date(today); kemarin.setDate(kemarin.getDate() - 1);
     {
@@ -1091,28 +1011,13 @@ function hitungMasaKerjaLengkap(mulaiStr, absensiRecords) {
             if (!isHariLibur(cur)) {
                 const s = tglKeStr(cur);
                 const rec = peta[s];
-                if (!rec || !rec.masuk) tidakHadir.push({ tanggal: new Date(cur), jenis: 'tanpa_masuk' });
-                else if (!rec.pulang)   tidakHadir.push({ tanggal: new Date(cur), jenis: 'tanpa_pulang', jamMasuk: rec.masuk });
+                if (!rec || !rec.masuk) tidakHadir.push({ tanggal: new Date(cur), jenis: 'absen' });
+                else if (!rec.pulang)   tidakHadir.push({ tanggal: new Date(cur), jenis: 'lupa_pulang', jamMasuk: rec.masuk });
             }
             cur.setDate(cur.getDate() + 1);
         }
     }
-    // 1b) Khusus HARI INI (bukan hari libur): pakai batas waktu toleransi, bukan langsung dianggap tidak masuk.
-    // - Belum absen masuk sampai jam 09:00 -> dianggap tidak masuk (kecuali nanti tetap absen -> jadi terlambat)
-    // - Sudah absen masuk tapi belum absen pulang sampai jam 19:00 -> dianggap tidak masuk
-    const BATAS_TANPA_MASUK_MENIT  = 9  * 60; // 09:00
-    const BATAS_TANPA_PULANG_MENIT = 19 * 60; // 19:00
-    if (!isHariLibur(today) && today >= mulaiDate) {
-        const sHariIni = tglKeStr(today);
-        const recHariIni = peta[sHariIni];
-        const nowMenit = new Date().getHours() * 60 + new Date().getMinutes();
-        if (!recHariIni || !recHariIni.masuk) {
-            if (nowMenit >= BATAS_TANPA_MASUK_MENIT) tidakHadir.push({ tanggal: new Date(today), jenis: 'tanpa_masuk', hariIni: true });
-        } else if (!recHariIni.pulang) {
-            if (nowMenit >= BATAS_TANPA_PULANG_MENIT) tidakHadir.push({ tanggal: new Date(today), jenis: 'tanpa_pulang', jamMasuk: recHariIni.masuk, hariIni: true });
-        }
-    }
-    const absenPenuhCount = tidakHadir.length;
+    const absenPenuhCount = tidakHadir.filter(t => t.jenis === 'absen').length;
 
     // 2) Masuk di hari libur: tanggal dengan MASUK yang jatuh di Sabtu/Minggu, sejak mulai s/d hari ini
     const masukLibur = [];
@@ -1127,29 +1032,6 @@ function hitungMasaKerjaLengkap(mulaiStr, absensiRecords) {
     masukLibur.sort((a, b) => a.tanggal - b.tanggal);
     tidakHadir.sort((a, b) => a.tanggal - b.tanggal);
 
-    // 2b) Terlambat & cepat pulang: hari kerja biasa (bukan hari libur) sejak mulai s/d hari ini,
-    // dibandingkan terhadap jam kerja standar/khusus (kontrol_admin id_x=5, kolom x_05).
-    const terlambat = [];
-    const cepatPulang = [];
-    if (batasMasuk != null || batasPulang != null) {
-        Object.keys(peta).forEach(s => {
-            const [y, m, d] = s.split('-').map(Number);
-            const dt = new Date(y, m - 1, d);
-            if (dt < mulaiDate || dt > today || isHariLibur(dt)) return;
-            const rec = peta[s];
-            if (batasMasuk != null && rec.masuk) {
-                const mnt = jamKeMenit(rec.masuk);
-                if (mnt != null && mnt > batasMasuk) terlambat.push({ tanggal: dt, jamMasuk: rec.masuk, standar: jamStandar.masuk, selisih: mnt - batasMasuk });
-            }
-            if (batasPulang != null && rec.pulang) {
-                const mnt = jamKeMenit(rec.pulang);
-                if (mnt != null && mnt < batasPulang) cepatPulang.push({ tanggal: dt, jamPulang: rec.pulang, standar: jamStandar.pulang, selisih: batasPulang - mnt });
-            }
-        });
-    }
-    terlambat.sort((a, b) => a.tanggal - b.tanggal);
-    cepatPulang.sort((a, b) => a.tanggal - b.tanggal);
-
     // 3) Tanggal berakhir dasar (kalender) lalu disesuaikan: +1 hari/absen-penuh, -1 hari/masuk-libur
     const baseAkhir = hitungTglBerakhirDasar(mulaiStr);
     const penyesuaian = absenPenuhCount - masukLibur.length;
@@ -1162,7 +1044,7 @@ function hitungMasaKerjaLengkap(mulaiStr, absensiRecords) {
     const terlewati = Math.max(0, totalHariKerja - sisaHariKerja);
     const persen = Math.min(100, Math.max(0, Math.round((terlewati / totalHariKerja) * 100)));
 
-    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, terlambat, cepatPulang, sisaHariKerja, totalHariKerja, persen };
+    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, sisaHariKerja, totalHariKerja, persen };
 }
 
 function getOtherIcon(id) {
@@ -1420,8 +1302,7 @@ async function muatMasaKerja() {
             req(`?table=${TBLA}&x_01_eq=${me}&limit=2000`),
             ambilLiburNasional(),
             ambilKetTidakHadir(),
-            ambilKetMasukLibur(),
-            ambilJamKerja()
+            ambilKetMasukLibur()
         ]);
         const dataAll = resAll.data || [];
         const mulaiStr = dataAll.reduce((min, d) => (d.x_02 && (!min || d.x_02 < min)) ? d.x_02 : min, null);
@@ -1450,12 +1331,6 @@ async function muatMasaKerja() {
         if (mk.masukLibur.length) {
             chips.push(`<span class="mk-chip mk-chip-hijau" onclick="bukaMkDetail('masuklibur')">🎉 Masuk Hari Libur: ${mk.masukLibur.length} hari</span>`);
         }
-        if (mk.terlambat.length) {
-            chips.push(`<span class="mk-chip mk-chip-oranye" onclick="bukaMkDetail('terlambat')">⏰ Terlambat: ${mk.terlambat.length} hari</span>`);
-        }
-        if (mk.cepatPulang.length) {
-            chips.push(`<span class="mk-chip mk-chip-biru" onclick="bukaMkDetail('cepatpulang')">🏃 Cepat Pulang: ${mk.cepatPulang.length} hari</span>`);
-        }
         chipWrap.innerHTML = chips.join('');
         chipWrap.style.display = chips.length ? 'flex' : 'none';
 
@@ -1472,21 +1347,21 @@ function bukaMkDetail(jenis) {
     if (jenis === 'tidakhadir') {
         judul.textContent = '❌ Detail Tidak Hadir';
         body.innerHTML = mk.tidakHadir.map(t => {
-            const k = ketTidakHadirMap[`${me}|${tglKeStr(t.tanggal)}`];
-            const ketTh = k ? `<div class="mkd-ket-th">🏷️ ${escHtml(k.jenis)}${k.ket ? ' &middot; ' + escHtml(k.ket) : ''}</div>` : '';
-            let ket;
-            if (t.jenis === 'tanpa_masuk') {
-                ket = t.hariIni ? 'Belum absen masuk sampai jam 09:00 hari ini &middot; dianggap tidak masuk (kecuali nanti tetap absen &rarr; jadi terlambat)' : 'Tidak hadir (tidak ada absensi masuk)';
-            } else {
-                ket = t.hariIni ? `Sudah absen masuk jam ${t.jamMasuk}, tapi belum absen pulang sampai jam 19:00 hari ini &middot; dianggap tidak masuk` : `Tidak hadir (tidak ada absensi pulang) &middot; masuk jam ${t.jamMasuk}`;
+            if (t.jenis === 'absen') {
+                const k = ketTidakHadirMap[`${me}|${tglKeStr(t.tanggal)}`];
+                const ketTh = k ? `<div class="mkd-ket-th">🏷️ ${escHtml(k.jenis)}${k.ket ? ' &middot; ' + escHtml(k.ket) : ''}</div>` : '';
+                return `<div class="mkd-row mkd-row-merah">
+                    <div class="mkd-tgl">${fmtTglIndo(t.tanggal)}</div>
+                    <div class="mkd-ket">Tidak hadir (tidak ada absensi masuk)</div>
+                    ${ketTh}
+                </div>`;
             }
-            return `<div class="mkd-row mkd-row-merah">
+            return `<div class="mkd-row mkd-row-kuning">
                 <div class="mkd-tgl">${fmtTglIndo(t.tanggal)}</div>
-                <div class="mkd-ket">${ket}</div>
-                ${ketTh}
+                <div class="mkd-ket">Lupa absen pulang &middot; masuk jam ${t.jamMasuk}</div>
             </div>`;
         }).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    } else if (jenis === 'masuklibur') {
+    } else {
         judul.textContent = '🎉 Detail Masuk Hari Libur';
         body.innerHTML = mk.masukLibur.map(t => {
             const k = ketMasukLiburMap[`${me}|${tglKeStr(t.tanggal)}`];
@@ -1497,18 +1372,6 @@ function bukaMkDetail(jenis) {
                 ${ketTh}
             </div>`;
         }).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    } else if (jenis === 'terlambat') {
-        judul.textContent = '⏰ Detail Terlambat Absen';
-        body.innerHTML = mk.terlambat.map(t => `<div class="mkd-row mkd-row-oranye">
-                <div class="mkd-tgl">${fmtTglIndo(t.tanggal)}</div>
-                <div class="mkd-ket">Masuk jam ${t.jamMasuk} &middot; standar ${t.standar} &middot; terlambat ${t.selisih} menit</div>
-            </div>`).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    } else {
-        judul.textContent = '🏃 Detail Cepat Pulang';
-        body.innerHTML = mk.cepatPulang.map(t => `<div class="mkd-row mkd-row-biru">
-                <div class="mkd-tgl">${fmtTglIndo(t.tanggal)}</div>
-                <div class="mkd-ket">Pulang jam ${t.jamPulang} &middot; standar ${t.standar} &middot; lebih cepat ${t.selisih} menit</div>
-            </div>`).join('') || '<div class="mkd-empty">Tidak ada data</div>';
     }
     document.getElementById('modalMkDetail').classList.add('open');
 }
@@ -1563,6 +1426,18 @@ async function muatRiwayat() {
    ============================== */
 function cekIzinAbsensi(tipe) {
     if (tipe === 'MASUK') {
+        const minDiperlukan = ABSENSI_CONFIG.minJadwalAktifUntukMasuk;
+        const jadwalAktif = jadwalHariIniState.filter(j => j.x_05 === 'aktif');
+        const jumlahAktif = jadwalAktif.length;
+        if (jumlahAktif < minDiperlukan) {
+            const kurang = minDiperlukan - jumlahAktif;
+            return {
+                boleh: false,
+                pesan: jumlahAktif === 0
+                    ? `📋 Anda belum punya jadwal aktif hari ini.\n\nMinimal ${minDiperlukan} jadwal aktif diperlukan sebelum absen masuk.\n\nSilahkan buat jadwal tugas Anda terlebih dahulu.`
+                    : `📋 Jadwal aktif hari ini kurang.\n\nAnda baru punya ${jumlahAktif} jadwal aktif, padahal minimal ${minDiperlukan} jadwal diperlukan.\n\nTambahkan ${kurang} jadwal aktif lagi sebelum absen masuk.`
+            };
+        }
         return { boleh: true };
     }
 
@@ -1570,6 +1445,31 @@ function cekIzinAbsensi(tipe) {
         if (!hariIni.masuk) {
             return { boleh: false, pesan: '⚠️ Anda belum absen masuk hari ini.' };
         }
+
+        const jadwalTidakSelesai = jadwalHariIniState.filter(j => {
+            const lolos_done     = j.x_05 === 'done';
+            const lolos_approved = j.x_12 === 'approved_pulang';
+            return !lolos_done && !lolos_approved;
+        });
+
+        if (jadwalTidakSelesai.length > 0) {
+            const masihAktif  = jadwalTidakSelesai.filter(j => j.x_05 === 'aktif' && !j.x_12);
+            const menungguAcc = jadwalTidakSelesai.filter(j => j.x_12 === 'needs_approval');
+
+            let pesan = '🚫 Belum bisa absen pulang.\n\n';
+            if (masihAktif.length > 0) {
+                pesan += `📋 Masih ada ${masihAktif.length} jadwal aktif yang belum selesai:\n`;
+                masihAktif.forEach(j => { pesan += `  • #${j.id_x} — ${j.x_04||j.x_03||'-'}\n`; });
+                pesan += '\nSelesaikan jadwal terlebih dahulu atau minta reschedule ke admin.\n';
+            }
+            if (menungguAcc.length > 0) {
+                pesan += `\n⏳ ${menungguAcc.length} jadwal direschedule, menunggu approval admin:\n`;
+                menungguAcc.forEach(j => { pesan += `  • #${j.id_x} — ${j.x_04||j.x_03||'-'}\n`; });
+                pesan += '\nHubungi admin untuk mendapatkan approval pulang.';
+            }
+            return { boleh: false, pesan: pesan.trim() };
+        }
+
         return { boleh: true };
     }
 
@@ -1584,11 +1484,24 @@ async function refreshJadwalHariIni() {
     const tgl = now.getDate();
     const bln = now.getMonth() + 1;
     const thn = now.getFullYear();
-    // Query dibatasi ke tanggal hari ini saja
-    const urlHariIni = `?table=${TBL}&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`;
+    // Kedua query dibatasi ke tanggal hari ini saja
+    const urlHariIni       = `?table=${TBL}&x_09_eq=${me}&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`;
+    const urlNeedsApproval = `?table=${TBL}&x_09_eq=${me}&x_12_eq=needs_approval&x_06_eq=${bln}&x_07_eq=${thn}&x_01_eq=${tgl}`;
     try {
-        const resHariIni = await req(urlHariIni);
-        jadwalHariIniState = resHariIni.data || [];
+        const [resHariIni, resNeedsApproval] = await Promise.all([
+            req(urlHariIni),
+            req(urlNeedsApproval)
+        ]);
+
+        const dataHariIni = resHariIni.data || [];
+        const dataNeedsApproval = resNeedsApproval.data || [];
+
+        // Gabungkan, hindari duplikat berdasarkan id_x
+        const seen = new Set();
+        jadwalHariIniState = [];
+        [...dataHariIni, ...dataNeedsApproval].forEach(j => {
+            if (!seen.has(j.id_x)) { seen.add(j.id_x); jadwalHariIniState.push(j); }
+        });
     } catch(e) {
         console.error('refreshJadwalHariIni gagal:', e);
     }
@@ -1763,113 +1676,22 @@ async function muatJadwal() {
         const res=await req(`?table=${TBL}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=${tabJadwal}&x_09_eq=${me}`);
         document.querySelectorAll('.task-list').forEach(el=>el.innerHTML='');
         if(res.success&&res.data) {
-            // Kelompokkan per (tanggal + jenis) — kalau ada beberapa jadwal sejenis di hari
-            // yang sama, cukup 1 icon dengan badge jumlah, bukan icon terpisah per item.
-            const groups = {};
             res.data.sort((a,b)=>String(a.x_02).localeCompare(String(b.x_02))).forEach(item=>{
-                const key = `${parseInt(item.x_01)}|${item.x_03}`;
-                if(!groups[key]) groups[key] = { tgl: parseInt(item.x_01), jenis: item.x_03, items: [] };
-                groups[key].items.push(item);
-            });
-            Object.values(groups).forEach(grp=>{
-                const c=document.getElementById(`tc-${grp.tgl}`);
-                if(!c) return;
-                const first = grp.items[0];
-                const jml = grp.items.length;
-                const b=document.createElement('div');
-                b.className=`box ${grp.jenis}`;
-                const icon = getJenisIcon(grp.jenis, first.id_x);
-                const jamLabel = jml>1 ? `${jml}x` : first.x_02;
-                b.innerHTML = `<span class="bicon">${icon}</span><span class="bjam">${jamLabel}</span>`
-                    + (jml>1 ? `<span class="bcount">${jml}</span>` : `<span class="bid">#${first.id_x}</span>`);
-                const jenisLabel = (JENIS.find(j=>j.id===grp.jenis)||{}).label || grp.jenis;
-                b.title = jml>1 ? `${jml} ${jenisLabel} pada tanggal ini` : `[#${first.id_x}] ${first.x_03} — ${first.x_04||''}`;
-                b.onclick = e => {
-                    e.stopPropagation();
-                    if (jml === 1) bukaModalEdit(first); else bukaModalGrupJ(grp);
-                };
-                c.appendChild(b);
+                const c=document.getElementById(`tc-${parseInt(item.x_01)}`);
+                if(c){
+                    const b=document.createElement('div');
+                    b.className=`box ${item.x_03}`;
+                    const icon = getJenisIcon(item.x_03, item.id_x);
+                    b.innerHTML=`<span class="bid">#${item.id_x}</span><span class="bicon">${icon}</span><span class="bjam">${item.x_02}</span>`;
+                    b.title=`[#${item.id_x}] ${item.x_03} — ${item.x_04||''}`;
+                    b.onclick=e=>{e.stopPropagation();bukaModalEdit(item);};
+                    c.appendChild(b);
+                }
             });
         }
     } catch(e){ console.error(e); }
     document.getElementById('jLoader').style.display='none';
 }
-
-// Popup detail untuk 1 icon yang mewakili beberapa jadwal sejenis di tanggal sama.
-// Klik salah satu item di dalamnya baru membuka modal edit seperti biasa.
-function bukaModalGrupJ(grp) {
-    window._curGrup = grp;
-    document.getElementById('mGrupJudul').textContent = judulGrup(grp);
-    renderGrupList(grp);
-    // reset form tambah setiap kali modal dibuka
-    document.getElementById('mGrupAddForm').style.display = 'none';
-    document.getElementById('gAddJam').value = '08:00';
-    document.getElementById('gAddKet').value = '';
-    document.getElementById('modalGrupJ').classList.add('open');
-}
-function judulGrup(grp) {
-    const jenisLabel = (JENIS.find(j=>j.id===grp.jenis)||{}).label || grp.jenis;
-    return `${jenisLabel} (${grp.items.length})`;
-}
-function renderGrupList(grp) {
-    const body = document.getElementById('mGrupBody');
-    body.innerHTML = grp.items.map((item,i)=>{
-        const icon = getJenisIcon(item.x_03, item.id_x);
-        return `<div class="gitem" data-i="${i}">
-            <span class="gicon">${icon}</span>
-            <div class="gbody">
-                <div class="gjam">${item.x_02}</div>
-                <div class="gket">${escHtml(item.x_04||'-')}</div>
-            </div>
-            <span class="gst ${item.x_05}">${item.x_05}</span>
-        </div>`;
-    }).join('');
-    body.querySelectorAll('.gitem').forEach(el=>{
-        const i = parseInt(el.dataset.i);
-        el.onclick = () => { tutupModalGrupJ(); bukaModalEdit(grp.items[i]); };
-    });
-}
-function toggleTambahSerupa(show) {
-    const f = document.getElementById('mGrupAddForm');
-    const willShow = (show === undefined) ? (f.style.display === 'none') : show;
-    f.style.display = willShow ? 'block' : 'none';
-    if (willShow) document.getElementById('gAddJam').focus();
-}
-async function simpanTambahSerupa() {
-    const grp = window._curGrup;
-    if (!grp) return;
-    const jam = document.getElementById('gAddJam').value;
-    const ket = document.getElementById('gAddKet').value.trim();
-    if (!jam) return alert('Jam wajib diisi!');
-    const bln = document.getElementById('view_bln').value, thn = document.getElementById('view_thn').value;
-    const payload = {
-        x_01: String(grp.tgl), x_02: jam, x_03: grp.jenis, x_04: ket,
-        x_05: 'aktif', x_06: bln.toString(), x_07: thn.toString(), x_09: me
-    };
-    gl('Menyimpan...');
-    try {
-        const res = await fetch(`${API}?table=${TBL}`, {
-            method:'POST', headers:{'Content-Type':'application/json','X-Custom-Auth':KEY}, body:JSON.stringify(payload)
-        }).then(r=>r.json());
-        if (!res.success) { gh(); alert('Gagal menyimpan!'); return; }
-        // Ambil ulang data terbaru tanggal+jenis ini (agar id_x item baru akurat)
-        const fresh = await req(`?table=${TBL}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=${tabJadwal}&x_09_eq=${me}&x_01_eq=${grp.tgl}&x_03_eq=${grp.jenis}`);
-        gh();
-        if (fresh.success && fresh.data && fresh.data.length) {
-            grp.items = fresh.data.sort((a,b)=>String(a.x_02).localeCompare(String(b.x_02)));
-            document.getElementById('mGrupJudul').textContent = judulGrup(grp);
-            renderGrupList(grp);
-            toggleTambahSerupa(false);
-            document.getElementById('gAddKet').value = '';
-        } else {
-            // Item baru tidak tampil di tab status yang sedang dibuka (mis. item baru = aktif, tab yang dibuka = done)
-            tutupModalGrupJ();
-        }
-        muatJadwal(); // refresh badge jumlah di kalender
-        initDashboard();
-    } catch(e) { gh(); alert('Error: '+e.message); }
-}
-function tutupModalGrupJ() { document.getElementById('modalGrupJ').classList.remove('open'); }
 
 function bukaModalTambah(tgl=null) {
     const t=tgl||new Date().getDate();
@@ -1933,6 +1755,39 @@ async function simpanJadwal(forcedSt) {
     else if (lampiranVal) payload.x_11 = lampiranVal;
     if(forcedSt) payload.x_05=forcedSt; else if(!id) payload.x_05='aktif';
 
+    // --- KONTROL x_12: tandai jika tanggal digeser atau status pending ---
+    if (id) {
+        const itemLama = window._editingItem || {};
+        const now = new Date();
+        const hariIniTgl = String(now.getDate());
+        const hariIniBln = String(now.getMonth() + 1);
+        const hariIniThn = String(now.getFullYear());
+
+        // Normalize lama
+        const tglLama = String(parseInt(itemLama.x_01 || '0', 10));
+        const blnLama = String(parseInt(itemLama.x_06 || '0', 10));
+        const thnLama = String(itemLama.x_07 || '');
+
+        // Nilai baru dari form
+        const tglBaru = String(parseInt(payload.x_01, 10));
+        const blnBaru = String(parseInt(payload.x_06, 10));
+        const thnBaru = String(payload.x_07);
+
+        // Apakah jadwal ini semula di hari ini?
+        const semulaDiHariIni = (tglLama === hariIniTgl && blnLama === hariIniBln && thnLama === hariIniThn);
+        const tanggalBerubah  = (tglBaru !== tglLama || blnBaru !== blnLama || thnBaru !== thnLama);
+        const jadiPending     = (payload.x_05 === 'pending');
+
+
+        if (semulaDiHariIni && (tanggalBerubah || jadiPending)) {
+            // Jadwal yg tadinya hari ini digeser/pending → butuh approve sebelum pulang
+            payload.x_12 = 'needs_approval';
+        } else if (payload.x_05 === 'aktif' && !tanggalBerubah) {
+            payload.x_12 = '';
+        }
+    }
+    // --- END KONTROL x_12 ---
+
     const url=id?`${API}?table=${TBL}&id_x=${id}`:`${API}?table=${TBL}`;
     gl('Menyimpan...');
     const res=await fetch(url,{method:id?'PUT':'POST',headers:{'Content-Type':'application/json','X-Custom-Auth':KEY},body:JSON.stringify(payload)}).then(r=>r.json());
@@ -1984,9 +1839,10 @@ async function prosesUploadDone() {
 }
 
 function hapusItemDariDOM(idX) {
-    // Re-render kalender (icon sekarang dikelompokkan per jenis per tanggal,
-    // jadi lebih aman muat ulang daripada hapus manual per-icon).
-    muatJadwal();
+    // Hapus dari tabel jadwal (.box)
+    document.querySelectorAll('.box').forEach(b => {
+        if (b.title && b.title.startsWith(`[#${idX}]`)) b.remove();
+    });
     // Hapus dari dashboard Jadwal Hari Ini (.jhari-item)
     document.querySelectorAll('.jhari-item').forEach(el => {
         const badge = el.querySelector('.jhari-id');

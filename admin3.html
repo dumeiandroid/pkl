@@ -42,12 +42,6 @@
         .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
         .nav-item.active { background: rgba(37,99,235,0.15); color: white; border-left-color: var(--primary); }
         .nav-item .icon { font-size: 15px; width: 20px; text-align: center; }
-        .nav-item .nav-cnt { margin-left: auto; font-size: 11px; font-weight: 700; color: #64748b; }
-        .nav-item.active .nav-cnt { color: #93c5fd; }
-        .jn-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
-        @media (max-width: 900px) { .jn-stats { grid-template-columns: 1fr; } }
-        .jn-pbar-wrap { background: #e2e8f0; border-radius: 20px; height: 10px; overflow: hidden; margin-top: 8px; }
-        .jn-pbar-fill { background: linear-gradient(90deg,#10b981,#34d399); height: 100%; border-radius: 20px; transition: width 0.3s; }
         .sb-foot { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); }
         .admin-badge { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
         .admin-av { width: 34px; height: 34px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
@@ -77,16 +71,12 @@
         .mb-mini:hover { filter: brightness(0.95); transform: translateY(-1px); }
         .mb-mini-merah { background: #fee2e2; color: #b91c1c; }
         .mb-mini-hijau { background: #d1fae5; color: #065f46; }
-        .mb-mini-oranye { background: #ffedd5; color: #9a3412; }
-        .mb-mini-biru { background: #dbeafe; color: #1e40af; }
         .mb-mini-nol { color: #cbd5e1; }
         .mkd-row { padding: 11px 12px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid; }
         .mkd-row:last-child { margin-bottom: 0; }
         .mkd-row-merah  { background: #fef2f2; border-color: #ef4444; }
         .mkd-row-kuning { background: #fffbeb; border-color: #f59e0b; }
         .mkd-row-hijau  { background: #f0fdf4; border-color: #10b981; }
-        .mkd-row-oranye { background: #fff7ed; border-color: #f97316; }
-        .mkd-row-biru   { background: #eff6ff; border-color: #3b82f6; }
         .mkd-tgl { font-size: 13px; font-weight: 800; color: #0f172a; }
         .mkd-ket { font-size: 11.5px; color: #64748b; margin-top: 3px; }
         .mkd-warn { color: #ef4444; font-weight: 700; }
@@ -106,19 +96,6 @@
         .scard .sl { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
         .scard .sv { font-size: 26px; font-weight: 900; }
         .scard .ss { font-size: 11px; color: #94a3b8; margin-top: 3px; }
-
-        /* KEGIATAN HARI INI */
-        .kh-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 18px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-        .kh-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-        .kh-title { font-size: 13px; font-weight: 800; color: #0f172a; letter-spacing: 0.3px; }
-        .kh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-        .kh-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 8px; text-align: center; cursor: pointer; transition: 0.15s; }
-        .kh-item:hover { border-color: #6366f1; background: #eef2ff; transform: translateY(-1px); }
-        .kh-item .khi-icon  { font-size: 20px; margin-bottom: 4px; }
-        .kh-item .khi-label { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
-        .kh-item .khi-val   { font-size: 18px; font-weight: 900; color: #0f172a; }
-        .kh-item .khi-sub   { font-size: 9.5px; color: #94a3b8; margin-top: 2px; }
-        .kh-empty { color: #94a3b8; font-size: 12.5px; padding: 6px 2px; }
 
         /* FILTER */
         .fbar { background: white; padding: 14px 18px; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
@@ -142,14 +119,6 @@
         .tcard tbody td { padding: 11px 14px; font-size: 13px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
         .tcard tbody tr:last-child td { border-bottom: none; }
         .tcard tbody tr:hover { background: #f8fafc; cursor: pointer; }
-
-        /* PAGINATION */
-        .pgn { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
-        .pgn-info { font-size: 12px; color: #94a3b8; margin-right: 8px; }
-        .pgn-btn { min-width: 30px; height: 30px; padding: 0 8px; border: 1px solid #e2e8f0; background: #fff; border-radius: 7px; font-size: 12.5px; font-weight: 600; color: #475569; cursor: pointer; }
-        .pgn-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
-        .pgn-btn:disabled { opacity: 0.4; cursor: default; }
-        .pgn-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
         .lr td { text-align: center; padding: 36px; color: #94a3b8; font-size: 13px; }
         .er td { text-align: center; padding: 40px; color: #94a3b8; }
 
@@ -167,6 +136,11 @@
         .jtag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; color: #2d3436; }
         .uchip { display: inline-flex; align-items: center; gap: 5px; background: #f1f5f9; padding: 3px 9px; border-radius: 20px; font-size: 12px; font-weight: 600; }
         .udot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+        .btn-approve-pulang { padding:5px 12px; background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; transition:0.15s; }
+        .btn-approve-pulang:hover { background:#a7f3d0; }
+        .btn-revoke-pulang { padding:5px 12px; background:#fef3c7; color:#92400e; border:1px solid #fcd34d; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; transition:0.15s; }
+        .btn-revoke-pulang:hover { background:#fde68a; }
+        #approvalCard thead th { background:#fff1f2; }
         .btn-edit { padding: 4px 10px; background: #e0e7ff; color: #4338ca; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; }
         .btn-del { padding: 4px 10px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
         .btn-foto { padding: 4px 10px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; }
@@ -191,20 +165,19 @@
         /* FOTO */
         .foto-thumb { width: 38px; height: 38px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0; cursor: pointer; }
 
+        /* EXPAND */
+        .expand-btn { padding: 4px 10px; background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; border-radius: 5px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .xrow { display: none; background: #fafbfc; }
+        .xrow td { padding: 14px 20px !important; font-size: 12px; color: #475569; border-bottom: 1px solid #e2e8f0 !important; }
+        .xrow.open { display: table-row; }
+        .xgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .xi { background: white; padding: 10px 14px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .xi .xil { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px; }
+        .xi .xiv { font-size: 13px; color: var(--dark); line-height: 1.5; }
+
         /* MODAL */
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(2px); }
         .mbox { background: white; border-radius: 14px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
-
-        /* GRUP JADWAL — daftar detail saat 1 baris tabel mewakili beberapa jadwal sejenis */
-        .gitem { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.15s; background: #fff; }
-        .gitem:hover { border-color: #6366f1; background: #f8fafc; }
-        .gitem .gbody { flex: 1; min-width: 0; }
-        .gitem .gjam  { font-size: 12px; font-weight: 800; color: #0f172a; }
-        .gitem .gket  { font-size: 11.5px; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 1px; }
-        .gitem .gst   { font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 6px; text-transform: uppercase; flex-shrink: 0; }
-        .gitem .gst.aktif   { background: #dbeafe; color: #1d4ed8; }
-        .gitem .gst.pending { background: #fef3c7; color: #b45309; }
-        .gitem .gst.done    { background: #d1fae5; color: #047857; }
 
         /* CHECKBOX USER MULTI SELECT */
         .user-checkbox-panel { border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc; overflow: hidden; }
@@ -350,6 +323,7 @@
             .tcard thead th, .tcard tbody td { padding: 8px 10px; }
             .s-tabs { flex-wrap: wrap; }
             .form-row2 { grid-template-columns: 1fr; }
+            .xgrid { grid-template-columns: 1fr; }
             .mbox { max-width: 100% !important; margin: 10px; }
             .users-grid { grid-template-columns: 1fr; }
         }
@@ -457,17 +431,13 @@
             <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard"><span class="icon">📊</span> Dashboard</div>
             <div class="sb-sec">Data</div>
             <div class="nav-item" onclick="showPage('jadwal')" id="nav-jadwal"><span class="icon">📅</span> Jadwal</div>
-            <div class="nav-item" onclick="showPage('jenis-meeting')" id="nav-jenis-meeting"><span class="icon">🧑‍🤝‍🧑</span> Meeting <span class="nav-cnt" id="cnt-jenis-meeting">(0)</span></div>
-            <div class="nav-item" onclick="showPage('jenis-tes')" id="nav-jenis-tes"><span class="icon">📝</span> Tes <span class="nav-cnt" id="cnt-jenis-tes">(0)</span></div>
-            <div class="nav-item" onclick="showPage('jenis-konseling')" id="nav-jenis-konseling"><span class="icon">💬</span> Konseling <span class="nav-cnt" id="cnt-jenis-konseling">(0)</span></div>
-            <div class="nav-item" onclick="showPage('jenis-seminar')" id="nav-jenis-seminar"><span class="icon">🎤</span> Seminar <span class="nav-cnt" id="cnt-jenis-seminar">(0)</span></div>
-            <div class="nav-item" onclick="showPage('jenis-others')" id="nav-jenis-others"><span class="icon">🗂️</span> Other <span class="nav-cnt" id="cnt-jenis-others">(0)</span></div>
             <div class="nav-item" onclick="showPage('absensi')" id="nav-absensi"><span class="icon">🕐</span> Absensi</div>
+            <div class="nav-item" onclick="showPage('analisa')" id="nav-analisa"><span class="icon">🔍</span> Analisa</div>
+            <div class="nav-item" onclick="showPage('pengendalian')" id="nav-pengendalian"><span class="icon">⚙️</span> Pengendalian</div>
             <div class="sb-sec">User</div>
             <div class="nav-item" onclick="showPage('users')" id="nav-users"><span class="icon">👥</span> Daftar User</div>
             <div class="nav-item" onclick="showPage('akun')" id="nav-akun"><span class="icon">🔑</span> Users &amp; Password</div>
             <div class="sb-sec">Pengaturan</div>
-            <div class="nav-item" onclick="showPage('jamkerja')" id="nav-jamkerja"><span class="icon">⏰</span> Jam Kerja</div>
             <div class="nav-item" onclick="showPage('libur')" id="nav-libur"><span class="icon">🎌</span> Libur Nasional</div>
             <div class="nav-item" onclick="showPage('pesan')" id="nav-pesan"><span class="icon">📢</span> Pesan Pengumuman</div>
         </nav>
@@ -510,20 +480,9 @@
                 </div>
                 <div class="mb-tbl-wrap">
                     <table class="mb-tbl">
-                        <thead><tr><th>User</th><th>Mulai</th><th>Berakhir (estimasi)</th><th>Sisa</th><th>❌ Tidak Hadir</th><th>🎉 Masuk Libur</th><th>⏰ Terlambat</th><th>🏃 Cepat Pulang</th><th>Status</th></tr></thead>
-                        <tbody id="mbBody"><tr><td colspan="9" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr></tbody>
+                        <thead><tr><th>User</th><th>Mulai</th><th>Berakhir (estimasi)</th><th>Sisa</th><th>❌ Tidak Hadir</th><th>🎉 Masuk Libur</th><th>Status</th></tr></thead>
+                        <tbody id="mbBody"><tr><td colspan="7" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr></tbody>
                     </table>
-                </div>
-            </div>
-
-            <!-- KEGIATAN HARI INI -->
-            <div class="kh-card">
-                <div class="kh-head">
-                    <div class="kh-title">📌 Kegiatan Hari Ini</div>
-                    <div class="mb-count" id="khTanggal" style="background:#eef2ff;color:#4338ca;">-</div>
-                </div>
-                <div class="kh-grid" id="khGrid">
-                    <div style="grid-column:1/-1;text-align:center;padding:14px;color:#94a3b8;"><span class="sp"></span> Memuat...</div>
                 </div>
             </div>
 
@@ -533,6 +492,24 @@
                 <div class="scard"><span class="si">✅</span><div class="sl">Jadwal Aktif</div><div class="sv" id="stAktif" style="color:#2563eb">-</div><div class="ss scard-period">-</div></div>
                 <div class="scard"><span class="si">🏁</span><div class="sl">Jadwal Done</div><div class="sv" id="stDone" style="color:#10b981">-</div><div class="ss scard-period">-</div></div>
                 <div class="scard"><span class="si">🕐</span><div class="sl">Absensi</div><div class="sv" id="stAbsensi" style="color:#f59e0b">-</div><div class="ss scard-period">-</div></div>
+            </div>
+
+            <!-- APPROVAL SECTION -->
+            <div id="approvalSection" style="margin-bottom:24px;">
+                <div class="ssep-row" style="border-bottom-color:#fca5a5;">
+                    <span class="ssep-title" style="color:#dc2626;">🔔 Butuh Approval Pulang
+                        <span id="approvalBadge" style="display:none;background:#dc2626;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;margin-left:8px;">0</span>
+                    </span>
+                </div>
+                <div id="approvalEmpty" style="display:none;background:white;border-radius:12px;border:1px solid #e2e8f0;padding:20px;text-align:center;color:#94a3b8;font-size:13px;">
+                    ✅ Tidak ada jadwal yang menunggu approval
+                </div>
+                <div class="tcard" id="approvalCard" style="display:none;margin-bottom:0;">
+                    <table>
+                        <thead><tr><th>User</th><th>Tgl Jadwal</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>Aksi</th></tr></thead>
+                        <tbody id="dApproval"></tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- JADWAL -->
@@ -557,6 +534,35 @@
                 <tbody id="dAbsensi"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
 
+            <!-- ANALISA -->
+            <div class="ssep-row">
+                <span class="ssep-title">🔍 Analisa — <span id="dashAnalisaPeriodeTitle">Bulan Ini</span></span>
+                <div class="dash-tabs">
+                    <button class="dtab da-aktif" id="atab-aktif"   onclick="setAnalisaTab('aktif')">Aktif</button>
+                    <button class="dtab"          id="atab-pending" onclick="setAnalisaTab('pending')">Pending</button>
+                    <button class="dtab"          id="atab-done"    onclick="setAnalisaTab('done')">Done</button>
+                    <button class="dtab"          id="atab-all"     onclick="setAnalisaTab('all')">All</button>
+                </div>
+            </div>
+            <div class="tcard" style="margin-bottom:24px;"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Masalah</th><th>Rencana</th><th>Target</th><th>View</th></tr></thead>
+                <tbody id="dAnalisa"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+
+            <!-- PENGENDALIAN -->
+            <div class="ssep-row">
+                <span class="ssep-title">⚙️ Pengendalian — <span id="dashPengendalianPeriodeTitle">Bulan Ini</span></span>
+                <div class="dash-tabs">
+                    <button class="dtab da-aktif" id="ptab-aktif"   onclick="setPengendalianTab('aktif')">Aktif</button>
+                    <button class="dtab"          id="ptab-pending" onclick="setPengendalianTab('pending')">Pending</button>
+                    <button class="dtab"          id="ptab-done"    onclick="setPengendalianTab('done')">Done</button>
+                    <button class="dtab"          id="ptab-all"     onclick="setPengendalianTab('all')">All</button>
+                </div>
+            </div>
+            <div class="tcard"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Hasil Aktual</th><th>Kesimpulan</th><th>Saran</th><th>View</th></tr></thead>
+                <tbody id="dPengendalian"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
         </div>
 
         <!-- JADWAL -->
@@ -580,13 +586,6 @@
             </table></div>
         </div>
 
-        <!-- JENIS PER KATEGORI (Meeting/Tes/Konseling/Seminar/Other) — khusus hari ini -->
-        <div class="page" id="page-jenis-meeting" data-jenis="meeting"></div>
-        <div class="page" id="page-jenis-tes" data-jenis="tes"></div>
-        <div class="page" id="page-jenis-konseling" data-jenis="konseling"></div>
-        <div class="page" id="page-jenis-seminar" data-jenis="seminar"></div>
-        <div class="page" id="page-jenis-others" data-jenis="others"></div>
-
         <!-- ABSENSI -->
         <div class="page" id="page-absensi">
             <div class="pg-header"><h2>Data Absensi</h2><p>Rekap kehadiran semua user</p></div>
@@ -600,7 +599,36 @@
                 <thead><tr><th>Tanggal</th><th>User</th><th>Tipe</th><th>Jam</th><th>View</th></tr></thead>
                 <tbody id="aTable"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
-            <div class="pgn" id="aPagination"></div>
+        </div>
+
+        <!-- ANALISA -->
+        <div class="page" id="page-analisa">
+            <div class="pg-header"><h2>Data Analisa Strategis</h2><p>Rekap analisa semua jadwal</p></div>
+            <div class="fbar">
+                <label>User:</label><select id="anFU"><option value="">-- Semua --</option></select>
+                <label>Bln:</label><input type="number" id="anFB" min="1" max="12" style="width:65px;">
+                <label>Thn:</label><input type="number" id="anFT" style="width:85px;">
+                <button class="btn-f" onclick="loadAnalisa()">🔍 Tampilkan</button>
+            </div>
+            <div class="tcard"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Masalah</th><th>Rencana</th><th>Target</th><th></th></tr></thead>
+                <tbody id="anTable"><tr class="lr"><td colspan="7"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+        </div>
+
+        <!-- PENGENDALIAN -->
+        <div class="page" id="page-pengendalian">
+            <div class="pg-header"><h2>Data Pengendalian & Evaluasi</h2><p>Rekap pengendalian semua jadwal</p></div>
+            <div class="fbar">
+                <label>User:</label><select id="pnFU"><option value="">-- Semua --</option></select>
+                <label>Bln:</label><input type="number" id="pnFB" min="1" max="12" style="width:65px;">
+                <label>Thn:</label><input type="number" id="pnFT" style="width:85px;">
+                <button class="btn-f" onclick="loadPengendalian()">🔍 Tampilkan</button>
+            </div>
+            <div class="tcard"><table>
+                <thead><tr><th>Tgl</th><th>User</th><th>Jenis</th><th>Hasil Aktual</th><th>Deviasi</th><th>Kesimpulan</th><th></th></tr></thead>
+                <tbody id="pnTable"><tr class="lr"><td colspan="7"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
         </div>
 
         <!-- USERS -->
@@ -643,32 +671,6 @@
             </table></div>
         </div>
 
-        <!-- JAM KERJA -->
-        <div class="page" id="page-jamkerja">
-            <div class="pg-header"><h2>⏰ Jam Kerja</h2><p>Jam masuk &amp; pulang standar dipakai untuk mendeteksi keterlambatan dan pulang terlalu cepat pada Masa Berakhir Magang</p></div>
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Jam Kerja Standar <span style="font-weight:400;color:#94a3b8;">(berlaku untuk semua, kecuali user yang diatur khusus di bawah)</span></h3>
-                <div style="display:grid;grid-template-columns:140px 140px auto;gap:10px;align-items:end;">
-                    <div class="fg" style="margin-bottom:0;"><label>Jam Masuk</label><input type="time" id="jkDefMasuk" value="08:00"></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Jam Pulang</label><input type="time" id="jkDefPulang" value="17:00"></div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanJamKerjaDefault()">💾 Simpan</button>
-                </div>
-            </div>
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Jam Kerja Khusus per User</h3>
-                <div style="display:grid;grid-template-columns:1fr 140px 140px auto;gap:10px;align-items:end;">
-                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="jkUserSelect"><option value="">-- Pilih User --</option></select></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Jam Masuk</label><input type="time" id="jkOvMasuk"></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Jam Pulang</label><input type="time" id="jkOvPulang"></div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahJamKerjaOverride()">+ Tambah</button>
-                </div>
-            </div>
-            <div class="tcard"><table>
-                <thead><tr><th>User</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Aksi</th></tr></thead>
-                <tbody id="jkOverrideTable"><tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
-        </div>
-
         <!-- PESAN PENGUMUMAN -->
         <div class="page" id="page-pesan">
             <div class="pg-header"><h2>📢 Pesan Pengumuman</h2><p>Buat pesan untuk peserta yang akan muncul otomatis saat halaman Portal Magang dibuka/refresh pada tanggal yang ditentukan</p></div>
@@ -693,16 +695,8 @@
                             <input type="radio" name="ps_penerima_mode" value="pilih" onchange="togglePenerimaMode()"> Pilih Peserta Tertentu
                         </label>
                     </div>
-                    <div id="psPenerimaWrap" style="display:none;">
-                        <div class="user-checkbox-panel">
-                            <div class="ucp-search"><input type="text" id="psUcpSearch" placeholder="🔍 Cari user..." oninput="filterPsUcp()"></div>
-                            <div class="ucp-list" id="psUcpList"><!-- diisi JS --></div>
-                            <div class="ucp-footer">
-                                <span class="ucp-count" id="psUcpCount">0 user dipilih</span>
-                                <button class="ucp-selall" id="psUcpSelall" onclick="togglePsSelectAll()">Pilih Semua</button>
-                            </div>
-                        </div>
-                        <div class="selected-tags" id="psSelectedTags"></div>
+                    <div id="psPenerimaList" style="display:none;max-height:170px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;background:#f8fafc;">
+                        <!-- checkboxes diisi via JS -->
                     </div>
                 </div>
                 <div style="margin-top:10px;display:flex;gap:8px;">
@@ -786,14 +780,6 @@
             <button class="btn-cancel" onclick="closeModal('modalJadwal')">Batal</button>
             <button class="btn-submit" onclick="saveJadwal(null)">💾 Simpan</button>
         </div>
-    </div>
-</div>
-
-<!-- MODAL GRUP JADWAL (detail saat 1 baris mewakili beberapa jadwal sejenis) -->
-<div class="overlay" id="modalGrupJAdmin" onclick="closeModal('modalGrupJAdmin')">
-    <div class="mbox" style="max-width:380px;" onclick="event.stopPropagation()">
-        <div class="mhead"><h3 id="mGrupJudulAdmin">Detail</h3><button onclick="closeModal('modalGrupJAdmin')">✕</button></div>
-        <div class="mbody" id="mGrupBodyAdmin"></div>
     </div>
 </div>
 
@@ -886,8 +872,6 @@ const KONTROL_LIBUR_ID = 5;
 const KONTROL_KET_ID = 5; // sama baris (id_x=5) dengan libur nasional, tapi kolom x_02 (tidak hadir)
 const KONTROL_KET_MASUK_ID = 5; // sama baris (id_x=5), kolom x_03 (masuk hari libur)
 const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 (pesan pengumuman untuk peserta)
-const KONTROL_JAMKERJA_ID = 5; // sama baris (id_x=5), kolom x_05 (jam kerja standar + khusus per user)
-let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
 let ketTidakHadirList = [];
 let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
 let ketMasukLiburList = [];
@@ -900,6 +884,8 @@ const JC = { meeting:'#ff7675', tes:'#74b9ff', konseling:'#55efc4', seminar:'#ff
 
 let currentTab = 'aktif';
 let dashJadwalTab       = 'aktif';
+let dashAnalisaTab      = 'aktif';
+let dashPengendalianTab = 'aktif';
 let allUsers   = [];
 let adminUser  = '';
 let dashPeriod = 'harian'; // 'harian' | 'mingguan' | 'bulanan'
@@ -1015,132 +1001,8 @@ async function showApp() {
     await ambilLiburNasional();
     await ambilKetTidakHadir();
     await ambilKetMasukLibur();
-    await ambilJamKerja();
     loadDashboard();
     loadMasaBerakhir();
-    loadJenisSidebarCounts();
-    loadKegiatanHariIni();
-}
-
-// ===== JAM KERJA (satu baris dengan libur nasional: id_x = 5, kolom x_05 berisi JSON {default,override}) =====
-async function ambilJamKerja() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_JAMKERJA_ID}&limit=1`);
-        const row = res.data?.[0];
-        let cfg = null;
-        if (row && row.x_05) { try { cfg = JSON.parse(row.x_05); } catch { cfg = null; } }
-        if (!cfg || typeof cfg !== 'object') cfg = {};
-        jamKerjaConfig = {
-            default: { masuk: (cfg.default && cfg.default.masuk) || '08:00', pulang: (cfg.default && cfg.default.pulang) || '17:00' },
-            override: (cfg.override && typeof cfg.override === 'object') ? cfg.override : {}
-        };
-    } catch (e) {
-        console.error(e);
-        jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
-    }
-}
-
-async function simpanJamKerja(cfg) {
-    const body = JSON.stringify({ x_05: JSON.stringify(cfg) });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_JAMKERJA_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        // Baris belum ada di tabel -> buat baru dengan id_x tetap
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_JAMKERJA_ID, x_05: JSON.stringify(cfg) })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    return res;
-}
-
-// Jam kerja efektif untuk seorang user: pakai pengaturan khusus kalau ada, jika tidak pakai standar
-function getJamKerjaUser(user) {
-    const ov = jamKerjaConfig.override[user];
-    return {
-        masuk:  (ov && ov.masuk)  ? ov.masuk  : jamKerjaConfig.default.masuk,
-        pulang: (ov && ov.pulang) ? ov.pulang : jamKerjaConfig.default.pulang
-    };
-}
-
-// Ubah string jam ("08:00" atau "08.05" dari toLocaleTimeString id-ID) jadi total menit, untuk perbandingan yang aman
-function jamKeMenitAdm(jamStr) {
-    if (!jamStr) return null;
-    const m = String(jamStr).match(/(\d{1,2})[.:](\d{2})/);
-    if (!m) return null;
-    return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
-}
-
-function loadJamKerja() {
-    document.getElementById('jkDefMasuk').value  = jamKerjaConfig.default.masuk;
-    document.getElementById('jkDefPulang').value = jamKerjaConfig.default.pulang;
-    const sel = document.getElementById('jkUserSelect');
-    if (sel) sel.innerHTML = '<option value="">-- Pilih User --</option>' + allUsers.map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
-    renderJamKerjaOverrideTable();
-}
-
-function renderJamKerjaOverrideTable() {
-    const tbody = document.getElementById('jkOverrideTable');
-    const keys = Object.keys(jamKerjaConfig.override);
-    tbody.innerHTML = keys.length ? keys.map(u => {
-        const ov = jamKerjaConfig.override[u];
-        const uEsc = u.replace(/'/g, "\\'");
-        return `<tr>
-            <td><span class="uchip"><span class="udot"></span>${escHtml(u)}</span></td>
-            <td>${escHtml(ov.masuk || '-')}</td>
-            <td>${escHtml(ov.pulang || '-')}</td>
-            <td><button class="btn-del" onclick="hapusJamKerjaOverride('${uEsc}')">🗑 Hapus</button></td>
-        </tr>`;
-    }).join('') : '<tr class="er"><td colspan="4">Belum ada pengaturan jam kerja khusus</td></tr>';
-}
-
-async function simpanJamKerjaDefault() {
-    const masuk  = document.getElementById('jkDefMasuk').value;
-    const pulang = document.getElementById('jkDefPulang').value;
-    if (!masuk || !pulang) return alert('Jam masuk & pulang wajib diisi.');
-    const cfgBaru = { default: { masuk, pulang }, override: jamKerjaConfig.override };
-    const res = await simpanJamKerja(cfgBaru);
-    if (res.success) {
-        jamKerjaConfig = cfgBaru;
-        loadMasaBerakhir();
-    } else {
-        alert('Gagal menyimpan jam kerja standar. Coba lagi.');
-    }
-}
-
-async function tambahJamKerjaOverride() {
-    const userEl   = document.getElementById('jkUserSelect');
-    const masukEl  = document.getElementById('jkOvMasuk');
-    const pulangEl = document.getElementById('jkOvPulang');
-    const user = userEl.value;
-    if (!user) return alert('Pilih user terlebih dahulu.');
-    if (!masukEl.value || !pulangEl.value) return alert('Jam masuk & pulang wajib diisi.');
-    const cfgBaru = { default: jamKerjaConfig.default, override: { ...jamKerjaConfig.override, [user]: { masuk: masukEl.value, pulang: pulangEl.value } } };
-    const res = await simpanJamKerja(cfgBaru);
-    if (res.success) {
-        jamKerjaConfig = cfgBaru;
-        userEl.value = ''; masukEl.value = ''; pulangEl.value = '';
-        renderJamKerjaOverrideTable();
-        loadMasaBerakhir();
-    } else {
-        alert('Gagal menyimpan pengaturan jam kerja khusus. Coba lagi.');
-    }
-}
-
-async function hapusJamKerjaOverride(user) {
-    if (!confirm(`Hapus pengaturan jam kerja khusus untuk ${user}?`)) return;
-    const overrideBaru = { ...jamKerjaConfig.override };
-    delete overrideBaru[user];
-    const cfgBaru = { default: jamKerjaConfig.default, override: overrideBaru };
-    const res = await simpanJamKerja(cfgBaru);
-    if (res.success) {
-        jamKerjaConfig = cfgBaru;
-        renderJamKerjaOverrideTable();
-        loadMasaBerakhir();
-    } else {
-        alert('Gagal menghapus. Coba lagi.');
-    }
 }
 
 // ===== LIBUR NASIONAL (tersimpan di tabel kontrol_admin, id_x = 5, kolom x_01 berisi JSON) =====
@@ -1281,119 +1143,60 @@ async function simpanPesanPengumuman(list) {
 function loadPesanPengumuman() {
     const tbody = document.getElementById('pesanTable');
     tbody.innerHTML = '<tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr>';
-    ambilPesanPengumuman().then(renderPesanTable);
-}
-
-function renderPesanTable() {
-    const tbody = document.getElementById('pesanTable');
-    if (!pesanPengumumanList.length) { tbody.innerHTML = '<tr class="er"><td colspan="4">Belum ada pesan pengumuman ditambahkan</td></tr>'; return; }
-    tbody.innerHTML = pesanPengumumanList.map(p => {
-        const [y, m, d] = p.tanggal.split('-').map(Number);
-        const dt = new Date(y, m - 1, d);
-        const modeLabel = p.mode === 'berulang'
-            ? '<span class="jtag" style="background:#74b9ff;">🔁 Setiap Refresh</span>'
-            : '<span class="jtag" style="background:#55efc4;">1️⃣ Sekali/Hari</span>';
-        const penerimaLabel = (!p.penerima || p.penerima === 'semua')
-            ? '<span style="color:#64748b;">👥 Semua Aktif</span>'
-            : `<span title="${escHtml((p.penerima||[]).join(', '))}" style="color:#64748b;">🎯 ${(p.penerima||[]).length} orang</span>`;
-        return `<tr>
-            <td>${fmtTglIndoSingkat(dt)}</td>
-            <td style="max-width:280px;white-space:pre-wrap;">${escHtml(p.pesan)}</td>
-            <td>${modeLabel}<br>${penerimaLabel}</td>
-            <td style="white-space:nowrap;">
-                <button class="btn-add-j" style="padding:4px 10px;font-size:11px;margin:0 4px 0 0;" onclick="editPesanPengumuman('${p.id}')">✏️ Edit</button>
-                <button class="btn-del" onclick="hapusPesanPengumuman('${p.id}')">🗑 Hapus</button>
-            </td>
-        </tr>`;
-    }).join('');
-}
-
-// ----- Picker penerima (checkbox + search), pola sama seperti "User Pemilik" di modal Jadwal -----
-function renderPsUcpList(users) {
-    const list = document.getElementById('psUcpList');
-    if (!list) return;
-    if (!users.length) { list.innerHTML = '<div style="padding:12px;color:#64748b;font-size:12.5px;text-align:center;">Tidak ada peserta aktif</div>'; return; }
-    list.innerHTML = users.map(u => `
-        <div class="ucp-item" onclick="togglePsUcpItem('${u.x_01}')">
-            <input type="checkbox" class="ps-ucp-cb" id="psucb_${u.x_01}" value="${u.x_01}" onclick="event.stopPropagation(); updatePsSelectedTags()">
-            <label for="psucb_${u.x_01}" onclick="event.stopPropagation()">
-                <div class="ucp-avatar">${u.x_01.charAt(0).toUpperCase()}</div>
-                ${u.x_01}
-            </label>
-        </div>`).join('');
-    // Terapkan kembali centang yang sudah dipilih sebelumnya (search/reload tidak menghapus pilihan)
-    document.querySelectorAll('.ps-ucp-cb').forEach(cb => {
-        cb.checked = !!(window._psUcpChecked && window._psUcpChecked.has(cb.value));
+    if (!document.getElementById('psPenerimaList').innerHTML.trim()) renderPsPenerimaList();
+    ambilPesanPengumuman().then(() => {
+        if (!pesanPengumumanList.length) { tbody.innerHTML = '<tr class="er"><td colspan="4">Belum ada pesan pengumuman ditambahkan</td></tr>'; return; }
+        tbody.innerHTML = pesanPengumumanList.map(p => {
+            const [y, m, d] = p.tanggal.split('-').map(Number);
+            const dt = new Date(y, m - 1, d);
+            const modeLabel = p.mode === 'berulang'
+                ? '<span class="jtag" style="background:#74b9ff;">🔁 Setiap Refresh</span>'
+                : '<span class="jtag" style="background:#55efc4;">1️⃣ Sekali/Hari</span>';
+            const penerimaLabel = (!p.penerima || p.penerima === 'semua')
+                ? '<span style="color:#64748b;">👥 Semua Aktif</span>'
+                : `<span title="${escHtml((p.penerima||[]).join(', '))}" style="color:#64748b;">🎯 ${(p.penerima||[]).length} orang</span>`;
+            return `<tr>
+                <td>${fmtTglIndoSingkat(dt)}</td>
+                <td style="max-width:280px;white-space:pre-wrap;">${escHtml(p.pesan)}</td>
+                <td>${modeLabel}<br>${penerimaLabel}</td>
+                <td style="white-space:nowrap;">
+                    <button class="btn-add-j" style="padding:4px 10px;font-size:11px;margin:0 4px 0 0;" onclick="editPesanPengumuman('${p.id}')">✏️ Edit</button>
+                    <button class="btn-del" onclick="hapusPesanPengumuman('${p.id}')">🗑 Hapus</button>
+                </td>
+            </tr>`;
+        }).join('');
     });
 }
 
-function togglePsUcpItem(val) {
-    const cb = document.getElementById('psucb_' + val);
-    if (cb) { cb.checked = !cb.checked; updatePsSelectedTags(); }
-}
-
-function filterPsUcp() {
-    const q = document.getElementById('psUcpSearch').value.toLowerCase();
-    renderPsUcpList(getActiveUsers().filter(u => u.x_01.toLowerCase().includes(q)));
-}
-
-function updatePsSelectedTags() {
-    const checked = Array.from(document.querySelectorAll('.ps-ucp-cb:checked'));
-    window._psUcpChecked = new Set(checked.map(cb => cb.value));
-    document.getElementById('psUcpCount').textContent = checked.length + ' user dipilih';
-    document.getElementById('psSelectedTags').innerHTML = checked.map(cb =>
-        `<span class="sel-tag">${escHtml(cb.value)} <span class="rm" onclick="uncheckPsUser('${cb.value}')">×</span></span>`
-    ).join('');
-}
-
-function uncheckPsUser(val) {
-    const cb = document.getElementById('psucb_' + val);
-    if (cb) cb.checked = false;
-    if (window._psUcpChecked) window._psUcpChecked.delete(val);
-    updatePsSelectedTags();
-}
-
-function togglePsSelectAll() {
-    const cbs = document.querySelectorAll('.ps-ucp-cb');
-    const allChecked = cbs.length > 0 && Array.from(cbs).every(cb => cb.checked);
-    cbs.forEach(cb => cb.checked = !allChecked);
-    updatePsSelectedTags();
-    const btn = document.getElementById('psUcpSelall');
-    if (btn) btn.textContent = allChecked ? 'Pilih Semua' : 'Batal Semua';
+function renderPsPenerimaList(selected) {
+    const sel = new Set(selected || []);
+    const box = document.getElementById('psPenerimaList');
+    const users = getActiveUsers();
+    if (!users.length) { box.innerHTML = '<div style="color:#94a3b8;font-size:12px;">Tidak ada peserta aktif</div>'; return; }
+    box.innerHTML = users.map(u => `
+        <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;padding:4px 0;cursor:pointer;">
+            <input type="checkbox" class="ps-penerima-cb" value="${escHtml(u.x_01)}" ${sel.has(u.x_01)?'checked':''}> ${escHtml(u.x_01)}
+        </label>`).join('');
 }
 
 function togglePenerimaMode() {
     const mode = document.querySelector('input[name="ps_penerima_mode"]:checked').value;
-    const wrap = document.getElementById('psPenerimaWrap');
-    if (mode === 'pilih') {
-        wrap.style.display = 'block';
-        document.getElementById('psUcpSearch').value = '';
-        renderPsUcpList(getActiveUsers()); // selalu render ulang: data user terkini + centang yang sudah dipilih tetap terjaga
-        updatePsSelectedTags();
-    } else {
-        wrap.style.display = 'none';
-    }
+    const box = document.getElementById('psPenerimaList');
+    if (mode === 'pilih') { box.style.display = 'block'; if (!box.innerHTML.trim()) renderPsPenerimaList(); }
+    else box.style.display = 'none';
 }
 
 function getPenerimaFromForm() {
     const mode = document.querySelector('input[name="ps_penerima_mode"]:checked').value;
     if (mode === 'semua') return 'semua';
-    return Array.from(document.querySelectorAll('.ps-ucp-cb:checked')).map(cb => cb.value);
+    return Array.from(document.querySelectorAll('.ps-penerima-cb:checked')).map(cb => cb.value);
 }
 
 function setPenerimaToForm(penerima) {
     const isSemua = !penerima || penerima === 'semua';
     document.querySelector(`input[name="ps_penerima_mode"][value="${isSemua ? 'semua' : 'pilih'}"]`).checked = true;
-    window._psUcpChecked = isSemua ? new Set() : new Set(penerima);
-    const wrap = document.getElementById('psPenerimaWrap');
-    if (isSemua) {
-        wrap.style.display = 'none';
-    } else {
-        wrap.style.display = 'block';
-        document.getElementById('psUcpSearch').value = '';
-        renderPsUcpList(getActiveUsers());
-        updatePsSelectedTags();
-    }
+    renderPsPenerimaList(isSemua ? [] : penerima);
+    document.getElementById('psPenerimaList').style.display = isSemua ? 'none' : 'block';
 }
 
 function resetFormPesan() {
@@ -1403,9 +1206,7 @@ function resetFormPesan() {
     document.getElementById('ps_mode').value = 'sekali';
     document.getElementById('btnPesanSubmit').textContent = '+ Tambah';
     document.getElementById('btnPesanBatal').style.display = 'none';
-    window._psUcpChecked = new Set();
-    document.querySelector('input[name="ps_penerima_mode"][value="semua"]').checked = true;
-    document.getElementById('psPenerimaWrap').style.display = 'none';
+    setPenerimaToForm('semua');
 }
 
 function editPesanPengumuman(id) {
@@ -1438,12 +1239,10 @@ async function simpanFormPesan() {
     } else {
         listBaru = [...pesanPengumumanList, { id: String(Date.now()), tanggal: tanggalStr, pesan, mode, penerima }];
     }
-    listBaru.sort((a, b) => String(b.tanggal).localeCompare(String(a.tanggal)));
     const res = await simpanPesanPengumuman(listBaru);
     if (res.success) {
-        pesanPengumumanList = listBaru; // update lokal langsung, tidak bergantung fetch ulang (hindari lag/cache)
         resetFormPesan();
-        renderPesanTable();
+        await loadPesanPengumuman();
     } else {
         alert('Gagal menyimpan pesan pengumuman. Coba lagi.');
     }
@@ -1454,9 +1253,8 @@ async function hapusPesanPengumuman(id) {
     const listBaru = pesanPengumumanList.filter(p => String(p.id) !== String(id));
     const res = await simpanPesanPengumuman(listBaru);
     if (res.success) {
-        pesanPengumumanList = listBaru; // update lokal langsung, tidak bergantung fetch ulang (hindari lag/cache)
         if (String(_editPesanId) === String(id)) resetFormPesan();
-        renderPesanTable();
+        await loadPesanPengumuman();
     } else {
         alert('Gagal menghapus. Coba lagi.');
     }
@@ -1619,13 +1417,10 @@ function hitungHariKerjaAntaraAdm(dariDate, sampaiDate) {
     while (cur <= sampaiDate) { if (!isHariLiburAdm(cur)) cnt++; cur.setDate(cur.getDate() + 1); }
     return cnt;
 }
-function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
+function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords) {
     const [my, mm, md] = mulaiStr.split('-').map(Number);
     const mulaiDate = new Date(my, mm - 1, md);
     const today = new Date(); today.setHours(0, 0, 0, 0);
-    const jamStandar = getJamKerjaUser(user);
-    const batasMasuk  = jamKeMenitAdm(jamStandar.masuk);
-    const batasPulang = jamKeMenitAdm(jamStandar.pulang);
 
     // Peta per-tanggal: { masuk: '08:00', pulang: '17:00' }
     const peta = {};
@@ -1637,8 +1432,8 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
     });
 
     // Hari kerja (Sen-Jum, dan bukan libur nasional) sejak sehari setelah mulai s/d kemarin:
-    // Untuk hari yang SUDAH LEWAT: dianggap tidak masuk kalau salah satu tidak ada
-    // (tidak ada absensi masuk ATAU tidak ada absensi keluar/pulang pada hari itu).
+    // - tanpa MASUK sama sekali      -> jenis 'absen' (tidak hadir penuh, memperpanjang akhir)
+    // - ada MASUK tapi tanpa PULANG  -> jenis 'lupa_pulang' (tetap ditampilkan, tidak memperpanjang akhir)
     const tidakHadir = [];
     const kemarin = new Date(today); kemarin.setDate(kemarin.getDate() - 1);
     {
@@ -1647,28 +1442,13 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
             if (!isHariLiburAdm(cur)) {
                 const s = tglKeStrAdm(cur);
                 const rec = peta[s];
-                if (!rec || !rec.masuk) tidakHadir.push({ tanggal: new Date(cur), jenis: 'tanpa_masuk' });
-                else if (!rec.pulang)   tidakHadir.push({ tanggal: new Date(cur), jenis: 'tanpa_pulang', jamMasuk: rec.masuk });
+                if (!rec || !rec.masuk) tidakHadir.push({ tanggal: new Date(cur), jenis: 'absen' });
+                else if (!rec.pulang)   tidakHadir.push({ tanggal: new Date(cur), jenis: 'lupa_pulang', jamMasuk: rec.masuk });
             }
             cur.setDate(cur.getDate() + 1);
         }
     }
-    // Khusus HARI INI (bukan hari libur): pakai batas waktu toleransi, bukan langsung dianggap tidak masuk.
-    // - Belum absen masuk sampai jam 09:00 -> dianggap tidak masuk (kecuali nanti tetap absen -> jadi terlambat, bukan tidak masuk)
-    // - Sudah absen masuk tapi belum absen pulang sampai jam 19:00 -> dianggap tidak masuk
-    const BATAS_TANPA_MASUK_MENIT  = 9  * 60; // 09:00
-    const BATAS_TANPA_PULANG_MENIT = 19 * 60; // 19:00
-    if (!isHariLiburAdm(today) && today >= mulaiDate) {
-        const sHariIni = tglKeStrAdm(today);
-        const recHariIni = peta[sHariIni];
-        const nowMenit = new Date().getHours() * 60 + new Date().getMinutes();
-        if (!recHariIni || !recHariIni.masuk) {
-            if (nowMenit >= BATAS_TANPA_MASUK_MENIT) tidakHadir.push({ tanggal: new Date(today), jenis: 'tanpa_masuk', hariIni: true });
-        } else if (!recHariIni.pulang) {
-            if (nowMenit >= BATAS_TANPA_PULANG_MENIT) tidakHadir.push({ tanggal: new Date(today), jenis: 'tanpa_pulang', jamMasuk: recHariIni.masuk, hariIni: true });
-        }
-    }
-    const absenPenuhCount = tidakHadir.length;
+    const absenPenuhCount = tidakHadir.filter(t => t.jenis === 'absen').length;
 
     // Masuk di hari libur: tanggal dengan MASUK yang jatuh di Sabtu/Minggu ATAU libur nasional, sejak mulai s/d hari ini
     const masukLibur = [];
@@ -1683,29 +1463,6 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
     masukLibur.sort((a, b) => a.tanggal - b.tanggal);
     tidakHadir.sort((a, b) => a.tanggal - b.tanggal);
 
-    // Terlambat & cepat pulang: hari kerja biasa (bukan hari libur) sejak mulai s/d hari ini,
-    // dibandingkan terhadap jam kerja standar/khusus user (kontrol_admin id_x=5, kolom x_05).
-    const terlambat = [];
-    const cepatPulang = [];
-    if (batasMasuk != null || batasPulang != null) {
-        Object.keys(peta).forEach(s => {
-            const [y, m, d] = s.split('-').map(Number);
-            const dt = new Date(y, m - 1, d);
-            if (dt < mulaiDate || dt > today || isHariLiburAdm(dt)) return;
-            const rec = peta[s];
-            if (batasMasuk != null && rec.masuk) {
-                const mnt = jamKeMenitAdm(rec.masuk);
-                if (mnt != null && mnt > batasMasuk) terlambat.push({ tanggal: dt, jamMasuk: rec.masuk, standar: jamStandar.masuk, selisih: mnt - batasMasuk });
-            }
-            if (batasPulang != null && rec.pulang) {
-                const mnt = jamKeMenitAdm(rec.pulang);
-                if (mnt != null && mnt < batasPulang) cepatPulang.push({ tanggal: dt, jamPulang: rec.pulang, standar: jamStandar.pulang, selisih: batasPulang - mnt });
-            }
-        });
-    }
-    terlambat.sort((a, b) => a.tanggal - b.tanggal);
-    cepatPulang.sort((a, b) => a.tanggal - b.tanggal);
-
     const baseAkhir = hitungTglBerakhirMagangDasar(mulaiStr);
     const penyesuaian = absenPenuhCount - masukLibur.length;
     const akhirDate = new Date(baseAkhir);
@@ -1713,7 +1470,7 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
 
     const sisaHariKerja = akhirDate >= today ? hitungHariKerjaAntaraAdm(today, akhirDate) : 0;
 
-    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, terlambat, cepatPulang, sisaHariKerja };
+    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, sisaHariKerja };
 }
 
 async function loadMasaBerakhir() {
@@ -1721,10 +1478,10 @@ async function loadMasaBerakhir() {
     const usersAktif = getActiveUsers();
     document.getElementById('mbCount').textContent = usersAktif.length + ' user';
     if (!usersAktif.length) {
-        body.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:18px;color:#94a3b8;">Tidak ada user aktif (x_10)</td></tr>';
+        body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:18px;color:#94a3b8;">Tidak ada user aktif (x_10)</td></tr>';
         return;
     }
-    body.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr>';
+    body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr>';
     try {
         // Limit besar (bukan 1) karena API tidak punya parameter sort/order,
         // jadi limit=1 tidak menjamin record absensi paling awal yang terambil.
@@ -1737,7 +1494,7 @@ async function loadMasaBerakhir() {
             const data = results[i].data || [];
             const mulaiStr = data.reduce((min, d) => (d.x_02 && (!min || d.x_02 < min)) ? d.x_02 : min, null);
             if (!mulaiStr) return { user: u.x_01, mulaiStr: null };
-            const mk = hitungMasaKerjaLengkapAdm(mulaiStr, data, u.x_01);
+            const mk = hitungMasaKerjaLengkapAdm(mulaiStr, data);
             return { user: u.x_01, mulaiStr, ...mk };
         });
         rows.sort((a, b) => {
@@ -1750,7 +1507,7 @@ async function loadMasaBerakhir() {
             if (!r.mulaiStr) {
                 return `<tr>
                     <td><span class="uchip"><span class="udot"></span>${r.user}</span></td>
-                    <td colspan="8" style="color:#94a3b8;">Belum ada data absensi</td>
+                    <td colspan="6" style="color:#94a3b8;">Belum ada data absensi</td>
                 </tr>`;
             }
             let badge;
@@ -1764,12 +1521,6 @@ async function loadMasaBerakhir() {
             const masukLiburTxt = r.masukLibur.length
                 ? `<span class="mb-mini mb-mini-hijau" onclick="bukaMbDetail('${uEsc}','masuklibur')">${r.masukLibur.length} hari</span>`
                 : `<span class="mb-mini-nol">-</span>`;
-            const terlambatTxt = r.terlambat.length
-                ? `<span class="mb-mini mb-mini-oranye" onclick="bukaMbDetail('${uEsc}','terlambat')">${r.terlambat.length} hari</span>`
-                : `<span class="mb-mini-nol">-</span>`;
-            const cepatPulangTxt = r.cepatPulang.length
-                ? `<span class="mb-mini mb-mini-biru" onclick="bukaMbDetail('${uEsc}','cepatpulang')">${r.cepatPulang.length} hari</span>`
-                : `<span class="mb-mini-nol">-</span>`;
             return `<tr>
                 <td><span class="uchip"><span class="udot"></span>${r.user}</span></td>
                 <td>${fmtTglIndoSingkat(r.mulaiDate)}</td>
@@ -1777,14 +1528,12 @@ async function loadMasaBerakhir() {
                 <td>${r.sisaHariKerja <= 0 && r.akhirDate < today ? '0' : r.sisaHariKerja} hari kerja</td>
                 <td>${tidakHadirTxt}</td>
                 <td>${masukLiburTxt}</td>
-                <td>${terlambatTxt}</td>
-                <td>${cepatPulangTxt}</td>
                 <td>${badge}</td>
             </tr>`;
         }).join('');
     } catch (e) {
         console.error(e);
-        body.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:18px;color:#ef4444;">Gagal memuat data</td></tr>';
+        body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:18px;color:#ef4444;">Gagal memuat data</td></tr>';
     }
 }
 
@@ -1798,24 +1547,24 @@ function bukaMbDetail(user, jenis) {
         judul.textContent = `❌ Tidak Hadir — ${user}`;
         const uEsc2 = user.replace(/'/g, "\\'");
         body.innerHTML = r.tidakHadir.map(t => {
-            const tglStr = tglKeStrAdm(t.tanggal);
-            const k = ketTidakHadirMap[`${user}|${tglStr}`];
-            const ketHtml = k
-                ? `<span class="ket-th-tag" onclick="bukaKetTH('${uEsc2}','${tglStr}')">🏷️ ${escHtml(k.jenis)}${k.ket ? ' &middot; ' + escHtml(k.ket) : ''}</span>`
-                : `<button class="btn-add-ket" onclick="bukaKetTH('${uEsc2}','${tglStr}')">+ Tambah Keterangan</button>`;
-            let ket;
-            if (t.jenis === 'tanpa_masuk') {
-                ket = t.hariIni ? 'Belum absen masuk sampai jam 09:00 hari ini &middot; dianggap tidak masuk (kecuali nanti tetap absen &rarr; jadi terlambat)' : 'Tidak hadir (tidak ada absensi masuk)';
-            } else {
-                ket = t.hariIni ? `Sudah absen masuk jam ${t.jamMasuk}, tapi belum absen pulang sampai jam 19:00 hari ini &middot; dianggap tidak masuk` : `Tidak hadir (tidak ada absensi pulang) &middot; masuk jam ${t.jamMasuk}`;
+            if (t.jenis === 'absen') {
+                const tglStr = tglKeStrAdm(t.tanggal);
+                const k = ketTidakHadirMap[`${user}|${tglStr}`];
+                const ketHtml = k
+                    ? `<span class="ket-th-tag" onclick="bukaKetTH('${uEsc2}','${tglStr}')">🏷️ ${escHtml(k.jenis)}${k.ket ? ' &middot; ' + escHtml(k.ket) : ''}</span>`
+                    : `<button class="btn-add-ket" onclick="bukaKetTH('${uEsc2}','${tglStr}')">+ Tambah Keterangan</button>`;
+                return `<div class="mkd-row mkd-row-merah">
+                    <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
+                    <div class="mkd-ket">Tidak hadir (tidak ada absensi masuk)</div>
+                    <div class="mkd-ket-row">${ketHtml}</div>
+                </div>`;
             }
-            return `<div class="mkd-row mkd-row-merah">
+            return `<div class="mkd-row mkd-row-kuning">
                 <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
-                <div class="mkd-ket">${ket}</div>
-                <div class="mkd-ket-row">${ketHtml}</div>
+                <div class="mkd-ket">Lupa absen pulang &middot; masuk jam ${t.jamMasuk}</div>
             </div>`;
         }).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    } else if (jenis === 'masuklibur') {
+    } else {
         judul.textContent = `🎉 Masuk Hari Libur — ${user}`;
         const uEsc3 = user.replace(/'/g, "\\'");
         body.innerHTML = r.masukLibur.map(t => {
@@ -1830,18 +1579,6 @@ function bukaMbDetail(user, jenis) {
                 <div class="mkd-ket-row">${ketHtml}</div>
             </div>`;
         }).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    } else if (jenis === 'terlambat') {
-        judul.textContent = `⏰ Terlambat Absen — ${user}`;
-        body.innerHTML = r.terlambat.map(t => `<div class="mkd-row mkd-row-oranye">
-                <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
-                <div class="mkd-ket">Masuk jam ${t.jamMasuk} &middot; standar ${t.standar} &middot; terlambat ${t.selisih} menit</div>
-            </div>`).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    } else {
-        judul.textContent = `🏃 Cepat Pulang — ${user}`;
-        body.innerHTML = r.cepatPulang.map(t => `<div class="mkd-row mkd-row-biru">
-                <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
-                <div class="mkd-ket">Pulang jam ${t.jamPulang} &middot; standar ${t.standar} &middot; lebih cepat ${t.selisih} menit</div>
-            </div>`).join('') || '<div class="mkd-empty">Tidak ada data</div>';
     }
     document.getElementById('modalMbDetail').style.display = 'flex';
 }
@@ -1860,9 +1597,8 @@ function showPage(pg) {
     if (sb) sb.classList.remove('sb-open');
     if (ov) ov.classList.remove('open');
     if (btn) btn.classList.remove('open');
-    const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman };
+    const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, analisa: loadAnalisa, pengendalian: loadPengendalian, users: loadUsers, akun: loadAkun, libur: loadLiburNasional, pesan: loadPesanPengumuman };
     if (map[pg]) map[pg]();
-    else if (pg.startsWith('jenis-')) loadJenisPage(pg.slice(6));
 }
 
 // ===== USERS =====
@@ -1880,7 +1616,7 @@ async function loadAllUsers() {
         allUsers = res.data;
         const aktifUsers = getActiveUsers();
         const opts = aktifUsers.map(u => `<option value="${u.x_01}">${u.x_01}</option>`).join('');
-        ['jFU','aFU'].forEach(id => document.getElementById(id).innerHTML = '<option value="">-- Semua --</option>' + opts);
+        ['jFU','aFU','anFU','pnFU'].forEach(id => document.getElementById(id).innerHTML = '<option value="">-- Semua --</option>' + opts);
         document.getElementById('mf_user').innerHTML = '<option value="">-- Pilih User --</option>' + opts;
         // Render checkbox list
         renderUCPList(aktifUsers);
@@ -1948,7 +1684,7 @@ async function loadDashboard() {
     // Update labels
     document.getElementById('dashPeriodeLabel').textContent = pr.shortLabel;
     document.getElementById('periodInfoText').textContent   = pr.label;
-    ['dashJadwalPeriodeTitle'].forEach(id => {
+    ['dashJadwalPeriodeTitle','dashAnalisaPeriodeTitle','dashPengendalianPeriodeTitle'].forEach(id => {
         const el = document.getElementById(id); if(el) el.textContent = pr.shortLabel;
     });
     const absTitleEl = document.getElementById('dashAbsensiPeriodeTitle');
@@ -1970,11 +1706,12 @@ async function loadDashboard() {
         qAbs  += `&x_02_gte=${pr.thn}-${String(pr.bln).padStart(2,'0')}-01`;
     }
 
-    const [rA,rP,rD,rAbs] = await Promise.all([
+    const [rA,rP,rD,rAbs,rNA] = await Promise.all([
         api(qBase + '&x_05_eq=aktif'),
         api(qBase + '&x_05_eq=pending'),
         api(qBase + '&x_05_eq=done'),
         api(qAbs),
+        api('?table=' + TJ + '&x_12_eq=needs_approval'),
     ]);
 
     let aktifData   = rA.data   || [];
@@ -2007,6 +1744,8 @@ async function loadDashboard() {
     document.getElementById('stDone').textContent    = doneData.length;
     document.getElementById('stAbsensi').textContent = absData.length;
 
+    window._dashNeedsApprovalData = (rNA.data || []).filter(d => activeSet.has(d.x_09));
+    renderDashApproval();
     window._dashJadwalData = { aktif: aktifData, pending: pendingData, done: doneData };
     renderDashJadwal();
 
@@ -2022,6 +1761,18 @@ async function loadDashboard() {
           </tr>`).join('')
         : `<tr class="er"><td colspan="5">Tidak ada absensi ${pr.shortLabel.toLowerCase()}</td></tr>`;
 
+    window._dashAnalisaData = {
+        aktif:   aktifData.filter(j=>j.x_10),
+        pending: pendingData.filter(j=>j.x_10),
+        done:    doneData.filter(j=>j.x_10),
+    };
+    window._dashPengendalianData = {
+        aktif:   aktifData.filter(j=>j.x_15),
+        pending: pendingData.filter(j=>j.x_15),
+        done:    doneData.filter(j=>j.x_15),
+    };
+    renderDashAnalisa();
+    renderDashPengendalian();
 }
 // ===== DASH JADWAL TAB =====
 function setDashTab(tab) {
@@ -2075,6 +1826,112 @@ function renderDashJadwal() {
         : '<tr class="er"><td colspan="7">Tidak ada data</td></tr>';
 }
 
+function renderDashApproval() {
+    const data  = window._dashNeedsApprovalData || [];
+    const badge = document.getElementById('approvalBadge');
+    const empty = document.getElementById('approvalEmpty');
+    const card  = document.getElementById('approvalCard');
+    const tbody = document.getElementById('dApproval');
+    if (!tbody) return;
+    if (badge) { badge.textContent = data.length; badge.style.display = data.length > 0 ? 'inline-block' : 'none'; }
+    if (data.length === 0) {
+        if (empty) empty.style.display = 'block';
+        if (card)  card.style.display  = 'none';
+        return;
+    }
+    if (empty) empty.style.display = 'none';
+    if (card)  card.style.display  = 'block';
+    tbody.innerHTML = data.map(function(d) {
+        var tgl = d.x_01 + '/' + d.x_06 + '/' + d.x_07;
+        var ket = (d.x_04||d.x_03||'-').substring(0, 40);
+        var id  = d.id_x;
+        var usr = d.x_09||'-';
+        return '<tr style="background:#fff7f7;">'
+            + '<td><span class="uchip"><span class="udot" style="background:#dc2626;"></span>' + usr + '</span></td>'
+            + '<td><b>' + tgl + '</b></td>'
+            + '<td><span class="jtag" style="background:' + (JC[d.x_03]||'#eee') + '">' + (d.x_03||'-') + '</span></td>'
+            + '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + ket + '</td>'
+            + '<td><span class="badge b-' + d.x_05 + '">' + d.x_05 + '</span></td>'
+            + '<td><button class="btn-approve-pulang" onclick="approvePulang(' + "'" + id + "','" + usr + "','" + ket.substring(0,25) + "'" + ')">✅ Approve Pulang</button></td>'
+            + '</tr>';
+    }).join('');
+}
+function setAnalisaTab(tab) {
+    dashAnalisaTab = tab;
+    ['aktif','pending','done','all'].forEach(t => {
+        const el = document.getElementById('atab-'+t);
+        if (el) el.className = 'dtab' + (t === tab ? ' da-'+tab : '');
+    });
+    renderDashAnalisa();
+}
+
+function renderDashAnalisa() {
+    const d = window._dashAnalisaData;
+    if (!d) return;
+    const data = (dashAnalisaTab === 'all'
+        ? [...d.aktif, ...d.pending, ...d.done]
+        : d[dashAnalisaTab] || []
+    ).slice(0, 10);
+    document.getElementById('dAnalisa').innerHTML = data.length
+        ? data.map(d => {
+            const a = pj(d.x_10)||{};
+            let viewBtn = '';
+            if (d.x_08) {
+                const sk = 'dash_a_' + d.id_x;
+                _buktiStore[sk] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
+                if (d.x_08.startsWith('LINK:')) {
+                    const lnk = d.x_08.substring(5);
+                    viewBtn = `<a href="${lnk}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
+                } else {
+                    let cnt = 1; try { const p=JSON.parse(d.x_08); if(Array.isArray(p)) cnt=p.length; } catch {}
+                    viewBtn = `<button class="btn-view" onclick="event.stopPropagation();showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
+                }
+            } else {
+                viewBtn = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;">👁 View</button>`;
+            }
+            return `<tr><td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td>${tr(a.masalah,35)}</td><td>${tr(a.rencana,35)}</td><td>${tr(a.target,35)}</td><td>${viewBtn}</td></tr>`;
+          }).join('')
+        : '<tr class="er"><td colspan="6">Tidak ada data analisa</td></tr>';
+}
+
+function setPengendalianTab(tab) {
+    dashPengendalianTab = tab;
+    ['aktif','pending','done','all'].forEach(t => {
+        const el = document.getElementById('ptab-'+t);
+        if (el) el.className = 'dtab' + (t === tab ? ' da-'+tab : '');
+    });
+    renderDashPengendalian();
+}
+
+function renderDashPengendalian() {
+    const d = window._dashPengendalianData;
+    if (!d) return;
+    const data = (dashPengendalianTab === 'all'
+        ? [...d.aktif, ...d.pending, ...d.done]
+        : d[dashPengendalianTab] || []
+    ).slice(0, 10);
+    document.getElementById('dPengendalian').innerHTML = data.length
+        ? data.map(d => {
+            const p = pj(d.x_15)||{};
+            let viewBtn = '';
+            if (d.x_08) {
+                const sk = 'dash_p_' + d.id_x;
+                _buktiStore[sk] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
+                if (d.x_08.startsWith('LINK:')) {
+                    const lnk = d.x_08.substring(5);
+                    viewBtn = `<a href="${lnk}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
+                } else {
+                    let cnt = 1; try { const pp=JSON.parse(d.x_08); if(Array.isArray(pp)) cnt=pp.length; } catch {}
+                    viewBtn = `<button class="btn-view" onclick="event.stopPropagation();showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
+                }
+            } else {
+                viewBtn = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;">👁 View</button>`;
+            }
+            return `<tr><td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td><td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td><td>${tr(p.aktual,35)}</td><td><span class="badge b-${p.kesimpulan||'sesuai'}">${p.kesimpulan||'-'}</span></td><td>${tr(p.saran,35)}</td><td>${viewBtn}</td></tr>`;
+          }).join('')
+        : '<tr class="er"><td colspan="6">Tidak ada data pengendalian</td></tr>';
+}
+
 // ===== JADWAL =====
 function setTab(tab) {
     currentTab = tab;
@@ -2093,208 +1950,45 @@ async function loadJadwal() {
     const res = await api(q);
     const activeSet = getActiveUserNames();
     const data = (res.data||[]).filter(d => activeSet.has(d.x_09)).sort((a,b)=>Number(b.x_01)-Number(a.x_01));
-
-    // Kelompokkan per (tanggal+bulan+tahun+jenis+user) — kalau user yang sama punya
-    // beberapa jadwal sejenis di hari yang sama, cukup 1 baris ringkasan dengan badge jumlah.
-    const groups = {};
-    data.forEach(d => {
-        const key = `${d.x_01}|${d.x_06}|${d.x_07}|${d.x_03}|${d.x_09}`;
-        if(!groups[key]) groups[key] = [];
-        groups[key].push(d);
-    });
-    window._jGroups = groups; // dipakai saat buka detail grup
-
-    document.getElementById('jTable').innerHTML = Object.keys(groups).length
-        ? Object.entries(groups).map(([key, items]) => renderJadwalRow(key, items)).join('')
-        : '<tr class="er"><td colspan="6">Tidak ada data</td></tr>';
-}
-
-// Render 1 baris tabel jadwal. Kalau grup berisi >1 jadwal sejenis di hari yang sama,
-// tampil sebagai 1 baris ringkasan dengan badge jumlah — klik untuk lihat detail,
-// lalu klik salah satu item detail untuk baru membuka modal edit seperti biasa.
-function renderJadwalRow(key, items) {
-    if (items.length === 1) {
-        const d = items[0];
-        let fotoBtnHtml = '';
-        if (d.x_05 === 'done' && d.x_08) {
-            const storeKey = 'bukti_' + d.id_x;
-            _buktiStore[storeKey] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
-            if (d.x_08.startsWith('LINK:')) {
-                // Bukti berupa link eksternal — tampil sebagai tombol buka link
-                const actualLink = d.x_08.substring(5);
-                fotoBtnHtml = `<a href="${actualLink}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
-            } else {
-                let buktiCount = 1;
-                try { const p = JSON.parse(d.x_08); if(Array.isArray(p)) buktiCount = p.length; } catch {}
-                const label = buktiCount > 1 ? `👁 View (${buktiCount})` : '👁 View';
-                fotoBtnHtml = `<button class="btn-view" onclick="showFotoBuktiByKey('${storeKey}')">${label}</button>`;
+    document.getElementById('jTable').innerHTML = data.length
+        ? data.map(d => {
+            let fotoBtnHtml = '';
+            if (d.x_05 === 'done' && d.x_08) {
+                const storeKey = 'bukti_' + d.id_x;
+                _buktiStore[storeKey] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
+                if (d.x_08.startsWith('LINK:')) {
+                    // Bukti berupa link eksternal — tampil sebagai tombol buka link
+                    const actualLink = d.x_08.substring(5);
+                    fotoBtnHtml = `<a href="${actualLink}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
+                } else {
+                    let buktiCount = 1;
+                    try { const p = JSON.parse(d.x_08); if(Array.isArray(p)) buktiCount = p.length; } catch {}
+                    const label = buktiCount > 1 ? `👁 View (${buktiCount})` : '👁 View';
+                    fotoBtnHtml = `<button class="btn-view" onclick="showFotoBuktiByKey('${storeKey}')">${label}</button>`;
+                }
+            } else if (d.x_05 === 'done') {
+                fotoBtnHtml = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;" title="Tidak ada bukti">👁 View</button>`;
             }
-        } else if (d.x_05 === 'done') {
-            fotoBtnHtml = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;" title="Tidak ada bukti">👁 View</button>`;
-        }
-        return `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
-        <td><b>${d.x_01}</b><br><small style="color:#94a3b8">${d.x_02||''}</small></td>
-        <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
-        <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td>
-        <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.x_04||'-'}</td>
-        <td><span class="badge b-${d.x_05}">${d.x_05}</span></td>
-        <td onclick="event.stopPropagation()" style="text-align:center;">
-            ${d.x_11 ? (d.x_11.startsWith('LINK:')
-                ? `<a href="${d.x_11.substring(5)}" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:3px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#059669;text-decoration:none;">🔗</a>`
-                : (() => { let cnt=1; try{const p=JSON.parse(d.x_11);if(Array.isArray(p))cnt=p.length;}catch{} return `<button onclick="event.stopPropagation();bukaAdmLampiranEncoded(this)" data-x11="${encodeURIComponent(d.x_11)}" style="display:inline-flex;align-items:center;gap:3px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#2563eb;cursor:pointer;">📎 ${cnt}</button>`; })()
-            ) : ''}
-        </td>
-        <td onclick="event.stopPropagation()">
-            <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
-            <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
-            ${fotoBtnHtml}
-        </td></tr>`;
-    }
-    // Grup > 1 item sejenis di tanggal & user yang sama -> 1 baris ringkasan
-    const first = items[0];
-    const jenisLabel = (JENIS_META[first.x_03]||{}).label || first.x_03;
-    const statuses = [...new Set(items.map(x=>x.x_05))];
-    const statusHtml = statuses.length === 1
-        ? `<span class="badge b-${statuses[0]}">${statuses[0]}</span>`
-        : `<span class="badge" style="background:#f1f5f9;color:#475569;">campuran</span>`;
-    const keySafe = key.replace(/'/g, "\\'");
-    return `<tr onclick="bukaGrupJadwalAdmin('${keySafe}')" style="cursor:pointer;">
-    <td><b>${first.x_01}</b><br><small style="color:#94a3b8">${items.length} jadwal</small></td>
-    <td><span class="uchip"><span class="udot"></span>${first.x_09||'-'}</span></td>
-    <td><span class="jtag" style="background:${JC[first.x_03]||'#eee'}">${jenisLabel} ×${items.length}</span></td>
-    <td style="color:#94a3b8;">${items.length} kegiatan</td>
-    <td>${statusHtml}</td>
-    <td></td>
-    <td onclick="event.stopPropagation()"><button class="btn-view" onclick="bukaGrupJadwalAdmin('${keySafe}')">👁 Lihat ${items.length}</button></td></tr>`;
-}
-
-// Popup detail isi grup — klik salah satu item baru membuka modal edit.
-function bukaGrupJadwalAdmin(key) {
-    const items = (window._jGroups || {})[key];
-    if (!items) return;
-    const jenisLabel = (JENIS_META[items[0].x_03]||{}).label || items[0].x_03;
-    document.getElementById('mGrupJudulAdmin').textContent = `${jenisLabel} — ${items[0].x_09} (${items.length})`;
-    const body = document.getElementById('mGrupBodyAdmin');
-    body.innerHTML = items.map((item,i)=>`<div class="gitem" data-i="${i}">
-        <div class="gbody">
-            <div class="gjam">${item.x_02||'-'}</div>
-            <div class="gket">${(item.x_04||'-').replace(/</g,'&lt;')}</div>
-        </div>
-        <span class="gst ${item.x_05}">${item.x_05}</span>
-    </div>`).join('');
-    body.querySelectorAll('.gitem').forEach(el=>{
-        const i = parseInt(el.dataset.i);
-        el.onclick = () => { closeModal('modalGrupJAdmin'); openModalEdit(items[i]); };
-    });
-    document.getElementById('modalGrupJAdmin').style.display='flex';
-}
-
-// ===== JENIS PER KATEGORI (khusus hari ini) =====
-const JENIS_META = {
-    meeting:   { label: 'Meeting',   icon: '🧑‍🤝‍🧑' },
-    tes:       { label: 'Tes',       icon: '📝' },
-    konseling: { label: 'Konseling', icon: '💬' },
-    seminar:   { label: 'Seminar',   icon: '🎤' },
-    others:    { label: 'Other',     icon: '🗂️' }
-};
-
-// Ambil semua jadwal hari ini (semua jenis, semua status) milik user aktif — dipakai untuk badge sidebar & halaman jenis
-async function ambilJadwalHariIni() {
-    const now = new Date(), tgl = now.getDate(), bln = now.getMonth()+1, thn = now.getFullYear();
-    const res = await api(`?table=${TJ}&x_01_eq=${tgl}&x_06_eq=${bln}&x_07_eq=${thn}`);
-    const activeSet = getActiveUserNames();
-    return (res.data||[]).filter(d => activeSet.has(d.x_09));
-}
-
-// Card "Kegiatan Hari Ini" di dashboard — per jenis: jumlah user unik / total kegiatan
-async function loadKegiatanHariIni() {
-    const grid = document.getElementById('khGrid');
-    if (!grid) return;
-    const tglEl = document.getElementById('khTanggal');
-    if (tglEl) tglEl.textContent = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long' });
-
-    const data = await ambilJadwalHariIni();
-    const stats = {};
-    Object.keys(JENIS_META).forEach(k => stats[k] = { users: new Set(), total: 0 });
-    data.forEach(d => {
-        if (stats[d.x_03]) {
-            stats[d.x_03].total++;
-            if (d.x_09) stats[d.x_03].users.add(d.x_09);
-        }
-    });
-
-    const adaIsi = Object.entries(JENIS_META).filter(([key]) => stats[key].total > 0);
-    grid.innerHTML = adaIsi.length
-        ? adaIsi.map(([key, meta]) => {
-            const s = stats[key];
-            return `<div class="kh-item" onclick="showPage('jenis-${key}')" title="${s.users.size} user, ${s.total} kegiatan">
-                <div class="khi-icon">${meta.icon}</div>
-                <div class="khi-label">${meta.label}</div>
-                <div class="khi-val">${s.users.size}/${s.total}</div>
-                <div class="khi-sub">user / kegiatan</div>
-            </div>`;
-        }).join('')
-        : `<div class="kh-empty">Belum ada kegiatan terjadwal hari ini</div>`;
-}
-
-// Refresh badge count sidebar + halaman jenis kalau sedang dibuka
-function refreshJenisSemua() {
-    loadJenisSidebarCounts();
-    loadKegiatanHariIni();
-    const activePage = document.querySelector('.page.active');
-    if (activePage && activePage.id.startsWith('page-jenis-')) loadJenisPage(activePage.id.slice(10));
-}
-
-async function loadJenisSidebarCounts() {
-    const data = await ambilJadwalHariIni();
-    const counts = {};
-    Object.keys(JENIS_META).forEach(k => counts[k] = 0);
-    data.forEach(d => { if (counts.hasOwnProperty(d.x_03)) counts[d.x_03]++; });
-    Object.keys(JENIS_META).forEach(k => {
-        const el = document.getElementById('cnt-jenis-'+k);
-        if (el) el.textContent = `(${counts[k]})`;
-    });
-}
-
-async function loadJenisPage(jenisKey) {
-    const meta = JENIS_META[jenisKey];
-    const pageEl = document.getElementById('page-jenis-'+jenisKey);
-    if (!pageEl) return;
-    pageEl.innerHTML = `
-        <div class="pg-header"><h2>${meta.icon} ${meta.label} — Hari Ini</h2><p>Kegiatan jenis ${meta.label} yang terjadwal hari ini</p></div>
-        <div class="jn-stats">
-            <div class="scard"><span class="si">📋</span><div class="sl">Total Hari Ini</div><div class="sv" id="jnTotal-${jenisKey}">-</div></div>
-            <div class="scard"><span class="si">🏁</span><div class="sl">Sudah Done</div><div class="sv" id="jnDone-${jenisKey}" style="color:#10b981">-</div></div>
-            <div class="scard">
-                <div class="sl">Progres</div>
-                <div class="sv" id="jnPct-${jenisKey}" style="font-size:20px;">-</div>
-                <div class="jn-pbar-wrap"><div class="jn-pbar-fill" id="jnBar-${jenisKey}" style="width:0%;"></div></div>
-            </div>
-        </div>
-        <div class="tcard"><table>
-            <thead><tr><th>Jam</th><th>User</th><th>Keterangan</th><th>Status</th><th>Aksi</th></tr></thead>
-            <tbody id="jnTable-${jenisKey}"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
-        </table></div>`;
-
-    const data = (await ambilJadwalHariIni()).filter(d => d.x_03 === jenisKey).sort((a,b)=>(a.x_02||'').localeCompare(b.x_02||''));
-    const total = data.length, done = data.filter(d => d.x_05 === 'done').length;
-    const pct = total ? Math.round(done/total*100) : 0;
-    document.getElementById(`jnTotal-${jenisKey}`).textContent = total;
-    document.getElementById(`jnDone-${jenisKey}`).textContent = done;
-    document.getElementById(`jnPct-${jenisKey}`).textContent = pct + '%';
-    document.getElementById(`jnBar-${jenisKey}`).style.width = pct + '%';
-
-    document.getElementById(`jnTable-${jenisKey}`).innerHTML = data.length
-        ? data.map(d => `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
-            <td>${d.x_02||'-'}</td>
+            return `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
+            <td><b>${d.x_01}</b><br><small style="color:#94a3b8">${d.x_02||''}</small></td>
             <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
-            <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.x_04||'-'}</td>
+            <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td>
+            <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.x_04||'-'}</td>
             <td><span class="badge b-${d.x_05}">${d.x_05}</span></td>
+            <td onclick="event.stopPropagation()" style="text-align:center;">
+                ${d.x_11 ? (d.x_11.startsWith('LINK:')
+                    ? `<a href="${d.x_11.substring(5)}" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex;align-items:center;gap:3px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#059669;text-decoration:none;">🔗</a>`
+                    : (() => { let cnt=1; try{const p=JSON.parse(d.x_11);if(Array.isArray(p))cnt=p.length;}catch{} return `<button onclick="event.stopPropagation();bukaAdmLampiranEncoded(this)" data-x11="${encodeURIComponent(d.x_11)}" style="display:inline-flex;align-items:center;gap:3px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;padding:3px 7px;font-size:11px;font-weight:700;color:#2563eb;cursor:pointer;">📎 ${cnt}</button>`; })()
+                ) : ''}
+            </td>
             <td onclick="event.stopPropagation()">
+                ${d.x_12==='needs_approval' ? '<button class=\"btn-approve-pulang\" onclick=\"event.stopPropagation();approvePulang(\'' + d.id_x + '\',\'' + (d.x_09||'') + '\',\'' + (d.x_04||d.x_03||'').substring(0,25) + '\')\">✅ Acc Pulang</button>' : ''}
+                ${d.x_12==='approved_pulang' ? '<button class=\"btn-revoke-pulang\" onclick=\"event.stopPropagation();revokePulang(\'' + d.id_x + '\')\">↩ Cabut</button>' : ''}
                 <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
                 <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
-            </td></tr>`).join('')
-        : '<tr class="er"><td colspan="5">Tidak ada kegiatan hari ini</td></tr>';
+                ${fotoBtnHtml}
+            </td></tr>`;}).join('')
+        : '<tr class="er"><td colspan="6">Tidak ada data</td></tr>';
 }
 
 // Wrapper: ambil data dari store lalu panggil showFotoBukti
@@ -2305,69 +1999,76 @@ function showFotoBuktiByKey(key) {
 }
 
 // ===== ABSENSI =====
-let _absensiData = [];
-let _absensiPage = 1;
-const ABSENSI_PAGE_SIZE = 15;
-
 async function loadAbsensi() {
     const user=document.getElementById('aFU').value, dari=document.getElementById('aFD').value, sampai=document.getElementById('aFS').value;
     let q=`?table=${TA}`; if(user) q+=`&x_01_eq=${user}`; if(dari) q+=`&x_02_gte=${dari}`; if(sampai) q+=`&x_02_lte=${sampai}`;
     loading('aTable',5);
     const res = await api(q);
     const activeSet = getActiveUserNames();
-    _absensiData = (res.data||[]).filter(d => activeSet.has(d.x_01)).sort((a,b)=>(b.x_02||'').localeCompare(a.x_02||''));
-    _absensiPage = 1;
-    renderAbsensiTable();
-}
-
-function renderAbsensiTable() {
-    const data = _absensiData;
-    const totalPages = Math.max(1, Math.ceil(data.length / ABSENSI_PAGE_SIZE));
-    if (_absensiPage > totalPages) _absensiPage = totalPages;
-    const start = (_absensiPage - 1) * ABSENSI_PAGE_SIZE;
-    const pageData = data.slice(start, start + ABSENSI_PAGE_SIZE);
-
-    document.getElementById('aTable').innerHTML = pageData.length
-        ? pageData.map(d => `<tr>
+    const data = (res.data||[]).filter(d => activeSet.has(d.x_01)).sort((a,b)=>(b.x_02||'').localeCompare(a.x_02||''));
+    document.getElementById('aTable').innerHTML = data.length
+        ? data.map(d => `<tr>
             <td>${d.x_02||'-'}</td>
             <td><span class="uchip"><span class="udot"></span>${d.x_01||'-'}</span></td>
             <td><span class="badge b-${(d.x_05||'').toLowerCase()}">${d.x_05||'-'}</span></td>
             <td><b>${d.x_03||'-'}</b></td>
             <td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')" title="Klik untuk lihat">`:'<span style="color:#94a3b8;font-size:11px;">-</span>'}</td></tr>`).join('')
         : '<tr class="er"><td colspan="5">Tidak ada data absensi</td></tr>';
-
-    renderPagination('aPagination', data.length, _absensiPage, totalPages, ABSENSI_PAGE_SIZE, 'absensiGoToPage');
 }
 
-function absensiGoToPage(p) { _absensiPage = p; renderAbsensiTable(); }
+// ===== ANALISA =====
+async function loadAnalisa() {
+    const user=document.getElementById('anFU').value, bln=document.getElementById('anFB').value, thn=document.getElementById('anFT').value;
+    let q=`?table=${TJ}`; if(user) q+=`&x_09_eq=${user}`; if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`;
+    loading('anTable',7);
+    const res  = await api(q);
+    const activeSet = getActiveUserNames();
+    const data = (res.data||[]).filter(j=>j.x_10 && activeSet.has(j.x_09));
+    document.getElementById('anTable').innerHTML = data.length
+        ? data.map((d,i) => {
+            const a=pj(d.x_10)||{}, rid=`ar${i}`;
+            return `<tr onclick="toggleX('${rid}')">
+                <td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td>
+                <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
+                <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td>
+                <td>${tr(a.masalah,35)}</td><td>${tr(a.rencana,35)}</td><td>${tr(a.target,35)}</td>
+                <td><button class="expand-btn">Detail</button></td></tr>
+              <tr class="xrow" id="${rid}"><td colspan="7"><div class="xgrid">
+                <div class="xi"><div class="xil">Masalah Utama</div><div class="xiv">${a.masalah||'-'}</div></div>
+                <div class="xi"><div class="xil">Rencana Tindakan</div><div class="xiv">${a.rencana||'-'}</div></div>
+                <div class="xi"><div class="xil">Alasan Memilih Rencana</div><div class="xiv">${a.alasan||'-'}</div></div>
+                <div class="xi"><div class="xil">Hasil yang Diharapkan</div><div class="xiv">${a.target||'-'}</div></div>
+              </div></td></tr>`;}).join('')
+        : '<tr class="er"><td colspan="7">Tidak ada data analisa</td></tr>';
+}
 
-// Komponen pagination generik — bisa dipakai ulang untuk tabel lain.
-// changeFnName = nama fungsi global yang dipanggil dengan 1 argumen (nomor halaman).
-function renderPagination(containerId, totalItems, currentPage, totalPages, pageSize, changeFnName) {
-    const el = document.getElementById(containerId);
-    if (!el) return;
-    if (totalItems === 0) { el.innerHTML = ''; return; }
-
-    const startItem = (currentPage - 1) * pageSize + 1;
-    const endItem = Math.min(currentPage * pageSize, totalItems);
-
-    let pages = [];
-    const add = (p) => pages.push(p);
-    add(1);
-    if (currentPage > 3) add('...');
-    for (let p = Math.max(2, currentPage-1); p <= Math.min(totalPages-1, currentPage+1); p++) add(p);
-    if (currentPage < totalPages-2) add('...');
-    if (totalPages > 1) add(totalPages);
-    pages = [...new Set(pages)];
-
-    el.innerHTML = `
-        <span class="pgn-info">${startItem}-${endItem} dari ${totalItems}</span>
-        <button class="pgn-btn" ${currentPage<=1?'disabled':''} onclick="${changeFnName}(${currentPage-1})">‹</button>
-        ${pages.map(p => p === '...'
-            ? `<span class="pgn-btn" style="border:none;cursor:default;">…</span>`
-            : `<button class="pgn-btn ${p===currentPage?'active':''}" onclick="${changeFnName}(${p})">${p}</button>`).join('')}
-        <button class="pgn-btn" ${currentPage>=totalPages?'disabled':''} onclick="${changeFnName}(${currentPage+1})">›</button>
-    `;
+// ===== PENGENDALIAN =====
+async function loadPengendalian() {
+    const user=document.getElementById('pnFU').value, bln=document.getElementById('pnFB').value, thn=document.getElementById('pnFT').value;
+    let q=`?table=${TJ}`; if(user) q+=`&x_09_eq=${user}`; if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`;
+    loading('pnTable',7);
+    const res  = await api(q);
+    const activeSet = getActiveUserNames();
+    const data = (res.data||[]).filter(j=>j.x_15 && activeSet.has(j.x_09));
+    document.getElementById('pnTable').innerHTML = data.length
+        ? data.map((d,i) => {
+            const p=pj(d.x_15)||{}, rid=`pr${i}`;
+            return `<tr onclick="toggleX('${rid}')">
+                <td><b>${d.x_01}</b>/${d.x_06}/${d.x_07}</td>
+                <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
+                <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${d.x_03||'-'}</span></td>
+                <td>${tr(p.aktual,35)}</td><td>${tr(p.deviasi,30)}</td>
+                <td><span class="badge b-${p.kesimpulan||'sesuai'}">${p.kesimpulan||'-'}</span></td>
+                <td><button class="expand-btn">Detail</button></td></tr>
+              <tr class="xrow" id="${rid}"><td colspan="7"><div class="xgrid">
+                <div class="xi"><div class="xil">Hasil Aktual</div><div class="xiv">${p.aktual||'-'}</div></div>
+                <div class="xi"><div class="xil">Deviasi / Kendala</div><div class="xiv">${p.deviasi||'-'}</div></div>
+                <div class="xi"><div class="xil">Kesimpulan</div><div class="xiv"><span class="badge b-${p.kesimpulan||'sesuai'}">${p.kesimpulan||'-'}</span></div></div>
+                <div class="xi"><div class="xil">Saran & Rekomendasi</div><div class="xiv">${p.saran||'-'}</div></div>
+              </div>
+              <div style="font-size:11px;color:#94a3b8;margin-top:8px;">Dicatat: ${p.executed_at?new Date(p.executed_at).toLocaleString('id-ID'):'-'}</div>
+              </td></tr>`;}).join('')
+        : '<tr class="er"><td colspan="7">Tidak ada data pengendalian</td></tr>';
 }
 
 // ===== USERS PAGE =====
@@ -2665,8 +2366,16 @@ async function saveJadwal(fs) {
         const lamVal = await getAdmLampiranValue();
         if (lamVal === 'CLEAR') payload.x_11 = ''; else if (lamVal) payload.x_11 = lamVal;
         if(fs) payload.x_05=fs;
+        // Set x_12 otomatis
+        var item0 = window._editingItem || {};
+        var tglL = String(parseInt(item0.x_01||'0',10)), blnL = String(parseInt(item0.x_06||'0',10)), thnL = String(item0.x_07||'');
+        var tglChanged = (tglBaru!==tglL || blnBaru!==blnL || thnBaru!==thnL);
+        var stBaru = fs || item0.x_05 || '';
+        if (stBaru==='pending' || tglChanged) payload.x_12 = 'needs_approval';
+        else if (stBaru==='done') payload.x_12 = '';
+        else if (stBaru==='aktif' && !tglChanged) payload.x_12 = '';
         const res = await fetch(`${API}?table=${TJ}&id_x=${id}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Custom-Auth':AUTH},body:JSON.stringify(payload)}).then(r=>r.json());
-        if(res.success){ closeModal('modalJadwal'); loadJadwal(); loadDashboard(); refreshJenisSemua(); } else alert('Gagal menyimpan!');
+        if(res.success){ closeModal('modalJadwal'); loadJadwal(); loadDashboard(); } else alert('Gagal menyimpan!');
     } else {
         // MODE TAMBAH: multi user via checkbox
         const selectedUsers = Array.from(document.querySelectorAll('.ucp-cb:checked')).map(cb => cb.value);
@@ -2683,17 +2392,35 @@ async function saveJadwal(fs) {
         if(failCount === 0){
             closeModal('modalJadwal');
             if(selectedUsers.length > 1) alert(`✅ Jadwal berhasil ditambahkan ke ${successCount} user!`);
-            loadJadwal(); loadDashboard(); refreshJenisSemua();
+            loadJadwal(); loadDashboard();
         } else {
             alert(`⚠️ ${successCount} berhasil, ${failCount} gagal.`);
-            loadJadwal(); loadDashboard(); refreshJenisSemua();
+            loadJadwal(); loadDashboard();
         }
     }
+}
+async function approvePulang(id, user, ket) {
+    if (!confirm('Approve pulang untuk jadwal #' + id + '?\nUser: ' + user + '\n\nUser akan bisa absen pulang.')) return;
+    const res = await fetch(API + '?table=' + TJ + '&id_x=' + id, {
+        method: 'PUT', headers: {'Content-Type':'application/json','X-Custom-Auth':AUTH},
+        body: JSON.stringify({x_12:'approved_pulang'})
+    }).then(r=>r.json());
+    if (res.success) { loadDashboard(); loadJadwal(); }
+    else alert('Gagal approve.');
+}
+async function revokePulang(id) {
+    if (!confirm('Cabut approval pulang jadwal #' + id + '?')) return;
+    const res = await fetch(API + '?table=' + TJ + '&id_x=' + id, {
+        method: 'PUT', headers: {'Content-Type':'application/json','X-Custom-Auth':AUTH},
+        body: JSON.stringify({x_12:'needs_approval'})
+    }).then(r=>r.json());
+    if (res.success) { loadDashboard(); loadJadwal(); }
+    else alert('Gagal cabut approval.');
 }
 async function deleteJadwal(id) {
     if(!confirm('Yakin hapus jadwal ini?')) return;
     const res=await fetch(`${API}?table=${TJ}&id_x=${id}`,{method:'DELETE',headers:{'X-Custom-Auth':AUTH}}).then(r=>r.json());
-    if(res.success){ loadJadwal(); loadDashboard(); refreshJenisSemua(); } else alert('Gagal menghapus!');
+    if(res.success){ loadJadwal(); loadDashboard(); } else alert('Gagal menghapus!');
 }
 
 // ===== UTILS =====
@@ -2860,17 +2587,16 @@ function updateLightbox() {
     document.getElementById('lbNext').style.display = _galleryImages.length > 1 ? 'block' : 'none';
 }
 
+function toggleX(id) { document.getElementById(id).classList.toggle('open'); }
 
 // ===== INIT =====
 window.onload = function() {
-    checkAuth();
     const now=new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=localDate(now);
-    try {
-        ['jFB'].forEach(id=>document.getElementById(id).value=bln);
-        ['jFT'].forEach(id=>document.getElementById(id).value=thn);
-        document.getElementById('aFD').value=today.slice(0,7)+'-01';
-        document.getElementById('aFS').value=today;
-    } catch (e) { console.error('Gagal set filter default:', e); }
+    ['jFB','anFB','pnFB'].forEach(id=>document.getElementById(id).value=bln);
+    ['jFT','anFT','pnFT'].forEach(id=>document.getElementById(id).value=thn);
+    document.getElementById('aFD').value=today.slice(0,7)+'-01';
+    document.getElementById('aFS').value=today;
+    checkAuth();
 };
 </script>
 </body>
