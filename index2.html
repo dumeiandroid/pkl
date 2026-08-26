@@ -120,41 +120,6 @@
         #gLoader.on { display: flex; }
         #gLoaderTxt { font-size: 13px; font-weight: 700; color: var(--muted); }
 
-        /* ========== MASA KERJA CARD ========== */
-        .masa-kerja-card { background: linear-gradient(135deg,#0f172a 0%,#1e293b 60%,#312e81 100%); border-radius: 16px; padding: 18px 20px; margin-top: 14px; color: #fff; box-shadow: 0 10px 24px rgba(15,23,42,0.18); }
-        .mk-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
-        .mk-title { font-size: 13px; font-weight: 800; letter-spacing: 0.3px; color: #fff; }
-        .mk-badge { font-size: 11px; font-weight: 800; padding: 4px 11px; border-radius: 20px; background: #10b981; color: #fff; white-space: nowrap; }
-        .mk-libur-ico { cursor: pointer; font-size: 15px; opacity: 0.85; padding: 4px 8px; border-radius: 20px; background: rgba(255,255,255,0.14); transition: 0.15s; }
-        .mk-libur-ico:hover { opacity: 1; background: rgba(255,255,255,0.24); }
-        .mkd-ket-th { margin-top: 4px; font-size: 11.5px; font-weight: 700; color: #b91c1c; }
-        .mk-body { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-        .mk-item { min-width: 130px; }
-        .mk-label { font-size: 10px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; font-weight: 700; }
-        .mk-value { font-size: 15px; font-weight: 800; color: #fff; }
-        .mk-arrow { font-size: 18px; color: rgba(255,255,255,0.25); }
-        .mk-progress-wrap { width: 100%; margin-top: 16px; }
-        .mk-progress-bar { height: 8px; border-radius: 20px; background: rgba(255,255,255,0.12); overflow: hidden; }
-        .mk-progress-fill { height: 100%; background: linear-gradient(90deg,#5b5ef4,#7c3aed); border-radius: 20px; transition: width 0.4s ease; }
-        .mk-progress-txt { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 7px; display: flex; justify-content: space-between; font-weight: 600; }
-        .mk-chips { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
-        .mk-chip { font-size: 10.5px; font-weight: 700; padding: 5px 10px; border-radius: 20px; cursor: pointer; white-space: nowrap; transition: 0.15s; }
-        .mk-chip:hover { filter: brightness(1.2); transform: translateY(-1px); }
-        .mk-chip-merah { background: rgba(239,68,68,0.18); color: #fca5a5; }
-        .mk-chip-hijau { background: rgba(16,185,129,0.18); color: #6ee7b7; }
-        @media (max-width: 600px) { .mk-body { flex-direction: column; align-items: flex-start; gap: 12px; } .mk-arrow { display: none; } }
-
-        /* MODAL DETAIL TIDAK HADIR / MASUK LIBUR */
-        .mkd-row { padding: 11px 12px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid; }
-        .mkd-row:last-child { margin-bottom: 0; }
-        .mkd-row-merah  { background: #fef2f2; border-color: #ef4444; }
-        .mkd-row-kuning { background: #fffbeb; border-color: #f59e0b; }
-        .mkd-row-hijau  { background: #f0fdf4; border-color: #10b981; }
-        .mkd-tgl { font-size: 13px; font-weight: 800; color: var(--dark); }
-        .mkd-ket { font-size: 11.5px; color: var(--muted); margin-top: 3px; }
-        .mkd-warn { color: #ef4444; font-weight: 700; }
-        .mkd-empty { text-align: center; color: var(--muted); font-size: 13px; padding: 20px 0; }
-
         /* ========== DASHBOARD ========== */
         .dash-header { margin-bottom: 20px; }
         .dash-header h2 { font-size: 22px; font-weight: 900; color: var(--dark); letter-spacing: -0.5px; }
@@ -470,33 +435,6 @@
                 <p id="dashSub">Berikut ringkasan aktivitas hari ini</p>
             </div>
 
-            <!-- Masa Kerja Magang -->
-            <div class="masa-kerja-card" id="masaKerjaCard" style="display:none;">
-                <div class="mk-head">
-                    <div class="mk-title">🗓️ Masa Kerja Magang</div>
-                    <div style="display:flex;align-items:center;gap:6px;">
-                        <div class="mk-libur-ico" id="mkLiburIco" onclick="bukaLiburInfo()" title="Lihat daftar libur nasional">🎌</div>
-                        <div class="mk-badge" id="mkBadge">-</div>
-                    </div>
-                </div>
-                <div class="mk-body">
-                    <div class="mk-item">
-                        <div class="mk-label">Mulai</div>
-                        <div class="mk-value" id="mkMulai">-</div>
-                    </div>
-                    <div class="mk-arrow">→</div>
-                    <div class="mk-item">
-                        <div class="mk-label">Berakhir</div>
-                        <div class="mk-value" id="mkBerakhir">-</div>
-                    </div>
-                </div>
-                <div class="mk-progress-wrap">
-                    <div class="mk-progress-bar"><div class="mk-progress-fill" id="mkFill" style="width:0%;"></div></div>
-                    <div class="mk-progress-txt"><span>Progres masa magang (hari kerja)</span><span id="mkPersen">0%</span></div>
-                </div>
-                <div class="mk-chips" id="mkChips" style="display:none;"></div>
-            </div>
-
             <!-- Stat Cards Row -->
             <div class="dash-grid2" style="margin-bottom:16px;">
                 <div class="stat-card">
@@ -788,13 +726,6 @@
     <img id="fotoModalImg" src="" alt="Foto Absensi">
 </div>
 
-<div class="m-overlay" id="modalMkDetail">
-    <div class="mbox">
-        <div class="mhead"><h3 id="mkDetailJudul">Detail</h3><button class="x" onclick="tutupMkDetail()">✕</button></div>
-        <div class="mbody" id="mkDetailBody"></div>
-    </div>
-</div>
-
 <!-- MODAL GANTI PASSWORD -->
 <div class="m-overlay" id="modalChPw">
     <div class="mbox">
@@ -848,23 +779,6 @@
     </div>
 </div>
 
-<!-- MODAL PESAN PENGUMUMAN ADMIN -->
-<div class="m-overlay-center" id="modalPengumuman" onclick="tutupPengumuman()">
-    <div class="absen-msg-box" onclick="event.stopPropagation()">
-        <div class="absen-msg-head">
-            <div class="icon">📢</div>
-            <div>
-                <h3>Pengumuman</h3>
-                <p>Pesan dari admin</p>
-            </div>
-        </div>
-        <div class="absen-msg-body" id="pengumumanBody"></div>
-        <div class="absen-msg-footer">
-            <button class="btn-absen-msg-ok" onclick="tutupPengumuman()">Mengerti</button>
-        </div>
-    </div>
-</div>
-
 <script>
 /* ==============================
    KONFIGURASI ABSENSI
@@ -886,17 +800,6 @@ const KEY  = 'admin';
 const TBL  = 'jadwal_magang';
 const TBLA = 'absensi';
 const TBLU = 'users';
-const TBLK = 'kontrol_admin';
-const KONTROL_LIBUR_ID = 5;
-const KONTROL_KET_ID = 5; // sama baris (id_x=5) dengan libur nasional, tapi kolom x_02 — read-only di sisi peserta
-const KONTROL_KET_MASUK_ID = 5; // sama baris (id_x=5), kolom x_03 — read-only di sisi peserta
-const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 — pesan pengumuman dari admin, read-only di sisi peserta
-let liburNasionalSet  = new Set(); // Set('YYYY-MM-DD') hari libur nasional, diisi dari kontrol_admin id_x=5
-let liburNasionalList = []; // [{tanggal, ket}] untuk ditampilkan di popup info
-let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
-let ketMasukLiburMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
-let pesanPengumumanList = []; // [{id, tanggal:'YYYY-MM-DD', pesan, mode:'sekali'|'berulang'}]
-function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 const JENIS = [
     { id:'meeting',   label:'Meeting',   color:'#eef2ff', icon:'🤝', s:'Meet' },
@@ -932,210 +835,6 @@ const getMe = () => {
     try { const p=JSON.parse(r); return (typeof p==='object'&&p) ? (p.x_01||'') : r; } catch { return r; }
 };
 
-// Hitung tanggal berakhir DASAR (kalender, belum disesuaikan absensi): mulai + 5 bulan, lalu -1 hari
-// contoh: masuk 2026-01-03 -> berakhir 2026-06-02
-function hitungTglBerakhirDasar(mulaiStr) {
-    const [y, m, d] = mulaiStr.split('-').map(Number);
-    const end = new Date(y, (m - 1) + 5, d);
-    end.setDate(end.getDate() - 1);
-    return end;
-}
-function fmtTglIndo(d) {
-    const BLN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-    const HR  = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
-    return `${HR[d.getDay()]}, ${d.getDate()} ${BLN[d.getMonth()]} ${d.getFullYear()}`;
-}
-function fmtTglIndoPendek(d) {
-    const BLN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-    const HR  = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
-    return `${HR[d.getDay()]}, ${d.getDate()} ${BLN[d.getMonth()]}`;
-}
-function isAkhirPekan(d) { const h = d.getDay(); return h === 0 || h === 6; }
-function tglKeStr(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-// Hari libur = Sabtu/Minggu ATAU tanggal libur nasional (dari kontrol_admin id_x=5, diisi admin)
-function isHariLibur(d) { return isAkhirPekan(d) || liburNasionalSet.has(tglKeStr(d)); }
-
-// Ambil daftar libur nasional (read-only) dari kontrol_admin id_x=5
-async function ambilLiburNasional() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_LIBUR_ID}&limit=1`);
-        const row = res.data?.[0];
-        let list = [];
-        if (row && row.x_01) { try { list = JSON.parse(row.x_01) || []; } catch { list = []; } }
-        if (!Array.isArray(list)) list = [];
-        list.sort((a, b) => String(a.tanggal).localeCompare(String(b.tanggal)));
-        liburNasionalList = list;
-        liburNasionalSet  = new Set(list.map(l => l.tanggal));
-    } catch (e) { console.error(e); liburNasionalList = []; liburNasionalSet = new Set(); }
-}
-
-// Ambil keterangan tidak hadir (read-only) dari kontrol_admin id_x=5, kolom x_02
-async function ambilKetTidakHadir() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_KET_ID}&limit=1`);
-        const row = res.data?.[0];
-        let list = [];
-        if (row && row.x_02) { try { list = JSON.parse(row.x_02) || []; } catch { list = []; } }
-        if (!Array.isArray(list)) list = [];
-        const map = {};
-        list.forEach(k => { map[`${k.user}|${k.tanggal}`] = k; });
-        ketTidakHadirMap = map;
-    } catch (e) { console.error(e); ketTidakHadirMap = {}; }
-}
-
-// Ambil keterangan masuk hari libur (read-only) dari kontrol_admin id_x=5, kolom x_03
-async function ambilKetMasukLibur() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_KET_MASUK_ID}&limit=1`);
-        const row = res.data?.[0];
-        let list = [];
-        if (row && row.x_03) { try { list = JSON.parse(row.x_03) || []; } catch { list = []; } }
-        if (!Array.isArray(list)) list = [];
-        const map = {};
-        list.forEach(k => { map[`${k.user}|${k.tanggal}`] = k; });
-        ketMasukLiburMap = map;
-    } catch (e) { console.error(e); ketMasukLiburMap = {}; }
-}
-
-/* ==============================
-   PESAN PENGUMUMAN ADMIN
-   (kontrol_admin id_x=5, kolom x_04 — read-only di sisi peserta)
-   ============================== */
-async function ambilPesanPengumuman() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_PESAN_ID}&limit=1`);
-        const row = res.data?.[0];
-        let list = [];
-        if (row && row.x_04) { try { list = JSON.parse(row.x_04) || []; } catch { list = []; } }
-        if (!Array.isArray(list)) list = [];
-        pesanPengumumanList = list;
-    } catch (e) { console.error(e); pesanPengumumanList = []; }
-}
-
-// Cek pesan pengumuman untuk hari ini lalu tampilkan bila ada yang perlu ditampilkan.
-// mode 'sekali'   -> hanya muncul sekali per hari (per browser/perangkat), ditandai via localStorage
-// mode 'berulang' -> selalu muncul setiap halaman dibuka/refresh
-async function cekTampilkanPesanPengumuman() {
-    await ambilPesanPengumuman();
-    const todayStr = tglKeStr(new Date());
-    const untukHariIni = pesanPengumumanList.filter(p => p.tanggal === todayStr && (!p.penerima || p.penerima === 'semua' || (Array.isArray(p.penerima) && p.penerima.includes(me))));
-    if (!untukHariIni.length) return;
-    const belumDitampilkan = [];
-    untukHariIni.forEach(p => {
-        if (p.mode === 'berulang') { belumDitampilkan.push(p); return; }
-        const flagKey = `lidan_pesan_shown_${p.id}_${todayStr}`;
-        if (!localStorage.getItem(flagKey)) belumDitampilkan.push(p);
-    });
-    if (!belumDitampilkan.length) return;
-    document.getElementById('pengumumanBody').innerHTML = belumDitampilkan.map((p, i) => `
-        <div style="${i>0?'margin-top:14px;padding-top:14px;border-top:1px dashed #e2e8f0;':''}">
-            <div style="white-space:pre-wrap;line-height:1.55;color:#334155;">${escHtml(p.pesan)}</div>
-        </div>`).join('');
-    document.getElementById('modalPengumuman').classList.add('open');
-    // Tandai pesan mode 'sekali' sudah ditampilkan hari ini agar tidak muncul lagi sampai besok
-    untukHariIni.forEach(p => {
-        if (p.mode !== 'berulang') localStorage.setItem(`lidan_pesan_shown_${p.id}_${todayStr}`, '1');
-    });
-}
-function tutupPengumuman() { document.getElementById('modalPengumuman').classList.remove('open'); }
-
-// Popup daftar libur nasional (info saja)
-function bukaLiburInfo() {
-    const judul = document.getElementById('mkDetailJudul');
-    const body  = document.getElementById('mkDetailBody');
-    judul.textContent = '🎌 Daftar Libur Nasional';
-    body.innerHTML = liburNasionalList.map(l => {
-        const [y, m, d] = l.tanggal.split('-').map(Number);
-        const dt = new Date(y, m - 1, d);
-        return `<div class="mkd-row mkd-row-hijau">
-            <div class="mkd-tgl">${fmtTglIndo(dt)}</div>
-            <div class="mkd-ket">${l.ket ? escHtml(l.ket) : '<span style="color:#cbd5e1;">Tidak ada keterangan</span>'}</div>
-        </div>`;
-    }).join('') || '<div class="mkd-empty">Belum ada libur nasional ditambahkan</div>';
-    document.getElementById('modalMkDetail').classList.add('open');
-}
-
-// Hitung jumlah hari kerja (Senin-Jumat) di antara dua tanggal, inklusif kedua ujung.
-function hitungHariKerjaAntara(dariDate, sampaiDate) {
-    if (dariDate > sampaiDate) return 0;
-    let cnt = 0;
-    const cur = new Date(dariDate);
-    while (cur <= sampaiDate) {
-        if (!isHariLibur(cur)) cnt++;
-        cur.setDate(cur.getDate() + 1);
-    }
-    return cnt;
-}
-
-/* ==============================
-   Hitung masa kerja lengkap: sisa dalam HARI KERJA (Senin-Jumat),
-   dengan penyesuaian:
-   - Tidak hadir sama sekali di hari kerja (Sen-Jum, sebelum hari ini) -> memperpanjang tanggal berakhir (+1 hari)
-   - Masuk di hari libur (Sabtu/Minggu)                                -> memperpendek tanggal berakhir (-1 hari)
-   Lupa absen pulang (ada MASUK tapi tanpa PULANG) tetap dicatat & ditampilkan,
-   tapi TIDAK memperpanjang tanggal berakhir karena hari itu tetap dianggap masuk kerja.
-   ============================== */
-function hitungMasaKerjaLengkap(mulaiStr, absensiRecords) {
-    const [my, mm, md] = mulaiStr.split('-').map(Number);
-    const mulaiDate = new Date(my, mm - 1, md);
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-
-    // Peta per-tanggal: { masuk: '08:00', pulang: '17:00' }
-    const peta = {};
-    (absensiRecords || []).forEach(r => {
-        if (!r.x_02) return;
-        if (!peta[r.x_02]) peta[r.x_02] = {};
-        if (r.x_05 === 'MASUK')  peta[r.x_02].masuk  = r.x_03 || '-';
-        if (r.x_05 === 'PULANG') peta[r.x_02].pulang = r.x_03 || '-';
-    });
-
-    // 1) Hari kerja (Sen-Jum) sejak sehari setelah mulai s/d kemarin:
-    //    - tanpa MASUK sama sekali          -> jenis 'absen' (tidak hadir penuh)
-    //    - ada MASUK tapi tanpa PULANG      -> jenis 'lupa_pulang'
-    const tidakHadir = [];
-    const kemarin = new Date(today); kemarin.setDate(kemarin.getDate() - 1);
-    {
-        const cur = new Date(mulaiDate); cur.setDate(cur.getDate() + 1);
-        while (cur <= kemarin) {
-            if (!isHariLibur(cur)) {
-                const s = tglKeStr(cur);
-                const rec = peta[s];
-                if (!rec || !rec.masuk) tidakHadir.push({ tanggal: new Date(cur), jenis: 'absen' });
-                else if (!rec.pulang)   tidakHadir.push({ tanggal: new Date(cur), jenis: 'lupa_pulang', jamMasuk: rec.masuk });
-            }
-            cur.setDate(cur.getDate() + 1);
-        }
-    }
-    const absenPenuhCount = tidakHadir.filter(t => t.jenis === 'absen').length;
-
-    // 2) Masuk di hari libur: tanggal dengan MASUK yang jatuh di Sabtu/Minggu, sejak mulai s/d hari ini
-    const masukLibur = [];
-    Object.keys(peta).forEach(s => {
-        if (!peta[s].masuk) return;
-        const [y, m, d] = s.split('-').map(Number);
-        const dt = new Date(y, m - 1, d);
-        if (dt >= mulaiDate && dt <= today && isHariLibur(dt)) {
-            masukLibur.push({ tanggal: dt, jamMasuk: peta[s].masuk, jamPulang: peta[s].pulang || null });
-        }
-    });
-    masukLibur.sort((a, b) => a.tanggal - b.tanggal);
-    tidakHadir.sort((a, b) => a.tanggal - b.tanggal);
-
-    // 3) Tanggal berakhir dasar (kalender) lalu disesuaikan: +1 hari/absen-penuh, -1 hari/masuk-libur
-    const baseAkhir = hitungTglBerakhirDasar(mulaiStr);
-    const penyesuaian = absenPenuhCount - masukLibur.length;
-    const akhirDate = new Date(baseAkhir);
-    akhirDate.setDate(akhirDate.getDate() + penyesuaian);
-
-    // 4) Sisa & total dihitung dalam HARI KERJA (Senin-Jumat)
-    const sisaHariKerja = akhirDate >= today ? hitungHariKerjaAntara(today, akhirDate) : 0;
-    const totalHariKerja = hitungHariKerjaAntara(mulaiDate, akhirDate) || 1;
-    const terlewati = Math.max(0, totalHariKerja - sisaHariKerja);
-    const persen = Math.min(100, Math.max(0, Math.round((terlewati / totalHariKerja) * 100)));
-
-    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, sisaHariKerja, totalHariKerja, persen };
-}
-
 function getOtherIcon(id) {
     if (!otherIconCache[id]) {
         otherIconCache[id] = OTHER_ICONS[Math.floor(Math.random() * OTHER_ICONS.length)];
@@ -1159,8 +858,7 @@ async function cekAuth() {
     try {
         const res = await req(`?table=${TBLU}&x_01_eq=${me}&limit=1`);
         gh();
-        const u = res.data?.[0];
-        if (res.success && u && String(u.x_10||'').toLowerCase().trim()==='aktif') startApp();
+        if (res.success && res.data?.length > 0) startApp();
         else { localStorage.removeItem('lidan_user'); sessionStorage.removeItem('lidan_user'); }
     } catch(e) { gh(); }
 }
@@ -1169,25 +867,17 @@ async function doLogin() {
     const u = document.getElementById('l_user').value.trim();
     const p = document.getElementById('l_pass').value.trim();
     const rem = document.getElementById('l_rem').checked;
-    const errEl = document.getElementById('loginErr');
-    errEl.style.display='none';
+    document.getElementById('loginErr').style.display='none';
     if (!u||!p) return;
     gl('Memeriksa...');
     const res = await req(`?table=${TBLU}&x_01_eq=${u}&x_02_eq=${p}&limit=1`);
     gh();
-    const userRow = res.data?.[0];
-    if (res.success && userRow) {
-        if (String(userRow.x_10||'').toLowerCase().trim() !== 'aktif') {
-            errEl.textContent = 'Akun tidak aktif. Hubungi admin.';
-            errEl.style.display='block';
-            return;
-        }
+    if (res.success && res.data?.length > 0) {
         const store = rem ? localStorage : sessionStorage;
         store.setItem('lidan_user', u);
         me = u; startApp();
     } else {
-        errEl.textContent = 'Username atau password salah!';
-        errEl.style.display='block';
+        document.getElementById('loginErr').style.display='block';
     }
 }
 
@@ -1277,7 +967,6 @@ function startApp() {
     document.getElementById('view_thn').value = now.getFullYear();
     setupJenis();
     initDashboard();
-    cekTampilkanPesanPengumuman();
 }
 
 /* ==============================
@@ -1366,105 +1055,7 @@ async function initDashboard() {
         document.getElementById('abs-masuk').textContent  = masukJam;
         document.getElementById('abs-pulang').textContent = pulangJam;
     } catch(e) { console.error(e); }
-
-    muatMasaKerja();
 }
-
-/* ==============================
-   MASA KERJA MAGANG
-   Batas akhir dasar = tanggal absensi pertama + 5 bulan - 1 hari, lalu disesuaikan:
-   - tiap hari kerja (Sen-Jum) yang TIDAK HADIR -> +1 hari (memperpanjang)
-   - tiap MASUK di hari libur (Sabtu/Minggu)     -> -1 hari (memperpendek)
-   Sisa & progres dihitung dalam HARI KERJA (Senin-Jumat).
-   Hanya ditampilkan jika status user (x_10) di tabel users = 'aktif'.
-   ============================== */
-async function muatMasaKerja() {
-    const card = document.getElementById('masaKerjaCard');
-    try {
-        const resUser = await req(`?table=${TBLU}&x_01_eq=${me}&limit=1`);
-        const u = resUser.data?.[0];
-        if (!u || String(u.x_10 || '').toLowerCase().trim() !== 'aktif') { card.style.display = 'none'; return; }
-
-        // Limit besar (bukan 1) karena API ini tidak punya parameter sort/order,
-        // jadi limit=1 tidak menjamin record absensi paling awal yang terambil.
-        const [resAll] = await Promise.all([
-            req(`?table=${TBLA}&x_01_eq=${me}&limit=2000`),
-            ambilLiburNasional(),
-            ambilKetTidakHadir(),
-            ambilKetMasukLibur()
-        ]);
-        const dataAll = resAll.data || [];
-        const mulaiStr = dataAll.reduce((min, d) => (d.x_02 && (!min || d.x_02 < min)) ? d.x_02 : min, null);
-        if (!mulaiStr) { card.style.display = 'none'; return; }
-
-        const mk = hitungMasaKerjaLengkap(mulaiStr, dataAll);
-
-        document.getElementById('mkMulai').textContent    = fmtTglIndo(mk.mulaiDate);
-        document.getElementById('mkBerakhir').textContent = fmtTglIndo(mk.akhirDate);
-        document.getElementById('mkFill').style.width      = mk.persen + '%';
-        document.getElementById('mkPersen').textContent    = mk.persen + '%';
-
-        const badge = document.getElementById('mkBadge');
-        const sisaHariKerja = mk.sisaHariKerja;
-        if (mk.akhirDate < new Date(new Date().setHours(0,0,0,0))) { badge.textContent = 'Masa magang selesai'; badge.style.background = '#ef4444'; }
-        else if (sisaHariKerja <= 20) { badge.textContent = `${sisaHariKerja} hari kerja lagi`; badge.style.background = '#f59e0b'; }
-        else                          { badge.textContent = `${sisaHariKerja} hari kerja lagi`; badge.style.background = '#10b981'; }
-
-        // Chip tidak hadir & masuk libur (klik untuk lihat detail tanggal)
-        window._mkData = mk;
-        const chipWrap = document.getElementById('mkChips');
-        const chips = [];
-        if (mk.tidakHadir.length) {
-            chips.push(`<span class="mk-chip mk-chip-merah" onclick="bukaMkDetail('tidakhadir')">❌ Tidak Hadir: ${mk.tidakHadir.length} hari</span>`);
-        }
-        if (mk.masukLibur.length) {
-            chips.push(`<span class="mk-chip mk-chip-hijau" onclick="bukaMkDetail('masuklibur')">🎉 Masuk Hari Libur: ${mk.masukLibur.length} hari</span>`);
-        }
-        chipWrap.innerHTML = chips.join('');
-        chipWrap.style.display = chips.length ? 'flex' : 'none';
-
-        card.style.display = 'block';
-    } catch(e) { console.error(e); card.style.display = 'none'; }
-}
-
-// Popup detail Tidak Hadir / Masuk Hari Libur
-function bukaMkDetail(jenis) {
-    const mk = window._mkData;
-    if (!mk) return;
-    const judul = document.getElementById('mkDetailJudul');
-    const body  = document.getElementById('mkDetailBody');
-    if (jenis === 'tidakhadir') {
-        judul.textContent = '❌ Detail Tidak Hadir';
-        body.innerHTML = mk.tidakHadir.map(t => {
-            if (t.jenis === 'absen') {
-                const k = ketTidakHadirMap[`${me}|${tglKeStr(t.tanggal)}`];
-                const ketTh = k ? `<div class="mkd-ket-th">🏷️ ${escHtml(k.jenis)}${k.ket ? ' &middot; ' + escHtml(k.ket) : ''}</div>` : '';
-                return `<div class="mkd-row mkd-row-merah">
-                    <div class="mkd-tgl">${fmtTglIndo(t.tanggal)}</div>
-                    <div class="mkd-ket">Tidak hadir (tidak ada absensi masuk)</div>
-                    ${ketTh}
-                </div>`;
-            }
-            return `<div class="mkd-row mkd-row-kuning">
-                <div class="mkd-tgl">${fmtTglIndo(t.tanggal)}</div>
-                <div class="mkd-ket">Lupa absen pulang &middot; masuk jam ${t.jamMasuk}</div>
-            </div>`;
-        }).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    } else {
-        judul.textContent = '🎉 Detail Masuk Hari Libur';
-        body.innerHTML = mk.masukLibur.map(t => {
-            const k = ketMasukLiburMap[`${me}|${tglKeStr(t.tanggal)}`];
-            const ketTh = k ? `<div class="mkd-ket-th" style="color:#065f46;">🏷️ ${escHtml(k.jenis)}${k.ket ? ' &middot; ' + escHtml(k.ket) : ''}</div>` : '';
-            return `<div class="mkd-row mkd-row-hijau">
-                <div class="mkd-tgl">${fmtTglIndo(t.tanggal)}</div>
-                <div class="mkd-ket">Masuk jam ${t.jamMasuk} &middot; Pulang ${t.jamPulang ? 'jam ' + t.jamPulang : '<span class="mkd-warn">belum absen pulang</span>'}</div>
-                ${ketTh}
-            </div>`;
-        }).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    }
-    document.getElementById('modalMkDetail').classList.add('open');
-}
-function tutupMkDetail() { document.getElementById('modalMkDetail').classList.remove('open'); }
 
 /* ==============================
    ABSENSI

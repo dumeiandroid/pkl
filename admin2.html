@@ -56,40 +56,6 @@
         .pg-header p { font-size: 13px; color: #64748b; margin-top: 3px; }
 
         /* STATS */
-        /* ===== MASA BERAKHIR MAGANG ===== */
-        .mb-card { background: linear-gradient(135deg,#0f172a 0%,#1e293b 60%,#312e81 100%); border-radius: 14px; padding: 16px 18px; margin-bottom: 24px; color: #fff; box-shadow: 0 6px 18px rgba(15,23,42,0.15); }
-        .mb-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-        .mb-title { font-size: 13px; font-weight: 800; letter-spacing: 0.3px; }
-        .mb-count { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
-        .mb-tbl-wrap { background: #fff; border-radius: 10px; overflow-x: auto; color: #0f172a; }
-        .mb-tbl { width: 100%; border-collapse: collapse; }
-        .mb-tbl th { background: #f8fafc; padding: 9px 12px; text-align: left; font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
-        .mb-tbl td { padding: 9px 12px; font-size: 12.5px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; white-space: nowrap; }
-        .mb-tbl tr:last-child td { border-bottom: none; }
-        .mb-badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-        .mb-mini { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.15s; }
-        .mb-mini:hover { filter: brightness(0.95); transform: translateY(-1px); }
-        .mb-mini-merah { background: #fee2e2; color: #b91c1c; }
-        .mb-mini-hijau { background: #d1fae5; color: #065f46; }
-        .mb-mini-nol { color: #cbd5e1; }
-        .mkd-row { padding: 11px 12px; border-radius: 10px; margin-bottom: 8px; border-left: 4px solid; }
-        .mkd-row:last-child { margin-bottom: 0; }
-        .mkd-row-merah  { background: #fef2f2; border-color: #ef4444; }
-        .mkd-row-kuning { background: #fffbeb; border-color: #f59e0b; }
-        .mkd-row-hijau  { background: #f0fdf4; border-color: #10b981; }
-        .mkd-tgl { font-size: 13px; font-weight: 800; color: #0f172a; }
-        .mkd-ket { font-size: 11.5px; color: #64748b; margin-top: 3px; }
-        .mkd-warn { color: #ef4444; font-weight: 700; }
-        .mkd-empty { text-align: center; color: #94a3b8; font-size: 13px; padding: 20px 0; }
-        .mkd-ket-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; }
-        .btn-add-ket { padding: 4px 10px; background: #eef2ff; color: #4338ca; border: 1px dashed #a5b4fc; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        .btn-add-ket:hover { background: #e0e7ff; }
-        .ket-th-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: #ede9fe; color: #5b21b6; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        .ket-th-tag:hover { background: #ddd6fe; }
-        .mb-count-libur { cursor: pointer; }
-        .mb-count-libur:hover { filter: brightness(0.95); }
-        .akun-pw { font-family: 'Courier New', monospace; font-size: 12.5px; letter-spacing: 0.5px; color: #475569; }
-        .btn-toggle-akun { padding: 4px 10px; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 6px; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
         .scard { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
         .scard .si { font-size: 22px; float: right; }
@@ -436,10 +402,6 @@
             <div class="nav-item" onclick="showPage('pengendalian')" id="nav-pengendalian"><span class="icon">⚙️</span> Pengendalian</div>
             <div class="sb-sec">User</div>
             <div class="nav-item" onclick="showPage('users')" id="nav-users"><span class="icon">👥</span> Daftar User</div>
-            <div class="nav-item" onclick="showPage('akun')" id="nav-akun"><span class="icon">🔑</span> Users &amp; Password</div>
-            <div class="sb-sec">Pengaturan</div>
-            <div class="nav-item" onclick="showPage('libur')" id="nav-libur"><span class="icon">🎌</span> Libur Nasional</div>
-            <div class="nav-item" onclick="showPage('pesan')" id="nav-pesan"><span class="icon">📢</span> Pesan Pengumuman</div>
         </nav>
         <div class="sb-foot">
             <div class="admin-badge">
@@ -467,23 +429,6 @@
                     </div>
                 </div>
                 <span class="period-info" id="periodInfoText">—</span>
-            </div>
-
-            <!-- MASA BERAKHIR MAGANG -->
-            <div class="mb-card">
-                <div class="mb-head">
-                    <div class="mb-title">🗓️ Masa Berakhir Magang (User Aktif)</div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <div class="mb-count mb-count-libur" id="mbLiburCount" onclick="bukaLiburInfoAdm()" title="Lihat daftar libur nasional">🎌 0 libur</div>
-                        <div class="mb-count" id="mbCount">0 user</div>
-                    </div>
-                </div>
-                <div class="mb-tbl-wrap">
-                    <table class="mb-tbl">
-                        <thead><tr><th>User</th><th>Mulai</th><th>Berakhir (estimasi)</th><th>Sisa</th><th>❌ Tidak Hadir</th><th>🎉 Masuk Libur</th><th>Status</th></tr></thead>
-                        <tbody id="mbBody"><tr><td colspan="7" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr></tbody>
-                    </table>
-                </div>
             </div>
 
             <!-- STAT CARDS -->
@@ -633,81 +578,8 @@
 
         <!-- USERS -->
         <div class="page" id="page-users">
-            <div class="pg-header"><h2>Daftar User</h2><p>Semua pengguna aktif (x_10 = aktif)</p></div>
+            <div class="pg-header"><h2>Daftar User</h2><p>Semua pengguna terdaftar</p></div>
             <div class="users-grid" id="usersGrid"><div style="color:#94a3b8;font-size:13px;"><span class="sp"></span>Memuat...</div></div>
-        </div>
-
-        <!-- USERS & PASSWORD -->
-        <div class="page" id="page-akun">
-            <div class="pg-header"><h2>Users &amp; Password</h2><p>Kelola password dan status aktif/nonaktif setiap akun</p></div>
-            <div class="tcard"><table>
-                <thead><tr><th>User</th><th>Password</th><th>Status</th><th>Aksi</th></tr></thead>
-                <tbody id="akunTable"><tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
-        </div>
-
-        <!-- LIBUR NASIONAL -->
-        <div class="page" id="page-libur">
-            <div class="pg-header"><h2>🎌 Libur Nasional</h2><p>Tanggal-tanggal ini dianggap hari libur (selain Sabtu/Minggu) saat menghitung masa kerja magang</p></div>
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <div style="display:grid;grid-template-columns:90px 140px 100px 1fr auto;gap:10px;align-items:end;">
-                    <div class="fg" style="margin-bottom:0;"><label>Tanggal</label><input type="number" id="lb_tgl" min="1" max="31" placeholder="17"></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Bulan</label>
-                        <select id="lb_bln">
-                            <option value="1">Januari</option><option value="2">Februari</option><option value="3">Maret</option>
-                            <option value="4">April</option><option value="5">Mei</option><option value="6">Juni</option>
-                            <option value="7">Juli</option><option value="8">Agustus</option><option value="9">September</option>
-                            <option value="10">Oktober</option><option value="11">November</option><option value="12">Desember</option>
-                        </select>
-                    </div>
-                    <div class="fg" style="margin-bottom:0;"><label>Tahun</label><input type="number" id="lb_thn" placeholder="2026"></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Keterangan (opsional)</label><input type="text" id="lb_ket" placeholder="Contoh: HUT RI"></div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahLiburNasional()">+ Tambah</button>
-                </div>
-            </div>
-            <div class="tcard"><table>
-                <thead><tr><th>Tanggal</th><th>Hari</th><th>Keterangan</th><th>Aksi</th></tr></thead>
-                <tbody id="liburTable"><tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
-        </div>
-
-        <!-- PESAN PENGUMUMAN -->
-        <div class="page" id="page-pesan">
-            <div class="pg-header"><h2>📢 Pesan Pengumuman</h2><p>Buat pesan untuk peserta yang akan muncul otomatis saat halaman Portal Magang dibuka/refresh pada tanggal yang ditentukan</p></div>
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <div style="display:grid;grid-template-columns:160px 1fr 190px;gap:10px;">
-                    <div class="fg" style="margin-bottom:0;"><label>Tanggal</label><input type="date" id="ps_tgl"></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Pesan</label><textarea id="ps_teks" rows="1" placeholder="Contoh: Besok libur cuti bersama, kantor tutup." style="resize:vertical;min-height:41px;"></textarea></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Tampilkan</label>
-                        <select id="ps_mode">
-                            <option value="sekali">1️⃣ Sekali (pertama dibuka)</option>
-                            <option value="berulang">🔁 Setiap refresh/dibuka</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="fg" style="margin:14px 0 0;">
-                    <label>Penerima</label>
-                    <div style="display:flex;gap:16px;margin-bottom:8px;">
-                        <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#334155;cursor:pointer;">
-                            <input type="radio" name="ps_penerima_mode" value="semua" checked onchange="togglePenerimaMode()"> Semua Peserta Aktif
-                        </label>
-                        <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#334155;cursor:pointer;">
-                            <input type="radio" name="ps_penerima_mode" value="pilih" onchange="togglePenerimaMode()"> Pilih Peserta Tertentu
-                        </label>
-                    </div>
-                    <div id="psPenerimaList" style="display:none;max-height:170px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;background:#f8fafc;">
-                        <!-- checkboxes diisi via JS -->
-                    </div>
-                </div>
-                <div style="margin-top:10px;display:flex;gap:8px;">
-                    <button class="btn-add-j" id="btnPesanSubmit" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanFormPesan()">+ Tambah</button>
-                    <button class="btn-cancel" id="btnPesanBatal" style="display:none;height:41px;padding:0 18px;" onclick="resetFormPesan()">Batal Edit</button>
-                </div>
-            </div>
-            <div class="tcard"><table>
-                <thead><tr><th>Tanggal</th><th>Pesan</th><th>Tampilkan</th><th>Aksi</th></tr></thead>
-                <tbody id="pesanTable"><tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
         </div>
 
     </main>
@@ -791,40 +663,6 @@
     </div>
 </div>
 
-<!-- MODAL DETAIL TIDAK HADIR / MASUK LIBUR / LIBUR NASIONAL (Masa Berakhir Magang) -->
-<div class="overlay" id="modalMbDetail" onclick="tutupMbDetail()">
-    <div class="mbox" style="max-width:420px;" onclick="event.stopPropagation()">
-        <div class="mhead"><h3 id="mbDetailJudul">Detail</h3><button onclick="tutupMbDetail()">✕</button></div>
-        <div class="mbody" id="mbDetailBody"></div>
-    </div>
-</div>
-
-<!-- MODAL TAMBAH/EDIT KETERANGAN TIDAK HADIR -->
-<div class="overlay" id="modalKetTH" onclick="tutupKetTH()">
-    <div class="mbox" style="max-width:380px;" onclick="event.stopPropagation()">
-        <div class="mhead"><h3>🏷️ Keterangan Tidak Hadir</h3><button onclick="tutupKetTH()">✕</button></div>
-        <div class="mbody">
-            <div style="font-size:12px;color:#64748b;margin-bottom:14px;" id="kthInfo">-</div>
-            <div class="fg"><label>Jenis</label>
-                <select id="kth_jenis">
-                    <option value="Tanpa Keterangan">Tanpa Keterangan</option>
-                    <option value="Sakit">Sakit</option>
-                    <option value="Izin">Izin</option>
-                    <option value="Lainnya">Lainnya</option>
-                </select>
-            </div>
-            <div class="fg"><label>Detail (opsional)</label><input type="text" id="kth_ket" placeholder="Contoh: demam, urus keperluan keluarga, dll"></div>
-        </div>
-        <div class="mfoot" style="justify-content:space-between;">
-            <button class="btn-del" id="kthBtnHapus" style="display:none;" onclick="hapusKetTH()">🗑 Hapus</button>
-            <div style="display:flex;gap:8px;">
-                <button class="btn-cancel" onclick="tutupKetTH()">Batal</button>
-                <button class="btn-submit" onclick="simpanKetTH()">💾 Simpan</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- MODAL GALLERY BUKTI JADWAL DONE -->
 <div class="overlay" id="modalFotoBukti" onclick="closeModal('modalFotoBukti')">
     <div class="mbox" style="max-width:500px;" onclick="event.stopPropagation()">
@@ -867,18 +705,6 @@ const API  = 'https://lidan-co-id.pages.dev/api/contacts_filter_dinamis7';
 const AUTH = 'admin';
 const TJ   = 'jadwal_magang';
 const TA   = 'absensi';
-const TBLK = 'kontrol_admin';
-const KONTROL_LIBUR_ID = 5;
-const KONTROL_KET_ID = 5; // sama baris (id_x=5) dengan libur nasional, tapi kolom x_02 (tidak hadir)
-const KONTROL_KET_MASUK_ID = 5; // sama baris (id_x=5), kolom x_03 (masuk hari libur)
-const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 (pesan pengumuman untuk peserta)
-let ketTidakHadirList = [];
-let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
-let ketMasukLiburList = [];
-let ketMasukLiburMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
-let pesanPengumumanList = []; // [{id, tanggal:'YYYY-MM-DD', pesan, mode:'sekali'|'berulang'}]
-let _editPesanId = null;
-function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 const ASSETS = 'https://assets.lidan.co.id/';
 const JC = { meeting:'#ff7675', tes:'#74b9ff', konseling:'#55efc4', seminar:'#ffeaa7', others:'#b2bec3' };
 
@@ -889,8 +715,6 @@ let dashPengendalianTab = 'aktif';
 let allUsers   = [];
 let adminUser  = '';
 let dashPeriod = 'harian'; // 'harian' | 'mingguan' | 'bulanan'
-let liburNasionalList = []; // [{tanggal:'YYYY-MM-DD', ket:'...'}]
-let liburNasionalSet  = new Set(); // Set('YYYY-MM-DD') untuk lookup cepat
 
 // Helper: format tanggal lokal (bukan UTC) ke YYYY-MM-DD
 function localDate(d) {
@@ -998,591 +822,8 @@ async function showApp() {
     document.getElementById('adminName').textContent    = adminUser;
     document.getElementById('adminInitial').textContent = adminUser.charAt(0).toUpperCase();
     await loadAllUsers();
-    await ambilLiburNasional();
-    await ambilKetTidakHadir();
-    await ambilKetMasukLibur();
     loadDashboard();
-    loadMasaBerakhir();
 }
-
-// ===== LIBUR NASIONAL (tersimpan di tabel kontrol_admin, id_x = 5, kolom x_01 berisi JSON) =====
-async function ambilLiburNasional() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_LIBUR_ID}&limit=1`);
-        const row = res.data?.[0];
-        let list = [];
-        if (row && row.x_01) { try { list = JSON.parse(row.x_01) || []; } catch { list = []; } }
-        if (!Array.isArray(list)) list = [];
-        list.sort((a, b) => String(a.tanggal).localeCompare(String(b.tanggal)));
-        liburNasionalList = list;
-        liburNasionalSet  = new Set(list.map(l => l.tanggal));
-    } catch (e) {
-        console.error(e);
-        liburNasionalList = [];
-        liburNasionalSet  = new Set();
-    }
-    const elLc = document.getElementById('mbLiburCount');
-    if (elLc) elLc.textContent = `🎌 ${liburNasionalList.length} libur`;
-}
-
-// Popup daftar libur nasional (info saja, read di halaman manapun via card Masa Berakhir Magang)
-function bukaLiburInfoAdm() {
-    const judul = document.getElementById('mbDetailJudul');
-    const body  = document.getElementById('mbDetailBody');
-    judul.textContent = '🎌 Daftar Libur Nasional';
-    body.innerHTML = liburNasionalList.map(l => {
-        const [y, m, d] = l.tanggal.split('-').map(Number);
-        const dt = new Date(y, m - 1, d);
-        return `<div class="mkd-row mkd-row-hijau">
-            <div class="mkd-tgl">${fmtTglIndoLengkapAdm(dt)}</div>
-            <div class="mkd-ket">${l.ket ? escHtml(l.ket) : '<span style="color:#cbd5e1;">Tidak ada keterangan</span>'}</div>
-        </div>`;
-    }).join('') || '<div class="mkd-empty">Belum ada libur nasional ditambahkan</div>';
-    document.getElementById('modalMbDetail').style.display = 'flex';
-}
-
-// ===== KETERANGAN TIDAK HADIR (satu baris dengan libur nasional: tabel kontrol_admin, id_x = 5, tapi kolom x_02 berisi JSON) =====
-async function ambilKetTidakHadir() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_KET_ID}&limit=1`);
-        const row = res.data?.[0];
-        let list = [];
-        if (row && row.x_02) { try { list = JSON.parse(row.x_02) || []; } catch { list = []; } }
-        if (!Array.isArray(list)) list = [];
-        ketTidakHadirList = list;
-        const map = {};
-        list.forEach(k => { map[`${k.user}|${k.tanggal}`] = k; });
-        ketTidakHadirMap = map;
-    } catch (e) {
-        console.error(e);
-        ketTidakHadirList = [];
-        ketTidakHadirMap  = {};
-    }
-}
-
-async function simpanKetTidakHadir(list) {
-    const body = JSON.stringify({ x_02: JSON.stringify(list) });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_KET_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        // Baris belum ada di tabel -> buat baru dengan id_x tetap
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_KET_ID, x_02: JSON.stringify(list) })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    return res;
-}
-
-// ===== KETERANGAN MASUK HARI LIBUR (satu baris dengan libur nasional: id_x = 5, kolom x_03 berisi JSON) =====
-async function ambilKetMasukLibur() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_KET_MASUK_ID}&limit=1`);
-        const row = res.data?.[0];
-        let list = [];
-        if (row && row.x_03) { try { list = JSON.parse(row.x_03) || []; } catch { list = []; } }
-        if (!Array.isArray(list)) list = [];
-        ketMasukLiburList = list;
-        const map = {};
-        list.forEach(k => { map[`${k.user}|${k.tanggal}`] = k; });
-        ketMasukLiburMap = map;
-    } catch (e) {
-        console.error(e);
-        ketMasukLiburList = [];
-        ketMasukLiburMap  = {};
-    }
-}
-
-async function simpanKetMasukLibur(list) {
-    const body = JSON.stringify({ x_03: JSON.stringify(list) });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_KET_MASUK_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        // Baris belum ada di tabel -> buat baru dengan id_x tetap
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_KET_MASUK_ID, x_03: JSON.stringify(list) })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    return res;
-}
-
-// ===== PESAN PENGUMUMAN (satu baris dengan libur nasional: id_x = 5, kolom x_04 berisi JSON) =====
-async function ambilPesanPengumuman() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_PESAN_ID}&limit=1`);
-        const row = res.data?.[0];
-        let list = [];
-        if (row && row.x_04) { try { list = JSON.parse(row.x_04) || []; } catch { list = []; } }
-        if (!Array.isArray(list)) list = [];
-        list.sort((a, b) => String(b.tanggal).localeCompare(String(a.tanggal)));
-        pesanPengumumanList = list;
-    } catch (e) {
-        console.error(e);
-        pesanPengumumanList = [];
-    }
-}
-
-async function simpanPesanPengumuman(list) {
-    const body = JSON.stringify({ x_04: JSON.stringify(list) });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_PESAN_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        // Baris belum ada di tabel -> buat baru dengan id_x tetap
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_PESAN_ID, x_04: JSON.stringify(list) })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    return res;
-}
-
-function loadPesanPengumuman() {
-    const tbody = document.getElementById('pesanTable');
-    tbody.innerHTML = '<tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr>';
-    if (!document.getElementById('psPenerimaList').innerHTML.trim()) renderPsPenerimaList();
-    ambilPesanPengumuman().then(() => {
-        if (!pesanPengumumanList.length) { tbody.innerHTML = '<tr class="er"><td colspan="4">Belum ada pesan pengumuman ditambahkan</td></tr>'; return; }
-        tbody.innerHTML = pesanPengumumanList.map(p => {
-            const [y, m, d] = p.tanggal.split('-').map(Number);
-            const dt = new Date(y, m - 1, d);
-            const modeLabel = p.mode === 'berulang'
-                ? '<span class="jtag" style="background:#74b9ff;">🔁 Setiap Refresh</span>'
-                : '<span class="jtag" style="background:#55efc4;">1️⃣ Sekali/Hari</span>';
-            const penerimaLabel = (!p.penerima || p.penerima === 'semua')
-                ? '<span style="color:#64748b;">👥 Semua Aktif</span>'
-                : `<span title="${escHtml((p.penerima||[]).join(', '))}" style="color:#64748b;">🎯 ${(p.penerima||[]).length} orang</span>`;
-            return `<tr>
-                <td>${fmtTglIndoSingkat(dt)}</td>
-                <td style="max-width:280px;white-space:pre-wrap;">${escHtml(p.pesan)}</td>
-                <td>${modeLabel}<br>${penerimaLabel}</td>
-                <td style="white-space:nowrap;">
-                    <button class="btn-add-j" style="padding:4px 10px;font-size:11px;margin:0 4px 0 0;" onclick="editPesanPengumuman('${p.id}')">✏️ Edit</button>
-                    <button class="btn-del" onclick="hapusPesanPengumuman('${p.id}')">🗑 Hapus</button>
-                </td>
-            </tr>`;
-        }).join('');
-    });
-}
-
-function renderPsPenerimaList(selected) {
-    const sel = new Set(selected || []);
-    const box = document.getElementById('psPenerimaList');
-    const users = getActiveUsers();
-    if (!users.length) { box.innerHTML = '<div style="color:#94a3b8;font-size:12px;">Tidak ada peserta aktif</div>'; return; }
-    box.innerHTML = users.map(u => `
-        <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;padding:4px 0;cursor:pointer;">
-            <input type="checkbox" class="ps-penerima-cb" value="${escHtml(u.x_01)}" ${sel.has(u.x_01)?'checked':''}> ${escHtml(u.x_01)}
-        </label>`).join('');
-}
-
-function togglePenerimaMode() {
-    const mode = document.querySelector('input[name="ps_penerima_mode"]:checked').value;
-    const box = document.getElementById('psPenerimaList');
-    if (mode === 'pilih') { box.style.display = 'block'; if (!box.innerHTML.trim()) renderPsPenerimaList(); }
-    else box.style.display = 'none';
-}
-
-function getPenerimaFromForm() {
-    const mode = document.querySelector('input[name="ps_penerima_mode"]:checked').value;
-    if (mode === 'semua') return 'semua';
-    return Array.from(document.querySelectorAll('.ps-penerima-cb:checked')).map(cb => cb.value);
-}
-
-function setPenerimaToForm(penerima) {
-    const isSemua = !penerima || penerima === 'semua';
-    document.querySelector(`input[name="ps_penerima_mode"][value="${isSemua ? 'semua' : 'pilih'}"]`).checked = true;
-    renderPsPenerimaList(isSemua ? [] : penerima);
-    document.getElementById('psPenerimaList').style.display = isSemua ? 'none' : 'block';
-}
-
-function resetFormPesan() {
-    _editPesanId = null;
-    document.getElementById('ps_tgl').value = '';
-    document.getElementById('ps_teks').value = '';
-    document.getElementById('ps_mode').value = 'sekali';
-    document.getElementById('btnPesanSubmit').textContent = '+ Tambah';
-    document.getElementById('btnPesanBatal').style.display = 'none';
-    setPenerimaToForm('semua');
-}
-
-function editPesanPengumuman(id) {
-    const item = pesanPengumumanList.find(p => String(p.id) === String(id));
-    if (!item) return;
-    _editPesanId = item.id;
-    document.getElementById('ps_tgl').value  = item.tanggal;
-    document.getElementById('ps_teks').value = item.pesan;
-    document.getElementById('ps_mode').value = item.mode || 'sekali';
-    setPenerimaToForm(item.penerima);
-    document.getElementById('btnPesanSubmit').textContent = '💾 Update';
-    document.getElementById('btnPesanBatal').style.display = 'inline-block';
-    document.getElementById('page-pesan').scrollIntoView({ behavior:'smooth', block:'start' });
-}
-
-async function simpanFormPesan() {
-    const tglEl  = document.getElementById('ps_tgl');
-    const teksEl = document.getElementById('ps_teks');
-    const modeEl = document.getElementById('ps_mode');
-    const tanggalStr = tglEl.value;
-    const pesan = teksEl.value.trim();
-    const mode  = modeEl.value;
-    const penerima = getPenerimaFromForm();
-    if (!tanggalStr) return alert('Pilih tanggal terlebih dahulu.');
-    if (!pesan) return alert('Isi pesan pengumuman terlebih dahulu.');
-    if (Array.isArray(penerima) && !penerima.length) return alert('Pilih minimal satu peserta penerima, atau pilih "Semua Peserta Aktif".');
-    let listBaru;
-    if (_editPesanId) {
-        listBaru = pesanPengumumanList.map(p => String(p.id) === String(_editPesanId) ? { ...p, tanggal: tanggalStr, pesan, mode, penerima } : p);
-    } else {
-        listBaru = [...pesanPengumumanList, { id: String(Date.now()), tanggal: tanggalStr, pesan, mode, penerima }];
-    }
-    const res = await simpanPesanPengumuman(listBaru);
-    if (res.success) {
-        resetFormPesan();
-        await loadPesanPengumuman();
-    } else {
-        alert('Gagal menyimpan pesan pengumuman. Coba lagi.');
-    }
-}
-
-async function hapusPesanPengumuman(id) {
-    if (!confirm('Hapus pesan pengumuman ini?')) return;
-    const listBaru = pesanPengumumanList.filter(p => String(p.id) !== String(id));
-    const res = await simpanPesanPengumuman(listBaru);
-    if (res.success) {
-        if (String(_editPesanId) === String(id)) resetFormPesan();
-        await loadPesanPengumuman();
-    } else {
-        alert('Gagal menghapus. Coba lagi.');
-    }
-}
-
-let _kthUser = '', _kthTgl = '', _kthMode = 'tidakhadir';
-const KTH_OPSI = {
-    tidakhadir: ['Tanpa Keterangan', 'Sakit', 'Izin', 'Lainnya'],
-    masuklibur: ['Tanpa Keterangan', 'Tugas Mendesak', 'Diminta Atasan/Kantor', 'Acara Kantor', 'Lainnya']
-};
-function bukaKetTH(user, tglStr, mode) {
-    _kthUser = user; _kthTgl = tglStr; _kthMode = mode || 'tidakhadir';
-    const map = _kthMode === 'masuklibur' ? ketMasukLiburMap : ketTidakHadirMap;
-    const opsi = KTH_OPSI[_kthMode];
-    document.querySelector('#modalKetTH .mhead h3').textContent = _kthMode === 'masuklibur' ? '🏷️ Keterangan Masuk Hari Libur' : '🏷️ Keterangan Tidak Hadir';
-    document.getElementById('kth_jenis').innerHTML = opsi.map(o => `<option value="${o}">${o}</option>`).join('');
-    const [y, m, d] = tglStr.split('-').map(Number);
-    const dt = new Date(y, m - 1, d);
-    document.getElementById('kthInfo').textContent = `${user} — ${fmtTglIndoLengkapAdm(dt)}`;
-    const existing = map[`${user}|${tglStr}`];
-    document.getElementById('kth_jenis').value = existing ? existing.jenis : opsi[0];
-    document.getElementById('kth_ket').value   = existing ? (existing.ket || '') : '';
-    document.getElementById('kthBtnHapus').style.display = existing ? 'inline-block' : 'none';
-    document.getElementById('modalKetTH').style.display = 'flex';
-}
-function tutupKetTH() { document.getElementById('modalKetTH').style.display = 'none'; }
-
-async function simpanKetTH() {
-    const jenis = document.getElementById('kth_jenis').value;
-    const ket   = document.getElementById('kth_ket').value.trim();
-    const isMasukLibur = _kthMode === 'masuklibur';
-    const sumberList = isMasukLibur ? ketMasukLiburList : ketTidakHadirList;
-    const listBaru = sumberList.filter(k => !(k.user === _kthUser && k.tanggal === _kthTgl));
-    listBaru.push({ user: _kthUser, tanggal: _kthTgl, jenis, ket });
-    const res = isMasukLibur ? await simpanKetMasukLibur(listBaru) : await simpanKetTidakHadir(listBaru);
-    if (res.success) {
-        if (isMasukLibur) await ambilKetMasukLibur(); else await ambilKetTidakHadir();
-        tutupKetTH();
-        bukaMbDetail(_kthUser, isMasukLibur ? 'masuklibur' : 'tidakhadir');
-    } else {
-        alert('Gagal menyimpan keterangan. Coba lagi.');
-    }
-}
-
-async function hapusKetTH() {
-    if (!confirm('Hapus keterangan untuk tanggal ini?')) return;
-    const isMasukLibur = _kthMode === 'masuklibur';
-    const sumberList = isMasukLibur ? ketMasukLiburList : ketTidakHadirList;
-    const listBaru = sumberList.filter(k => !(k.user === _kthUser && k.tanggal === _kthTgl));
-    const res = isMasukLibur ? await simpanKetMasukLibur(listBaru) : await simpanKetTidakHadir(listBaru);
-    if (res.success) {
-        if (isMasukLibur) await ambilKetMasukLibur(); else await ambilKetTidakHadir();
-        tutupKetTH();
-        bukaMbDetail(_kthUser, isMasukLibur ? 'masuklibur' : 'tidakhadir');
-    } else {
-        alert('Gagal menghapus keterangan. Coba lagi.');
-    }
-}
-
-async function simpanLiburNasional(list) {
-    const body = JSON.stringify({ x_01: JSON.stringify(list) });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_LIBUR_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        // Baris belum ada di tabel -> buat baru dengan id_x tetap
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_LIBUR_ID, x_01: JSON.stringify(list) })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    return res;
-}
-
-function loadLiburNasional() {
-    const tbody = document.getElementById('liburTable');
-    tbody.innerHTML = '<tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr>';
-    ambilLiburNasional().then(() => {
-        if (!liburNasionalList.length) { tbody.innerHTML = '<tr class="er"><td colspan="4">Belum ada libur nasional yang ditambahkan</td></tr>'; return; }
-        const HR = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-        tbody.innerHTML = liburNasionalList.map(l => {
-            const [y, m, d] = l.tanggal.split('-').map(Number);
-            const dt = new Date(y, m - 1, d);
-            return `<tr>
-                <td>${fmtTglIndoSingkat(dt)}</td>
-                <td>${HR[dt.getDay()]}</td>
-                <td>${l.ket ? l.ket : '<span style="color:#cbd5e1;">-</span>'}</td>
-                <td><button class="btn-del" onclick="hapusLiburNasional('${l.tanggal}')">🗑 Hapus</button></td>
-            </tr>`;
-        }).join('');
-    });
-}
-
-async function tambahLiburNasional() {
-    const tglEl = document.getElementById('lb_tgl');
-    const blnEl = document.getElementById('lb_bln');
-    const thnEl = document.getElementById('lb_thn');
-    const ketEl = document.getElementById('lb_ket');
-    const tgl = parseInt(tglEl.value, 10);
-    const bln = parseInt(blnEl.value, 10);
-    const thn = parseInt(thnEl.value, 10);
-    if (!tgl || tgl < 1 || tgl > 31) return alert('Tanggal tidak valid (1-31).');
-    if (!thn || thn < 2000 || thn > 2100) return alert('Tahun tidak valid.');
-    const dt = new Date(thn, bln - 1, tgl);
-    if (dt.getMonth() !== bln - 1) return alert('Tanggal tidak valid untuk bulan tersebut.');
-    const tanggalStr = `${thn}-${String(bln).padStart(2,'0')}-${String(tgl).padStart(2,'0')}`;
-    if (liburNasionalList.some(l => l.tanggal === tanggalStr)) return alert('Tanggal tersebut sudah ada di daftar libur nasional.');
-    const listBaru = [...liburNasionalList, { tanggal: tanggalStr, ket: (ketEl.value || '').trim() }];
-    listBaru.sort((a, b) => a.tanggal.localeCompare(b.tanggal));
-    const res = await simpanLiburNasional(listBaru);
-    if (res.success) {
-        tglEl.value = ''; thnEl.value = ''; ketEl.value = ''; blnEl.value = '1';
-        await loadLiburNasional();
-        loadMasaBerakhir();
-    } else {
-        alert('Gagal menyimpan libur nasional. Coba lagi.');
-    }
-}
-
-async function hapusLiburNasional(tanggalStr) {
-    if (!confirm('Hapus tanggal libur nasional ini?')) return;
-    const listBaru = liburNasionalList.filter(l => l.tanggal !== tanggalStr);
-    const res = await simpanLiburNasional(listBaru);
-    if (res.success) {
-        await loadLiburNasional();
-        loadMasaBerakhir();
-    } else {
-        alert('Gagal menghapus. Coba lagi.');
-    }
-}
-
-// ===== MASA BERAKHIR MAGANG =====
-// Batas akhir DASAR (kalender) = tanggal absensi pertama user + 5 bulan - 1 hari,
-// lalu disesuaikan: tiap hari kerja tidak hadir -> +1 hari, tiap masuk di hari libur -> -1 hari.
-// Sisa & progres dihitung dalam HARI KERJA (Senin-Jumat).
-// Hanya user dengan x_10 = 'aktif' (tabel users) yang ditampilkan.
-function hitungTglBerakhirMagangDasar(mulaiStr) {
-    const [y, m, d] = mulaiStr.split('-').map(Number);
-    const end = new Date(y, (m - 1) + 5, d);
-    end.setDate(end.getDate() - 1);
-    return end;
-}
-function fmtTglIndoSingkat(d) {
-    const BLN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-    return `${d.getDate()} ${BLN[d.getMonth()]} ${d.getFullYear()}`;
-}
-function fmtTglIndoLengkapAdm(d) {
-    const BLN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-    const HR  = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
-    return `${HR[d.getDay()]}, ${d.getDate()} ${BLN[d.getMonth()]} ${d.getFullYear()}`;
-}
-function isAkhirPekanAdm(d) { const h = d.getDay(); return h === 0 || h === 6; }
-function tglKeStrAdm(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-// Hari libur = Sabtu/Minggu ATAU tanggal libur nasional (dari kontrol_admin id_x=5)
-function isHariLiburAdm(d) { return isAkhirPekanAdm(d) || liburNasionalSet.has(tglKeStrAdm(d)); }
-function hitungHariKerjaAntaraAdm(dariDate, sampaiDate) {
-    if (dariDate > sampaiDate) return 0;
-    let cnt = 0;
-    const cur = new Date(dariDate);
-    while (cur <= sampaiDate) { if (!isHariLiburAdm(cur)) cnt++; cur.setDate(cur.getDate() + 1); }
-    return cnt;
-}
-function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords) {
-    const [my, mm, md] = mulaiStr.split('-').map(Number);
-    const mulaiDate = new Date(my, mm - 1, md);
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-
-    // Peta per-tanggal: { masuk: '08:00', pulang: '17:00' }
-    const peta = {};
-    (absensiRecords || []).forEach(r => {
-        if (!r.x_02) return;
-        if (!peta[r.x_02]) peta[r.x_02] = {};
-        if (r.x_05 === 'MASUK')  peta[r.x_02].masuk  = r.x_03 || '-';
-        if (r.x_05 === 'PULANG') peta[r.x_02].pulang = r.x_03 || '-';
-    });
-
-    // Hari kerja (Sen-Jum, dan bukan libur nasional) sejak sehari setelah mulai s/d kemarin:
-    // - tanpa MASUK sama sekali      -> jenis 'absen' (tidak hadir penuh, memperpanjang akhir)
-    // - ada MASUK tapi tanpa PULANG  -> jenis 'lupa_pulang' (tetap ditampilkan, tidak memperpanjang akhir)
-    const tidakHadir = [];
-    const kemarin = new Date(today); kemarin.setDate(kemarin.getDate() - 1);
-    {
-        const cur = new Date(mulaiDate); cur.setDate(cur.getDate() + 1);
-        while (cur <= kemarin) {
-            if (!isHariLiburAdm(cur)) {
-                const s = tglKeStrAdm(cur);
-                const rec = peta[s];
-                if (!rec || !rec.masuk) tidakHadir.push({ tanggal: new Date(cur), jenis: 'absen' });
-                else if (!rec.pulang)   tidakHadir.push({ tanggal: new Date(cur), jenis: 'lupa_pulang', jamMasuk: rec.masuk });
-            }
-            cur.setDate(cur.getDate() + 1);
-        }
-    }
-    const absenPenuhCount = tidakHadir.filter(t => t.jenis === 'absen').length;
-
-    // Masuk di hari libur: tanggal dengan MASUK yang jatuh di Sabtu/Minggu ATAU libur nasional, sejak mulai s/d hari ini
-    const masukLibur = [];
-    Object.keys(peta).forEach(s => {
-        if (!peta[s].masuk) return;
-        const [y, m, d] = s.split('-').map(Number);
-        const dt = new Date(y, m - 1, d);
-        if (dt >= mulaiDate && dt <= today && isHariLiburAdm(dt)) {
-            masukLibur.push({ tanggal: dt, jamMasuk: peta[s].masuk, jamPulang: peta[s].pulang || null });
-        }
-    });
-    masukLibur.sort((a, b) => a.tanggal - b.tanggal);
-    tidakHadir.sort((a, b) => a.tanggal - b.tanggal);
-
-    const baseAkhir = hitungTglBerakhirMagangDasar(mulaiStr);
-    const penyesuaian = absenPenuhCount - masukLibur.length;
-    const akhirDate = new Date(baseAkhir);
-    akhirDate.setDate(akhirDate.getDate() + penyesuaian);
-
-    const sisaHariKerja = akhirDate >= today ? hitungHariKerjaAntaraAdm(today, akhirDate) : 0;
-
-    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, sisaHariKerja };
-}
-
-async function loadMasaBerakhir() {
-    const body = document.getElementById('mbBody');
-    const usersAktif = getActiveUsers();
-    document.getElementById('mbCount').textContent = usersAktif.length + ' user';
-    if (!usersAktif.length) {
-        body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:18px;color:#94a3b8;">Tidak ada user aktif (x_10)</td></tr>';
-        return;
-    }
-    body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr>';
-    try {
-        // Limit besar (bukan 1) karena API tidak punya parameter sort/order,
-        // jadi limit=1 tidak menjamin record absensi paling awal yang terambil.
-        // Ambil semua absensi tiap user lalu cari tanggal x_02 paling kecil di client.
-        const results = await Promise.all(
-            usersAktif.map(u => api(`?table=${TA}&x_01_eq=${u.x_01}&limit=2000`))
-        );
-        const today = new Date(); today.setHours(0,0,0,0);
-        const rows = usersAktif.map((u, i) => {
-            const data = results[i].data || [];
-            const mulaiStr = data.reduce((min, d) => (d.x_02 && (!min || d.x_02 < min)) ? d.x_02 : min, null);
-            if (!mulaiStr) return { user: u.x_01, mulaiStr: null };
-            const mk = hitungMasaKerjaLengkapAdm(mulaiStr, data);
-            return { user: u.x_01, mulaiStr, ...mk };
-        });
-        rows.sort((a, b) => {
-            if (!a.mulaiStr) return 1;
-            if (!b.mulaiStr) return -1;
-            return a.akhirDate - b.akhirDate;
-        });
-        window._mbRows = rows;
-        body.innerHTML = rows.map(r => {
-            if (!r.mulaiStr) {
-                return `<tr>
-                    <td><span class="uchip"><span class="udot"></span>${r.user}</span></td>
-                    <td colspan="6" style="color:#94a3b8;">Belum ada data absensi</td>
-                </tr>`;
-            }
-            let badge;
-            if (r.sisaHariKerja <= 0 && r.akhirDate < today) badge = `<span class="mb-badge" style="background:#fee2e2;color:#b91c1c;">Selesai</span>`;
-            else if (r.sisaHariKerja <= 20)                  badge = `<span class="mb-badge" style="background:#fef3c7;color:#b45309;">Segera berakhir</span>`;
-            else                                              badge = `<span class="mb-badge" style="background:#d1fae5;color:#065f46;">Aktif</span>`;
-            const uEsc = r.user.replace(/'/g, "\\'");
-            const tidakHadirTxt = r.tidakHadir.length
-                ? `<span class="mb-mini mb-mini-merah" onclick="bukaMbDetail('${uEsc}','tidakhadir')">${r.tidakHadir.length} hari</span>`
-                : `<span class="mb-mini-nol">-</span>`;
-            const masukLiburTxt = r.masukLibur.length
-                ? `<span class="mb-mini mb-mini-hijau" onclick="bukaMbDetail('${uEsc}','masuklibur')">${r.masukLibur.length} hari</span>`
-                : `<span class="mb-mini-nol">-</span>`;
-            return `<tr>
-                <td><span class="uchip"><span class="udot"></span>${r.user}</span></td>
-                <td>${fmtTglIndoSingkat(r.mulaiDate)}</td>
-                <td>${fmtTglIndoSingkat(r.akhirDate)}</td>
-                <td>${r.sisaHariKerja <= 0 && r.akhirDate < today ? '0' : r.sisaHariKerja} hari kerja</td>
-                <td>${tidakHadirTxt}</td>
-                <td>${masukLiburTxt}</td>
-                <td>${badge}</td>
-            </tr>`;
-        }).join('');
-    } catch (e) {
-        console.error(e);
-        body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:18px;color:#ef4444;">Gagal memuat data</td></tr>';
-    }
-}
-
-// Popup detail Tidak Hadir / Masuk Hari Libur (per user, tabel Masa Berakhir Magang)
-function bukaMbDetail(user, jenis) {
-    const r = (window._mbRows || []).find(x => x.user === user);
-    if (!r) return;
-    const judul = document.getElementById('mbDetailJudul');
-    const body  = document.getElementById('mbDetailBody');
-    if (jenis === 'tidakhadir') {
-        judul.textContent = `❌ Tidak Hadir — ${user}`;
-        const uEsc2 = user.replace(/'/g, "\\'");
-        body.innerHTML = r.tidakHadir.map(t => {
-            if (t.jenis === 'absen') {
-                const tglStr = tglKeStrAdm(t.tanggal);
-                const k = ketTidakHadirMap[`${user}|${tglStr}`];
-                const ketHtml = k
-                    ? `<span class="ket-th-tag" onclick="bukaKetTH('${uEsc2}','${tglStr}')">🏷️ ${escHtml(k.jenis)}${k.ket ? ' &middot; ' + escHtml(k.ket) : ''}</span>`
-                    : `<button class="btn-add-ket" onclick="bukaKetTH('${uEsc2}','${tglStr}')">+ Tambah Keterangan</button>`;
-                return `<div class="mkd-row mkd-row-merah">
-                    <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
-                    <div class="mkd-ket">Tidak hadir (tidak ada absensi masuk)</div>
-                    <div class="mkd-ket-row">${ketHtml}</div>
-                </div>`;
-            }
-            return `<div class="mkd-row mkd-row-kuning">
-                <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
-                <div class="mkd-ket">Lupa absen pulang &middot; masuk jam ${t.jamMasuk}</div>
-            </div>`;
-        }).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    } else {
-        judul.textContent = `🎉 Masuk Hari Libur — ${user}`;
-        const uEsc3 = user.replace(/'/g, "\\'");
-        body.innerHTML = r.masukLibur.map(t => {
-            const tglStr = tglKeStrAdm(t.tanggal);
-            const k = ketMasukLiburMap[`${user}|${tglStr}`];
-            const ketHtml = k
-                ? `<span class="ket-th-tag" onclick="bukaKetTH('${uEsc3}','${tglStr}','masuklibur')">🏷️ ${escHtml(k.jenis)}${k.ket ? ' &middot; ' + escHtml(k.ket) : ''}</span>`
-                : `<button class="btn-add-ket" onclick="bukaKetTH('${uEsc3}','${tglStr}','masuklibur')">+ Tambah Keterangan</button>`;
-            return `<div class="mkd-row mkd-row-hijau">
-                <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
-                <div class="mkd-ket">Masuk jam ${t.jamMasuk} &middot; Pulang ${t.jamPulang ? 'jam ' + t.jamPulang : '<span class="mkd-warn">belum absen pulang</span>'}</div>
-                <div class="mkd-ket-row">${ketHtml}</div>
-            </div>`;
-        }).join('') || '<div class="mkd-empty">Tidak ada data</div>';
-    }
-    document.getElementById('modalMbDetail').style.display = 'flex';
-}
-function tutupMbDetail() { document.getElementById('modalMbDetail').style.display = 'none'; }
 
 // ===== NAV =====
 function showPage(pg) {
@@ -1597,29 +838,20 @@ function showPage(pg) {
     if (sb) sb.classList.remove('sb-open');
     if (ov) ov.classList.remove('open');
     if (btn) btn.classList.remove('open');
-    const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, analisa: loadAnalisa, pengendalian: loadPengendalian, users: loadUsers, akun: loadAkun, libur: loadLiburNasional, pesan: loadPesanPengumuman };
+    const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, analisa: loadAnalisa, pengendalian: loadPengendalian, users: loadUsers };
     if (map[pg]) map[pg]();
 }
 
 // ===== USERS =====
-// Hanya user dengan x_10 = 'aktif' yang dianggap aktif magang.
-function getActiveUsers() {
-    return allUsers.filter(u => String(u.x_10 || '').toLowerCase().trim() === 'aktif');
-}
-function getActiveUserNames() {
-    return new Set(getActiveUsers().map(u => u.x_01));
-}
-
 async function loadAllUsers() {
     const res = await api(`?table=users`);
     if (res.success && res.data) {
         allUsers = res.data;
-        const aktifUsers = getActiveUsers();
-        const opts = aktifUsers.map(u => `<option value="${u.x_01}">${u.x_01}</option>`).join('');
+        const opts = allUsers.map(u => `<option value="${u.x_01}">${u.x_01}</option>`).join('');
         ['jFU','aFU','anFU','pnFU'].forEach(id => document.getElementById(id).innerHTML = '<option value="">-- Semua --</option>' + opts);
         document.getElementById('mf_user').innerHTML = '<option value="">-- Pilih User --</option>' + opts;
         // Render checkbox list
-        renderUCPList(aktifUsers);
+        renderUCPList(allUsers);
     }
 }
 
@@ -1643,7 +875,7 @@ function toggleUCPItem(val) {
 
 function filterUCP() {
     const q = document.getElementById('ucpSearch').value.toLowerCase();
-    const filtered = getActiveUsers().filter(u => u.x_01.toLowerCase().includes(q));
+    const filtered = allUsers.filter(u => u.x_01.toLowerCase().includes(q));
     renderUCPList(filtered);
     // Restore checked state
     document.querySelectorAll('.ucp-cb').forEach(cb => {
@@ -1719,13 +951,6 @@ async function loadDashboard() {
     let doneData    = rD.data   || [];
     let absData     = rAbs.data || [];
 
-    // Hanya tampilkan data milik user yang x_10 = 'aktif'
-    const activeSet = getActiveUserNames();
-    aktifData   = aktifData.filter(d => activeSet.has(d.x_09));
-    pendingData = pendingData.filter(d => activeSet.has(d.x_09));
-    doneData    = doneData.filter(d => activeSet.has(d.x_09));
-    absData     = absData.filter(d => activeSet.has(d.x_01));
-
     // Filter mingguan client-side
     if (pr.type === 'mingguan') {
         const inWeek = item => {
@@ -1744,7 +969,7 @@ async function loadDashboard() {
     document.getElementById('stDone').textContent    = doneData.length;
     document.getElementById('stAbsensi').textContent = absData.length;
 
-    window._dashNeedsApprovalData = (rNA.data || []).filter(d => activeSet.has(d.x_09));
+    window._dashNeedsApprovalData = rNA.data || [];
     renderDashApproval();
     window._dashJadwalData = { aktif: aktifData, pending: pendingData, done: doneData };
     renderDashJadwal();
@@ -1948,8 +1173,7 @@ async function loadJadwal() {
     if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`; if(user) q+=`&x_09_eq=${user}`;
     loading('jTable',6);
     const res = await api(q);
-    const activeSet = getActiveUserNames();
-    const data = (res.data||[]).filter(d => activeSet.has(d.x_09)).sort((a,b)=>Number(b.x_01)-Number(a.x_01));
+    const data = (res.data||[]).sort((a,b)=>Number(b.x_01)-Number(a.x_01));
     document.getElementById('jTable').innerHTML = data.length
         ? data.map(d => {
             let fotoBtnHtml = '';
@@ -2004,8 +1228,7 @@ async function loadAbsensi() {
     let q=`?table=${TA}`; if(user) q+=`&x_01_eq=${user}`; if(dari) q+=`&x_02_gte=${dari}`; if(sampai) q+=`&x_02_lte=${sampai}`;
     loading('aTable',5);
     const res = await api(q);
-    const activeSet = getActiveUserNames();
-    const data = (res.data||[]).filter(d => activeSet.has(d.x_01)).sort((a,b)=>(b.x_02||'').localeCompare(a.x_02||''));
+    const data = (res.data||[]).sort((a,b)=>(b.x_02||'').localeCompare(a.x_02||''));
     document.getElementById('aTable').innerHTML = data.length
         ? data.map(d => `<tr>
             <td>${d.x_02||'-'}</td>
@@ -2022,8 +1245,7 @@ async function loadAnalisa() {
     let q=`?table=${TJ}`; if(user) q+=`&x_09_eq=${user}`; if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`;
     loading('anTable',7);
     const res  = await api(q);
-    const activeSet = getActiveUserNames();
-    const data = (res.data||[]).filter(j=>j.x_10 && activeSet.has(j.x_09));
+    const data = (res.data||[]).filter(j=>j.x_10);
     document.getElementById('anTable').innerHTML = data.length
         ? data.map((d,i) => {
             const a=pj(d.x_10)||{}, rid=`ar${i}`;
@@ -2048,8 +1270,7 @@ async function loadPengendalian() {
     let q=`?table=${TJ}`; if(user) q+=`&x_09_eq=${user}`; if(bln) q+=`&x_06_eq=${bln}`; if(thn) q+=`&x_07_eq=${thn}`;
     loading('pnTable',7);
     const res  = await api(q);
-    const activeSet = getActiveUserNames();
-    const data = (res.data||[]).filter(j=>j.x_15 && activeSet.has(j.x_09));
+    const data = (res.data||[]).filter(j=>j.x_15);
     document.getElementById('pnTable').innerHTML = data.length
         ? data.map((d,i) => {
             const p=pj(d.x_15)||{}, rid=`pr${i}`;
@@ -2076,18 +1297,13 @@ async function loadUsers() {
     const grid = document.getElementById('usersGrid');
     grid.innerHTML = '<div style="color:#94a3b8;font-size:13px;"><span class="sp"></span> Memuat...</div>';
     const now = new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=localDate(now);
-    const aktifUsers = getActiveUsers();
-    if (!aktifUsers.length) {
-        grid.innerHTML = '<div style="color:#94a3b8;font-size:13px;">Tidak ada user aktif</div>';
-        return;
-    }
-    const stats = await Promise.all(aktifUsers.map(u => Promise.all([
+    const stats = await Promise.all(allUsers.map(u => Promise.all([
         api(`?table=${TJ}&x_09_eq=${u.x_01}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=aktif`),
         api(`?table=${TJ}&x_09_eq=${u.x_01}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=pending`),
         api(`?table=${TJ}&x_09_eq=${u.x_01}&x_06_eq=${bln}&x_07_eq=${thn}&x_05_eq=done`),
         api(`?table=${TA}&x_01_eq=${u.x_01}&x_02_eq=${today}`),
     ])));
-    grid.innerHTML = aktifUsers.map((u,i) => {
+    grid.innerHTML = allUsers.map((u,i) => {
         const a=stats[i][0].data?.length||0, p=stats[i][1].data?.length||0, d=stats[i][2].data?.length||0, abs=stats[i][3].data?.length||0;
         return `<div class="ucard">
             <div class="ucard-head"><div class="uav">${u.x_01.charAt(0).toUpperCase()}</div>
@@ -2103,59 +1319,6 @@ async function loadUsers() {
     }).join('');
 }
 function viewUserJadwal(u) { showPage('jadwal'); document.getElementById('jFU').value=u; loadJadwal(); }
-
-// ===== USERS & PASSWORD =====
-function loadAkun() {
-    const tbody = document.getElementById('akunTable');
-    if (!allUsers.length) { tbody.innerHTML = '<tr class="er"><td colspan="4">Tidak ada user</td></tr>'; return; }
-    tbody.innerHTML = allUsers.map(u => {
-        const aktif = String(u.x_10 || '').toLowerCase().trim() === 'aktif';
-        const pw = (u.x_02 || '').replace(/"/g, '&quot;');
-        return `<tr>
-            <td><span class="uchip"><span class="udot"></span>${u.x_01}</span></td>
-            <td>
-                <span class="akun-pw" id="pw_${u.x_01}" data-pw="${pw}" data-shown="0">••••••</span>
-                <button class="btn-toggle-akun" onclick="togglePw('${u.x_01}')">👁 Lihat</button>
-            </td>
-            <td><span class="badge" style="background:${aktif ? '#d1fae5' : '#fee2e2'};color:${aktif ? '#065f46' : '#b91c1c'};">${aktif ? 'Aktif' : 'Nonaktif'}</span></td>
-            <td><button class="btn-toggle-akun" style="background:${aktif ? '#fee2e2' : '#d1fae5'};color:${aktif ? '#b91c1c' : '#065f46'};border-color:transparent;" onclick="toggleAktifUser('${u.x_01}','${u.id_x}',${aktif})">${aktif ? '🚫 Nonaktifkan' : '✅ Aktifkan'}</button></td>
-        </tr>`;
-    }).join('');
-}
-
-function togglePw(username) {
-    const el = document.getElementById('pw_' + username);
-    if (!el) return;
-    const btn = el.nextElementSibling;
-    const shown = el.dataset.shown === '1';
-    if (shown) {
-        el.textContent = '••••••';
-        el.dataset.shown = '0';
-        if (btn) btn.textContent = '👁 Lihat';
-    } else {
-        el.textContent = el.dataset.pw || '-';
-        el.dataset.shown = '1';
-        if (btn) btn.textContent = '🙈 Sembunyikan';
-    }
-}
-
-async function toggleAktifUser(username, id, currentlyAktif) {
-    const aksi = currentlyAktif ? 'menonaktifkan' : 'mengaktifkan';
-    if (!confirm(`Yakin ingin ${aksi} akun "${username}"?`)) return;
-    const newStatus = currentlyAktif ? 'nonaktif' : 'aktif';
-    const res = await fetch(`${API}?table=users&id_x=${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-        body: JSON.stringify({ x_10: newStatus })
-    }).then(r => r.json());
-    if (res.success) {
-        await loadAllUsers();
-        loadAkun();
-        loadMasaBerakhir();
-    } else {
-        alert('Gagal mengubah status akun. Coba lagi.');
-    }
-}
 
 // ===== MODAL JADWAL =====
 /* ==============================
