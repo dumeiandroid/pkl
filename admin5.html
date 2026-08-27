@@ -470,8 +470,6 @@
             <div class="nav-item" onclick="showPage('jamkerja')" id="nav-jamkerja"><span class="icon">⏰</span> Jam Kerja</div>
             <div class="nav-item" onclick="showPage('libur')" id="nav-libur"><span class="icon">🎌</span> Libur Nasional</div>
             <div class="nav-item" onclick="showPage('pesan')" id="nav-pesan"><span class="icon">📢</span> Pesan Pengumuman</div>
-            <div class="nav-item" onclick="showPage('kontrolabsen')" id="nav-kontrolabsen"><span class="icon">🛡️</span> Kontrol Absensi</div>
-            <div class="nav-item" onclick="showPage('kontrolstatus')" id="nav-kontrolstatus"><span class="icon">🏷️</span> Kontrol Status</div>
         </nav>
         <div class="sb-foot">
             <div class="admin-badge">
@@ -512,8 +510,8 @@
                 </div>
                 <div class="mb-tbl-wrap">
                     <table class="mb-tbl">
-                        <thead><tr><th>User</th><th>Status</th><th>Mulai</th><th>Berakhir (estimasi)</th><th>Sisa</th><th>❌ Tidak Hadir</th><th>🎉 Masuk Libur</th><th>⏰ Terlambat</th><th>🏃 Cepat Pulang</th><th>Progres</th></tr></thead>
-                        <tbody id="mbBody"><tr><td colspan="10" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr></tbody>
+                        <thead><tr><th>User</th><th>Mulai</th><th>Berakhir (estimasi)</th><th>Sisa</th><th>❌ Tidak Hadir</th><th>🎉 Masuk Libur</th><th>⏰ Terlambat</th><th>🏃 Cepat Pulang</th><th>Status</th></tr></thead>
+                        <tbody id="mbBody"><tr><td colspan="9" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -668,161 +666,6 @@
             <div class="tcard"><table>
                 <thead><tr><th>User</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Aksi</th></tr></thead>
                 <tbody id="jkOverrideTable"><tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
-        </div>
-
-        <!-- KONTROL ABSENSI -->
-        <div class="page" id="page-kontrolabsen">
-            <div class="pg-header"><h2>🛡️ Kontrol Absensi</h2><p>Atur syarat absen masuk, absen pulang, dan validasi pembuatan jadwal</p></div>
-
-            <!-- 1. MINIMAL KEGIATAN UNTUK ABSEN MASUK -->
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">1️⃣ Minimal Kegiatan untuk Absen Masuk</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Jumlah minimal kegiatan yang harus dijadwalkan hari itu sebelum peserta boleh absen masuk. Isi 0 = bebas (tanpa syarat).</p>
-                <div style="display:grid;grid-template-columns:220px auto;gap:10px;align-items:end;">
-                    <div class="fg" style="margin-bottom:0;"><label>Minimal (Semua User)</label><input type="number" id="mkDefault" min="0" style="width:100%;"></div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanMinKegiatanDefault()">💾 Simpan</button>
-                </div>
-            </div>
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Minimal Khusus per User</h3>
-                <div style="display:grid;grid-template-columns:1fr 140px auto;gap:10px;align-items:end;">
-                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="mkUserSelect"><option value="">-- Pilih User --</option></select></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Minimal</label><input type="number" id="mkOvVal" min="0"></div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahMinKegiatanOverride()">+ Tambah</button>
-                </div>
-            </div>
-            <div class="tcard" style="margin-bottom:24px;"><table>
-                <thead><tr><th>User</th><th>Minimal Kegiatan</th><th>Aksi</th></tr></thead>
-                <tbody id="mkOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
-
-            <!-- 2 & 3. SYARAT ABSEN PULANG -->
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">2️⃣ Wajib Selesai Semua Kegiatan Sebelum Absen Pulang</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak wajib</strong> (bebas absen pulang meski kegiatan belum semua Done). Aktifkan untuk semua atau khusus user tertentu.</p>
-                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:6px;">
-                    <input type="checkbox" id="wsDefault" style="width:16px;height:16px;"> Wajib selesai semua kegiatan dulu (berlaku untuk SEMUA user, kecuali dikecualikan di bawah)
-                </label>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibSelesaiDefault()">💾 Simpan Pengaturan Semua User</button>
-            </div>
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Pengecualian / Khusus per User</h3>
-                <div style="display:grid;grid-template-columns:1fr 200px auto;gap:10px;align-items:end;">
-                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="wsUserSelect"><option value="">-- Pilih User --</option></select></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Aturan</label>
-                        <select id="wsOvVal">
-                            <option value="true">Wajib selesai semua</option>
-                            <option value="false">Tidak wajib (bebas)</option>
-                        </select>
-                    </div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahWajibSelesaiOverride()">+ Tambah</button>
-                </div>
-            </div>
-            <div class="tcard" style="margin-bottom:24px;"><table>
-                <thead><tr><th>User</th><th>Aturan Khusus</th><th>Aksi</th></tr></thead>
-                <tbody id="wsOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
-
-            <div class="tcard" style="padding:16px 18px;margin-bottom:24px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">3️⃣ Persetujuan Admin Sebelum Absen Pulang</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong> (peserta bebas absen pulang). Jika diaktifkan, kegiatan hari itu harus ditandai "Disetujui" oleh admin dulu (lihat kolom Aksi di halaman Jadwal) sebelum peserta bisa absen pulang.</p>
-                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px;">
-                    <input type="checkbox" id="apDone" style="width:16px;height:16px;"> Kegiatan berstatus <strong>Done</strong> perlu disetujui admin dulu sebelum boleh pulang
-                </label>
-                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                    <input type="checkbox" id="apNonDone" style="width:16px;height:16px;"> Kegiatan <strong>Reschedule / belum Done</strong> (Aktif, Pending) perlu disetujui admin dulu sebelum boleh pulang
-                </label>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalPulang()">💾 Simpan Pengaturan Persetujuan</button>
-            </div>
-
-            <!-- 4. WAJIB KETERANGAN -->
-            <div class="tcard" style="padding:16px 18px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">4️⃣ Wajib Isi Keterangan saat Membuat Jadwal</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Jika aktif, peserta tidak bisa menyimpan jadwal baru tanpa mengisi kolom Keterangan.</p>
-                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                    <input type="checkbox" id="wkAktif" style="width:16px;height:16px;"> Wajibkan pengisian Keterangan saat membuat jadwal
-                </label>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibKeterangan()">💾 Simpan</button>
-            </div>
-        </div>
-
-        <!-- KONTROL STATUS -->
-        <div class="page" id="page-kontrolstatus">
-            <div class="pg-header"><h2>🏷️ Kontrol Status</h2><p>Atur status magang (Magang / OJT / Mitra / Lainnya) dan durasi kerja setiap user</p></div>
-
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Durasi Default per Status</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Dipakai untuk menghitung "Masa Berakhir Magang" pada Dashboard jika seorang user tidak diberi durasi khusus. Contoh bawaan: Magang 5 Bulan, OJT 5 Hari Kerja, Mitra 1 Bulan.</p>
-                <div style="display:grid;grid-template-columns:170px 110px 160px;gap:10px 14px;align-items:end;margin-bottom:12px;">
-                    <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🔵 Magang</div>
-                    <div class="fg" style="margin-bottom:0;"><label>Nilai</label><input type="number" id="smDurMagangNilai" min="1"></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Satuan</label><select id="smDurMagangUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
-
-                    <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🟣 OJT (On The Job Training)</div>
-                    <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurOjtNilai" min="1"></div>
-                    <div class="fg" style="margin-bottom:0;"><select id="smDurOjtUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
-
-                    <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🟠 Mitra</div>
-                    <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurMitraNilai" min="1"></div>
-                    <div class="fg" style="margin-bottom:0;"><select id="smDurMitraUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
-
-                    <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">⚪ Lainnya</div>
-                    <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurLainnyaNilai" min="1"></div>
-                    <div class="fg" style="margin-bottom:0;"><select id="smDurLainnyaUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
-                </div>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanDurasiJenisDefault()">💾 Simpan Durasi Default</button>
-            </div>
-
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Status Default (Semua User)</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Status ini otomatis berlaku untuk semua user aktif, kecuali diatur khusus per user di bawah.</p>
-                <div style="display:grid;grid-template-columns:240px auto;gap:10px;align-items:end;">
-                    <div class="fg" style="margin-bottom:0;"><label>Status Default</label>
-                        <select id="smDefaultJenis">
-                            <option value="magang">Magang</option>
-                            <option value="ojt">OJT (On The Job Training)</option>
-                            <option value="mitra">Mitra</option>
-                            <option value="lainnya">Lainnya</option>
-                        </select>
-                    </div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanStatusDefault()">💾 Simpan</button>
-                </div>
-            </div>
-
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Status &amp; Durasi Khusus per User</h3>
-                <div style="display:grid;grid-template-columns:1fr 190px 120px 120px auto;gap:10px;align-items:end;margin-bottom:12px;">
-                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="smUserSelect"><option value="">-- Pilih User --</option></select></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Status</label>
-                        <select id="smOvJenis">
-                            <option value="magang">Magang</option>
-                            <option value="ojt">OJT (On The Job Training)</option>
-                            <option value="mitra">Mitra</option>
-                            <option value="lainnya">Lainnya</option>
-                        </select>
-                    </div>
-                    <div class="fg" style="margin-bottom:0;"><label>Durasi Khusus</label><input type="number" id="smOvNilai" min="1" placeholder="Ikut default"></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Satuan</label>
-                        <select id="smOvUnit">
-                            <option value="bulan">Bulan</option>
-                            <option value="hari_kerja">Hari Kerja</option>
-                        </select>
-                    </div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahStatusOverride()">+ Tambah</button>
-                </div>
-                <div style="display:grid;grid-template-columns:200px 1fr;gap:10px 14px;align-items:center;padding-top:12px;border-top:1px dashed #e2e8f0;">
-                    <div class="fg" style="margin-bottom:0;"><label>Tanggal Mulai Manual</label><input type="date" id="smOvMulaiManual"></div>
-                    <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#334155;cursor:pointer;margin-top:14px;">
-                        <input type="checkbox" id="smOvTidakDiperpanjang" style="width:16px;height:16px;">
-                        🔒 Tidak diperpanjang (ketidakhadiran &amp; masuk hari libur tidak mengubah tanggal berakhir)
-                    </label>
-                </div>
-                <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;">Kosongkan "Durasi Khusus" untuk memakai durasi default sesuai status yang dipilih. Kosongkan "Tanggal Mulai Manual" agar tanggal mulai otomatis memakai tanggal absensi pertama user (berguna kalau user baru absen di hari-hari awal masa kerjanya). Centang "Tidak diperpanjang" untuk user yang tanggal berakhirnya harus tetap sesuai tanggal mulai + durasi, walau ada hari tidak hadir atau masuk di hari libur.</p>
-            </div>
-            <div class="tcard" style="margin-bottom:24px;"><table>
-                <thead><tr><th>User</th><th>Status</th><th>Durasi Berlaku</th><th>Mulai</th><th>Perpanjangan</th><th>Aksi</th></tr></thead>
-                <tbody id="smOverrideTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
         </div>
 
@@ -1044,30 +887,7 @@ const KONTROL_KET_ID = 5; // sama baris (id_x=5) dengan libur nasional, tapi kol
 const KONTROL_KET_MASUK_ID = 5; // sama baris (id_x=5), kolom x_03 (masuk hari libur)
 const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 (pesan pengumuman untuk peserta)
 const KONTROL_JAMKERJA_ID = 5; // sama baris (id_x=5), kolom x_05 (jam kerja standar + khusus per user)
-const KONTROL_KEGIATAN_ID = 5; // sama baris (id_x=5), kolom x_06 (minimal kegiatan absen masuk + wajib keterangan)
-const KONTROL_PULANG_ID = 5;   // sama baris (id_x=5), kolom x_07 (syarat & approval absen pulang)
-const KONTROL_STATUS_ID = 5;   // sama baris (id_x=5), kolom x_08 (status magang: jenis + durasi kerja per user)
 let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
-let kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true };
-let pulangConfig   = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false };
-// Status magang: jenis (magang/ojt/mitra/lainnya) + durasi kerja, dengan default per-jenis dan pengecualian per user
-const JENIS_STATUS_LABEL = { magang: 'Magang', ojt: 'OJT (On The Job Training)', mitra: 'Mitra', lainnya: 'Lainnya' };
-const JENIS_STATUS_WARNA = {
-    magang:  { bg: '#dbeafe', c: '#1e40af' },
-    ojt:     { bg: '#ede9fe', c: '#5b21b6' },
-    mitra:   { bg: '#ffedd5', c: '#9a3412' },
-    lainnya: { bg: '#f1f5f9', c: '#475569' }
-};
-let statusMagangConfig = {
-    jenisDurasiDefault: {
-        magang:  { nilai: 5, unit: 'bulan' },
-        ojt:     { nilai: 5, unit: 'hari_kerja' },
-        mitra:   { nilai: 1, unit: 'bulan' },
-        lainnya: { nilai: 5, unit: 'bulan' }
-    },
-    default: { jenis: 'magang' },
-    override: {} // { username: { jenis, durasiKhusus: {nilai, unit} | null } }
-};
 let ketTidakHadirList = [];
 let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
 let ketMasukLiburList = [];
@@ -1196,9 +1016,6 @@ async function showApp() {
     await ambilKetTidakHadir();
     await ambilKetMasukLibur();
     await ambilJamKerja();
-    await ambilKegiatanConfig();
-    await ambilPulangConfig();
-    await ambilStatusMagang();
     loadDashboard();
     loadMasaBerakhir();
     loadJenisSidebarCounts();
@@ -1259,7 +1076,7 @@ function loadJamKerja() {
     document.getElementById('jkDefMasuk').value  = jamKerjaConfig.default.masuk;
     document.getElementById('jkDefPulang').value = jamKerjaConfig.default.pulang;
     const sel = document.getElementById('jkUserSelect');
-    if (sel) sel.innerHTML = '<option value="">-- Pilih User --</option>' + getActiveUsers().map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
+    if (sel) sel.innerHTML = '<option value="">-- Pilih User --</option>' + allUsers.map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
     renderJamKerjaOverrideTable();
 }
 
@@ -1324,366 +1141,6 @@ async function hapusJamKerjaOverride(user) {
     } else {
         alert('Gagal menghapus. Coba lagi.');
     }
-}
-
-// ===== KONTROL ABSENSI: MINIMAL KEGIATAN & WAJIB KETERANGAN (id_x=5, kolom x_06) =====
-async function ambilKegiatanConfig() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_KEGIATAN_ID}&limit=1`);
-        const row = res.data?.[0];
-        let cfg = null;
-        if (row && row.x_06) { try { cfg = JSON.parse(row.x_06); } catch { cfg = null; } }
-        if (!cfg || typeof cfg !== 'object') cfg = {};
-        kegiatanConfig = {
-            minimalKegiatan: {
-                default: (cfg.minimalKegiatan && Number(cfg.minimalKegiatan.default)) || 0,
-                override: (cfg.minimalKegiatan && typeof cfg.minimalKegiatan.override === 'object') ? cfg.minimalKegiatan.override : {}
-            },
-            wajibKeterangan: cfg.wajibKeterangan !== undefined ? !!cfg.wajibKeterangan : true
-        };
-    } catch (e) {
-        console.error(e);
-        kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true };
-    }
-}
-async function simpanKegiatanConfig(cfg) {
-    const body = JSON.stringify({ x_06: JSON.stringify(cfg) });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_KEGIATAN_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_KEGIATAN_ID, x_06: JSON.stringify(cfg) })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    return res;
-}
-
-function loadKontrolAbsen() {
-    document.getElementById('mkDefault').value = kegiatanConfig.minimalKegiatan.default;
-    document.getElementById('wkAktif').checked  = !!kegiatanConfig.wajibKeterangan;
-    document.getElementById('wsDefault').checked = !!pulangConfig.wajibSelesai.default;
-    document.getElementById('apDone').checked    = !!pulangConfig.approvalDone;
-    document.getElementById('apNonDone').checked = !!pulangConfig.approvalNonDone;
-    const optsHtml = '<option value="">-- Pilih User --</option>' + getActiveUsers().map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
-    const mkSel = document.getElementById('mkUserSelect'); if (mkSel) mkSel.innerHTML = optsHtml;
-    const wsSel = document.getElementById('wsUserSelect'); if (wsSel) wsSel.innerHTML = optsHtml;
-    renderMinKegiatanOverrideTable();
-    renderWajibSelesaiOverrideTable();
-}
-
-function loadKontrolStatus() {
-    loadStatusMagangUI();
-}
-
-function renderMinKegiatanOverrideTable() {
-    const tbody = document.getElementById('mkOverrideTable');
-    const ov = kegiatanConfig.minimalKegiatan.override;
-    const keys = Object.keys(ov);
-    tbody.innerHTML = keys.length ? keys.map(u => {
-        const uEsc = u.replace(/'/g, "\\'");
-        return `<tr><td><span class="uchip"><span class="udot"></span>${escHtml(u)}</span></td><td>${escHtml(String(ov[u]))}</td>
-            <td><button class="btn-del" onclick="hapusMinKegiatanOverride('${uEsc}')">🗑 Hapus</button></td></tr>`;
-    }).join('') : '<tr class="er"><td colspan="3">Belum ada pengaturan khusus per user</td></tr>';
-}
-
-async function simpanMinKegiatanDefault() {
-    const val = parseInt(document.getElementById('mkDefault').value, 10);
-    if (isNaN(val) || val < 0) return alert('Isi angka minimal kegiatan (0 = bebas).');
-    const cfgBaru = { ...kegiatanConfig, minimalKegiatan: { default: val, override: kegiatanConfig.minimalKegiatan.override } };
-    const res = await simpanKegiatanConfig(cfgBaru);
-    if (res.success) { kegiatanConfig = cfgBaru; } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function tambahMinKegiatanOverride() {
-    const userEl = document.getElementById('mkUserSelect'), valEl = document.getElementById('mkOvVal');
-    const user = userEl.value, val = parseInt(valEl.value, 10);
-    if (!user) return alert('Pilih user terlebih dahulu.');
-    if (isNaN(val) || val < 0) return alert('Isi angka minimal kegiatan.');
-    const cfgBaru = { ...kegiatanConfig, minimalKegiatan: { default: kegiatanConfig.minimalKegiatan.default, override: { ...kegiatanConfig.minimalKegiatan.override, [user]: val } } };
-    const res = await simpanKegiatanConfig(cfgBaru);
-    if (res.success) { kegiatanConfig = cfgBaru; userEl.value=''; valEl.value=''; renderMinKegiatanOverrideTable(); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function hapusMinKegiatanOverride(user) {
-    if (!confirm(`Hapus pengaturan minimal kegiatan khusus untuk ${user}?`)) return;
-    const overrideBaru = { ...kegiatanConfig.minimalKegiatan.override };
-    delete overrideBaru[user];
-    const cfgBaru = { ...kegiatanConfig, minimalKegiatan: { default: kegiatanConfig.minimalKegiatan.default, override: overrideBaru } };
-    const res = await simpanKegiatanConfig(cfgBaru);
-    if (res.success) { kegiatanConfig = cfgBaru; renderMinKegiatanOverrideTable(); } else alert('Gagal menghapus. Coba lagi.');
-}
-
-async function simpanWajibKeterangan() {
-    const cfgBaru = { ...kegiatanConfig, wajibKeterangan: document.getElementById('wkAktif').checked };
-    const res = await simpanKegiatanConfig(cfgBaru);
-    if (res.success) { kegiatanConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-// ===== KONTROL ABSENSI: SYARAT & PERSETUJUAN ABSEN PULANG (id_x=5, kolom x_07) =====
-async function ambilPulangConfig() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_PULANG_ID}&limit=1`);
-        const row = res.data?.[0];
-        let cfg = null;
-        if (row && row.x_07) { try { cfg = JSON.parse(row.x_07); } catch { cfg = null; } }
-        if (!cfg || typeof cfg !== 'object') cfg = {};
-        pulangConfig = {
-            wajibSelesai: {
-                default: !!(cfg.wajibSelesai && cfg.wajibSelesai.default),
-                override: (cfg.wajibSelesai && typeof cfg.wajibSelesai.override === 'object') ? cfg.wajibSelesai.override : {}
-            },
-            approvalDone: !!cfg.approvalDone,
-            approvalNonDone: !!cfg.approvalNonDone
-        };
-    } catch (e) {
-        console.error(e);
-        pulangConfig = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false };
-    }
-}
-async function simpanPulangConfig(cfg) {
-    const body = JSON.stringify({ x_07: JSON.stringify(cfg) });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_PULANG_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_PULANG_ID, x_07: JSON.stringify(cfg) })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    return res;
-}
-
-function renderWajibSelesaiOverrideTable() {
-    const tbody = document.getElementById('wsOverrideTable');
-    const ov = pulangConfig.wajibSelesai.override;
-    const keys = Object.keys(ov);
-    tbody.innerHTML = keys.length ? keys.map(u => {
-        const uEsc = u.replace(/'/g, "\\'");
-        return `<tr><td><span class="uchip"><span class="udot"></span>${escHtml(u)}</span></td><td>${ov[u] ? '✅ Wajib selesai semua' : '🔓 Tidak wajib (bebas)'}</td>
-            <td><button class="btn-del" onclick="hapusWajibSelesaiOverride('${uEsc}')">🗑 Hapus</button></td></tr>`;
-    }).join('') : '<tr class="er"><td colspan="3">Belum ada pengecualian / pengaturan khusus per user</td></tr>';
-}
-
-async function simpanWajibSelesaiDefault() {
-    const cfgBaru = { ...pulangConfig, wajibSelesai: { default: document.getElementById('wsDefault').checked, override: pulangConfig.wajibSelesai.override } };
-    const res = await simpanPulangConfig(cfgBaru);
-    if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function tambahWajibSelesaiOverride() {
-    const userEl = document.getElementById('wsUserSelect'), valEl = document.getElementById('wsOvVal');
-    const user = userEl.value;
-    if (!user) return alert('Pilih user terlebih dahulu.');
-    const val = valEl.value === 'true';
-    const cfgBaru = { ...pulangConfig, wajibSelesai: { default: pulangConfig.wajibSelesai.default, override: { ...pulangConfig.wajibSelesai.override, [user]: val } } };
-    const res = await simpanPulangConfig(cfgBaru);
-    if (res.success) { pulangConfig = cfgBaru; userEl.value=''; renderWajibSelesaiOverrideTable(); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function hapusWajibSelesaiOverride(user) {
-    if (!confirm(`Hapus pengecualian untuk ${user}?`)) return;
-    const overrideBaru = { ...pulangConfig.wajibSelesai.override };
-    delete overrideBaru[user];
-    const cfgBaru = { ...pulangConfig, wajibSelesai: { default: pulangConfig.wajibSelesai.default, override: overrideBaru } };
-    const res = await simpanPulangConfig(cfgBaru);
-    if (res.success) { pulangConfig = cfgBaru; renderWajibSelesaiOverrideTable(); } else alert('Gagal menghapus. Coba lagi.');
-}
-
-async function simpanApprovalPulang() {
-    const cfgBaru = { ...pulangConfig, approvalDone: document.getElementById('apDone').checked, approvalNonDone: document.getElementById('apNonDone').checked };
-    const res = await simpanPulangConfig(cfgBaru);
-    if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-// ===== KONTROL ABSENSI: STATUS MAGANG & DURASI KERJA (id_x=5, kolom x_08) =====
-async function ambilStatusMagang() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_STATUS_ID}&limit=1`);
-        const row = res.data?.[0];
-        let cfg = null;
-        if (row && row.x_08) { try { cfg = JSON.parse(row.x_08); } catch { cfg = null; } }
-        if (!cfg || typeof cfg !== 'object') cfg = {};
-        const jd = cfg.jenisDurasiDefault || {};
-        statusMagangConfig = {
-            jenisDurasiDefault: {
-                magang:  { nilai: Number(jd.magang  && jd.magang.nilai)  || 5, unit: (jd.magang  && jd.magang.unit)  || 'bulan' },
-                ojt:     { nilai: Number(jd.ojt     && jd.ojt.nilai)     || 5, unit: (jd.ojt     && jd.ojt.unit)     || 'hari_kerja' },
-                mitra:   { nilai: Number(jd.mitra   && jd.mitra.nilai)   || 1, unit: (jd.mitra   && jd.mitra.unit)   || 'bulan' },
-                lainnya: { nilai: Number(jd.lainnya && jd.lainnya.nilai) || 5, unit: (jd.lainnya && jd.lainnya.unit) || 'bulan' }
-            },
-            default: { jenis: (cfg.default && cfg.default.jenis) || 'magang' },
-            override: (cfg.override && typeof cfg.override === 'object') ? cfg.override : {}
-        };
-    } catch (e) {
-        console.error(e);
-        statusMagangConfig = {
-            jenisDurasiDefault: {
-                magang:  { nilai: 5, unit: 'bulan' },
-                ojt:     { nilai: 5, unit: 'hari_kerja' },
-                mitra:   { nilai: 1, unit: 'bulan' },
-                lainnya: { nilai: 5, unit: 'bulan' }
-            },
-            default: { jenis: 'magang' }, override: {}
-        };
-    }
-}
-async function simpanStatusMagang(cfg) {
-    const body = JSON.stringify({ x_08: JSON.stringify(cfg) });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_STATUS_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        // Baris belum ada di tabel -> buat baru dengan id_x tetap
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_STATUS_ID, x_08: JSON.stringify(cfg) })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    return res;
-}
-
-// Status & durasi efektif untuk seorang user: pakai pengaturan khusus kalau ada, jika tidak pakai default sesuai jenis
-function getStatusUser(user) {
-    const ov = statusMagangConfig.override[user];
-    const jenis = (ov && ov.jenis) ? ov.jenis : statusMagangConfig.default.jenis;
-    const durasiDefaultJenis = statusMagangConfig.jenisDurasiDefault[jenis] || statusMagangConfig.jenisDurasiDefault.magang;
-    const durasi = (ov && ov.durasiKhusus && ov.durasiKhusus.nilai) ? ov.durasiKhusus : durasiDefaultJenis;
-    return { jenis, durasi };
-}
-function labelDurasi(durasi) { return `${durasi.nilai} ${durasi.unit === 'hari_kerja' ? 'Hari Kerja' : 'Bulan'}`; }
-function renderJenisBadge(user) {
-    const { jenis, durasi } = getStatusUser(user);
-    const w = JENIS_STATUS_WARNA[jenis] || JENIS_STATUS_WARNA.lainnya;
-    return `<span class="mb-badge" style="background:${w.bg};color:${w.c};" title="Durasi: ${labelDurasi(durasi)}">${escHtml(JENIS_STATUS_LABEL[jenis] || jenis)}</span>`;
-}
-
-function loadStatusMagangUI() {
-    const jd = statusMagangConfig.jenisDurasiDefault;
-    document.getElementById('smDurMagangNilai').value  = jd.magang.nilai;
-    document.getElementById('smDurMagangUnit').value   = jd.magang.unit;
-    document.getElementById('smDurOjtNilai').value     = jd.ojt.nilai;
-    document.getElementById('smDurOjtUnit').value      = jd.ojt.unit;
-    document.getElementById('smDurMitraNilai').value   = jd.mitra.nilai;
-    document.getElementById('smDurMitraUnit').value    = jd.mitra.unit;
-    document.getElementById('smDurLainnyaNilai').value = jd.lainnya.nilai;
-    document.getElementById('smDurLainnyaUnit').value  = jd.lainnya.unit;
-    document.getElementById('smDefaultJenis').value    = statusMagangConfig.default.jenis;
-    const optsHtml = '<option value="">-- Pilih User --</option>' + getActiveUsers().map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
-    const smSel = document.getElementById('smUserSelect'); if (smSel) smSel.innerHTML = optsHtml;
-    renderStatusOverrideTable();
-}
-
-function parseTglStrAdm(s) { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); }
-// Pengaturan tambahan per user: tanggal mulai manual (opsional) & apakah tanggal berakhir tidak diperpanjang oleh ketidakhadiran
-function getOverrideExtra(user) {
-    const ov = statusMagangConfig.override[user] || {};
-    return { tanggalMulaiManual: ov.tanggalMulaiManual || null, tidakDiperpanjang: !!ov.tidakDiperpanjang };
-}
-function renderStatusOverrideTable() {
-    const tbody = document.getElementById('smOverrideTable');
-    const ov = statusMagangConfig.override;
-    const keys = Object.keys(ov);
-    tbody.innerHTML = keys.length ? keys.map(u => {
-        const o = ov[u] || {};
-        const jenis = o.jenis || statusMagangConfig.default.jenis;
-        const w = JENIS_STATUS_WARNA[jenis] || JENIS_STATUS_WARNA.lainnya;
-        const durasiDefaultJenis = statusMagangConfig.jenisDurasiDefault[jenis] || statusMagangConfig.jenisDurasiDefault.magang;
-        const durasiTxt = (o.durasiKhusus && o.durasiKhusus.nilai)
-            ? `${labelDurasi(o.durasiKhusus)} <span style="color:#94a3b8;font-weight:400;">(khusus)</span>`
-            : `${labelDurasi(durasiDefaultJenis)} <span style="color:#94a3b8;font-weight:400;">(default ${escHtml(JENIS_STATUS_LABEL[jenis])})</span>`;
-        const mulaiTxt = o.tanggalMulaiManual
-            ? `📌 ${fmtTglIndoSingkat(parseTglStrAdm(o.tanggalMulaiManual))}`
-            : `<span style="color:#94a3b8;">Otomatis (absen pertama)</span>`;
-        const tdpTxt = o.tidakDiperpanjang
-            ? `<span class="mb-badge" style="background:#e0e7ff;color:#3730a3;">🔒 Tetap</span>`
-            : `<span style="color:#94a3b8;">Ikut absensi</span>`;
-        const uEsc = u.replace(/'/g, "\\'");
-        return `<tr>
-            <td><span class="uchip"><span class="udot"></span>${escHtml(u)}</span></td>
-            <td><span class="mb-badge" style="background:${w.bg};color:${w.c};">${escHtml(JENIS_STATUS_LABEL[jenis] || jenis)}</span></td>
-            <td>${durasiTxt}</td>
-            <td>${mulaiTxt}</td>
-            <td>${tdpTxt}</td>
-            <td><button class="btn-del" onclick="hapusStatusOverride('${uEsc}')">🗑 Hapus</button></td>
-        </tr>`;
-    }).join('') : '<tr class="er"><td colspan="6">Belum ada pengaturan status khusus per user (semua memakai status default)</td></tr>';
-}
-
-async function simpanDurasiJenisDefault() {
-    const gv = id => parseInt(document.getElementById(id).value, 10);
-    const nMagang = gv('smDurMagangNilai'), nOjt = gv('smDurOjtNilai'), nMitra = gv('smDurMitraNilai'), nLainnya = gv('smDurLainnyaNilai');
-    if ([nMagang, nOjt, nMitra, nLainnya].some(v => isNaN(v) || v < 1)) return alert('Isi semua durasi dengan angka minimal 1.');
-    const cfgBaru = {
-        ...statusMagangConfig,
-        jenisDurasiDefault: {
-            magang:  { nilai: nMagang,  unit: document.getElementById('smDurMagangUnit').value },
-            ojt:     { nilai: nOjt,     unit: document.getElementById('smDurOjtUnit').value },
-            mitra:   { nilai: nMitra,   unit: document.getElementById('smDurMitraUnit').value },
-            lainnya: { nilai: nLainnya, unit: document.getElementById('smDurLainnyaUnit').value }
-        }
-    };
-    const res = await simpanStatusMagang(cfgBaru);
-    if (res.success) { statusMagangConfig = cfgBaru; renderStatusOverrideTable(); loadMasaBerakhir(); alert('Durasi default per status disimpan.'); }
-    else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function simpanStatusDefault() {
-    const jenis = document.getElementById('smDefaultJenis').value;
-    const cfgBaru = { ...statusMagangConfig, default: { jenis } };
-    const res = await simpanStatusMagang(cfgBaru);
-    if (res.success) { statusMagangConfig = cfgBaru; renderStatusOverrideTable(); loadMasaBerakhir(); alert('Status default disimpan.'); }
-    else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function tambahStatusOverride() {
-    const userEl = document.getElementById('smUserSelect');
-    const jenisEl = document.getElementById('smOvJenis');
-    const nilaiEl = document.getElementById('smOvNilai');
-    const unitEl = document.getElementById('smOvUnit');
-    const mulaiEl = document.getElementById('smOvMulaiManual');
-    const tdpEl = document.getElementById('smOvTidakDiperpanjang');
-    const user = userEl.value;
-    if (!user) return alert('Pilih user terlebih dahulu.');
-    const jenis = jenisEl.value;
-    let durasiKhusus = null;
-    if (nilaiEl.value !== '') {
-        const nilai = parseInt(nilaiEl.value, 10);
-        if (isNaN(nilai) || nilai < 1) return alert('Durasi khusus harus angka minimal 1, atau kosongkan untuk memakai durasi default status tersebut.');
-        durasiKhusus = { nilai, unit: unitEl.value };
-    }
-    const tanggalMulaiManual = mulaiEl.value || null;
-    const tidakDiperpanjang = !!tdpEl.checked;
-    const cfgBaru = { ...statusMagangConfig, override: { ...statusMagangConfig.override, [user]: { jenis, durasiKhusus, tanggalMulaiManual, tidakDiperpanjang } } };
-    const res = await simpanStatusMagang(cfgBaru);
-    if (res.success) {
-        statusMagangConfig = cfgBaru;
-        userEl.value = ''; nilaiEl.value = ''; jenisEl.value = 'magang'; unitEl.value = 'bulan'; mulaiEl.value = ''; tdpEl.checked = false;
-        renderStatusOverrideTable();
-        loadMasaBerakhir();
-    } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function hapusStatusOverride(user) {
-    if (!confirm(`Hapus pengaturan status khusus untuk ${user}? User akan kembali memakai status default.`)) return;
-    const overrideBaru = { ...statusMagangConfig.override };
-    delete overrideBaru[user];
-    const cfgBaru = { ...statusMagangConfig, override: overrideBaru };
-    const res = await simpanStatusMagang(cfgBaru);
-    if (res.success) { statusMagangConfig = cfgBaru; renderStatusOverrideTable(); loadMasaBerakhir(); }
-    else alert('Gagal menghapus. Coba lagi.');
-}
-
-// Setujui / batalkan persetujuan admin untuk 1 item jadwal (kolom x_10 = '1' artinya disetujui)
-async function toggleSetujuiJadwal(id, disetujuiSekarang) {
-    const nilaiBaru = disetujuiSekarang ? '' : '1';
-    const res = await fetch(`${API}?table=${TJ}&id_x=${id}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-        body: JSON.stringify({ x_10: nilaiBaru })
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (res.success) { loadJadwal(); loadKegiatanHariIni(); } else alert('Gagal mengubah status persetujuan.');
 }
 
 // ===== LIBUR NASIONAL (tersimpan di tabel kontrol_admin, id_x = 5, kolom x_01 berisi JSON) =====
@@ -2132,32 +1589,15 @@ async function hapusLiburNasional(tanggalStr) {
 }
 
 // ===== MASA BERAKHIR MAGANG =====
-// Batas akhir DASAR (kalender/hari kerja) = tanggal absensi pertama user + durasi status (lihat Kontrol Absensi),
+// Batas akhir DASAR (kalender) = tanggal absensi pertama user + 5 bulan - 1 hari,
 // lalu disesuaikan: tiap hari kerja tidak hadir -> +1 hari, tiap masuk di hari libur -> -1 hari.
 // Sisa & progres dihitung dalam HARI KERJA (Senin-Jumat).
 // Hanya user dengan x_10 = 'aktif' (tabel users) yang ditampilkan.
-// durasi: { nilai, unit } dengan unit 'bulan' (kalender) atau 'hari_kerja'. Default: 5 bulan (Magang).
-function hitungTglBerakhirMagangDasar(mulaiStr, durasi) {
-    durasi = durasi || { nilai: 5, unit: 'bulan' };
+function hitungTglBerakhirMagangDasar(mulaiStr) {
     const [y, m, d] = mulaiStr.split('-').map(Number);
-    if (durasi.unit === 'hari_kerja') {
-        return tambahNHariKerjaAdm(new Date(y, m - 1, d), durasi.nilai);
-    }
-    const end = new Date(y, (m - 1) + durasi.nilai, d);
+    const end = new Date(y, (m - 1) + 5, d);
     end.setDate(end.getDate() - 1);
     return end;
-}
-// Tanggal hari kerja ke-N dihitung mulai dari mulaiDate (inklusif, mulaiDate dihitung sebagai hari ke-1 jika hari kerja)
-function tambahNHariKerjaAdm(mulaiDate, n) {
-    let count = 0;
-    const cur = new Date(mulaiDate);
-    while (true) {
-        if (!isHariLiburAdm(cur)) {
-            count++;
-            if (count >= n) return new Date(cur);
-        }
-        cur.setDate(cur.getDate() + 1);
-    }
 }
 function fmtTglIndoSingkat(d) {
     const BLN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
@@ -2266,15 +1706,14 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
     terlambat.sort((a, b) => a.tanggal - b.tanggal);
     cepatPulang.sort((a, b) => a.tanggal - b.tanggal);
 
-    const baseAkhir = hitungTglBerakhirMagangDasar(mulaiStr, getStatusUser(user).durasi);
-    const tidakDiperpanjang = getOverrideExtra(user).tidakDiperpanjang;
-    const penyesuaian = tidakDiperpanjang ? 0 : (absenPenuhCount - masukLibur.length);
+    const baseAkhir = hitungTglBerakhirMagangDasar(mulaiStr);
+    const penyesuaian = absenPenuhCount - masukLibur.length;
     const akhirDate = new Date(baseAkhir);
     akhirDate.setDate(akhirDate.getDate() + penyesuaian);
 
     const sisaHariKerja = akhirDate >= today ? hitungHariKerjaAntaraAdm(today, akhirDate) : 0;
 
-    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, terlambat, cepatPulang, sisaHariKerja, tidakDiperpanjang };
+    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, terlambat, cepatPulang, sisaHariKerja };
 }
 
 async function loadMasaBerakhir() {
@@ -2282,10 +1721,10 @@ async function loadMasaBerakhir() {
     const usersAktif = getActiveUsers();
     document.getElementById('mbCount').textContent = usersAktif.length + ' user';
     if (!usersAktif.length) {
-        body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:18px;color:#94a3b8;">Tidak ada user aktif (x_10)</td></tr>';
+        body.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:18px;color:#94a3b8;">Tidak ada user aktif (x_10)</td></tr>';
         return;
     }
-    body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr>';
+    body.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr>';
     try {
         // Limit besar (bukan 1) karena API tidak punya parameter sort/order,
         // jadi limit=1 tidak menjamin record absensi paling awal yang terambil.
@@ -2296,12 +1735,10 @@ async function loadMasaBerakhir() {
         const today = new Date(); today.setHours(0,0,0,0);
         const rows = usersAktif.map((u, i) => {
             const data = results[i].data || [];
-            const mulaiOtomatis = data.reduce((min, d) => (d.x_02 && (!min || d.x_02 < min)) ? d.x_02 : min, null);
-            const extra = getOverrideExtra(u.x_01);
-            const mulaiStr = extra.tanggalMulaiManual || mulaiOtomatis;
+            const mulaiStr = data.reduce((min, d) => (d.x_02 && (!min || d.x_02 < min)) ? d.x_02 : min, null);
             if (!mulaiStr) return { user: u.x_01, mulaiStr: null };
             const mk = hitungMasaKerjaLengkapAdm(mulaiStr, data, u.x_01);
-            return { user: u.x_01, mulaiStr, mulaiManual: !!extra.tanggalMulaiManual, ...mk };
+            return { user: u.x_01, mulaiStr, ...mk };
         });
         rows.sort((a, b) => {
             if (!a.mulaiStr) return 1;
@@ -2313,7 +1750,6 @@ async function loadMasaBerakhir() {
             if (!r.mulaiStr) {
                 return `<tr>
                     <td><span class="uchip"><span class="udot"></span>${r.user}</span></td>
-                    <td>${renderJenisBadge(r.user)}</td>
                     <td colspan="8" style="color:#94a3b8;">Belum ada data absensi</td>
                 </tr>`;
             }
@@ -2336,9 +1772,8 @@ async function loadMasaBerakhir() {
                 : `<span class="mb-mini-nol">-</span>`;
             return `<tr>
                 <td><span class="uchip"><span class="udot"></span>${r.user}</span></td>
-                <td>${renderJenisBadge(r.user)}</td>
-                <td>${fmtTglIndoSingkat(r.mulaiDate)}${r.mulaiManual ? ' <span title="Tanggal mulai diatur manual">📌</span>' : ''}</td>
-                <td>${fmtTglIndoSingkat(r.akhirDate)}${r.tidakDiperpanjang ? ' <span title="Tetap — tidak diperpanjang oleh ketidakhadiran">🔒</span>' : ''}</td>
+                <td>${fmtTglIndoSingkat(r.mulaiDate)}</td>
+                <td>${fmtTglIndoSingkat(r.akhirDate)}</td>
                 <td>${r.sisaHariKerja <= 0 && r.akhirDate < today ? '0' : r.sisaHariKerja} hari kerja</td>
                 <td>${tidakHadirTxt}</td>
                 <td>${masukLiburTxt}</td>
@@ -2349,7 +1784,7 @@ async function loadMasaBerakhir() {
         }).join('');
     } catch (e) {
         console.error(e);
-        body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:18px;color:#ef4444;">Gagal memuat data</td></tr>';
+        body.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:18px;color:#ef4444;">Gagal memuat data</td></tr>';
     }
 }
 
@@ -2425,7 +1860,7 @@ function showPage(pg) {
     if (sb) sb.classList.remove('sb-open');
     if (ov) ov.classList.remove('open');
     if (btn) btn.classList.remove('open');
-    const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman, kontrolabsen: loadKontrolAbsen, kontrolstatus: loadKontrolStatus };
+    const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman };
     if (map[pg]) map[pg]();
     else if (pg.startsWith('jenis-')) loadJenisPage(pg.slice(6));
 }
@@ -2713,7 +2148,6 @@ function renderJadwalRow(key, items) {
             <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
             <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
             ${fotoBtnHtml}
-            <button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:${d.x_10==='1'?'#d1fae5':'#f1f5f9'};color:${d.x_10==='1'?'#065f46':'#475569'};border:1px solid ${d.x_10==='1'?'#a7f3d0':'#e2e8f0'};" onclick="toggleSetujuiJadwal('${d.id_x}', ${d.x_10==='1'})" title="Persetujuan admin diperlukan sebelum peserta bisa absen pulang jika pengaturan aktif">${d.x_10==='1'?'✅ Disetujui':'⏳ Setujui'}</button>
         </td></tr>`;
     }
     // Grup > 1 item sejenis di tanggal & user yang sama -> 1 baris ringkasan
@@ -2859,7 +2293,6 @@ async function loadJenisPage(jenisKey) {
             <td onclick="event.stopPropagation()">
                 <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
                 <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
-                <button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:${d.x_10==='1'?'#d1fae5':'#f1f5f9'};color:${d.x_10==='1'?'#065f46':'#475569'};border:1px solid ${d.x_10==='1'?'#a7f3d0':'#e2e8f0'};" onclick="toggleSetujuiJadwal('${d.id_x}', ${d.x_10==='1'})" title="Persetujuan admin sebelum peserta boleh absen pulang, jika pengaturan aktif">${d.x_10==='1'?'✅ Disetujui':'⏳ Setujui'}</button>
             </td></tr>`).join('')
         : '<tr class="er"><td colspan="5">Tidak ada kegiatan hari ini</td></tr>';
 }

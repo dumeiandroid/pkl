@@ -483,10 +483,7 @@
             <!-- Masa Kerja Magang -->
             <div class="masa-kerja-card" id="masaKerjaCard" style="display:none;">
                 <div class="mk-head">
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <div class="mk-title">🗓️ Masa Kerja</div>
-                        <div class="mk-libur-ico" id="mkJenisBadge" style="cursor:default;">-</div>
-                    </div>
+                    <div class="mk-title">🗓️ Masa Kerja Magang</div>
                     <div style="display:flex;align-items:center;gap:6px;">
                         <div class="mk-libur-ico" id="mkLiburIco" onclick="bukaLiburInfo()" title="Lihat daftar libur nasional">🎌</div>
                         <div class="mk-badge" id="mkBadge">-</div>
@@ -644,7 +641,7 @@
                 <div class="fg"><label>Jenis</label><select id="f_jenis"></select></div>
             </div>
             <div class="fg">
-                <label>Keterangan <span id="ketWajibMark" style="color:#ef4444;">*</span></label>
+                <label>Keterangan</label>
                 <textarea id="f_ket" rows="2" placeholder="Nama peserta / lokasi..."></textarea>
                 <a id="lnkBukti" class="bukti-lnk" href="#" target="_blank" style="display:none;">🔗 Lihat Bukti Selesai</a>
             </div>
@@ -849,23 +846,7 @@ const KONTROL_KET_ID = 5; // sama baris (id_x=5) dengan libur nasional, tapi kol
 const KONTROL_KET_MASUK_ID = 5; // sama baris (id_x=5), kolom x_03 — read-only di sisi peserta
 const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 — pesan pengumuman dari admin, read-only di sisi peserta
 const KONTROL_JAMKERJA_ID = 5; // sama baris (id_x=5), kolom x_05 — jam kerja standar/khusus dari admin, read-only di sisi peserta
-const KONTROL_KEGIATAN_ID = 5; // sama baris (id_x=5), kolom x_06 — minimal kegiatan absen masuk + wajib keterangan, read-only di sisi peserta
-const KONTROL_PULANG_ID = 5;   // sama baris (id_x=5), kolom x_07 — syarat & approval absen pulang, read-only di sisi peserta
-const KONTROL_STATUS_ID = 5;   // sama baris (id_x=5), kolom x_08 — status magang & durasi kerja dari admin, read-only di sisi peserta
 let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
-const JENIS_STATUS_LABEL = { magang: 'Magang', ojt: 'OJT (On The Job Training)', mitra: 'Mitra', lainnya: 'Lainnya' };
-let statusMagangConfig = {
-    jenisDurasiDefault: {
-        magang:  { nilai: 5, unit: 'bulan' },
-        ojt:     { nilai: 5, unit: 'hari_kerja' },
-        mitra:   { nilai: 1, unit: 'bulan' },
-        lainnya: { nilai: 5, unit: 'bulan' }
-    },
-    default: { jenis: 'magang' },
-    override: {}
-};
-let kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true };
-let pulangConfig   = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false };
 let liburNasionalSet  = new Set(); // Set('YYYY-MM-DD') hari libur nasional, diisi dari kontrol_admin id_x=5
 let liburNasionalList = []; // [{tanggal, ket}] untuk ditampilkan di popup info
 let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
@@ -907,30 +888,13 @@ const getMe = () => {
     try { const p=JSON.parse(r); return (typeof p==='object'&&p) ? (p.x_01||'') : r; } catch { return r; }
 };
 
-// Hitung tanggal berakhir DASAR (belum disesuaikan absensi): mulai + durasi status magang saya
-// contoh (Magang, 5 bulan): masuk 2026-01-03 -> berakhir 2026-06-02
-// durasi: { nilai, unit } dengan unit 'bulan' (kalender) atau 'hari_kerja'. Diatur admin, default: 5 bulan (Magang).
-function hitungTglBerakhirDasar(mulaiStr, durasi) {
-    durasi = durasi || { nilai: 5, unit: 'bulan' };
+// Hitung tanggal berakhir DASAR (kalender, belum disesuaikan absensi): mulai + 5 bulan, lalu -1 hari
+// contoh: masuk 2026-01-03 -> berakhir 2026-06-02
+function hitungTglBerakhirDasar(mulaiStr) {
     const [y, m, d] = mulaiStr.split('-').map(Number);
-    if (durasi.unit === 'hari_kerja') {
-        return tambahNHariKerja(new Date(y, m - 1, d), durasi.nilai);
-    }
-    const end = new Date(y, (m - 1) + durasi.nilai, d);
+    const end = new Date(y, (m - 1) + 5, d);
     end.setDate(end.getDate() - 1);
     return end;
-}
-// Tanggal hari kerja ke-N dihitung mulai dari mulaiDate (inklusif, mulaiDate dihitung sebagai hari ke-1 jika hari kerja)
-function tambahNHariKerja(mulaiDate, n) {
-    let count = 0;
-    const cur = new Date(mulaiDate);
-    while (true) {
-        if (!isHariLibur(cur)) {
-            count++;
-            if (count >= n) return new Date(cur);
-        }
-        cur.setDate(cur.getDate() + 1);
-    }
 }
 function fmtTglIndo(d) {
     const BLN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
@@ -1006,47 +970,6 @@ async function ambilJamKerja() {
         jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
     }
 }
-
-// Ambil status magang & durasi kerja (read-only) dari kontrol_admin id_x=5, kolom x_08
-async function ambilStatusMagang() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_STATUS_ID}&limit=1`);
-        const row = res.data?.[0];
-        let cfg = null;
-        if (row && row.x_08) { try { cfg = JSON.parse(row.x_08); } catch { cfg = null; } }
-        if (!cfg || typeof cfg !== 'object') cfg = {};
-        const jd = cfg.jenisDurasiDefault || {};
-        statusMagangConfig = {
-            jenisDurasiDefault: {
-                magang:  { nilai: Number(jd.magang  && jd.magang.nilai)  || 5, unit: (jd.magang  && jd.magang.unit)  || 'bulan' },
-                ojt:     { nilai: Number(jd.ojt     && jd.ojt.nilai)     || 5, unit: (jd.ojt     && jd.ojt.unit)     || 'hari_kerja' },
-                mitra:   { nilai: Number(jd.mitra   && jd.mitra.nilai)   || 1, unit: (jd.mitra   && jd.mitra.unit)   || 'bulan' },
-                lainnya: { nilai: Number(jd.lainnya && jd.lainnya.nilai) || 5, unit: (jd.lainnya && jd.lainnya.unit) || 'bulan' }
-            },
-            default: { jenis: (cfg.default && cfg.default.jenis) || 'magang' },
-            override: (cfg.override && typeof cfg.override === 'object') ? cfg.override : {}
-        };
-    } catch (e) {
-        console.error(e);
-        statusMagangConfig = {
-            jenisDurasiDefault: { magang:{nilai:5,unit:'bulan'}, ojt:{nilai:5,unit:'hari_kerja'}, mitra:{nilai:1,unit:'bulan'}, lainnya:{nilai:5,unit:'bulan'} },
-            default: { jenis: 'magang' }, override: {}
-        };
-    }
-}
-// Status & durasi efektif untuk saya (pakai pengaturan khusus kalau ada, jika tidak pakai default sesuai jenis)
-function getStatusSaya() {
-    const ov = statusMagangConfig.override[me];
-    const jenis = (ov && ov.jenis) ? ov.jenis : statusMagangConfig.default.jenis;
-    const durasiDefaultJenis = statusMagangConfig.jenisDurasiDefault[jenis] || statusMagangConfig.jenisDurasiDefault.magang;
-    const durasi = (ov && ov.durasiKhusus && ov.durasiKhusus.nilai) ? ov.durasiKhusus : durasiDefaultJenis;
-    return { jenis, durasi };
-}
-// Pengaturan tambahan untuk saya: tanggal mulai manual (opsional) & apakah tanggal berakhir tidak diperpanjang oleh ketidakhadiran
-function getOverrideExtraSaya() {
-    const ov = statusMagangConfig.override[me] || {};
-    return { tanggalMulaiManual: ov.tanggalMulaiManual || null, tidakDiperpanjang: !!ov.tidakDiperpanjang };
-}
 function getJamKerjaSaya() {
     const ov = jamKerjaConfig.override[me];
     return {
@@ -1060,57 +983,6 @@ function jamKeMenit(jamStr) {
     const m = String(jamStr).match(/(\d{1,2})[.:](\d{2})/);
     if (!m) return null;
     return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
-}
-
-// Ambil pengaturan minimal kegiatan absen masuk & wajib keterangan (read-only) dari kontrol_admin id_x=5, kolom x_06
-async function ambilKegiatanConfig() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_KEGIATAN_ID}&limit=1`);
-        const row = res.data?.[0];
-        let cfg = null;
-        if (row && row.x_06) { try { cfg = JSON.parse(row.x_06); } catch { cfg = null; } }
-        if (!cfg || typeof cfg !== 'object') cfg = {};
-        kegiatanConfig = {
-            minimalKegiatan: {
-                default: (cfg.minimalKegiatan && Number(cfg.minimalKegiatan.default)) || 0,
-                override: (cfg.minimalKegiatan && typeof cfg.minimalKegiatan.override === 'object') ? cfg.minimalKegiatan.override : {}
-            },
-            wajibKeterangan: cfg.wajibKeterangan !== undefined ? !!cfg.wajibKeterangan : true
-        };
-    } catch (e) {
-        console.error(e);
-        kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true };
-    }
-}
-function getMinimalKegiatanSaya() {
-    const ov = kegiatanConfig.minimalKegiatan.override[me];
-    return (ov !== undefined && ov !== null) ? Number(ov) : kegiatanConfig.minimalKegiatan.default;
-}
-
-// Ambil pengaturan syarat & approval absen pulang (read-only) dari kontrol_admin id_x=5, kolom x_07
-async function ambilPulangConfig() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_PULANG_ID}&limit=1`);
-        const row = res.data?.[0];
-        let cfg = null;
-        if (row && row.x_07) { try { cfg = JSON.parse(row.x_07); } catch { cfg = null; } }
-        if (!cfg || typeof cfg !== 'object') cfg = {};
-        pulangConfig = {
-            wajibSelesai: {
-                default: !!(cfg.wajibSelesai && cfg.wajibSelesai.default),
-                override: (cfg.wajibSelesai && typeof cfg.wajibSelesai.override === 'object') ? cfg.wajibSelesai.override : {}
-            },
-            approvalDone: !!cfg.approvalDone,
-            approvalNonDone: !!cfg.approvalNonDone
-        };
-    } catch (e) {
-        console.error(e);
-        pulangConfig = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false };
-    }
-}
-function wajibSelesaiSaya() {
-    const ov = pulangConfig.wajibSelesai.override[me];
-    return (ov !== undefined && ov !== null) ? !!ov : !!pulangConfig.wajibSelesai.default;
 }
 
 /* ==============================
@@ -1278,11 +1150,9 @@ function hitungMasaKerjaLengkap(mulaiStr, absensiRecords) {
     terlambat.sort((a, b) => a.tanggal - b.tanggal);
     cepatPulang.sort((a, b) => a.tanggal - b.tanggal);
 
-    // 3) Tanggal berakhir dasar (sesuai status & durasi kerja saya) lalu disesuaikan: +1 hari/absen-penuh, -1 hari/masuk-libur
-    // (kecuali status saya diatur "tidak diperpanjang" oleh admin -> tanggal berakhir tetap sesuai baseAkhir)
-    const baseAkhir = hitungTglBerakhirDasar(mulaiStr, getStatusSaya().durasi);
-    const tidakDiperpanjang = getOverrideExtraSaya().tidakDiperpanjang;
-    const penyesuaian = tidakDiperpanjang ? 0 : (absenPenuhCount - masukLibur.length);
+    // 3) Tanggal berakhir dasar (kalender) lalu disesuaikan: +1 hari/absen-penuh, -1 hari/masuk-libur
+    const baseAkhir = hitungTglBerakhirDasar(mulaiStr);
+    const penyesuaian = absenPenuhCount - masukLibur.length;
     const akhirDate = new Date(baseAkhir);
     akhirDate.setDate(akhirDate.getDate() + penyesuaian);
 
@@ -1292,7 +1162,7 @@ function hitungMasaKerjaLengkap(mulaiStr, absensiRecords) {
     const terlewati = Math.max(0, totalHariKerja - sisaHariKerja);
     const persen = Math.min(100, Math.max(0, Math.round((terlewati / totalHariKerja) * 100)));
 
-    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, terlambat, cepatPulang, sisaHariKerja, totalHariKerja, persen, tidakDiperpanjang };
+    return { mulaiDate, baseAkhir, akhirDate, tidakHadir, masukLibur, terlambat, cepatPulang, sisaHariKerja, totalHariKerja, persen };
 }
 
 function getOtherIcon(id) {
@@ -1437,8 +1307,6 @@ function startApp() {
     setupJenis();
     initDashboard();
     cekTampilkanPesanPengumuman();
-    ambilKegiatanConfig();
-    ambilPulangConfig();
 }
 
 /* ==============================
@@ -1553,20 +1421,16 @@ async function muatMasaKerja() {
             ambilLiburNasional(),
             ambilKetTidakHadir(),
             ambilKetMasukLibur(),
-            ambilJamKerja(),
-            ambilStatusMagang()
+            ambilJamKerja()
         ]);
         const dataAll = resAll.data || [];
-        const mulaiOtomatis = dataAll.reduce((min, d) => (d.x_02 && (!min || d.x_02 < min)) ? d.x_02 : min, null);
-        const mulaiStr = getOverrideExtraSaya().tanggalMulaiManual || mulaiOtomatis;
+        const mulaiStr = dataAll.reduce((min, d) => (d.x_02 && (!min || d.x_02 < min)) ? d.x_02 : min, null);
         if (!mulaiStr) { card.style.display = 'none'; return; }
 
         const mk = hitungMasaKerjaLengkap(mulaiStr, dataAll);
-        const statusSaya = getStatusSaya();
-        document.getElementById('mkJenisBadge').textContent = JENIS_STATUS_LABEL[statusSaya.jenis] || statusSaya.jenis;
 
         document.getElementById('mkMulai').textContent    = fmtTglIndo(mk.mulaiDate);
-        document.getElementById('mkBerakhir').textContent = fmtTglIndo(mk.akhirDate) + (mk.tidakDiperpanjang ? ' 🔒' : '');
+        document.getElementById('mkBerakhir').textContent = fmtTglIndo(mk.akhirDate);
         document.getElementById('mkFill').style.width      = mk.persen + '%';
         document.getElementById('mkPersen').textContent    = mk.persen + '%';
 
@@ -1699,13 +1563,6 @@ async function muatRiwayat() {
    ============================== */
 function cekIzinAbsensi(tipe) {
     if (tipe === 'MASUK') {
-        const minimal = getMinimalKegiatanSaya();
-        if (minimal > 0) {
-            const jumlah = jadwalHariIniState.length;
-            if (jumlah < minimal) {
-                return { boleh: false, pesan: `⚠️ Minimal harus ada ${minimal} kegiatan terjadwal hari ini sebelum bisa absen masuk.\nSaat ini baru ${jumlah} kegiatan yang dijadwalkan.` };
-            }
-        }
         return { boleh: true };
     }
 
@@ -1713,31 +1570,6 @@ function cekIzinAbsensi(tipe) {
         if (!hariIni.masuk) {
             return { boleh: false, pesan: '⚠️ Anda belum absen masuk hari ini.' };
         }
-
-        // Syarat: wajib selesai semua kegiatan hari ini dulu (tergantung pengaturan admin, default: tidak wajib)
-        if (wajibSelesaiSaya()) {
-            const belumSelesai = jadwalHariIniState.filter(d => d.x_05 !== 'done');
-            if (belumSelesai.length > 0) {
-                return { boleh: false, pesan: `⚠️ Masih ada ${belumSelesai.length} kegiatan hari ini yang belum Done.\nSelesaikan semua kegiatan terlebih dahulu sebelum bisa absen pulang.` };
-            }
-        }
-
-        // Syarat: persetujuan admin untuk kegiatan Done (x_10 = '1' artinya sudah disetujui)
-        if (pulangConfig.approvalDone) {
-            const belumDisetujui = jadwalHariIniState.filter(d => d.x_05 === 'done' && d.x_10 !== '1');
-            if (belumDisetujui.length > 0) {
-                return { boleh: false, pesan: `⚠️ Ada ${belumDisetujui.length} kegiatan Done yang belum disetujui admin.\nSilakan hubungi admin untuk persetujuan sebelum absen pulang.` };
-            }
-        }
-
-        // Syarat: persetujuan admin untuk kegiatan reschedule / belum Done
-        if (pulangConfig.approvalNonDone) {
-            const belumDisetujui = jadwalHariIniState.filter(d => d.x_05 !== 'done' && d.x_10 !== '1');
-            if (belumDisetujui.length > 0) {
-                return { boleh: false, pesan: `⚠️ Ada ${belumDisetujui.length} kegiatan reschedule/belum Done yang belum disetujui admin.\nSilakan hubungi admin untuk persetujuan sebelum absen pulang.` };
-            }
-        }
-
         return { boleh: true };
     }
 
@@ -1763,9 +1595,9 @@ async function refreshJadwalHariIni() {
 }
 
 async function bukaKamera() {
-    // Refresh jadwal state, pengaturan kontrol absensi, DAN status absensi hari ini agar data selalu fresh
+    // Refresh jadwal state DAN status absensi hari ini agar data selalu fresh
     gl('Memeriksa jadwal...');
-    await Promise.all([refreshJadwalHariIni(), ambilKegiatanConfig(), ambilPulangConfig()]);
+    await refreshJadwalHariIni();
 
     // Refresh hariIni (sudah masuk/pulang) secara real-time
     try {
@@ -1840,7 +1672,7 @@ function updateBtnKamera() {
 async function prosesAbsensi(tipe) {
     // Double-check sebelum proses
     const cek = cekIzinAbsensi(tipe);
-    if (!cek.boleh) {
+    if (tipe === 'PULANG' && !cek.boleh) {
         alert(cek.pesan);
         return;
     }
@@ -2047,7 +1879,6 @@ function bukaModalTambah(tgl=null) {
     document.getElementById('f_tgl').value=t;
     document.getElementById('f_date').value=`${thn}-${bln}-${String(t).padStart(2,'0')}`;
     document.getElementById('f_jam').value='08:00'; document.getElementById('f_ket').value='';
-    document.getElementById('ketWajibMark').style.display = kegiatanConfig.wajibKeterangan ? 'inline' : 'none';
     document.getElementById('lnkBukti').style.display='none';
     document.getElementById('stArea').style.display='none';
     document.getElementById('modalIdBadge').style.display='none';
@@ -2063,7 +1894,6 @@ function bukaModalEdit(item) {
     document.getElementById('f_tgl').value=parseInt(item.x_01);
     document.getElementById('f_date').value=`${item.x_07}-${String(item.x_06).padStart(2,'0')}-${String(item.x_01).padStart(2,'0')}`;
     document.getElementById('f_jam').value=item.x_02; document.getElementById('f_jenis').value=item.x_03; document.getElementById('f_ket').value=item.x_04||'';
-    document.getElementById('ketWajibMark').style.display = kegiatanConfig.wajibKeterangan ? 'inline' : 'none';
     const lb=document.getElementById('lnkBukti');
     if(item.x_08){ lb.href=item.x_08; lb.style.display='block'; } else { lb.style.display='none'; }
     document.querySelectorAll('.bst').forEach(b=>b.style.display='none');
@@ -2088,16 +1918,11 @@ async function simpanJadwal(forcedSt) {
         return;
     }
     const id=document.getElementById('f_id').value;
-    const ketVal = document.getElementById('f_ket').value.trim();
-    if (kegiatanConfig.wajibKeterangan && !ketVal) {
-        alert('⚠️ Keterangan wajib diisi.');
-        return;
-    }
     const payload={
         x_01:document.getElementById('f_tgl').value.toString(),
         x_02:document.getElementById('f_jam').value,
         x_03:document.getElementById('f_jenis').value,
-        x_04:ketVal,
+        x_04:document.getElementById('f_ket').value,
         x_06:document.getElementById('view_bln').value.toString(),
         x_07:document.getElementById('view_thn').value.toString(),
         x_09:me
