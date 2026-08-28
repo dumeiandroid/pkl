@@ -455,7 +455,6 @@
         <nav class="sb-nav">
             <div class="sb-sec">Overview</div>
             <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard"><span class="icon">📊</span> Dashboard</div>
-            <div class="nav-item" onclick="showPage('approver')" id="nav-approver"><span class="icon">✅</span> Approver <span class="nav-cnt" id="cnt-approver">(0)</span></div>
             <div class="sb-sec">Data</div>
             <div class="nav-item" onclick="showPage('jadwal')" id="nav-jadwal"><span class="icon">📅</span> Jadwal</div>
             <div class="nav-item" onclick="showPage('jenis-meeting')" id="nav-jenis-meeting"><span class="icon">🧑‍🤝‍🧑</span> Meeting <span class="nav-cnt" id="cnt-jenis-meeting">(0)</span></div>
@@ -560,19 +559,6 @@
                 <tbody id="dAbsensi"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
 
-        </div>
-
-        <!-- APPROVER -->
-        <div class="page" id="page-approver">
-            <div class="pg-header"><h2>✅ Approver</h2><p>Daftar jadwal yang menunggu persetujuan admin (bulan berjalan &amp; bulan depan) — dari semua user aktif</p></div>
-            <div class="tcard" style="padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-                <div style="font-size:12.5px;color:#94a3b8;">Kegiatan dengan status <strong>belum direview</strong> saja yang muncul di sini. Kegiatan yang sudah Disetujui/Ditolak tetap bisa dilihat &amp; diubah lewat halaman Jadwal.</div>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;white-space:nowrap;" onclick="loadApprover()">🔄 Muat Ulang</button>
-            </div>
-            <div class="tcard"><table>
-                <thead><tr><th>Tanggal</th><th>Jam</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Aksi</th></tr></thead>
-                <tbody id="approverTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
         </div>
 
         <!-- JADWAL -->
@@ -711,15 +697,6 @@
                 <tbody id="mkOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
 
-            <div class="tcard" style="padding:16px 18px;margin-bottom:24px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Persetujuan Admin untuk Jadwal Hari Ini</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong> (peserta bebas absen masuk begitu jadwal hari ini dibuat). Berguna khusus untuk peserta baru atau peserta yang sebelumnya tidak masuk lalu masuk lagi hari ini — mereka baru membuat jadwal hari ini beserta keterangannya saat itu juga (belum sempat direview sebelumnya). Aktifkan supaya jadwal yang sudah dibuat untuk hari ini wajib ditandai "Disetujui" admin dulu (lihat halaman Jadwal) sebelum peserta bisa absen masuk — berlaku terlepas dari setting minimal kegiatan di atas, mencegah peserta asal isi keterangan hanya supaya bisa absen.</p>
-                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                    <input type="checkbox" id="apHariIni" style="width:16px;height:16px;"> Jadwal hari ini (jika sudah dibuat) wajib disetujui admin dulu sebelum bisa absen masuk
-                </label>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalHariIni()">💾 Simpan Pengaturan</button>
-            </div>
-
             <!-- 2 & 3. SYARAT ABSEN PULANG -->
             <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
                 <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">2️⃣ Wajib Selesai Semua Kegiatan Sebelum Absen Pulang</h3>
@@ -767,41 +744,6 @@
                     <input type="checkbox" id="wkAktif" style="width:16px;height:16px;"> Wajibkan pengisian Keterangan saat membuat jadwal
                 </label>
                 <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibKeterangan()">💾 Simpan</button>
-            </div>
-
-            <!-- 5. WAJIB JADWAL HARI KERJA BERIKUTNYA (syarat absen pulang) -->
-            <div class="tcard" style="padding:16px 18px;margin-top:18px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">5️⃣ Wajib Sudah Buat Jadwal untuk Hari Kerja Berikutnya</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak wajib</strong>. Jika aktif, peserta wajib sudah membuat minimal 1 jadwal untuk <strong>hari kerja berikutnya</strong> sebelum boleh absen pulang hari ini. Kalau hari ini Jumat, yang wajib bukan Sabtu (libur) tapi Senin — Sabtu/Minggu &amp; tanggal Libur Nasional otomatis dilewati.</p>
-                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:6px;">
-                    <input type="checkbox" id="jbDefault" style="width:16px;height:16px;"> Wajib buat jadwal hari kerja berikutnya (berlaku untuk SEMUA user, kecuali dikecualikan di bawah)
-                </label>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibJadwalBesokDefault()">💾 Simpan Pengaturan Semua User</button>
-            </div>
-            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;margin-top:18px;">
-                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Pengecualian / Khusus per User</h3>
-                <div style="display:grid;grid-template-columns:1fr 200px auto;gap:10px;align-items:end;">
-                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="jbUserSelect"><option value="">-- Pilih User --</option></select></div>
-                    <div class="fg" style="margin-bottom:0;"><label>Aturan</label>
-                        <select id="jbOvVal">
-                            <option value="true">Wajib buat jadwal hari kerja berikutnya</option>
-                            <option value="false">Tidak wajib (bebas)</option>
-                        </select>
-                    </div>
-                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahJadwalBesokOverride()">+ Tambah</button>
-                </div>
-            </div>
-            <div class="tcard" style="margin-bottom:18px;"><table>
-                <thead><tr><th>User</th><th>Aturan Khusus</th><th>Aksi</th></tr></thead>
-                <tbody id="jbOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
-            </table></div>
-            <div class="tcard" style="padding:16px 18px;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Persetujuan Admin untuk Jadwal Hari Kerja Berikutnya</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong> (cukup buat jadwal, langsung dianggap memenuhi syarat). Aktifkan kalau khawatir peserta asal isi jadwal hanya supaya bisa absen pulang — jadwal untuk hari kerja berikutnya wajib ditandai "Disetujui" oleh admin dulu (lihat halaman Jadwal) baru syarat terpenuhi.</p>
-                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                    <input type="checkbox" id="apJadwalBesok" style="width:16px;height:16px;"> Jadwal hari kerja berikutnya wajib disetujui admin dulu
-                </label>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalJadwalBesok()">💾 Simpan Pengaturan</button>
             </div>
         </div>
 
@@ -1106,8 +1048,8 @@ const KONTROL_KEGIATAN_ID = 5; // sama baris (id_x=5), kolom x_06 (minimal kegia
 const KONTROL_PULANG_ID = 5;   // sama baris (id_x=5), kolom x_07 (syarat & approval absen pulang)
 const KONTROL_STATUS_ID = 5;   // sama baris (id_x=5), kolom x_08 (status magang: jenis + durasi kerja per user)
 let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
-let kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true, approvalHariIni: false };
-let pulangConfig   = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false, wajibJadwalBesok: { default: false, override: {} }, approvalJadwalBesok: false };
+let kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true };
+let pulangConfig   = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false };
 // Status magang: jenis (magang/ojt/mitra/lainnya) + durasi kerja, dengan default per-jenis dan pengecualian per user
 const JENIS_STATUS_LABEL = { magang: 'Magang', ojt: 'OJT (On The Job Training)', mitra: 'Mitra', lainnya: 'Lainnya' };
 const JENIS_STATUS_WARNA = {
@@ -1261,7 +1203,6 @@ async function showApp() {
     loadMasaBerakhir();
     loadJenisSidebarCounts();
     loadKegiatanHariIni();
-    loadApproverBadge();
 }
 
 // ===== JAM KERJA (satu baris dengan libur nasional: id_x = 5, kolom x_05 berisi JSON {default,override}) =====
@@ -1398,12 +1339,11 @@ async function ambilKegiatanConfig() {
                 default: (cfg.minimalKegiatan && Number(cfg.minimalKegiatan.default)) || 0,
                 override: (cfg.minimalKegiatan && typeof cfg.minimalKegiatan.override === 'object') ? cfg.minimalKegiatan.override : {}
             },
-            wajibKeterangan: cfg.wajibKeterangan !== undefined ? !!cfg.wajibKeterangan : true,
-            approvalHariIni: !!cfg.approvalHariIni
+            wajibKeterangan: cfg.wajibKeterangan !== undefined ? !!cfg.wajibKeterangan : true
         };
     } catch (e) {
         console.error(e);
-        kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true, approvalHariIni: false };
+        kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true };
     }
 }
 async function simpanKegiatanConfig(cfg) {
@@ -1423,19 +1363,14 @@ async function simpanKegiatanConfig(cfg) {
 function loadKontrolAbsen() {
     document.getElementById('mkDefault').value = kegiatanConfig.minimalKegiatan.default;
     document.getElementById('wkAktif').checked  = !!kegiatanConfig.wajibKeterangan;
-    document.getElementById('apHariIni').checked = !!kegiatanConfig.approvalHariIni;
     document.getElementById('wsDefault').checked = !!pulangConfig.wajibSelesai.default;
     document.getElementById('apDone').checked    = !!pulangConfig.approvalDone;
     document.getElementById('apNonDone').checked = !!pulangConfig.approvalNonDone;
-    document.getElementById('jbDefault').checked = !!pulangConfig.wajibJadwalBesok.default;
-    document.getElementById('apJadwalBesok').checked = !!pulangConfig.approvalJadwalBesok;
     const optsHtml = '<option value="">-- Pilih User --</option>' + getActiveUsers().map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
     const mkSel = document.getElementById('mkUserSelect'); if (mkSel) mkSel.innerHTML = optsHtml;
     const wsSel = document.getElementById('wsUserSelect'); if (wsSel) wsSel.innerHTML = optsHtml;
-    const jbSel = document.getElementById('jbUserSelect'); if (jbSel) jbSel.innerHTML = optsHtml;
     renderMinKegiatanOverrideTable();
     renderWajibSelesaiOverrideTable();
-    renderJadwalBesokOverrideTable();
 }
 
 function loadKontrolStatus() {
@@ -1486,12 +1421,6 @@ async function simpanWajibKeterangan() {
     if (res.success) { kegiatanConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
 }
 
-async function simpanApprovalHariIni() {
-    const cfgBaru = { ...kegiatanConfig, approvalHariIni: document.getElementById('apHariIni').checked };
-    const res = await simpanKegiatanConfig(cfgBaru);
-    if (res.success) { kegiatanConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
 // ===== KONTROL ABSENSI: SYARAT & PERSETUJUAN ABSEN PULANG (id_x=5, kolom x_07) =====
 async function ambilPulangConfig() {
     try {
@@ -1506,16 +1435,11 @@ async function ambilPulangConfig() {
                 override: (cfg.wajibSelesai && typeof cfg.wajibSelesai.override === 'object') ? cfg.wajibSelesai.override : {}
             },
             approvalDone: !!cfg.approvalDone,
-            approvalNonDone: !!cfg.approvalNonDone,
-            wajibJadwalBesok: {
-                default: !!(cfg.wajibJadwalBesok && cfg.wajibJadwalBesok.default),
-                override: (cfg.wajibJadwalBesok && typeof cfg.wajibJadwalBesok.override === 'object') ? cfg.wajibJadwalBesok.override : {}
-            },
-            approvalJadwalBesok: !!cfg.approvalJadwalBesok
+            approvalNonDone: !!cfg.approvalNonDone
         };
     } catch (e) {
         console.error(e);
-        pulangConfig = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false, wajibJadwalBesok: { default: false, override: {} }, approvalJadwalBesok: false };
+        pulangConfig = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false };
     }
 }
 async function simpanPulangConfig(cfg) {
@@ -1570,53 +1494,6 @@ async function hapusWajibSelesaiOverride(user) {
 
 async function simpanApprovalPulang() {
     const cfgBaru = { ...pulangConfig, approvalDone: document.getElementById('apDone').checked, approvalNonDone: document.getElementById('apNonDone').checked };
-    const res = await simpanPulangConfig(cfgBaru);
-    if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-// ===== SYARAT: WAJIB SUDAH BUAT JADWAL UNTUK HARI KERJA BERIKUTNYA =====
-// (bagian dari pulangConfig, kolom x_07). Kalau hari ini Jumat, yang wajib bukan Sabtu (libur)
-// tapi Senin (hari kerja berikutnya). Punya 2 opsi: tanpa approval admin, atau wajib disetujui admin dulu
-// (karena peserta bisa saja asal isi jadwal supaya syarat terpenuhi).
-function renderJadwalBesokOverrideTable() {
-    const tbody = document.getElementById('jbOverrideTable');
-    if (!tbody) return;
-    const ov = pulangConfig.wajibJadwalBesok.override;
-    const keys = Object.keys(ov);
-    tbody.innerHTML = keys.length ? keys.map(u => {
-        const uEsc = u.replace(/'/g, "\\'");
-        return `<tr><td><span class="uchip"><span class="udot"></span>${escHtml(u)}</span></td><td>${ov[u] ? '✅ Wajib jadwal hari kerja berikutnya' : '🔓 Tidak wajib (bebas)'}</td>
-            <td><button class="btn-del" onclick="hapusJadwalBesokOverride('${uEsc}')">🗑 Hapus</button></td></tr>`;
-    }).join('') : '<tr class="er"><td colspan="3">Belum ada pengecualian / pengaturan khusus per user</td></tr>';
-}
-
-async function simpanWajibJadwalBesokDefault() {
-    const cfgBaru = { ...pulangConfig, wajibJadwalBesok: { default: document.getElementById('jbDefault').checked, override: pulangConfig.wajibJadwalBesok.override } };
-    const res = await simpanPulangConfig(cfgBaru);
-    if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function tambahJadwalBesokOverride() {
-    const userEl = document.getElementById('jbUserSelect'), valEl = document.getElementById('jbOvVal');
-    const user = userEl.value;
-    if (!user) return alert('Pilih user terlebih dahulu.');
-    const val = valEl.value === 'true';
-    const cfgBaru = { ...pulangConfig, wajibJadwalBesok: { default: pulangConfig.wajibJadwalBesok.default, override: { ...pulangConfig.wajibJadwalBesok.override, [user]: val } } };
-    const res = await simpanPulangConfig(cfgBaru);
-    if (res.success) { pulangConfig = cfgBaru; userEl.value=''; renderJadwalBesokOverrideTable(); } else alert('Gagal menyimpan. Coba lagi.');
-}
-
-async function hapusJadwalBesokOverride(user) {
-    if (!confirm(`Hapus pengecualian untuk ${user}?`)) return;
-    const overrideBaru = { ...pulangConfig.wajibJadwalBesok.override };
-    delete overrideBaru[user];
-    const cfgBaru = { ...pulangConfig, wajibJadwalBesok: { default: pulangConfig.wajibJadwalBesok.default, override: overrideBaru } };
-    const res = await simpanPulangConfig(cfgBaru);
-    if (res.success) { pulangConfig = cfgBaru; renderJadwalBesokOverrideTable(); } else alert('Gagal menghapus. Coba lagi.');
-}
-
-async function simpanApprovalJadwalBesok() {
-    const cfgBaru = { ...pulangConfig, approvalJadwalBesok: document.getElementById('apJadwalBesok').checked };
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
 }
@@ -1799,116 +1676,15 @@ async function hapusStatusOverride(user) {
     else alert('Gagal menghapus. Coba lagi.');
 }
 
-// Persetujuan admin untuk 1 item jadwal. Kolom x_10: '' = belum direview, '1' = disetujui, '0' = ditolak (perlu revisi).
-// Kolom x_12 = alasan penolakan, ditampilkan ke peserta agar tahu apa yang harus diperbaiki pada Keterangan.
-
-// Tombol/badge approval dipakai di listing Jadwal (dipanggil dari renderJadwalRow & loadJenisPage)
-function renderApprovalBtn(d) {
-    const st = d.x_10 || '';
-    if (st === '1') {
-        return `<button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;" onclick="toggleSetujuiJadwal('${d.id_x}', true)" title="Klik untuk batalkan persetujuan">✅ Disetujui</button>`;
-    }
-    if (st === '0') {
-        const alasanAttr = (d.x_12||'').replace(/"/g,'&quot;');
-        return `<button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:#fee2e2;color:#991b1b;border:1px solid #fecaca;" onclick="setujuiJadwal('${d.id_x}')" title="Ditolak: ${alasanAttr} — klik untuk setujui">❌ Ditolak</button>`;
-    }
-    return `<span style="display:inline-flex;gap:4px;">
-        <button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;" onclick="setujuiJadwal('${d.id_x}')" title="Setujui kegiatan ini">⏳ Setujui</button>
-        <button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:#fff1f2;color:#e11d48;border:1px solid #fecdd3;" onclick="tolakJadwal('${d.id_x}')" title="Tolak — peserta harus perbaiki keterangan">❌ Tolak</button>
-    </span>`;
-}
-
-// Setujui (x_10='1', bersihkan alasan tolak lama)
-async function setujuiJadwal(id) {
-    const res = await fetch(`${API}?table=${TJ}&id_x=${id}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-        body: JSON.stringify({ x_10: '1', x_12: '' })
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (res.success) { loadJadwal(); loadKegiatanHariIni(); refreshApproverJikaAda(); } else alert('Gagal menyetujui.');
-}
-
-// Tolak — minta alasan dulu, simpan x_10='0' + x_12=alasan. Peserta akan diminta memperbaiki Keterangan.
-async function tolakJadwal(id) {
-    const alasan = prompt('Alasan penolakan (akan dilihat peserta agar tahu apa yang harus diperbaiki pada Keterangan):');
-    if (alasan === null) return; // batal
-    if (!alasan.trim()) return alert('Alasan wajib diisi agar peserta tahu apa yang harus diperbaiki.');
-    const res = await fetch(`${API}?table=${TJ}&id_x=${id}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-        body: JSON.stringify({ x_10: '0', x_12: alasan.trim() })
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (res.success) { loadJadwal(); loadKegiatanHariIni(); refreshApproverJikaAda(); } else alert('Gagal menolak.');
-}
-
-// Batalkan persetujuan (dipakai saat klik badge "✅ Disetujui" utk kembalikan ke belum-direview)
+// Setujui / batalkan persetujuan admin untuk 1 item jadwal (kolom x_10 = '1' artinya disetujui)
 async function toggleSetujuiJadwal(id, disetujuiSekarang) {
-    if (!disetujuiSekarang) return;
+    const nilaiBaru = disetujuiSekarang ? '' : '1';
     const res = await fetch(`${API}?table=${TJ}&id_x=${id}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-        body: JSON.stringify({ x_10: '' })
+        body: JSON.stringify({ x_10: nilaiBaru })
     }).then(r => r.json()).catch(() => ({ success: false }));
-    if (res.success) { loadJadwal(); loadKegiatanHariIni(); refreshApproverJikaAda(); } else alert('Gagal mengubah status persetujuan.');
+    if (res.success) { loadJadwal(); loadKegiatanHariIni(); } else alert('Gagal mengubah status persetujuan.');
 }
-
-// Refresh tabel Approver kalau sedang dibuka, dan badge-nya selalu (dipanggil dari mana saja jadwal bisa berubah)
-function refreshApproverJikaAda() {
-    const activePage = document.querySelector('.page.active');
-    if (activePage && activePage.id === 'page-approver') loadApprover();
-    else loadApproverBadge();
-}
-
-// ===== APPROVER: antrean semua jadwal (semua jenis) yang belum direview admin =====
-// Cakupan: bulan berjalan + bulan depan (supaya jadwal utk hari kerja berikutnya yang jatuh
-// di awal bulan depan tetap ikut ke-cover), khusus milik user aktif.
-// Berlaku mulai HARI INI — tanggal yang sudah lewat (backlog sebelum fitur ini ada) sengaja
-// dikecualikan, meski masih berstatus belum direview, supaya tidak ikut nyangkut di antrean.
-async function ambilJadwalMenungguReview() {
-    const now = new Date();
-    const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-    const bln1 = now.getMonth() + 1, thn1 = now.getFullYear();
-    let bln2 = bln1 + 1, thn2 = thn1;
-    if (bln2 > 12) { bln2 = 1; thn2 = thn1 + 1; }
-    const [r1, r2] = await Promise.all([
-        api(`?table=${TJ}&x_06_eq=${bln1}&x_07_eq=${thn1}`),
-        api(`?table=${TJ}&x_06_eq=${bln2}&x_07_eq=${thn2}`)
-    ]);
-    const activeSet = getActiveUserNames();
-    const gabung = [...(r1.data || []), ...(r2.data || [])];
-    // x_10 kosong/undefined = belum direview. '0' (ditolak) sengaja TIDAK ikut —
-    // itu tanggung jawab peserta memperbaiki keterangan, bukan antrean aksi admin.
-    return gabung
-        .map(d => ({ d, tglStr: `${d.x_07}-${String(d.x_06).padStart(2,'0')}-${String(d.x_01).padStart(2,'0')}` }))
-        .filter(({ d, tglStr }) => activeSet.has(d.x_09) && !d.x_10 && tglStr >= todayStr)
-        .sort((a,b) => a.tglStr.localeCompare(b.tglStr))
-        .map(({ d }) => d);
-}
-
-async function loadApprover() {
-    const tbody = document.getElementById('approverTable');
-    if (tbody) tbody.innerHTML = '<tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr>';
-    const data = await ambilJadwalMenungguReview();
-    if (tbody) {
-        tbody.innerHTML = data.length
-            ? data.map(d => `<tr>
-                <td>${String(d.x_01).padStart(2,'0')}/${String(d.x_06).padStart(2,'0')}/${d.x_07}</td>
-                <td>${d.x_02||'-'}</td>
-                <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
-                <td>${JENIS_META[d.x_03] ? JENIS_META[d.x_03].label : (d.x_03||'-')}</td>
-                <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.x_04||'-'}</td>
-                <td>${renderApprovalBtn(d)}</td></tr>`).join('')
-            : '<tr class="er"><td colspan="6">🎉 Tidak ada jadwal yang menunggu persetujuan</td></tr>';
-    }
-    loadApproverBadge(data.length);
-}
-
-// Update badge angka di menu sidebar. Kalau count sudah diketahui (dipanggil dari loadApprover), pakai itu;
-// kalau tidak (mis. dipanggil dari showApp/refresh lain), hitung ulang.
-async function loadApproverBadge(knownCount) {
-    const el = document.getElementById('cnt-approver');
-    if (!el) return;
-    const count = (typeof knownCount === 'number') ? knownCount : (await ambilJadwalMenungguReview()).length;
-    el.textContent = `(${count})`;
-}
-
 
 // ===== LIBUR NASIONAL (tersimpan di tabel kontrol_admin, id_x = 5, kolom x_01 berisi JSON) =====
 async function ambilLiburNasional() {
@@ -2649,7 +2425,7 @@ function showPage(pg) {
     if (sb) sb.classList.remove('sb-open');
     if (ov) ov.classList.remove('open');
     if (btn) btn.classList.remove('open');
-    const map = { dashboard: loadDashboard, approver: loadApprover, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman, kontrolabsen: loadKontrolAbsen, kontrolstatus: loadKontrolStatus };
+    const map = { dashboard: loadDashboard, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman, kontrolabsen: loadKontrolAbsen, kontrolstatus: loadKontrolStatus };
     if (map[pg]) map[pg]();
     else if (pg.startsWith('jenis-')) loadJenisPage(pg.slice(6));
 }
@@ -2937,7 +2713,7 @@ function renderJadwalRow(key, items) {
             <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
             <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
             ${fotoBtnHtml}
-            ${renderApprovalBtn(d)}
+            <button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:${d.x_10==='1'?'#d1fae5':'#f1f5f9'};color:${d.x_10==='1'?'#065f46':'#475569'};border:1px solid ${d.x_10==='1'?'#a7f3d0':'#e2e8f0'};" onclick="toggleSetujuiJadwal('${d.id_x}', ${d.x_10==='1'})" title="Persetujuan admin diperlukan sebelum peserta bisa absen pulang jika pengaturan aktif">${d.x_10==='1'?'✅ Disetujui':'⏳ Setujui'}</button>
         </td></tr>`;
     }
     // Grup > 1 item sejenis di tanggal & user yang sama -> 1 baris ringkasan
@@ -3031,7 +2807,6 @@ async function loadKegiatanHariIni() {
 function refreshJenisSemua() {
     loadJenisSidebarCounts();
     loadKegiatanHariIni();
-    refreshApproverJikaAda();
     const activePage = document.querySelector('.page.active');
     if (activePage && activePage.id.startsWith('page-jenis-')) loadJenisPage(activePage.id.slice(10));
 }
@@ -3084,7 +2859,7 @@ async function loadJenisPage(jenisKey) {
             <td onclick="event.stopPropagation()">
                 <button class="btn-edit" onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">Edit</button>
                 <button class="btn-del" onclick="deleteJadwal('${d.id_x}')">Hapus</button>
-                ${renderApprovalBtn(d)}
+                <button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:${d.x_10==='1'?'#d1fae5':'#f1f5f9'};color:${d.x_10==='1'?'#065f46':'#475569'};border:1px solid ${d.x_10==='1'?'#a7f3d0':'#e2e8f0'};" onclick="toggleSetujuiJadwal('${d.id_x}', ${d.x_10==='1'})" title="Persetujuan admin sebelum peserta boleh absen pulang, jika pengaturan aktif">${d.x_10==='1'?'✅ Disetujui':'⏳ Setujui'}</button>
             </td></tr>`).join('')
         : '<tr class="er"><td colspan="5">Tidak ada kegiatan hari ini</td></tr>';
 }
