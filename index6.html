@@ -435,7 +435,7 @@
                 <div class="logo-icon">🧠</div>
                 <div>
                     <h1>LIDAN<span>PSIKOLOGI</span></h1>
-                    <p id="sbPortalSub">Portal Magang</p>
+                    <p>Portal Magang</p>
                 </div>
             </div>
         </div>
@@ -443,7 +443,7 @@
             <div class="sb-av" id="sbAv">U</div>
             <div>
                 <div class="sb-uname" id="sbName">User</div>
-                <div class="sb-urole" id="sbUrole">Magang</div>
+                <div class="sb-urole">Magang</div>
             </div>
         </div>
         <nav class="sb-nav">
@@ -858,7 +858,6 @@ const KONTROL_PULANG_ID = 5;   // sama baris (id_x=5), kolom x_07 — syarat & a
 const KONTROL_STATUS_ID = 5;   // sama baris (id_x=5), kolom x_08 — status magang & durasi kerja dari admin, read-only di sisi peserta
 let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
 const JENIS_STATUS_LABEL = { magang: 'Magang', ojt: 'OJT (On The Job Training)', mitra: 'Mitra', lainnya: 'Lainnya' };
-const JENIS_STATUS_SHORT = { magang: 'Magang', ojt: 'OJT', mitra: 'Mitra', lainnya: 'Lainnya' };
 let statusMagangConfig = {
     jenisDurasiDefault: {
         magang:  { nilai: 5, unit: 'bulan' },
@@ -1046,18 +1045,6 @@ function getStatusSaya() {
     const durasiDefaultJenis = statusMagangConfig.jenisDurasiDefault[jenis] || statusMagangConfig.jenisDurasiDefault.magang;
     const durasi = (ov && ov.durasiKhusus && ov.durasiKhusus.nilai) ? ov.durasiKhusus : durasiDefaultJenis;
     return { jenis, durasi };
-}
-// Perbarui label "Portal ..." & badge peran di sidebar sesuai status (magang/ojt/mitra/lainnya) yang dipilih admin untuk user ini
-async function updateStatusHeader() {
-    try {
-        await ambilStatusMagang();
-        const statusSaya = getStatusSaya();
-        const label = JENIS_STATUS_SHORT[statusSaya.jenis] || 'Magang';
-        const elUrole = document.getElementById('sbUrole');
-        const elPortalSub = document.getElementById('sbPortalSub');
-        if (elUrole) elUrole.textContent = label;
-        if (elPortalSub) elPortalSub.textContent = 'Portal ' + label;
-    } catch (e) { console.error(e); }
 }
 // Pengaturan tambahan untuk saya: tanggal mulai manual (opsional) & apakah tanggal berakhir tidak diperpanjang oleh ketidakhadiran
 function getOverrideExtraSaya() {
@@ -1491,7 +1478,6 @@ function startApp() {
     cekTampilkanPesanPengumuman();
     ambilKegiatanConfig();
     ambilPulangConfig();
-    updateStatusHeader();
 }
 
 /* ==============================
