@@ -116,6 +116,21 @@
         .ma-empty { text-align: center; color: #94a3b8; font-size: 13px; padding: 14px 0; }
         .ma-more { text-align: center; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer; padding: 6px 0 2px; }
         .ma-more:hover { text-decoration: underline; }
+
+        /* ===== ABSEN MASUK & KELUAR HARI INI ===== */
+        .ah-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 18px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .ah-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        .ah-title { font-size: 13px; font-weight: 800; color: #0f172a; letter-spacing: 0.3px; }
+        .ah-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .ah-col { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px; min-width: 0; }
+        .ah-col-head { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #e2e8f0; }
+        .ah-badge { font-size: 11px; font-weight: 800; padding: 1px 8px; border-radius: 20px; }
+        .ah-badge-masuk { background: #d1fae5; color: #065f46; }
+        .ah-badge-pulang { background: #fef3c7; color: #b45309; }
+        .ah-badge-belum { background: #fee2e2; color: #b91c1c; }
+        .ah-col-list { display: flex; flex-direction: column; gap: 6px; max-height: 220px; overflow-y: auto; }
+        .ah-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 5px 9px; font-size: 12px; }
+        .ah-jam { font-weight: 800; color: #0f172a; font-size: 11.5px; white-space: nowrap; }
         .akun-pw { font-family: 'Courier New', monospace; font-size: 12.5px; letter-spacing: 0.5px; color: #475569; }
         .btn-toggle-akun { padding: 4px 10px; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 6px; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
@@ -397,6 +412,10 @@
             /* Kegiatan hari ini & stat cards lebih rapat di hp */
             .kh-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
             .mb-head, .kh-head { align-items: flex-start; }
+
+            /* Absen masuk/keluar hari ini: 3 kolom jadi 1 kolom di hp */
+            .ah-cols { grid-template-columns: 1fr; }
+            .ah-col-list { max-height: 160px; }
         }
 
         /* ===== GALLERY BUKTI MODAL ===== */
@@ -573,6 +592,28 @@
                         <thead><tr><th>User</th><th>Status</th><th>Mulai</th><th>Berakhir (estimasi)</th><th>Sisa</th><th>❌ Tidak Hadir</th><th>🎉 Masuk Libur</th><th>⏰ Terlambat</th><th>🏃 Cepat Pulang</th><th>Progres</th></tr></thead>
                         <tbody id="mbBody"><tr><td colspan="10" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr></tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- ABSENSI HARI INI (MASUK & KELUAR) -->
+            <div class="ah-card">
+                <div class="ah-head">
+                    <div class="ah-title">🕐 Absen Masuk &amp; Keluar Hari Ini</div>
+                    <div class="mb-count" id="ahTglLabel">-</div>
+                </div>
+                <div class="ah-cols">
+                    <div class="ah-col">
+                        <div class="ah-col-head"><span>✅ Sudah Masuk</span><span class="ah-badge ah-badge-masuk" id="ahMasukCount">0</span></div>
+                        <div class="ah-col-list" id="ahMasukList"><div class="ma-empty"><span class="sp"></span> Memuat...</div></div>
+                    </div>
+                    <div class="ah-col">
+                        <div class="ah-col-head"><span>🚪 Sudah Pulang</span><span class="ah-badge ah-badge-pulang" id="ahPulangCount">0</span></div>
+                        <div class="ah-col-list" id="ahPulangList"><div class="ma-empty"><span class="sp"></span> Memuat...</div></div>
+                    </div>
+                    <div class="ah-col">
+                        <div class="ah-col-head"><span>⏳ Belum Absen Masuk</span><span class="ah-badge ah-badge-belum" id="ahBelumCount">0</span></div>
+                        <div class="ah-col-list" id="ahBelumList"><div class="ma-empty"><span class="sp"></span> Memuat...</div></div>
+                    </div>
                 </div>
             </div>
 
@@ -1317,6 +1358,7 @@ async function showApp() {
     loadDashboard();
     loadMasaBerakhir();
     loadMenungguApprove();
+    loadAbsenHariIni();
     loadJenisSidebarCounts();
     loadKegiatanHariIni();
     loadApproverBadge();
@@ -1939,6 +1981,40 @@ async function ambilJadwalMenungguReview() {
         .filter(({ d, tglStr }) => activeSet.has(d.x_09) && !d.x_10 && tglStr >= todayStr)
         .sort((a,b) => a.tglStr.localeCompare(b.tglStr))
         .map(({ d }) => d);
+}
+
+// ===== Card "Absen Masuk & Keluar Hari Ini" di Dashboard =====
+async function loadAbsenHariIni() {
+    const elMasuk  = document.getElementById('ahMasukList');
+    const elPulang = document.getElementById('ahPulangList');
+    const elBelum  = document.getElementById('ahBelumList');
+    const elTgl    = document.getElementById('ahTglLabel');
+    [elMasuk, elPulang, elBelum].forEach(el => { if (el) el.innerHTML = '<div class="ma-empty"><span class="sp"></span> Memuat...</div>'; });
+
+    const now = new Date();
+    const todayStr = tglKeStrAdm(now);
+    if (elTgl) elTgl.textContent = fmtTglIndoSingkat(now);
+
+    const activeUsers = getActiveUsers();
+    const activeSet   = getActiveUserNames();
+    const res  = await api(`?table=${TA}&x_02_eq=${todayStr}`);
+    const data = (res.data || []).filter(d => activeSet.has(d.x_01));
+
+    const masuk  = data.filter(d => d.x_05 === 'MASUK').sort((a,b) => (a.x_03||'').localeCompare(b.x_03||''));
+    const pulang = data.filter(d => d.x_05 === 'PULANG').sort((a,b) => (a.x_03||'').localeCompare(b.x_03||''));
+    const sudahMasukSet = new Set(masuk.map(d => d.x_01));
+    const belum = activeUsers.filter(u => !sudahMasukSet.has(u.x_01));
+
+    const cM = document.getElementById('ahMasukCount');  if (cM) cM.textContent  = masuk.length;
+    const cP = document.getElementById('ahPulangCount'); if (cP) cP.textContent  = pulang.length;
+    const cB = document.getElementById('ahBelumCount');  if (cB) cB.textContent  = belum.length;
+
+    const rowAbsen = d => `<div class="ah-row"><span class="uchip"><span class="udot"></span>${d.x_01||'-'}</span><span class="ah-jam">${d.x_03||'-'}</span></div>`;
+    const rowUser  = u => `<div class="ah-row"><span class="uchip"><span class="udot"></span>${u.x_01}</span></div>`;
+
+    if (elMasuk)  elMasuk.innerHTML  = masuk.length  ? masuk.map(rowAbsen).join('')   : '<div class="ma-empty">Belum ada yang absen masuk</div>';
+    if (elPulang) elPulang.innerHTML = pulang.length ? pulang.map(rowAbsen).join('')  : '<div class="ma-empty">Belum ada yang absen pulang</div>';
+    if (elBelum)  elBelum.innerHTML  = belum.length  ? belum.map(rowUser).join('')    : '<div class="ma-empty">🎉 Semua sudah absen masuk</div>';
 }
 
 // ===== Card ringkas "Menunggu Approve" di Dashboard (preview dari antrean Approver) =====
