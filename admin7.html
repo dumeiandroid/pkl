@@ -98,24 +98,6 @@
         .ket-th-tag:hover { background: #ddd6fe; }
         .mb-count-libur { cursor: pointer; }
         .mb-count-libur:hover { filter: brightness(0.95); }
-
-        /* ===== MENUNGGU APPROVE (dashboard) ===== */
-        .ma-card { background: #fff; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b; border-radius: 14px; padding: 14px 16px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
-        .ma-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
-        .ma-title { font-size: 13px; font-weight: 800; color: #92400e; letter-spacing: 0.3px; }
-        .ma-count { background: #fef3c7; color: #b45309; }
-        .ma-link { background: none; border: none; color: #2563eb; font-size: 12px; font-weight: 700; cursor: pointer; padding: 3px 4px; }
-        .ma-link:hover { text-decoration: underline; }
-        .ma-list { display: flex; flex-direction: column; gap: 8px; }
-        .ma-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 10px; padding: 9px 12px; flex-wrap: wrap; }
-        .ma-info { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12.5px; min-width: 0; flex: 1; }
-        .ma-date { font-weight: 800; color: #0f172a; font-size: 12px; white-space: nowrap; }
-        .ma-jenis { padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; background: #ede9fe; color: #5b21b6; white-space: nowrap; }
-        .ma-ket { color: #64748b; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px; }
-        .ma-aksi { flex-shrink: 0; }
-        .ma-empty { text-align: center; color: #94a3b8; font-size: 13px; padding: 14px 0; }
-        .ma-more { text-align: center; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer; padding: 6px 0 2px; }
-        .ma-more:hover { text-decoration: underline; }
         .akun-pw { font-family: 'Courier New', monospace; font-size: 12.5px; letter-spacing: 0.5px; color: #475569; }
         .btn-toggle-akun { padding: 4px 10px; background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 6px; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
@@ -370,33 +352,6 @@
             .form-row2 { grid-template-columns: 1fr; }
             .mbox { max-width: 100% !important; margin: 10px; }
             .users-grid { grid-template-columns: 1fr; }
-
-            /* Tabel lebar jadi bisa discroll horizontal, tidak terpotong */
-            .tcard { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-            .tcard table { min-width: 560px; }
-            .mb-tbl { min-width: 640px; }
-
-            /* Period bar & tabs dirapikan di layar sempit */
-            .period-bar { padding: 10px 12px; }
-            .period-bar-left { width: 100%; }
-            .ptabs { width: 100%; }
-            .ptab { flex: 1; padding: 7px 6px; font-size: 11.5px; }
-            .period-info { width: 100%; text-align: center; }
-
-            /* Kartu Menunggu Approve: baris jadi stack vertikal, tombol full-width */
-            .ma-card { padding: 12px; }
-            .ma-row { flex-direction: column; align-items: stretch; }
-            .ma-info { width: 100%; }
-            .ma-ket { max-width: 100%; white-space: normal; }
-            .ma-aksi { width: 100%; }
-            .ma-aksi span { display: flex !important; width: 100%; }
-            .ma-aksi button { flex: 1; }
-            .ma-head { justify-content: flex-start; }
-            .ma-head > div:last-child { width: 100%; justify-content: space-between; display: flex; }
-
-            /* Kegiatan hari ini & stat cards lebih rapat di hp */
-            .kh-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
-            .mb-head, .kh-head { align-items: flex-start; }
         }
 
         /* ===== GALLERY BUKTI MODAL ===== */
@@ -545,18 +500,6 @@
                     </div>
                 </div>
                 <span class="period-info" id="periodInfoText">—</span>
-            </div>
-
-            <!-- MENUNGGU APPROVE -->
-            <div class="ma-card" id="maCard">
-                <div class="ma-head">
-                    <div class="ma-title">🔔 Menunggu Approve</div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <div class="mb-count ma-count" id="maCount">0 pengajuan</div>
-                        <button class="ma-link" onclick="showPage('approver')">Lihat Semua →</button>
-                    </div>
-                </div>
-                <div class="ma-list" id="maList"><div class="ma-empty"><span class="sp"></span> Memuat...</div></div>
             </div>
 
             <!-- MASA BERAKHIR MAGANG -->
@@ -1316,7 +1259,6 @@ async function showApp() {
     await ambilStatusMagang();
     loadDashboard();
     loadMasaBerakhir();
-    loadMenungguApprove();
     loadJenisSidebarCounts();
     loadKegiatanHariIni();
     loadApproverBadge();
@@ -1912,7 +1854,6 @@ function refreshApproverJikaAda() {
     const activePage = document.querySelector('.page.active');
     if (activePage && activePage.id === 'page-approver') loadApprover();
     else loadApproverBadge();
-    if (activePage && activePage.id === 'page-dashboard') loadMenungguApprove();
 }
 
 // ===== APPROVER: antrean semua jadwal (semua jenis) yang belum direview admin =====
@@ -1939,34 +1880,6 @@ async function ambilJadwalMenungguReview() {
         .filter(({ d, tglStr }) => activeSet.has(d.x_09) && !d.x_10 && tglStr >= todayStr)
         .sort((a,b) => a.tglStr.localeCompare(b.tglStr))
         .map(({ d }) => d);
-}
-
-// ===== Card ringkas "Menunggu Approve" di Dashboard (preview dari antrean Approver) =====
-async function loadMenungguApprove() {
-    const listEl = document.getElementById('maList');
-    const countEl = document.getElementById('maCount');
-    if (listEl) listEl.innerHTML = '<div class="ma-empty"><span class="sp"></span> Memuat...</div>';
-    const data = await ambilJadwalMenungguReview();
-    if (countEl) countEl.textContent = `${data.length} pengajuan`;
-    if (!listEl) return;
-    if (!data.length) {
-        listEl.innerHTML = '<div class="ma-empty">🎉 Tidak ada pengajuan yang menunggu persetujuan</div>';
-        return;
-    }
-    const MAKS_PREVIEW = 5;
-    const preview = data.slice(0, MAKS_PREVIEW);
-    const sisa = data.length - preview.length;
-    listEl.innerHTML = preview.map(d => `
-        <div class="ma-row">
-            <div class="ma-info">
-                <span class="ma-date">${String(d.x_01).padStart(2,'0')}/${String(d.x_06).padStart(2,'0')}/${d.x_07}</span>
-                <span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span>
-                <span class="ma-jenis">${JENIS_META[d.x_03] ? JENIS_META[d.x_03].label : (d.x_03||'-')}</span>
-                <span class="ma-ket">${d.x_04||'-'}</span>
-            </div>
-            <div class="ma-aksi">${renderApprovalBtn(d)}</div>
-        </div>`).join('')
-        + (sisa > 0 ? `<div class="ma-more" onclick="showPage('approver')">+ ${sisa} pengajuan lainnya — lihat semua →</div>` : '');
 }
 
 async function loadApprover() {
