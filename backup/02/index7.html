@@ -651,7 +651,6 @@
                 <label>Keterangan <span id="ketWajibMark" style="color:#ef4444;">*</span></label>
                 <textarea id="f_ket" rows="2" placeholder="Nama peserta / lokasi..."></textarea>
                 <a id="lnkBukti" class="bukti-lnk" href="#" target="_blank" style="display:none;">🔗 Lihat Bukti Selesai</a>
-                <div id="lnkBuktiKetPrev" style="display:none;font-size:11.5px;color:#64748b;margin-top:3px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 8px;"></div>
             </div>
             <!-- LAMPIRAN JADWAL -->
             <div class="fg">
@@ -716,11 +715,6 @@
     <div class="mbox">
         <div class="mhead"><h3>Bukti Selesai</h3><button class="x" onclick="tutupModalUpload()">✕</button></div>
         <div class="mbody mupload">
-            <!-- Keterangan Hasil: deskripsi hasil/output kegiatan, TERPISAH dari Keterangan saat create -->
-            <div class="fg" style="margin-bottom:12px;">
-                <label>Keterangan Hasil <span id="ketHasilWajibMark" style="color:#ef4444;">*</span></label>
-                <textarea id="f_ket_hasil" rows="2" placeholder="Ceritakan hasil/output kegiatan ini..." style="width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;outline:none;resize:vertical;transition:0.2s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"></textarea>
-            </div>
             <!-- Tab pilihan -->
             <div style="display:flex;gap:0;background:#f1f5f9;border-radius:10px;padding:3px;margin-bottom:14px;">
                 <button id="tabBuktiFile" onclick="switchBuktiTab('file')" style="flex:1;padding:8px;border:none;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;background:#2563eb;color:#fff;transition:0.2s;">📁 Upload File</button>
@@ -883,31 +877,6 @@ let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jeni
 let ketMasukLiburMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
 let pesanPengumumanList = []; // [{id, tanggal:'YYYY-MM-DD', pesan, mode:'sekali'|'berulang'}]
 function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-// ===== BUKTI SELESAI (x_08): keterangan hasil + link/file bukti digabung jadi 1 objek JSON =====
-// Format baru : {"ket":"<keterangan hasil>","bukti":"<url tunggal | array url | LINK:...>"}
-// Format lama (data lawas sebelum fitur ini ada) : url polos / array url / "LINK:..." — tetap didukung baca-nya.
-function parseBuktiX08(raw) {
-    if (!raw) return { ket: '', bukti: null };
-    try {
-        const p = JSON.parse(raw);
-        if (p && typeof p === 'object' && !Array.isArray(p) && ('bukti' in p || 'ket' in p)) {
-            return { ket: p.ket || '', bukti: (p.bukti !== undefined ? p.bukti : null) };
-        }
-        if (Array.isArray(p)) return { ket: '', bukti: p }; // format lama: array url
-    } catch (e) { /* bukan JSON -> string polos (url biasa atau "LINK:..."), format lama */ }
-    return { ket: '', bukti: raw };
-}
-function buildBuktiX08(ket, buktiVal) {
-    return JSON.stringify({ ket: ket || '', bukti: buktiVal });
-}
-// Ambil 1 URL yang bisa dibuka langsung dari value "bukti" hasil parseBuktiX08 (untuk href link biasa)
-function firstBuktiUrl(bukti) {
-    if (!bukti) return '';
-    if (Array.isArray(bukti)) return bukti[0] || '';
-    if (typeof bukti === 'string' && bukti.startsWith('LINK:')) return bukti.substring(5);
-    return bukti;
-}
 
 const JENIS = [
     { id:'meeting',   label:'Meeting',   color:'#eef2ff', icon:'🤝', s:'Meet' },
@@ -2162,7 +2131,6 @@ function bukaModalTambah(tgl=null) {
     document.getElementById('ketWajibMark').style.display = kegiatanConfig.wajibKeterangan ? 'inline' : 'none';
     document.getElementById('revisiBanner').style.display='none';
     document.getElementById('lnkBukti').style.display='none';
-    document.getElementById('lnkBuktiKetPrev').style.display='none';
     document.getElementById('stArea').style.display='none';
     document.getElementById('modalIdBadge').style.display='none';
     document.getElementById('mJudul').textContent='Tambah Jadwal';
@@ -2185,18 +2153,7 @@ function bukaModalEdit(item) {
         document.getElementById('revisiBanner').style.display = 'none';
     }
     const lb=document.getElementById('lnkBukti');
-    const ketPrevEl = document.getElementById('lnkBuktiKetPrev');
-    const parsedX08 = parseBuktiX08(item.x_08);
-    if (parsedX08.bukti) {
-        const openUrl = firstBuktiUrl(parsedX08.bukti);
-        const cnt = Array.isArray(parsedX08.bukti) ? parsedX08.bukti.length : 1;
-        lb.href = openUrl; lb.style.display='block';
-        lb.textContent = cnt > 1 ? `🔗 Lihat Bukti Selesai (${cnt} file)` : '🔗 Lihat Bukti Selesai';
-    } else { lb.style.display='none'; }
-    if (parsedX08.ket) {
-        ketPrevEl.textContent = '📝 Keterangan hasil sebelumnya: ' + parsedX08.ket;
-        ketPrevEl.style.display = 'block';
-    } else { ketPrevEl.style.display = 'none'; }
+    if(item.x_08){ lb.href=item.x_08; lb.style.display='block'; } else { lb.style.display='none'; }
     document.querySelectorAll('.bst').forEach(b=>b.style.display='none');
     document.getElementById('stArea').style.display='block';
     if(item.x_05==='aktif')        { document.getElementById('bsDone').style.display='block'; document.getElementById('bsPending').style.display='block'; }
@@ -2215,25 +2172,13 @@ function bukaModalEdit(item) {
 async function simpanJadwal(forcedSt) {
     const id=document.getElementById('f_id').value;
     const ketVal = document.getElementById('f_ket').value.trim();
-    // Keterangan wajib berlaku untuk SEMUA transisi status, termasuk DONE (mengikuti setting wajibKeterangan).
+    // Keterangan wajib berlaku untuk SEMUA transisi status, termasuk DONE.
     if (kegiatanConfig.wajibKeterangan && !ketVal) {
         alert('⚠️ Keterangan wajib diisi' + (forcedSt==='done' ? ' sebelum menyelesaikan (DONE) kegiatan ini.' : '.'));
         return;
     }
-    // Khusus PENDING: keterangan tetap wajib diisi meski setting "Wajib Isi Keterangan" sedang
-    // dimatikan, supaya admin selalu tahu alasan kegiatan ini ditunda/pending.
-    if (forcedSt === 'pending' && !ketVal) {
-        alert('⚠️ Keterangan wajib diisi sebelum memindahkan kegiatan ini ke PENDING.');
-        return;
-    }
     if (forcedSt==='done') {
         tutupModalJ();
-        // Keterangan Hasil harus field baru & bersih — bukan warisan Keterangan saat create.
-        // Kalau item ini sebelumnya sudah pernah done (mau di-redo), tampilkan keterangan hasil lama sbg draft.
-        const prevKet = window._editingItem ? parseBuktiX08(window._editingItem.x_08).ket : '';
-        document.getElementById('f_ket_hasil').value = prevKet || '';
-        document.getElementById('ketHasilWajibMark').style.display = kegiatanConfig.wajibKeterangan ? 'inline' : 'none';
-        switchBuktiTab('file');
         document.getElementById('modalUpload').classList.add('open');
         return;
     }
@@ -2252,11 +2197,9 @@ async function simpanJadwal(forcedSt) {
     else if (lampiranVal) payload.x_11 = lampiranVal;
     if(forcedSt) payload.x_05=forcedSt; else if(!id) payload.x_05='aktif';
     // Jika kegiatan ini sebelumnya DITOLAK admin (x_10==='0') dan sekarang disimpan ulang
-    // (dianggap sudah diperbaiki peserta), ATAU sebelumnya sudah DISETUJUI (x_10==='1') tapi
-    // statusnya baru saja diubah (mis. Aktif -> Pending, atau Pending -> Aktif), kembalikan
-    // status review ke "belum direview" supaya masuk antrean cek admin lagi (wajib approve
-    // ulang sebelum bisa absen pulang), dan bersihkan alasan penolakan lama.
-    if (window._editingItem && (window._editingItem.x_10 === '0' || window._editingItem.x_10 === '1')) {
+    // (dianggap sudah diperbaiki peserta), kembalikan status review ke "belum direview"
+    // supaya masuk antrean cek admin lagi, dan bersihkan alasan penolakan lama.
+    if (window._editingItem && window._editingItem.x_10 === '0') {
         payload.x_10 = '';
         payload.x_12 = '';
     }
@@ -2269,8 +2212,8 @@ async function simpanJadwal(forcedSt) {
 }
 
 async function prosesUploadDone() {
-    if (kegiatanConfig.wajibKeterangan && !document.getElementById('f_ket_hasil').value.trim()) {
-        return alert('⚠️ Keterangan Hasil wajib diisi sebelum menyelesaikan (DONE) kegiatan ini.');
+    if (kegiatanConfig.wajibKeterangan && !document.getElementById('f_ket').value.trim()) {
+        return alert('⚠️ Keterangan wajib diisi sebelum menyelesaikan (DONE) kegiatan ini.');
     }
     const files = document.getElementById('buktiFile').files;
     if(!files || files.length === 0) return alert('Pilih file bukti dulu!');
@@ -2296,15 +2239,10 @@ async function prosesUploadDone() {
         }
         progressTxt.textContent = 'Menyimpan data...';
         const id = document.getElementById('f_id').value;
-        // 1 file -> string url biasa; >1 file -> array url asli (dibungkus jadi JSON oleh buildBuktiX08, jangan di-stringify dobel)
-        const buktiValue = uploadedUrls.length === 1 ? uploadedUrls[0] : uploadedUrls;
-        const ketHasil = document.getElementById('f_ket_hasil').value.trim();
-        const donePayload = { x_05:'done', x_08: buildBuktiX08(ketHasil, buktiValue) };
-        // Menyelesaikan (DONE) kegiatan adalah event baru yang wajib direview admin lagi,
-        // walau jadwalnya dulu sudah disetujui (x_10==='1') sebelum dikerjakan — supaya
-        // hasil/bukti yang baru diunggah ini benar-benar dicek, dan peserta wajib menunggu
-        // approve dulu sebelum bisa absen pulang (lihat setting apDone di Kontrol Absensi).
-        if (window._editingItem && (window._editingItem.x_10 === '0' || window._editingItem.x_10 === '1')) { donePayload.x_10 = ''; donePayload.x_12 = ''; }
+        // Simpan sebagai JSON array jika lebih dari 1 file, atau string biasa jika 1 file (backward compat)
+        const buktiValue = uploadedUrls.length === 1 ? uploadedUrls[0] : JSON.stringify(uploadedUrls);
+        const donePayload = { x_05:'done', x_08:buktiValue, x_04: document.getElementById('f_ket').value.trim() };
+        if (window._editingItem && window._editingItem.x_10 === '0') { donePayload.x_10 = ''; donePayload.x_12 = ''; }
         gl('Menyimpan...');
         const res = await fetch(`${API}?table=${TBL}&id_x=${id}`, {method:'PUT', headers:{'Content-Type':'application/json','X-Custom-Auth':KEY}, body:JSON.stringify(donePayload)}).then(r=>r.json());
         gh();
@@ -2349,7 +2287,6 @@ function tutupModalUpload() {
     document.getElementById('buktiPreview').style.display = 'none';
     document.getElementById('buktiFileList').innerHTML = '';
     document.getElementById('buktiLinkInput').value = '';
-    document.getElementById('f_ket_hasil').value = '';
     switchBuktiTab('file'); // reset ke tab file
 }
 
@@ -2364,8 +2301,8 @@ function switchBuktiTab(tab) {
 }
 
 async function prosesLinkDone() {
-    if (kegiatanConfig.wajibKeterangan && !document.getElementById('f_ket_hasil').value.trim()) {
-        return alert('⚠️ Keterangan Hasil wajib diisi sebelum menyelesaikan (DONE) kegiatan ini.');
+    if (kegiatanConfig.wajibKeterangan && !document.getElementById('f_ket').value.trim()) {
+        return alert('⚠️ Keterangan wajib diisi sebelum menyelesaikan (DONE) kegiatan ini.');
     }
     const link = document.getElementById('buktiLinkInput').value.trim();
     if (!link) return alert('Masukkan link terlebih dahulu!');
@@ -2375,10 +2312,8 @@ async function prosesLinkDone() {
     gl('Menyimpan link bukti...');
     try {
         const buktiValue = 'LINK:' + link;
-        const ketHasil = document.getElementById('f_ket_hasil').value.trim();
-        const donePayload = { x_05:'done', x_08: buildBuktiX08(ketHasil, buktiValue) };
-        // Sama seperti prosesUploadDone: DONE lewat link bukti tetap wajib direview ulang admin.
-        if (window._editingItem && (window._editingItem.x_10 === '0' || window._editingItem.x_10 === '1')) { donePayload.x_10 = ''; donePayload.x_12 = ''; }
+        const donePayload = { x_05:'done', x_08: buktiValue, x_04: document.getElementById('f_ket').value.trim() };
+        if (window._editingItem && window._editingItem.x_10 === '0') { donePayload.x_10 = ''; donePayload.x_12 = ''; }
         const res = await fetch(`${API}?table=${TBL}&id_x=${id}`, {
             method:'PUT',
             headers:{'Content-Type':'application/json','X-Custom-Auth':KEY},

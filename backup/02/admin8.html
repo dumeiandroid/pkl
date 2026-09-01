@@ -32,27 +32,6 @@
 
         /* SIDEBAR */
         .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: var(--dark); color: white; display: flex; flex-direction: column; z-index: 100; overflow-y: auto; }
-        @media (min-width: 769px) {
-            .sidebar { transition: transform 0.25s ease; }
-            .main { transition: margin-left 0.25s ease; }
-            body.sb-collapsed .sidebar { transform: translateX(-100%); }
-            body.sb-collapsed .main { margin-left: 0; }
-        }
-        .btn-sb-close {
-            position: absolute; top: 14px; right: 10px; background: none; border: none;
-            color: #94a3b8; font-size: 16px; line-height: 1; padding: 6px 8px; border-radius: 6px;
-            cursor: pointer; transition: 0.2s;
-        }
-        .btn-sb-close:hover { background: rgba(255,255,255,0.08); color: #fff; }
-        .btn-sb-open {
-            display: none; position: fixed; top: 16px; left: 16px; z-index: 200;
-            width: 40px; height: 40px; align-items: center; justify-content: center;
-            background: var(--dark); color: #fff; border: none; border-radius: 8px;
-            cursor: pointer; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-        }
-        .btn-sb-open:hover { background: #334155; }
-        body.sb-collapsed .btn-sb-open { display: flex; }
-        @media (max-width: 768px) { .btn-sb-open { display: none !important; } }
         .sb-logo { padding: 22px 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .sb-logo h1 { font-size: 19px; font-weight: 900; }
         .sb-logo h1 span { color: var(--primary); }
@@ -350,19 +329,6 @@
         .dtab.da-done    { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
         .dtab.da-all     { background: #f1f5f9; color: #1e293b; border-color: #cbd5e1; }
 
-        /* ===== PREVIEW TUGAS ===== */
-        .pt-usertabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-        .pt-utab { padding: 7px 16px; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; background: white; color: #64748b; transition: 0.2s; }
-        .pt-utab:hover { background: #f1f5f9; }
-        .pt-utab.pt-active { background: var(--primary); color: white; border-color: var(--primary); }
-        .pt-utab-cnt { margin-left: 4px; opacity: 0.75; font-weight: 700; }
-        .pt-filterbar { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .pt-ptab { padding: 6px 14px; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; background: white; color: #64748b; transition: 0.2s; }
-        .pt-ptab:hover { background: #f1f5f9; }
-        .pt-ptab.pt-active { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
-        .pt-inline-input { padding: 6px 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 12.5px; color: #1e293b; }
-        .pt-empty-user { text-align: center; color: #94a3b8; font-size: 13px; padding: 30px 0; }
-
         @media (max-width: 900px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 640px) { .main { margin-left: 0; padding: 14px; } .stats-grid { grid-template-columns: 1fr 1fr; } }
 
@@ -545,20 +511,15 @@
     <div style="width:34px;"></div>
 </div>
 <div class="sb-overlay-adm" id="sbOverlayAdm" onclick="toggleSidebarMobile()"></div>
-<button class="btn-sb-open" id="btnSbOpen" onclick="toggleSidebarDesktop()" title="Tampilkan menu">☰</button>
 
 <!-- APP -->
 <div id="appLayout">
     <aside class="sidebar">
-        <div class="sb-logo" style="position:relative;">
-            <button class="btn-sb-close" onclick="toggleSidebarDesktop()" title="Sembunyikan menu">✕</button>
-            <h1>LIDAN<span>PSIKOLOGI</span></h1><p>Admin Panel</p>
-        </div>
+        <div class="sb-logo"><h1>LIDAN<span>PSIKOLOGI</span></h1><p>Admin Panel</p></div>
         <nav class="sb-nav">
             <div class="sb-sec">Overview</div>
             <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard"><span class="icon">📊</span> Dashboard</div>
             <div class="nav-item" onclick="showPage('approver')" id="nav-approver"><span class="icon">✅</span> Approver <span class="nav-cnt" id="cnt-approver">(0)</span></div>
-            <div class="nav-item" onclick="showPage('previewtugas')" id="nav-previewtugas"><span class="icon">🔍</span> Preview Tugas</div>
             <div class="sb-sec">Data</div>
             <div class="nav-item" onclick="showPage('jadwal')" id="nav-jadwal"><span class="icon">📅</span> Jadwal</div>
             <div class="nav-item" onclick="showPage('jenis-meeting')" id="nav-jenis-meeting"><span class="icon">🧑‍🤝‍🧑</span> Meeting <span class="nav-cnt" id="cnt-jenis-meeting">(0)</span></div>
@@ -707,8 +668,8 @@
                 <button class="btn-add-j" style="height:37px;padding:0 16px;white-space:nowrap;" onclick="loadApprover()">🔄 Muat Ulang</button>
             </div>
             <div class="tcard"><table>
-                <thead><tr><th>Tanggal</th><th>Jam</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>Keterangan Akhir</th><th>Bukti</th><th>Aksi</th></tr></thead>
-                <tbody id="approverTable"><tr class="lr"><td colspan="9"><span class="sp"></span>Memuat...</td></tr></tbody>
+                <thead><tr><th>Tanggal</th><th>Jam</th><th>User</th><th>Jenis</th><th>Keterangan</th><th>Aksi</th></tr></thead>
+                <tbody id="approverTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
         </div>
 
@@ -732,9 +693,6 @@
                 <tbody id="jTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
         </div>
-
-        <!-- PREVIEW TUGAS — semua kegiatan per user, per periode -->
-        <div class="page" id="page-previewtugas"></div>
 
         <!-- JENIS PER KATEGORI (Meeting/Tes/Konseling/Seminar/Other) — khusus hari ini -->
         <div class="page" id="page-jenis-meeting" data-jenis="meeting"></div>
@@ -1273,21 +1231,6 @@ let ketMasukLiburMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jeni
 let pesanPengumumanList = []; // [{id, tanggal:'YYYY-MM-DD', pesan, mode:'sekali'|'berulang'}]
 let _editPesanId = null;
 function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-// ===== BUKTI SELESAI (x_08): keterangan hasil + link/file bukti digabung jadi 1 objek JSON =====
-// Format baru : {"ket":"<keterangan hasil dari peserta>","bukti":"<url tunggal | array url | LINK:...>"}
-// Format lama (data sebelum fitur keterangan hasil ada) : url polos / array url / "LINK:..." — tetap didukung baca-nya.
-function parseBuktiX08(raw) {
-    if (!raw) return { ket: '', bukti: null };
-    try {
-        const p = JSON.parse(raw);
-        if (p && typeof p === 'object' && !Array.isArray(p) && ('bukti' in p || 'ket' in p)) {
-            return { ket: p.ket || '', bukti: (p.bukti !== undefined ? p.bukti : null) };
-        }
-        if (Array.isArray(p)) return { ket: '', bukti: p }; // format lama: array url
-    } catch (e) { /* bukan JSON -> string polos (url biasa atau "LINK:..."), format lama */ }
-    return { ket: '', bukti: raw };
-}
 const ASSETS = 'https://assets.lidan.co.id/';
 const JC = { meeting:'#ff7675', tes:'#74b9ff', konseling:'#55efc4', seminar:'#ffeaa7', others:'#b2bec3' };
 
@@ -1298,13 +1241,6 @@ let adminUser  = '';
 let dashPeriod = 'harian'; // 'harian' | 'mingguan' | 'bulanan'
 let liburNasionalList = []; // [{tanggal:'YYYY-MM-DD', ket:'...'}]
 let liburNasionalSet  = new Set(); // Set('YYYY-MM-DD') untuk lookup cepat
-
-// ===== PREVIEW TUGAS: state =====
-let ptUser      = '';                          // username yang sedang dipilih (tab aktif)
-let ptPeriod    = 'harian';                    // 'harian' | 'mingguan' | 'bulanan' | 'bulan' | 'tanggal'
-let ptBulanSel  = new Date().getMonth() + 1;   // untuk periode 'bulan' (pilih bulan tertentu)
-let ptTahunSel  = new Date().getFullYear();
-let ptTanggalSel = localDate();                // untuk periode 'tanggal' (pilih tanggal tertentu)
 
 // Helper: format tanggal lokal (bukan UTC) ke YYYY-MM-DD
 function localDate(d) {
@@ -2096,74 +2032,33 @@ async function loadMenungguApprove() {
     const MAKS_PREVIEW = 5;
     const preview = data.slice(0, MAKS_PREVIEW);
     const sisa = data.length - preview.length;
-    listEl.innerHTML = preview.map(d => {
-        const px = parseBuktiX08(d.x_08);
-        let buktiHtml = '';
-        if (px.bukti) {
-            const sk = 'ma_' + d.id_x;
-            _buktiStore[sk] = { rawUrl: px.bukti, user: d.x_09||'', ket: px.ket || (d.x_04||'').replace(/\n/g,' ') };
-            if (typeof px.bukti === 'string' && px.bukti.startsWith('LINK:')) {
-                const lnk = px.bukti.substring(5);
-                buktiHtml = `<a href="${lnk}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;">🔗 Buka Link</a>`;
-            } else {
-                const cnt = Array.isArray(px.bukti) ? px.bukti.length : 1;
-                buktiHtml = `<button class="btn-view" onclick="showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
-            }
-        }
-        const ketAkhirHtml = px.ket
-            ? `<span class="ma-ket" style="color:#0f766e;font-style:italic;" title="${escHtml(px.ket)}">✍️ ${escHtml(tr(px.ket, 60))}</span>`
-            : '';
-        return `
+    listEl.innerHTML = preview.map(d => `
         <div class="ma-row">
             <div class="ma-info">
                 <span class="ma-date">${String(d.x_01).padStart(2,'0')}/${String(d.x_06).padStart(2,'0')}/${d.x_07}</span>
                 <span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span>
                 <span class="ma-jenis">${JENIS_META[d.x_03] ? JENIS_META[d.x_03].label : (d.x_03||'-')}</span>
                 <span class="ma-ket">${d.x_04||'-'}</span>
-                ${ketAkhirHtml}
-                ${buktiHtml}
             </div>
             <div class="ma-aksi">${renderApprovalBtn(d)}</div>
-        </div>`;
-    }).join('')
+        </div>`).join('')
         + (sisa > 0 ? `<div class="ma-more" onclick="showPage('approver')">+ ${sisa} pengajuan lainnya — lihat semua →</div>` : '');
 }
 
 async function loadApprover() {
     const tbody = document.getElementById('approverTable');
-    if (tbody) tbody.innerHTML = '<tr class="lr"><td colspan="9"><span class="sp"></span>Memuat...</td></tr>';
+    if (tbody) tbody.innerHTML = '<tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr>';
     const data = await ambilJadwalMenungguReview();
     if (tbody) {
         tbody.innerHTML = data.length
-            ? data.map(d => {
-                const px = parseBuktiX08(d.x_08);
-                const ketAkhirHtml = px.ket
-                    ? `<span title="${escHtml(px.ket)}">${escHtml(tr(px.ket, 60))}</span>`
-                    : '<span style="color:#94a3b8;font-size:11px;">-</span>';
-                let buktiHtml = '<span style="color:#94a3b8;font-size:11px;">-</span>';
-                if (px.bukti) {
-                    const sk = 'ap_' + d.id_x;
-                    _buktiStore[sk] = { rawUrl: px.bukti, user: d.x_09||'', ket: px.ket || (d.x_04||'').replace(/\n/g,' ') };
-                    if (typeof px.bukti === 'string' && px.bukti.startsWith('LINK:')) {
-                        const lnk = px.bukti.substring(5);
-                        buktiHtml = `<a href="${lnk}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;">🔗 Buka Link</a>`;
-                    } else {
-                        const cnt = Array.isArray(px.bukti) ? px.bukti.length : 1;
-                        buktiHtml = `<button class="btn-view" onclick="showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
-                    }
-                }
-                return `<tr>
+            ? data.map(d => `<tr>
                 <td>${String(d.x_01).padStart(2,'0')}/${String(d.x_06).padStart(2,'0')}/${d.x_07}</td>
                 <td>${d.x_02||'-'}</td>
                 <td><span class="uchip"><span class="udot"></span>${d.x_09||'-'}</span></td>
                 <td>${JENIS_META[d.x_03] ? JENIS_META[d.x_03].label : (d.x_03||'-')}</td>
-                <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.x_04||'-'}</td>
-                <td><span class="badge b-${(d.x_05||'').toLowerCase()}">${d.x_05||'-'}</span></td>
-                <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ketAkhirHtml}</td>
-                <td>${buktiHtml}</td>
-                <td>${renderApprovalBtn(d)}</td></tr>`;
-            }).join('')
-            : '<tr class="er"><td colspan="9">🎉 Tidak ada jadwal yang menunggu persetujuan</td></tr>';
+                <td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.x_04||'-'}</td>
+                <td>${renderApprovalBtn(d)}</td></tr>`).join('')
+            : '<tr class="er"><td colspan="6">🎉 Tidak ada jadwal yang menunggu persetujuan</td></tr>';
     }
     loadApproverBadge(data.length);
 }
@@ -2917,7 +2812,7 @@ function showPage(pg) {
     if (sb) sb.classList.remove('sb-open');
     if (ov) ov.classList.remove('open');
     if (btn) btn.classList.remove('open');
-    const map = { dashboard: loadDashboard, approver: loadApprover, previewtugas: loadPreviewTugas, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman, kontrolabsen: loadKontrolAbsen, kontrolstatus: loadKontrolStatus };
+    const map = { dashboard: loadDashboard, approver: loadApprover, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman, kontrolabsen: loadKontrolAbsen, kontrolstatus: loadKontrolStatus };
     if (map[pg]) map[pg]();
     else if (pg.startsWith('jenis-')) loadJenisPage(pg.slice(6));
 }
@@ -3106,16 +3001,13 @@ function renderDashJadwal() {
             let viewBtn = '';
             if (d.x_05 === 'done' && d.x_08) {
                 const sk = 'dash_j_' + d.id_x;
-                const px = parseBuktiX08(d.x_08);
-                if (px.bukti) {
-                    _buktiStore[sk] = { rawUrl: px.bukti, user: d.x_09||'', ket: px.ket || (d.x_04||'').replace(/\n/g,' ') };
-                    if (typeof px.bukti === 'string' && px.bukti.startsWith('LINK:')) {
-                        const lnk = px.bukti.substring(5);
-                        viewBtn = `<a href="${lnk}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
-                    } else {
-                        const cnt = Array.isArray(px.bukti) ? px.bukti.length : 1;
-                        viewBtn = `<button class="btn-view" onclick="event.stopPropagation();showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
-                    }
+                _buktiStore[sk] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
+                if (d.x_08.startsWith('LINK:')) {
+                    const lnk = d.x_08.substring(5);
+                    viewBtn = `<a href="${lnk}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
+                } else {
+                    let cnt = 1; try { const p=JSON.parse(d.x_08); if(Array.isArray(p)) cnt=p.length; } catch {}
+                    viewBtn = `<button class="btn-view" onclick="event.stopPropagation();showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
                 }
             } else if (d.x_05 === 'done') {
                 viewBtn = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;">👁 View</button>`;
@@ -3178,18 +3070,16 @@ function renderJadwalRow(key, items) {
         let fotoBtnHtml = '';
         if (d.x_05 === 'done' && d.x_08) {
             const storeKey = 'bukti_' + d.id_x;
-            const px = parseBuktiX08(d.x_08);
-            if (px.bukti) {
-                _buktiStore[storeKey] = { rawUrl: px.bukti, user: d.x_09||'', ket: px.ket || (d.x_04||'').replace(/\n/g,' ') };
-                if (typeof px.bukti === 'string' && px.bukti.startsWith('LINK:')) {
-                    // Bukti berupa link eksternal — tampil sebagai tombol buka link
-                    const actualLink = px.bukti.substring(5);
-                    fotoBtnHtml = `<a href="${actualLink}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
-                } else {
-                    const buktiCount = Array.isArray(px.bukti) ? px.bukti.length : 1;
-                    const label = buktiCount > 1 ? `👁 View (${buktiCount})` : '👁 View';
-                    fotoBtnHtml = `<button class="btn-view" onclick="showFotoBuktiByKey('${storeKey}')">${label}</button>`;
-                }
+            _buktiStore[storeKey] = { rawUrl: d.x_08, user: d.x_09||'', ket: (d.x_04||'').replace(/\n/g,' ') };
+            if (d.x_08.startsWith('LINK:')) {
+                // Bukti berupa link eksternal — tampil sebagai tombol buka link
+                const actualLink = d.x_08.substring(5);
+                fotoBtnHtml = `<a href="${actualLink}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
+            } else {
+                let buktiCount = 1;
+                try { const p = JSON.parse(d.x_08); if(Array.isArray(p)) buktiCount = p.length; } catch {}
+                const label = buktiCount > 1 ? `👁 View (${buktiCount})` : '👁 View';
+                fotoBtnHtml = `<button class="btn-view" onclick="showFotoBuktiByKey('${storeKey}')">${label}</button>`;
             }
         } else if (d.x_05 === 'done') {
             fotoBtnHtml = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;" title="Tidak ada bukti">👁 View</button>`;
@@ -3360,222 +3250,6 @@ async function loadJenisPage(jenisKey) {
                 ${renderApprovalBtn(d)}
             </td></tr>`).join('')
         : '<tr class="er"><td colspan="5">Tidak ada kegiatan hari ini</td></tr>';
-}
-
-// ===== PREVIEW TUGAS =====
-// Menu ringkasan: per user aktif (tab), tampilkan SEMUA kegiatan (semua jenis)
-// pada periode terpilih (hari ini / minggu ini / bulan ini / pilih bulan / pilih tanggal),
-// lengkap dengan status & link bukti yang bisa diklik.
-
-function loadPreviewTugas() {
-    const pageEl = document.getElementById('page-previewtugas');
-    if (!pageEl) return;
-
-    const aktifUsers = getActiveUsers();
-    if (!ptUser || !aktifUsers.some(u => u.x_01 === ptUser)) {
-        ptUser = aktifUsers.length ? aktifUsers[0].x_01 : '';
-    }
-
-    if (!aktifUsers.length) {
-        pageEl.innerHTML = `
-            <div class="pg-header"><h2>🔍 Preview Tugas</h2><p>Semua kegiatan per user, lengkap dengan status &amp; bukti</p></div>
-            <div class="pt-empty-user">Tidak ada user aktif</div>`;
-        return;
-    }
-
-    const BLN_NAMA = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-    const bulanOpts = Array.from({length:12}, (_,i)=>i+1)
-        .map(b => `<option value="${b}" ${b===ptBulanSel?'selected':''}>${BLN_NAMA[b-1]}</option>`).join('');
-    const tahunNow = new Date().getFullYear();
-    const tahunOpts = [tahunNow-1, tahunNow, tahunNow+1]
-        .map(t => `<option value="${t}" ${t===ptTahunSel?'selected':''}>${t}</option>`).join('');
-
-    pageEl.innerHTML = `
-        <div class="pg-header"><h2>🔍 Preview Tugas</h2><p>Semua kegiatan (Meeting/Tes/Konseling/Seminar/Other) per user, lengkap dengan status &amp; bukti</p></div>
-        <div class="pt-filterbar">
-            <button class="pt-ptab ${ptPeriod==='harian'?'pt-active':''}"   onclick="setPtPeriod('harian')">Hari Ini</button>
-            <button class="pt-ptab ${ptPeriod==='mingguan'?'pt-active':''}" onclick="setPtPeriod('mingguan')">Minggu Ini</button>
-            <button class="pt-ptab ${ptPeriod==='bulanan'?'pt-active':''}"  onclick="setPtPeriod('bulanan')">Bulan Ini</button>
-            <button class="pt-ptab ${ptPeriod==='bulan'?'pt-active':''}"    onclick="setPtPeriod('bulan')">Pilih Bulan</button>
-            <select class="pt-inline-input" id="ptBulanSel" onchange="onPtBulanChange()" style="display:${ptPeriod==='bulan'?'inline-block':'none'};">${bulanOpts}</select>
-            <select class="pt-inline-input" id="ptTahunSel" onchange="onPtBulanChange()" style="display:${ptPeriod==='bulan'?'inline-block':'none'};">${tahunOpts}</select>
-            <button class="pt-ptab ${ptPeriod==='tanggal'?'pt-active':''}"  onclick="setPtPeriod('tanggal')">Pilih Tanggal</button>
-            <input type="date" class="pt-inline-input" id="ptTanggalSel" value="${ptTanggalSel}" onchange="onPtTanggalChange()" style="display:${ptPeriod==='tanggal'?'inline-block':'none'};">
-        </div>
-        <div class="pt-usertabs" id="ptUserTabs">
-            ${aktifUsers.map((u,i) => `<div class="pt-utab ${u.x_01===ptUser?'pt-active':''}" onclick="setPtUser('${u.x_01}')">${u.x_01}<span class="pt-utab-cnt" id="ptCnt-${i}">(-)</span></div>`).join('')}
-        </div>
-        <div class="jn-stats">
-            <div class="scard"><span class="si">📋</span><div class="sl">Total Kegiatan</div><div class="sv" id="ptTotal">-</div></div>
-            <div class="scard"><span class="si">🏁</span><div class="sl">Sudah Done</div><div class="sv" id="ptDone" style="color:#10b981">-</div></div>
-            <div class="scard">
-                <div class="sl">Progres</div>
-                <div class="sv" id="ptPct" style="font-size:20px;">-</div>
-                <div class="jn-pbar-wrap"><div class="jn-pbar-fill" id="ptBar" style="width:0%;"></div></div>
-            </div>
-        </div>
-        <div class="tcard"><table>
-            <thead><tr><th>Tgl/Jam</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>Keterangan Akhir</th><th>Bukti</th></tr></thead>
-            <tbody id="ptTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
-        </table></div>`;
-
-    loadPtData();
-    loadPtCounts();
-}
-
-function setPtUser(u) { ptUser = u; loadPreviewTugas(); }
-function setPtPeriod(p) { ptPeriod = p; loadPreviewTugas(); }
-
-function onPtBulanChange() {
-    const bEl = document.getElementById('ptBulanSel'), tEl = document.getElementById('ptTahunSel');
-    if (bEl) ptBulanSel = parseInt(bEl.value, 10);
-    if (tEl) ptTahunSel = parseInt(tEl.value, 10);
-    loadPtData();
-    loadPtCounts();
-}
-function onPtTanggalChange() {
-    const el = document.getElementById('ptTanggalSel');
-    if (el) ptTanggalSel = el.value;
-    loadPtData();
-    loadPtCounts();
-}
-
-// Hitung jumlah kegiatan per user aktif untuk periode yang sedang dipilih,
-// lalu tampilkan sebagai "(n)" di sebelah nama pada tab user.
-async function loadPtCounts() {
-    const aktifUsers = getActiveUsers();
-    if (!aktifUsers.length) return;
-
-    const now = new Date();
-    let q = `?table=${TJ}`;
-    let weekRange = null;
-
-    if (ptPeriod === 'harian') {
-        q += `&x_01_eq=${now.getDate()}&x_06_eq=${now.getMonth()+1}&x_07_eq=${now.getFullYear()}`;
-    } else if (ptPeriod === 'mingguan') {
-        weekRange = getPeriodRange('mingguan');
-        q += `&x_06_eq=${now.getMonth()+1}&x_07_eq=${now.getFullYear()}`;
-    } else if (ptPeriod === 'bulanan') {
-        q += `&x_06_eq=${now.getMonth()+1}&x_07_eq=${now.getFullYear()}`;
-    } else if (ptPeriod === 'bulan') {
-        q += `&x_06_eq=${ptBulanSel}&x_07_eq=${ptTahunSel}`;
-    } else if (ptPeriod === 'tanggal') {
-        const parts = (ptTanggalSel||'').split('-').map(Number);
-        const [ty, tm, td] = parts;
-        if (!ty || !tm || !td) { renderPtUserCounts({}); return; }
-        q += `&x_01_eq=${td}&x_06_eq=${tm}&x_07_eq=${ty}`;
-    }
-
-    const res = await api(q);
-    let data = res.data || [];
-
-    if (weekRange) {
-        data = data.filter(d => {
-            const ds = `${d.x_07}-${String(d.x_06).padStart(2,'0')}-${String(d.x_01).padStart(2,'0')}`;
-            return ds >= weekRange.dateFrom && ds <= weekRange.dateTo;
-        });
-    }
-
-    const activeSet = new Set(aktifUsers.map(u => u.x_01));
-    const counts = {};
-    data.forEach(d => {
-        if (!activeSet.has(d.x_09)) return;
-        counts[d.x_09] = (counts[d.x_09] || 0) + 1;
-    });
-    renderPtUserCounts(counts);
-}
-
-function renderPtUserCounts(counts) {
-    const aktifUsers = getActiveUsers();
-    aktifUsers.forEach((u, i) => {
-        const el = document.getElementById('ptCnt-' + i);
-        if (el) el.textContent = `(${counts[u.x_01] || 0})`;
-    });
-}
-
-async function loadPtData() {
-    if (!ptUser) return;
-    const now = new Date();
-    let q = `?table=${TJ}&x_09_eq=${encodeURIComponent(ptUser)}`;
-    let weekRange = null;
-
-    if (ptPeriod === 'harian') {
-        q += `&x_01_eq=${now.getDate()}&x_06_eq=${now.getMonth()+1}&x_07_eq=${now.getFullYear()}`;
-    } else if (ptPeriod === 'mingguan') {
-        weekRange = getPeriodRange('mingguan');
-        q += `&x_06_eq=${now.getMonth()+1}&x_07_eq=${now.getFullYear()}`;
-    } else if (ptPeriod === 'bulanan') {
-        q += `&x_06_eq=${now.getMonth()+1}&x_07_eq=${now.getFullYear()}`;
-    } else if (ptPeriod === 'bulan') {
-        q += `&x_06_eq=${ptBulanSel}&x_07_eq=${ptTahunSel}`;
-    } else if (ptPeriod === 'tanggal') {
-        const parts = (ptTanggalSel||'').split('-').map(Number);
-        const [ty, tm, td] = parts;
-        if (!ty || !tm || !td) { renderPtTable([]); return; }
-        q += `&x_01_eq=${td}&x_06_eq=${tm}&x_07_eq=${ty}`;
-    }
-
-    const tbody = document.getElementById('ptTable');
-    if (tbody) loading('ptTable', 6);
-    const res = await api(q);
-    let data = res.data || [];
-
-    // 'Minggu ini' hanya bisa difilter tepat di sisi client (x_01/x_06/x_07 kolom terpisah,
-    // sama seperti pendekatan yang dipakai loadDashboard untuk periode mingguan).
-    if (weekRange) {
-        data = data.filter(d => {
-            const ds = `${d.x_07}-${String(d.x_06).padStart(2,'0')}-${String(d.x_01).padStart(2,'0')}`;
-            return ds >= weekRange.dateFrom && ds <= weekRange.dateTo;
-        });
-    }
-
-    data.sort((a,b) => {
-        const ka = `${a.x_07}-${String(a.x_06).padStart(2,'0')}-${String(a.x_01).padStart(2,'0')} ${a.x_02||''}`;
-        const kb = `${b.x_07}-${String(b.x_06).padStart(2,'0')}-${String(b.x_01).padStart(2,'0')} ${b.x_02||''}`;
-        return kb.localeCompare(ka);
-    });
-
-    renderPtTable(data);
-}
-
-function renderPtTable(data) {
-    const total = data.length, done = data.filter(d => d.x_05 === 'done').length;
-    const pct = total ? Math.round(done/total*100) : 0;
-    const totalEl = document.getElementById('ptTotal'); if (totalEl) totalEl.textContent = total;
-    const doneEl  = document.getElementById('ptDone');  if (doneEl)  doneEl.textContent  = done;
-    const pctEl   = document.getElementById('ptPct');   if (pctEl)   pctEl.textContent   = pct + '%';
-    const barEl   = document.getElementById('ptBar');   if (barEl)   barEl.style.width   = pct + '%';
-
-    const tbody = document.getElementById('ptTable');
-    if (!tbody) return;
-
-    tbody.innerHTML = data.length ? data.map(d => {
-        let buktiHtml = '<span style="color:#94a3b8;font-size:11px;">-</span>';
-        const px = parseBuktiX08(d.x_08);
-        if (px.bukti) {
-            const sk = 'pt_' + d.id_x;
-            _buktiStore[sk] = { rawUrl: px.bukti, user: d.x_09||'', ket: px.ket || (d.x_04||'').replace(/\n/g,' ') };
-            if (typeof px.bukti === 'string' && px.bukti.startsWith('LINK:')) {
-                const lnk = px.bukti.substring(5);
-                buktiHtml = `<a href="${lnk}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;">🔗 Buka Link</a>`;
-            } else {
-                const cnt = Array.isArray(px.bukti) ? px.bukti.length : 1;
-                buktiHtml = `<button class="btn-view" onclick="showFotoBuktiByKey('${sk}')">👁 View${cnt>1?' ('+cnt+')':''}</button>`;
-            }
-        }
-        const jenisLabel = (JENIS_META[d.x_03]||{}).label || d.x_03 || '-';
-        const ketAkhirHtml = px.ket
-            ? `<span title="${escHtml(px.ket)}">${escHtml(tr(px.ket, 60))}</span>`
-            : '<span style="color:#94a3b8;font-size:11px;">-</span>';
-        return `<tr>
-            <td><b>${d.x_01}/${d.x_06}/${d.x_07}</b>${d.x_02?' &middot; '+d.x_02:''}</td>
-            <td><span class="jtag" style="background:${JC[d.x_03]||'#eee'}">${jenisLabel}</span></td>
-            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${tr(d.x_04)}</td>
-            <td><span class="badge b-${d.x_05}">${d.x_05||'-'}</span></td>
-            <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ketAkhirHtml}</td>
-            <td>${buktiHtml}</td>
-        </tr>`;
-    }).join('') : '<tr class="er"><td colspan="6">Tidak ada kegiatan pada periode ini</td></tr>';
 }
 
 // Wrapper: ambil data dari store lalu panggil showFotoBukti
@@ -3989,11 +3663,6 @@ function toggleSidebarMobile() {
     if (sb) sb.classList.toggle('sb-open');
     if (ov) ov.classList.toggle('open');
     if (btn) btn.classList.toggle('open');
-}
-
-// ===== SIDEBAR DESKTOP (bisa disembunyikan/ditampilkan lewat tombol ✕ / ☰) =====
-function toggleSidebarDesktop() {
-    document.body.classList.toggle('sb-collapsed');
 }
 
 // ===== GALLERY / BUKTI VIEWER =====
