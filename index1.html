@@ -861,7 +861,6 @@ const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 — pesan pengumu
 const KONTROL_JAMKERJA_ID = 5; // sama baris (id_x=5), kolom x_05 — jam kerja standar/khusus dari admin, read-only di sisi peserta
 const KONTROL_KEGIATAN_ID = 5; // sama baris (id_x=5), kolom x_06 — minimal kegiatan absen masuk + wajib keterangan, read-only di sisi peserta
 const KONTROL_PULANG_ID = 5;   // sama baris (id_x=5), kolom x_07 — syarat & approval absen pulang, read-only di sisi peserta
-const KONTROL_BEBAS_LIBUR_ID = 5; // sama baris (id_x=5), kolom x_09 — bebaskan syarat minimal jadwal & approval di hari libur, read-only di sisi peserta
 const KONTROL_STATUS_ID = 5;   // sama baris (id_x=5), kolom x_08 — status magang & durasi kerja dari admin, read-only di sisi peserta
 let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
 const JENIS_STATUS_LABEL = { magang: 'Magang', ojt: 'OJT (On The Job Training)', mitra: 'Mitra', lainnya: 'Lainnya' };
@@ -878,7 +877,6 @@ let statusMagangConfig = {
 };
 let kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true, approvalHariIni: false };
 let pulangConfig   = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false, wajibJadwalBesok: { default: false, override: {} }, approvalJadwalBesok: false };
-let bebasApprovalLibur = false; // kontrol_admin id_x=5, kolom x_09 — jika aktif, di hari libur SEMUA syarat minimal jadwal & approval (masuk & pulang) dibebaskan
 let liburNasionalSet  = new Set(); // Set('YYYY-MM-DD') hari libur nasional, diisi dari kontrol_admin id_x=5
 let liburNasionalList = []; // [{tanggal, ket}] untuk ditampilkan di popup info
 let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
@@ -1171,18 +1169,6 @@ function wajibSelesaiSaya() {
 function wajibJadwalBesokSaya() {
     const ov = pulangConfig.wajibJadwalBesok.override[me];
     return (ov !== undefined && ov !== null) ? !!ov : !!pulangConfig.wajibJadwalBesok.default;
-}
-
-// Ambil pengaturan "bebaskan syarat minimal jadwal & approval di hari libur" (read-only) dari kontrol_admin id_x=5, kolom x_09
-async function ambilBebasApprovalLibur() {
-    try {
-        const res = await req(`?table=${TBLK}&id_x_eq=${KONTROL_BEBAS_LIBUR_ID}&limit=1`);
-        const row = res.data?.[0];
-        bebasApprovalLibur = !!(row && row.x_09 === '1');
-    } catch (e) {
-        console.error(e);
-        bebasApprovalLibur = false;
-    }
 }
 
 /* ==============================
@@ -1536,7 +1522,6 @@ function startApp() {
     cekTampilkanPesanPengumuman();
     ambilKegiatanConfig();
     ambilPulangConfig();
-    ambilBebasApprovalLibur();
     updateStatusHeader();
 }
 
@@ -1801,13 +1786,7 @@ async function muatRiwayat() {
    KONTROL ABSENSI
    ============================== */
 function cekIzinAbsensi(tipe) {
-    // Khusus hari libur: kalau admin mengaktifkan "bebaskan approval hari libur" (kontrol_admin x_09),
-    // SEMUA syarat minimal jadwal & approval (masuk maupun pulang) di bawah ini dilewati.
-    // Tidak berlaku untuk syarat dasar "harus absen masuk dulu sebelum pulang" — itu tetap wajib.
-    const bebasHariIni = bebasApprovalLibur && isHariLibur(new Date());
-
     if (tipe === 'MASUK') {
-        if (bebasHariIni) return { boleh: true };
         const minimal = getMinimalKegiatanSaya();
         const jumlah = jadwalHariIniState.length;
         if (minimal > 0 && jumlah < minimal) {
@@ -1830,7 +1809,6 @@ function cekIzinAbsensi(tipe) {
         if (!hariIni.masuk) {
             return { boleh: false, pesan: '⚠️ Anda belum absen masuk hari ini.' };
         }
-        if (bebasHariIni) return { boleh: true };
 
         // Syarat: wajib selesai semua kegiatan hari ini dulu (tergantung pengaturan admin, default: tidak wajib)
         if (wajibSelesaiSaya()) {
@@ -1898,7 +1876,7 @@ async function refreshJadwalHariIni() {
 async function bukaKamera() {
     // Refresh jadwal state, pengaturan kontrol absensi, DAN status absensi hari ini agar data selalu fresh
     gl('Memeriksa jadwal...');
-    await Promise.all([refreshJadwalHariIni(), ambilKegiatanConfig(), ambilPulangConfig(), ambilBebasApprovalLibur(), refreshJadwalBesok()]);
+    await Promise.all([refreshJadwalHariIni(), ambilKegiatanConfig(), ambilPulangConfig(), refreshJadwalBesok()]);
 
     // Refresh hariIni (sudah masuk/pulang) secara real-time
     try {

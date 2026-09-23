@@ -829,16 +829,6 @@
         <div class="page" id="page-kontrolabsen">
             <div class="pg-header"><h2>🛡️ Kontrol Absensi</h2><p>Atur syarat absen masuk, absen pulang, dan validasi pembuatan jadwal</p></div>
 
-            <!-- 0. BEBASKAN SYARAT DI HARI LIBUR -->
-            <div class="tcard" style="padding:16px 18px;margin-bottom:24px;border:1px solid #fde68a;background:#fffbeb;">
-                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">🎌 Bebaskan Syarat & Approval Khusus Hari Libur</h3>
-                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak aktif</strong>. Jika diaktifkan, khusus pada hari libur (Sabtu/Minggu &amp; tanggal Libur Nasional) peserta yang masuk kerja <strong>dibebaskan dari SEMUA syarat</strong> di bawah — minimal kegiatan, approval jadwal hari ini, wajib selesai kegiatan, approval Done/Non-Done, serta wajib &amp; approval jadwal hari kerja berikutnya — walaupun pengaturan masing-masing di bawah ini statusnya aktif. Syarat dasar "harus absen masuk dulu sebelum bisa absen pulang" tetap berlaku.</p>
-                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                    <input type="checkbox" id="bebasLiburAktif" style="width:16px;height:16px;"> Bebaskan semua syarat minimal jadwal &amp; approval di hari libur
-                </label>
-                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanBebasApprovalLibur()">💾 Simpan Pengaturan</button>
-            </div>
-
             <!-- 1. MINIMAL KEGIATAN UNTUK ABSEN MASUK -->
             <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
                 <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">1️⃣ Minimal Kegiatan untuk Absen Masuk</h3>
@@ -1254,12 +1244,10 @@ const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 (pesan pengumuman
 const KONTROL_JAMKERJA_ID = 5; // sama baris (id_x=5), kolom x_05 (jam kerja standar + khusus per user)
 const KONTROL_KEGIATAN_ID = 5; // sama baris (id_x=5), kolom x_06 (minimal kegiatan absen masuk + wajib keterangan)
 const KONTROL_PULANG_ID = 5;   // sama baris (id_x=5), kolom x_07 (syarat & approval absen pulang)
-const KONTROL_BEBAS_LIBUR_ID = 5; // sama baris (id_x=5), kolom x_09 (bebaskan syarat minimal jadwal & approval di hari libur)
 const KONTROL_STATUS_ID = 5;   // sama baris (id_x=5), kolom x_08 (status magang: jenis + durasi kerja per user)
 let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
 let kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true, approvalHariIni: false };
 let pulangConfig   = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false, wajibJadwalBesok: { default: false, override: {} }, approvalJadwalBesok: false };
-let bebasApprovalLibur = false; // kontrol_admin id_x=5, kolom x_09 — jika aktif, di hari libur SEMUA syarat minimal jadwal & approval (masuk & pulang) dibebaskan
 // Status magang: jenis (magang/ojt/mitra/lainnya) + durasi kerja, dengan default per-jenis dan pengecualian per user
 const JENIS_STATUS_LABEL = { magang: 'Magang', ojt: 'OJT (On The Job Training)', mitra: 'Mitra', lainnya: 'Lainnya' };
 const JENIS_STATUS_WARNA = {
@@ -1430,7 +1418,6 @@ async function showApp() {
     await ambilJamKerja();
     await ambilKegiatanConfig();
     await ambilPulangConfig();
-    await ambilBebasApprovalLibur();
     await ambilStatusMagang();
     loadDashboard();
     loadMasaBerakhir();
@@ -1597,39 +1584,7 @@ async function simpanKegiatanConfig(cfg) {
     return res;
 }
 
-// ===== KONTROL ABSENSI: BEBASKAN SYARAT DI HARI LIBUR (id_x=5, kolom x_09) =====
-async function ambilBebasApprovalLibur() {
-    try {
-        const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_BEBAS_LIBUR_ID}&limit=1`);
-        const row = res.data?.[0];
-        bebasApprovalLibur = !!(row && row.x_09 === '1');
-    } catch (e) {
-        console.error(e);
-        bebasApprovalLibur = false;
-    }
-}
-async function simpanBebasApprovalLibur() {
-    const aktif = document.getElementById('bebasLiburAktif').checked;
-    const body = JSON.stringify({ x_09: aktif ? '1' : '0' });
-    let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_BEBAS_LIBUR_ID}`, {
-        method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
-    }).then(r => r.json()).catch(() => ({ success: false }));
-    if (!res.success) {
-        res = await fetch(`${API}?table=${TBLK}`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
-            body: JSON.stringify({ id_x: KONTROL_BEBAS_LIBUR_ID, x_09: aktif ? '1' : '0' })
-        }).then(r => r.json()).catch(() => ({ success: false }));
-    }
-    if (res.success) {
-        bebasApprovalLibur = aktif;
-        alert('Pengaturan berhasil disimpan.');
-    } else {
-        alert('Gagal menyimpan. Coba lagi.');
-    }
-}
-
 function loadKontrolAbsen() {
-    document.getElementById('bebasLiburAktif').checked = !!bebasApprovalLibur;
     document.getElementById('mkDefault').value = kegiatanConfig.minimalKegiatan.default;
     document.getElementById('wkAktif').checked  = !!kegiatanConfig.wajibKeterangan;
     document.getElementById('apHariIni').checked = !!kegiatanConfig.approvalHariIni;
