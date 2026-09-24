@@ -38,9 +38,18 @@
             body.sb-collapsed .sidebar { transform: translateX(-100%); }
             body.sb-collapsed .main { margin-left: 0; }
         }
-        .btn-sb-close { position: absolute; top: 14px; right: 10px; background: none; border: none; color: #94a3b8; font-size: 16px; line-height: 1; padding: 6px 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+        .btn-sb-close {
+            position: absolute; top: 14px; right: 10px; background: none; border: none;
+            color: #94a3b8; font-size: 16px; line-height: 1; padding: 6px 8px; border-radius: 6px;
+            cursor: pointer; transition: 0.2s;
+        }
         .btn-sb-close:hover { background: rgba(255,255,255,0.08); color: #fff; }
-        .btn-sb-open { display: none; position: fixed; top: 16px; left: 16px; z-index: 200; width: 40px; height: 40px; align-items: center; justify-content: center; background: var(--dark); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+        .btn-sb-open {
+            display: none; position: fixed; top: 16px; left: 16px; z-index: 200;
+            width: 40px; height: 40px; align-items: center; justify-content: center;
+            background: var(--dark); color: #fff; border: none; border-radius: 8px;
+            cursor: pointer; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+        }
         .btn-sb-open:hover { background: #334155; }
         body.sb-collapsed .btn-sb-open { display: flex; }
         @media (max-width: 768px) { .btn-sb-open { display: none !important; } }
@@ -74,6 +83,7 @@
         .pg-header p { font-size: 13px; color: #64748b; margin-top: 3px; }
 
         /* STATS */
+        /* ===== MASA BERAKHIR MAGANG ===== */
         .mb-card { background: linear-gradient(135deg,#0f172a 0%,#1e293b 60%,#312e81 100%); border-radius: 14px; padding: 16px 18px; margin-bottom: 24px; color: #fff; box-shadow: 0 6px 18px rgba(15,23,42,0.15); }
         .mb-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .mb-title { font-size: 13px; font-weight: 800; letter-spacing: 0.3px; }
@@ -110,7 +120,7 @@
         .mb-count-libur { cursor: pointer; }
         .mb-count-libur:hover { filter: brightness(0.95); }
 
-        /* MENUNGGU APPROVE */
+        /* ===== MENUNGGU APPROVE (dashboard) ===== */
         .ma-card { background: #fff; border: 1px solid #fcd34d; border-left: 4px solid #f59e0b; border-radius: 14px; padding: 14px 16px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
         .ma-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
         .ma-title { font-size: 13px; font-weight: 800; color: #92400e; letter-spacing: 0.3px; }
@@ -128,7 +138,7 @@
         .ma-more { text-align: center; font-size: 12px; font-weight: 700; color: #2563eb; cursor: pointer; padding: 6px 0 2px; }
         .ma-more:hover { text-decoration: underline; }
 
-        /* ABSEN HARI INI */
+        /* ===== ABSEN MASUK & KELUAR HARI INI ===== */
         .ah-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 18px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
         .ah-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .ah-title { font-size: 13px; font-weight: 800; color: #0f172a; letter-spacing: 0.3px; }
@@ -178,48 +188,6 @@
         .stab.a-aktif { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
         .stab.a-pending { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
         .stab.a-done { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
-
-        /* KONTROL PAGE TABS */
-        .kontrol-tabs {
-            display: flex; gap: 6px; margin-bottom: 20px;
-            background: #fff; padding: 6px; border-radius: 12px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
-            overflow-x: auto; flex-wrap: wrap;
-        }
-        .ktab {
-            flex: 1; min-width: 160px; display: flex; align-items: center; gap: 8px;
-            padding: 11px 14px; border: none; border-radius: 8px;
-            background: transparent; color: #64748b;
-            font-family: inherit; font-size: 12.5px; font-weight: 700;
-            cursor: pointer; transition: 0.2s; justify-content: center;
-        }
-        .ktab:hover { background: #f1f5f9; color: var(--dark); }
-        .ktab.active {
-            background: linear-gradient(135deg, var(--primary), #7c3aed);
-            color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,0.3);
-        }
-        .ktab .ktab-ic { font-size: 15px; }
-        .ktab .kinfo {
-            font-size: 13px; opacity: 0.8; padding: 2px 5px; border-radius: 50%;
-            line-height: 1; transition: 0.15s;
-        }
-        .ktab .kinfo:hover { opacity: 1; background: rgba(255,255,255,0.22); transform: scale(1.15); }
-        .ktab:not(.active) .kinfo:hover { background: #dbeafe; }
-        .ktab-panel { display: none; }
-        .ktab-panel.active { display: block; }
-
-        /* INFO CONTENT */
-        .kinfo-content h4 { font-size: 13.5px; font-weight: 800; color: #0f172a; margin: 16px 0 6px; }
-        .kinfo-content h4:first-child { margin-top: 0; }
-        .kinfo-content p, .kinfo-content li { font-size: 12.5px; color: #475569; line-height: 1.7; }
-        .kinfo-content ul { padding-left: 18px; margin: 4px 0 8px; }
-        .kinfo-content li { margin-bottom: 3px; }
-        .kinfo-content .kinfo-benefit {
-            background: #ecfdf5; border-left: 3px solid #10b981;
-            padding: 10px 12px; border-radius: 6px; margin-top: 12px;
-            font-size: 12.5px; color: #065f46; line-height: 1.6;
-        }
-        .kinfo-content .kinfo-benefit b { color: #047857; }
 
         /* TABLE */
         .tcard { background: white; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; overflow: hidden; }
@@ -281,7 +249,7 @@
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(2px); }
         .mbox { background: white; border-radius: 14px; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
 
-        /* GRUP JADWAL */
+        /* GRUP JADWAL — daftar detail saat 1 baris tabel mewakili beberapa jadwal sejenis */
         .gitem { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.15s; background: #fff; }
         .gitem:hover { border-color: #6366f1; background: #f8fafc; }
         .gitem .gbody { flex: 1; min-width: 0; }
@@ -331,17 +299,35 @@
         .bs-done { background: #dbeafe; color: #1d4ed8; }
 
         /* PERIOD TABS */
-        .period-bar { display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px 16px; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; margin-bottom: 20px; flex-wrap: wrap; gap: 8px; }
+        .period-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: white; padding: 10px 16px; border-radius: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
+            margin-bottom: 20px; flex-wrap: wrap; gap: 8px;
+        }
         .period-bar-left { display: flex; align-items: center; gap: 8px; }
         .period-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
         .ptabs { display: flex; background: #f1f5f9; border-radius: 8px; padding: 3px; gap: 2px; }
-        .ptab { padding: 6px 14px; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; background: transparent; color: #64748b; transition: all 0.2s; font-family: inherit; }
+        .ptab {
+            padding: 6px 14px; border: none; border-radius: 6px;
+            font-size: 12px; font-weight: 700; cursor: pointer;
+            background: transparent; color: #64748b;
+            transition: all 0.2s; font-family: inherit;
+        }
         .ptab:hover { color: var(--dark); background: rgba(255,255,255,0.6); }
-        .ptab.active { background: white; color: var(--primary); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+        .ptab.active {
+            background: white; color: var(--primary);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
         .ptab.pt-harian.active  { color: #7c3aed; }
         .ptab.pt-mingguan.active{ color: #0369a1; }
         .ptab.pt-bulanan.active { color: #065f46; }
-        .period-info { font-size: 11px; font-weight: 600; color: #64748b; background: #f8fafc; border: 1px solid #e2e8f0; padding: 4px 10px; border-radius: 20px; }
+        .period-info {
+            font-size: 11px; font-weight: 600; color: #64748b;
+            background: #f8fafc; border: 1px solid #e2e8f0;
+            padding: 4px 10px; border-radius: 20px;
+        }
+        /* Stat card subtitle update */
         .scard .ss-period { font-size: 11px; color: #94a3b8; margin-top: 3px; }
 
         /* SPINNER */
@@ -364,7 +350,7 @@
         .dtab.da-done    { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
         .dtab.da-all     { background: #f1f5f9; color: #1e293b; border-color: #cbd5e1; }
 
-        /* PREVIEW TUGAS */
+        /* ===== PREVIEW TUGAS ===== */
         .pt-usertabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
         .pt-utab { padding: 7px 16px; border: 1px solid #e2e8f0; border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer; background: white; color: #64748b; transition: 0.2s; }
         .pt-utab:hover { background: #f1f5f9; }
@@ -380,22 +366,47 @@
         @media (max-width: 900px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 640px) { .main { margin-left: 0; padding: 14px; } .stats-grid { grid-template-columns: 1fr 1fr; } }
 
-        /* MOBILE */
-        .topbar-mobile { display: none; position: fixed; top: 0; left: 0; right: 0; height: 52px; background: var(--dark); color: white; z-index: 10000; align-items: center; justify-content: space-between; padding: 0 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        /* ===== MOBILE HAMBURGER & RESPONSIVE SIDEBAR ===== */
+        .topbar-mobile {
+            display: none;
+            position: fixed; top: 0; left: 0; right: 0; height: 52px;
+            background: var(--dark); color: white; z-index: 10000;
+            align-items: center; justify-content: space-between;
+            padding: 0 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        /* Hanya tampil setelah login & di mobile */
         body.app-ready .topbar-mobile { display: none; }
         .topbar-mobile h1 { font-size: 15px; font-weight: 900; }
         .topbar-mobile h1 span { color: var(--primary); }
-        .btn-burger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 6px; }
-        .btn-burger span { display: block; width: 22px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s ease; }
+        .btn-burger {
+            background: none; border: none; cursor: pointer;
+            display: flex; flex-direction: column; gap: 5px; padding: 6px;
+        }
+        .btn-burger span {
+            display: block; width: 22px; height: 2px;
+            background: white; border-radius: 2px;
+            transition: all 0.3s ease;
+        }
         .btn-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
         .btn-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
         .btn-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-        .sb-overlay-adm { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 140; }
+
+        .sb-overlay-adm {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5); z-index: 140;
+        }
         .sb-overlay-adm.open { display: block; }
 
         @media (max-width: 768px) {
             body.app-ready .topbar-mobile { display: flex; }
-            .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; z-index: 150; top: 52px; height: calc(100vh - 52px); }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 150;
+                top: 52px;
+                height: calc(100vh - 52px);
+            }
             .sidebar.sb-open { transform: translateX(0); }
             .main { margin-left: 0 !important; padding: 14px; padding-top: 64px !important; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
@@ -408,14 +419,20 @@
             .form-row2 { grid-template-columns: 1fr; }
             .mbox { max-width: 100% !important; margin: 10px; }
             .users-grid { grid-template-columns: 1fr; }
+
+            /* Tabel lebar jadi bisa discroll horizontal, tidak terpotong */
             .tcard { overflow-x: auto; -webkit-overflow-scrolling: touch; }
             .tcard table { min-width: 560px; }
             .mb-tbl { min-width: 640px; }
+
+            /* Period bar & tabs dirapikan di layar sempit */
             .period-bar { padding: 10px 12px; }
             .period-bar-left { width: 100%; }
             .ptabs { width: 100%; }
             .ptab { flex: 1; padding: 7px 6px; font-size: 11.5px; }
             .period-info { width: 100%; text-align: center; }
+
+            /* Kartu Menunggu Approve: baris jadi stack vertikal, tombol full-width */
             .ma-card { padding: 12px; }
             .ma-row { flex-direction: column; align-items: stretch; }
             .ma-info { width: 100%; }
@@ -425,21 +442,39 @@
             .ma-aksi button { flex: 1; }
             .ma-head { justify-content: flex-start; }
             .ma-head > div:last-child { width: 100%; justify-content: space-between; display: flex; }
+
+            /* Kegiatan hari ini & stat cards lebih rapat di hp */
             .kh-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
             .mb-head, .kh-head { align-items: flex-start; }
+
+            /* Absen masuk/keluar hari ini: 3 kolom jadi 1 kolom di hp */
             .ah-cols { grid-template-columns: 1fr; }
             .ah-col-list { max-height: 160px; }
-            .kontrol-tabs { flex-direction: column; }
-            .ktab { min-width: 0; justify-content: flex-start; }
         }
 
-        /* GALLERY */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 12px; }
-        .gallery-item { border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; cursor: pointer; transition: 0.2s; position: relative; background: #f8fafc; }
+        /* ===== GALLERY BUKTI MODAL ===== */
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px; margin-top: 12px;
+        }
+        .gallery-item {
+            border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;
+            cursor: pointer; transition: 0.2s; position: relative;
+            background: #f8fafc;
+        }
         .gallery-item:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37,99,235,0.15); }
         .gallery-item img { width: 100%; height: 90px; object-fit: cover; display: block; }
-        .gallery-item .gi-name { font-size: 10px; color: #64748b; padding: 4px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; border-top: 1px solid #f1f5f9; }
-        .gallery-file-item { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: 0.15s; background: #f8fafc; margin-bottom: 6px; text-decoration: none; color: var(--dark); }
+        .gallery-item .gi-name {
+            font-size: 10px; color: #64748b; padding: 4px 6px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            font-weight: 600; border-top: 1px solid #f1f5f9;
+        }
+        .gallery-file-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px;
+            cursor: pointer; transition: 0.15s; background: #f8fafc; margin-bottom: 6px;
+            text-decoration: none; color: var(--dark);
+        }
         .gallery-file-item:hover { background: #eff6ff; border-color: #93c5fd; }
         .gallery-file-icon { font-size: 22px; flex-shrink: 0; }
         .gallery-file-info { flex: 1; min-width: 0; }
@@ -450,17 +485,35 @@
         .gal-nav button:hover { background: #f1f5f9; }
         .gal-counter { font-size: 12px; color: #94a3b8; font-weight: 600; }
 
-        /* MEDIA CARD */
-        .media-card { border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 10px; background: white; }
-        .media-card-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid #f1f5f9; background: #f8fafc; }
+        /* ===== MEDIA CARD (PDF / VIDEO) ===== */
+        .media-card {
+            border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden;
+            margin-bottom: 10px; background: white;
+        }
+        .media-card-head {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 14px; border-bottom: 1px solid #f1f5f9;
+            background: #f8fafc;
+        }
         .media-icon-big { font-size: 24px; flex-shrink: 0; }
         .media-card-info { flex: 1; min-width: 0; }
         .media-card-name { font-size: 13px; font-weight: 700; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .media-card-type { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-        .btn-open-ext { flex-shrink: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--primary); color: white; border-radius: 7px; font-size: 14px; text-decoration: none; transition: 0.15s; }
+        .btn-open-ext {
+            flex-shrink: 0; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+            background: var(--primary); color: white; border-radius: 7px; font-size: 14px; text-decoration: none;
+            transition: 0.15s;
+        }
         .btn-open-ext:hover { background: var(--primary-dark); }
-        .pdf-preview { width: 100%; height: 420px; border: none; display: block; background: #f8fafc; }
-        .video-preview { width: 100%; max-height: 360px; display: block; background: #000; border-radius: 0 0 10px 10px; }
+        .pdf-preview {
+            width: 100%; height: 420px; border: none; display: block;
+            background: #f8fafc;
+        }
+        .video-preview {
+            width: 100%; max-height: 360px; display: block;
+            background: #000; border-radius: 0 0 10px 10px;
+        }
+        /* Modal bukti lebih lebar untuk PDF/video */
         #modalFotoBukti .mbox { max-width: 580px !important; }
     </style>
 </head>
@@ -483,7 +536,7 @@
     </div>
 </div>
 
-<!-- MOBILE TOPBAR -->
+<!-- MOBILE TOPBAR (hamburger) — di luar loginPage agar z-index benar -->
 <div class="topbar-mobile" id="mobileTopbar">
     <button class="btn-burger" id="btnBurger" onclick="toggleSidebarMobile()">
         <span></span><span></span><span></span>
@@ -521,7 +574,8 @@
             <div class="nav-item" onclick="showPage('jamkerja')" id="nav-jamkerja"><span class="icon">⏰</span> Jam Kerja</div>
             <div class="nav-item" onclick="showPage('libur')" id="nav-libur"><span class="icon">🎌</span> Libur Nasional</div>
             <div class="nav-item" onclick="showPage('pesan')" id="nav-pesan"><span class="icon">📢</span> Pesan Pengumuman</div>
-            <div class="nav-item" onclick="showPage('kontrol')" id="nav-kontrol"><span class="icon">⚙️</span> Kontrol</div>
+            <div class="nav-item" onclick="showPage('kontrolabsen')" id="nav-kontrolabsen"><span class="icon">🛡️</span> Kontrol Absensi</div>
+            <div class="nav-item" onclick="showPage('kontrolstatus')" id="nav-kontrolstatus"><span class="icon">🏷️</span> Kontrol Status</div>
         </nav>
         <div class="sb-foot">
             <div class="admin-badge">
@@ -538,6 +592,7 @@
         <div class="page active" id="page-dashboard">
             <div class="pg-header"><h2>Dashboard Admin</h2><p>Ringkasan aktivitas — <span id="dashPeriodeLabel">bulan ini</span></p></div>
 
+            <!-- PERIOD BAR -->
             <div class="period-bar">
                 <div class="period-bar-left">
                     <span class="period-label">Tampilkan:</span>
@@ -550,6 +605,7 @@
                 <span class="period-info" id="periodInfoText">—</span>
             </div>
 
+            <!-- MENUNGGU APPROVE -->
             <div class="ma-card" id="maCard">
                 <div class="ma-head">
                     <div class="ma-title">🔔 Menunggu Approve</div>
@@ -561,6 +617,7 @@
                 <div class="ma-list" id="maList"><div class="ma-empty"><span class="sp"></span> Memuat...</div></div>
             </div>
 
+            <!-- MASA BERAKHIR MAGANG -->
             <div class="mb-card">
                 <div class="mb-head">
                     <div class="mb-title">🗓️ Masa Berakhir Magang (User Aktif)</div>
@@ -577,6 +634,7 @@
                 </div>
             </div>
 
+            <!-- ABSENSI HARI INI (MASUK & KELUAR) -->
             <div class="ah-card">
                 <div class="ah-head">
                     <div class="ah-title">🕐 Absen Masuk &amp; Keluar Hari Ini</div>
@@ -598,6 +656,7 @@
                 </div>
             </div>
 
+            <!-- KEGIATAN HARI INI -->
             <div class="kh-card">
                 <div class="kh-head">
                     <div class="kh-title">📌 Kegiatan Hari Ini</div>
@@ -608,6 +667,7 @@
                 </div>
             </div>
 
+            <!-- STAT CARDS -->
             <div class="stats-grid">
                 <div class="scard"><span class="si">📋</span><div class="sl">Total Jadwal</div><div class="sv" id="stTotal">-</div><div class="ss scard-period">-</div></div>
                 <div class="scard"><span class="si">✅</span><div class="sl">Jadwal Aktif</div><div class="sv" id="stAktif" style="color:#2563eb">-</div><div class="ss scard-period">-</div></div>
@@ -615,6 +675,7 @@
                 <div class="scard"><span class="si">🕐</span><div class="sl">Absensi</div><div class="sv" id="stAbsensi" style="color:#f59e0b">-</div><div class="ss scard-period">-</div></div>
             </div>
 
+            <!-- JADWAL -->
             <div class="ssep-row">
                 <span class="ssep-title">📅 Jadwal — <span id="dashJadwalPeriodeTitle">Bulan Ini</span></span>
                 <div class="dash-tabs">
@@ -629,11 +690,13 @@
                 <tbody id="dJadwal"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
 
+            <!-- ABSENSI -->
             <div class="ssep">🕐 Absensi — <span id="dashAbsensiPeriodeTitle">Hari Ini</span></div>
             <div class="tcard" style="margin-bottom:24px;"><table>
                 <thead><tr><th>Tanggal</th><th>User</th><th>Tipe</th><th>Jam</th><th>View</th></tr></thead>
                 <tbody id="dAbsensi"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
+
         </div>
 
         <!-- APPROVER -->
@@ -670,10 +733,10 @@
             </table></div>
         </div>
 
-        <!-- PREVIEW TUGAS -->
+        <!-- PREVIEW TUGAS — semua kegiatan per user, per periode -->
         <div class="page" id="page-previewtugas"></div>
 
-        <!-- JENIS PER KATEGORI -->
+        <!-- JENIS PER KATEGORI (Meeting/Tes/Konseling/Seminar/Other) — khusus hari ini -->
         <div class="page" id="page-jenis-meeting" data-jenis="meeting"></div>
         <div class="page" id="page-jenis-tes" data-jenis="tes"></div>
         <div class="page" id="page-jenis-konseling" data-jenis="konseling"></div>
@@ -756,239 +819,219 @@
                     <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahJamKerjaOverride()">+ Tambah</button>
                 </div>
             </div>
-            <div class="tcard" style="padding:14px 18px;margin-bottom:18px;background:#fffbeb;border:1px solid #fde68a;font-size:12.5px;color:#92400e;line-height:1.65;">
-                ℹ️ <b>Catatan penting:</b> Perubahan jam kerja di sini <b>tidak akan mengubah penilaian terlambat/cepat pulang pada absensi yang sudah tercatat sebelumnya</b>. Setiap record absensi menyimpan snapshot jam standar yang berlaku pada saat absen dilakukan, sehingga histori tetap adil meski jam kerja diubah nanti.
-            </div>
             <div class="tcard"><table>
                 <thead><tr><th>User</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Aksi</th></tr></thead>
                 <tbody id="jkOverrideTable"><tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
         </div>
 
-        <!-- ================= KONTROL (merged) ================= -->
-        <div class="page" id="page-kontrol">
-            <div class="pg-header"><h2>⚙️ Kontrol</h2><p>Atur syarat absensi dan status &amp; durasi magang user</p></div>
+        <!-- KONTROL ABSENSI -->
+        <div class="page" id="page-kontrolabsen">
+            <div class="pg-header"><h2>🛡️ Kontrol Absensi</h2><p>Atur syarat absen masuk, absen pulang, dan validasi pembuatan jadwal</p></div>
 
-            <div class="kontrol-tabs">
-                <button type="button" class="ktab active" data-ktab="masuk" onclick="switchKontrolTab('masuk')">
-                    <span class="ktab-ic">🎯</span>
-                    <span class="ktab-lbl">Syarat Absen Masuk</span>
-                    <span class="kinfo" onclick="event.stopPropagation(); showKontrolInfo('masuk')" title="Info tab ini">ℹ️</span>
-                </button>
-                <button type="button" class="ktab" data-ktab="pulang" onclick="switchKontrolTab('pulang')">
-                    <span class="ktab-ic">🚪</span>
-                    <span class="ktab-lbl">Syarat Absen Pulang</span>
-                    <span class="kinfo" onclick="event.stopPropagation(); showKontrolInfo('pulang')" title="Info tab ini">ℹ️</span>
-                </button>
-                <button type="button" class="ktab" data-ktab="status" onclick="switchKontrolTab('status')">
-                    <span class="ktab-ic">🏷️</span>
-                    <span class="ktab-lbl">Status &amp; Durasi</span>
-                    <span class="kinfo" onclick="event.stopPropagation(); showKontrolInfo('status')" title="Info tab ini">ℹ️</span>
-                </button>
+            <!-- 0. BEBASKAN SYARAT DI HARI LIBUR -->
+            <div class="tcard" style="padding:16px 18px;margin-bottom:24px;border:1px solid #fde68a;background:#fffbeb;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">🎌 Bebaskan Syarat & Approval Khusus Hari Libur</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak aktif</strong>. Jika diaktifkan, khusus pada hari libur (Sabtu/Minggu &amp; tanggal Libur Nasional) peserta yang masuk kerja <strong>dibebaskan dari SEMUA syarat</strong> di bawah — minimal kegiatan, approval jadwal hari ini, wajib selesai kegiatan, approval Done/Non-Done, serta wajib &amp; approval jadwal hari kerja berikutnya — walaupun pengaturan masing-masing di bawah ini statusnya aktif. Syarat dasar "harus absen masuk dulu sebelum bisa absen pulang" tetap berlaku.</p>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
+                    <input type="checkbox" id="bebasLiburAktif" style="width:16px;height:16px;"> Bebaskan semua syarat minimal jadwal &amp; approval di hari libur
+                </label>
+                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanBebasApprovalLibur()">💾 Simpan Pengaturan</button>
             </div>
 
-            <!-- ============ TAB 1: SYARAT ABSEN MASUK ============ -->
-            <div class="ktab-panel active" id="kpanel-masuk">
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;border:1px solid #fde68a;background:#fffbeb;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">🎌 Bebaskan Syarat &amp; Approval Khusus Hari Libur</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak aktif</strong>. Jika diaktifkan, khusus pada hari libur (Sabtu/Minggu &amp; tanggal Libur Nasional) peserta yang masuk kerja <strong>dibebaskan dari SEMUA syarat</strong> di bawah — minimal kegiatan, approval jadwal hari ini, wajib selesai kegiatan, approval Done/Non-Done, serta wajib &amp; approval jadwal hari kerja berikutnya. Syarat dasar "harus absen masuk dulu sebelum bisa absen pulang" tetap berlaku.</p>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                        <input type="checkbox" id="bebasLiburAktif" style="width:16px;height:16px;"> Bebaskan semua syarat minimal jadwal &amp; approval di hari libur
-                    </label>
-                    <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanBebasApprovalLibur()">💾 Simpan Pengaturan</button>
+            <!-- 1. MINIMAL KEGIATAN UNTUK ABSEN MASUK -->
+            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">1️⃣ Minimal Kegiatan untuk Absen Masuk</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Jumlah minimal kegiatan yang harus dijadwalkan hari itu sebelum peserta boleh absen masuk. Isi 0 = bebas (tanpa syarat).</p>
+                <div style="display:grid;grid-template-columns:220px auto;gap:10px;align-items:end;">
+                    <div class="fg" style="margin-bottom:0;"><label>Minimal (Semua User)</label><input type="number" id="mkDefault" min="0" style="width:100%;"></div>
+                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanMinKegiatanDefault()">💾 Simpan</button>
                 </div>
+            </div>
+            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
+                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Minimal Khusus per User</h3>
+                <div style="display:grid;grid-template-columns:1fr 140px auto;gap:10px;align-items:end;">
+                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="mkUserSelect"><option value="">-- Pilih User --</option></select></div>
+                    <div class="fg" style="margin-bottom:0;"><label>Minimal</label><input type="number" id="mkOvVal" min="0"></div>
+                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahMinKegiatanOverride()">+ Tambah</button>
+                </div>
+            </div>
+            <div class="tcard" style="margin-bottom:24px;"><table>
+                <thead><tr><th>User</th><th>Minimal Kegiatan</th><th>Aksi</th></tr></thead>
+                <tbody id="mkOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
 
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">1️⃣ Minimal Kegiatan untuk Absen Masuk</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Jumlah minimal kegiatan yang harus dijadwalkan hari itu sebelum peserta boleh absen masuk. Isi 0 = bebas (tanpa syarat).</p>
-                    <div style="display:grid;grid-template-columns:220px auto;gap:10px;align-items:end;">
-                        <div class="fg" style="margin-bottom:0;"><label>Minimal (Semua User)</label><input type="number" id="mkDefault" min="0" style="width:100%;"></div>
-                        <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanMinKegiatanDefault()">💾 Simpan</button>
+            <div class="tcard" style="padding:16px 18px;margin-bottom:24px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Persetujuan Admin untuk Jadwal Hari Ini</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong> (peserta bebas absen masuk begitu jadwal hari ini dibuat). Berguna khusus untuk peserta baru atau peserta yang sebelumnya tidak masuk lalu masuk lagi hari ini — mereka baru membuat jadwal hari ini beserta keterangannya saat itu juga (belum sempat direview sebelumnya). Aktifkan supaya jadwal yang sudah dibuat untuk hari ini wajib ditandai "Disetujui" admin dulu (lihat halaman Jadwal) sebelum peserta bisa absen masuk — berlaku terlepas dari setting minimal kegiatan di atas, mencegah peserta asal isi keterangan hanya supaya bisa absen.</p>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
+                    <input type="checkbox" id="apHariIni" style="width:16px;height:16px;"> Jadwal hari ini (jika sudah dibuat) wajib disetujui admin dulu sebelum bisa absen masuk
+                </label>
+                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalHariIni()">💾 Simpan Pengaturan</button>
+            </div>
+
+            <!-- 2 & 3. SYARAT ABSEN PULANG -->
+            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">2️⃣ Wajib Selesai Semua Kegiatan Sebelum Absen Pulang</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak wajib</strong> (bebas absen pulang meski kegiatan belum semua Done). Aktifkan untuk semua atau khusus user tertentu.</p>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:6px;">
+                    <input type="checkbox" id="wsDefault" style="width:16px;height:16px;"> Wajib selesai semua kegiatan dulu (berlaku untuk SEMUA user, kecuali dikecualikan di bawah)
+                </label>
+                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibSelesaiDefault()">💾 Simpan Pengaturan Semua User</button>
+            </div>
+            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
+                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Pengecualian / Khusus per User</h3>
+                <div style="display:grid;grid-template-columns:1fr 200px auto;gap:10px;align-items:end;">
+                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="wsUserSelect"><option value="">-- Pilih User --</option></select></div>
+                    <div class="fg" style="margin-bottom:0;"><label>Aturan</label>
+                        <select id="wsOvVal">
+                            <option value="true">Wajib selesai semua</option>
+                            <option value="false">Tidak wajib (bebas)</option>
+                        </select>
                     </div>
+                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahWajibSelesaiOverride()">+ Tambah</button>
                 </div>
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Minimal Khusus per User</h3>
-                    <div style="display:grid;grid-template-columns:1fr 140px auto;gap:10px;align-items:end;">
-                        <div class="fg" style="margin-bottom:0;"><label>User</label><select id="mkUserSelect"><option value="">-- Pilih User --</option></select></div>
-                        <div class="fg" style="margin-bottom:0;"><label>Minimal</label><input type="number" id="mkOvVal" min="0"></div>
-                        <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahMinKegiatanOverride()">+ Tambah</button>
+            </div>
+            <div class="tcard" style="margin-bottom:24px;"><table>
+                <thead><tr><th>User</th><th>Aturan Khusus</th><th>Aksi</th></tr></thead>
+                <tbody id="wsOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+
+            <div class="tcard" style="padding:16px 18px;margin-bottom:24px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">3️⃣ Persetujuan Admin Sebelum Absen Pulang</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong> (peserta bebas absen pulang). Jika diaktifkan, kegiatan hari itu harus ditandai "Disetujui" oleh admin dulu (lihat kolom Aksi di halaman Jadwal) sebelum peserta bisa absen pulang.</p>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px;">
+                    <input type="checkbox" id="apDone" style="width:16px;height:16px;"> Kegiatan berstatus <strong>Done</strong> perlu disetujui admin dulu sebelum boleh pulang
+                </label>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
+                    <input type="checkbox" id="apNonDone" style="width:16px;height:16px;"> Kegiatan <strong>Reschedule / belum Done</strong> (Aktif, Pending) perlu disetujui admin dulu sebelum boleh pulang
+                </label>
+                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalPulang()">💾 Simpan Pengaturan Persetujuan</button>
+            </div>
+
+            <!-- 4. WAJIB KETERANGAN -->
+            <div class="tcard" style="padding:16px 18px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">4️⃣ Wajib Isi Keterangan saat Membuat Jadwal</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Jika aktif, peserta tidak bisa menyimpan jadwal baru tanpa mengisi kolom Keterangan.</p>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
+                    <input type="checkbox" id="wkAktif" style="width:16px;height:16px;"> Wajibkan pengisian Keterangan saat membuat jadwal
+                </label>
+                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibKeterangan()">💾 Simpan</button>
+            </div>
+
+            <!-- 5. WAJIB JADWAL HARI KERJA BERIKUTNYA (syarat absen pulang) -->
+            <div class="tcard" style="padding:16px 18px;margin-top:18px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">5️⃣ Wajib Sudah Buat Jadwal untuk Hari Kerja Berikutnya</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak wajib</strong>. Jika aktif, peserta wajib sudah membuat minimal 1 jadwal untuk <strong>hari kerja berikutnya</strong> sebelum boleh absen pulang hari ini. Kalau hari ini Jumat, yang wajib bukan Sabtu (libur) tapi Senin — Sabtu/Minggu &amp; tanggal Libur Nasional otomatis dilewati.</p>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:6px;">
+                    <input type="checkbox" id="jbDefault" style="width:16px;height:16px;"> Wajib buat jadwal hari kerja berikutnya (berlaku untuk SEMUA user, kecuali dikecualikan di bawah)
+                </label>
+                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibJadwalBesokDefault()">💾 Simpan Pengaturan Semua User</button>
+            </div>
+            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;margin-top:18px;">
+                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Pengecualian / Khusus per User</h3>
+                <div style="display:grid;grid-template-columns:1fr 200px auto;gap:10px;align-items:end;">
+                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="jbUserSelect"><option value="">-- Pilih User --</option></select></div>
+                    <div class="fg" style="margin-bottom:0;"><label>Aturan</label>
+                        <select id="jbOvVal">
+                            <option value="true">Wajib buat jadwal hari kerja berikutnya</option>
+                            <option value="false">Tidak wajib (bebas)</option>
+                        </select>
                     </div>
+                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahJadwalBesokOverride()">+ Tambah</button>
                 </div>
-                <div class="tcard" style="margin-bottom:18px;"><table>
-                    <thead><tr><th>User</th><th>Minimal Kegiatan</th><th>Aksi</th></tr></thead>
-                    <tbody id="mkOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
-                </table></div>
+            </div>
+            <div class="tcard" style="margin-bottom:18px;"><table>
+                <thead><tr><th>User</th><th>Aturan Khusus</th><th>Aksi</th></tr></thead>
+                <tbody id="jbOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
+            <div class="tcard" style="padding:16px 18px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Persetujuan Admin untuk Jadwal Hari Kerja Berikutnya</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong> (cukup buat jadwal, langsung dianggap memenuhi syarat). Aktifkan kalau khawatir peserta asal isi jadwal hanya supaya bisa absen pulang — jadwal untuk hari kerja berikutnya wajib ditandai "Disetujui" oleh admin dulu (lihat halaman Jadwal) baru syarat terpenuhi.</p>
+                <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
+                    <input type="checkbox" id="apJadwalBesok" style="width:16px;height:16px;"> Jadwal hari kerja berikutnya wajib disetujui admin dulu
+                </label>
+                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalJadwalBesok()">💾 Simpan Pengaturan</button>
+            </div>
+        </div>
 
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Persetujuan Admin untuk Jadwal Hari Ini</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong>. Berguna untuk peserta baru atau peserta yang sebelumnya tidak masuk lalu masuk lagi hari ini — mereka baru membuat jadwal hari ini beserta keterangannya saat itu juga. Aktifkan supaya jadwal hari ini wajib ditandai "Disetujui" admin dulu (lihat halaman Jadwal) sebelum peserta bisa absen masuk.</p>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                        <input type="checkbox" id="apHariIni" style="width:16px;height:16px;"> Jadwal hari ini (jika sudah dibuat) wajib disetujui admin dulu sebelum bisa absen masuk
-                    </label>
-                    <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalHariIni()">💾 Simpan Pengaturan</button>
+        <!-- KONTROL STATUS -->
+        <div class="page" id="page-kontrolstatus">
+            <div class="pg-header"><h2>🏷️ Kontrol Status</h2><p>Atur status magang (Magang / OJT / Mitra / Lainnya) dan durasi kerja setiap user</p></div>
+
+            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Durasi Default per Status</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Dipakai untuk menghitung "Masa Berakhir Magang" pada Dashboard jika seorang user tidak diberi durasi khusus. Contoh bawaan: Magang 5 Bulan, OJT 5 Hari Kerja, Mitra 1 Bulan.</p>
+                <div style="display:grid;grid-template-columns:170px 110px 160px;gap:10px 14px;align-items:end;margin-bottom:12px;">
+                    <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🔵 Magang</div>
+                    <div class="fg" style="margin-bottom:0;"><label>Nilai</label><input type="number" id="smDurMagangNilai" min="1"></div>
+                    <div class="fg" style="margin-bottom:0;"><label>Satuan</label><select id="smDurMagangUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
+
+                    <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🟣 OJT (On The Job Training)</div>
+                    <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurOjtNilai" min="1"></div>
+                    <div class="fg" style="margin-bottom:0;"><select id="smDurOjtUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
+
+                    <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🟠 Mitra</div>
+                    <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurMitraNilai" min="1"></div>
+                    <div class="fg" style="margin-bottom:0;"><select id="smDurMitraUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
+
+                    <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">⚪ Lainnya</div>
+                    <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurLainnyaNilai" min="1"></div>
+                    <div class="fg" style="margin-bottom:0;"><select id="smDurLainnyaUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
                 </div>
+                <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanDurasiJenisDefault()">💾 Simpan Durasi Default</button>
+            </div>
 
-                <div class="tcard" style="padding:16px 18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">4️⃣ Wajib Isi Keterangan saat Membuat Jadwal</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Jika aktif, peserta tidak bisa menyimpan jadwal baru tanpa mengisi kolom Keterangan.</p>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                        <input type="checkbox" id="wkAktif" style="width:16px;height:16px;"> Wajibkan pengisian Keterangan saat membuat jadwal
-                    </label>
-                    <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibKeterangan()">💾 Simpan</button>
+            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
+                <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Status Default (Semua User)</h3>
+                <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Status ini otomatis berlaku untuk semua user aktif, kecuali diatur khusus per user di bawah.</p>
+                <div style="display:grid;grid-template-columns:240px auto;gap:10px;align-items:end;">
+                    <div class="fg" style="margin-bottom:0;"><label>Status Default</label>
+                        <select id="smDefaultJenis">
+                            <option value="magang">Magang</option>
+                            <option value="ojt">OJT (On The Job Training)</option>
+                            <option value="mitra">Mitra</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanStatusDefault()">💾 Simpan</button>
                 </div>
             </div>
 
-            <!-- ============ TAB 2: SYARAT ABSEN PULANG ============ -->
-            <div class="ktab-panel" id="kpanel-pulang">
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">2️⃣ Wajib Selesai Semua Kegiatan Sebelum Absen Pulang</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak wajib</strong>. Aktifkan untuk semua atau khusus user tertentu.</p>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:6px;">
-                        <input type="checkbox" id="wsDefault" style="width:16px;height:16px;"> Wajib selesai semua kegiatan dulu (berlaku untuk SEMUA user, kecuali dikecualikan di bawah)
-                    </label>
-                    <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibSelesaiDefault()">💾 Simpan Pengaturan Semua User</button>
-                </div>
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Pengecualian / Khusus per User</h3>
-                    <div style="display:grid;grid-template-columns:1fr 200px auto;gap:10px;align-items:end;">
-                        <div class="fg" style="margin-bottom:0;"><label>User</label><select id="wsUserSelect"><option value="">-- Pilih User --</option></select></div>
-                        <div class="fg" style="margin-bottom:0;"><label>Aturan</label>
-                            <select id="wsOvVal">
-                                <option value="true">Wajib selesai semua</option>
-                                <option value="false">Tidak wajib (bebas)</option>
-                            </select>
-                        </div>
-                        <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahWajibSelesaiOverride()">+ Tambah</button>
+            <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
+                <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Status &amp; Durasi Khusus per User</h3>
+                <div style="display:grid;grid-template-columns:1fr 190px 120px 120px auto;gap:10px;align-items:end;margin-bottom:12px;">
+                    <div class="fg" style="margin-bottom:0;"><label>User</label><select id="smUserSelect"><option value="">-- Pilih User --</option></select></div>
+                    <div class="fg" style="margin-bottom:0;"><label>Status</label>
+                        <select id="smOvJenis">
+                            <option value="magang">Magang</option>
+                            <option value="ojt">OJT (On The Job Training)</option>
+                            <option value="mitra">Mitra</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
                     </div>
-                </div>
-                <div class="tcard" style="margin-bottom:18px;"><table>
-                    <thead><tr><th>User</th><th>Aturan Khusus</th><th>Aksi</th></tr></thead>
-                    <tbody id="wsOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
-                </table></div>
-
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">3️⃣ Persetujuan Admin Sebelum Absen Pulang</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong>. Jika diaktifkan, kegiatan hari itu harus ditandai "Disetujui" oleh admin dulu (lihat kolom Aksi di halaman Jadwal) sebelum peserta bisa absen pulang.</p>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px;">
-                        <input type="checkbox" id="apDone" style="width:16px;height:16px;"> Kegiatan berstatus <strong>Done</strong> perlu disetujui admin dulu sebelum boleh pulang
-                    </label>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                        <input type="checkbox" id="apNonDone" style="width:16px;height:16px;"> Kegiatan <strong>Reschedule / belum Done</strong> (Aktif, Pending) perlu disetujui admin dulu sebelum boleh pulang
-                    </label>
-                    <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalPulang()">💾 Simpan Pengaturan Persetujuan</button>
-                </div>
-
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">5️⃣ Wajib Sudah Buat Jadwal untuk Hari Kerja Berikutnya</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tidak wajib</strong>. Jika aktif, peserta wajib sudah membuat minimal 1 jadwal untuk <strong>hari kerja berikutnya</strong> sebelum boleh absen pulang hari ini. Kalau hari ini Jumat, yang wajib bukan Sabtu (libur) tapi Senin — Sabtu/Minggu &amp; tanggal Libur Nasional otomatis dilewati.</p>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:6px;">
-                        <input type="checkbox" id="jbDefault" style="width:16px;height:16px;"> Wajib buat jadwal hari kerja berikutnya (berlaku untuk SEMUA user, kecuali dikecualikan di bawah)
-                    </label>
-                    <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanWajibJadwalBesokDefault()">💾 Simpan Pengaturan Semua User</button>
-                </div>
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Pengecualian / Khusus per User</h3>
-                    <div style="display:grid;grid-template-columns:1fr 200px auto;gap:10px;align-items:end;">
-                        <div class="fg" style="margin-bottom:0;"><label>User</label><select id="jbUserSelect"><option value="">-- Pilih User --</option></select></div>
-                        <div class="fg" style="margin-bottom:0;"><label>Aturan</label>
-                            <select id="jbOvVal">
-                                <option value="true">Wajib buat jadwal hari kerja berikutnya</option>
-                                <option value="false">Tidak wajib (bebas)</option>
-                            </select>
-                        </div>
-                        <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahJadwalBesokOverride()">+ Tambah</button>
+                    <div class="fg" style="margin-bottom:0;"><label>Durasi Khusus</label><input type="number" id="smOvNilai" min="1" placeholder="Ikut default"></div>
+                    <div class="fg" style="margin-bottom:0;"><label>Satuan</label>
+                        <select id="smOvUnit">
+                            <option value="bulan">Bulan</option>
+                            <option value="hari_kerja">Hari Kerja</option>
+                        </select>
                     </div>
+                    <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahStatusOverride()">+ Tambah</button>
                 </div>
-                <div class="tcard" style="margin-bottom:18px;"><table>
-                    <thead><tr><th>User</th><th>Aturan Khusus</th><th>Aksi</th></tr></thead>
-                    <tbody id="jbOverrideTable"><tr class="lr"><td colspan="3"><span class="sp"></span>Memuat...</td></tr></tbody>
-                </table></div>
-                <div class="tcard" style="padding:16px 18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Persetujuan Admin untuk Jadwal Hari Kerja Berikutnya</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Default: <strong>tanpa persetujuan</strong>. Aktifkan kalau khawatir peserta asal isi jadwal hanya supaya bisa absen pulang — jadwal untuk hari kerja berikutnya wajib ditandai "Disetujui" oleh admin dulu (lihat halaman Jadwal) baru syarat terpenuhi.</p>
-                    <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;">
-                        <input type="checkbox" id="apJadwalBesok" style="width:16px;height:16px;"> Jadwal hari kerja berikutnya wajib disetujui admin dulu
+                <div style="display:grid;grid-template-columns:200px 1fr;gap:10px 14px;align-items:center;padding-top:12px;border-top:1px dashed #e2e8f0;">
+                    <div class="fg" style="margin-bottom:0;"><label>Tanggal Mulai Manual</label><input type="date" id="smOvMulaiManual"></div>
+                    <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#334155;cursor:pointer;margin-top:14px;">
+                        <input type="checkbox" id="smOvTidakDiperpanjang" style="width:16px;height:16px;">
+                        🔒 Tidak diperpanjang (ketidakhadiran &amp; masuk hari libur tidak mengubah tanggal berakhir)
                     </label>
-                    <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanApprovalJadwalBesok()">💾 Simpan Pengaturan</button>
                 </div>
+                <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;">Kosongkan "Durasi Khusus" untuk memakai durasi default sesuai status yang dipilih. Kosongkan "Tanggal Mulai Manual" agar tanggal mulai otomatis memakai tanggal absensi pertama user (berguna kalau user baru absen di hari-hari awal masa kerjanya). Centang "Tidak diperpanjang" untuk user yang tanggal berakhirnya harus tetap sesuai tanggal mulai + durasi, walau ada hari tidak hadir atau masuk di hari libur.</p>
             </div>
-
-            <!-- ============ TAB 3: STATUS & DURASI ============ -->
-            <div class="ktab-panel" id="kpanel-status">
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Durasi Default per Status</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Dipakai untuk menghitung "Masa Berakhir Magang" pada Dashboard jika seorang user tidak diberi durasi khusus. Contoh bawaan: Magang 5 Bulan, OJT 5 Hari Kerja, Mitra 1 Bulan.</p>
-                    <div style="display:grid;grid-template-columns:170px 110px 160px;gap:10px 14px;align-items:end;margin-bottom:12px;">
-                        <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🔵 Magang</div>
-                        <div class="fg" style="margin-bottom:0;"><label>Nilai</label><input type="number" id="smDurMagangNilai" min="1"></div>
-                        <div class="fg" style="margin-bottom:0;"><label>Satuan</label><select id="smDurMagangUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
-
-                        <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🟣 OJT (On The Job Training)</div>
-                        <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurOjtNilai" min="1"></div>
-                        <div class="fg" style="margin-bottom:0;"><select id="smDurOjtUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
-
-                        <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">🟠 Mitra</div>
-                        <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurMitraNilai" min="1"></div>
-                        <div class="fg" style="margin-bottom:0;"><select id="smDurMitraUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
-
-                        <div style="font-size:12.5px;font-weight:700;color:#334155;align-self:center;">⚪ Lainnya</div>
-                        <div class="fg" style="margin-bottom:0;"><input type="number" id="smDurLainnyaNilai" min="1"></div>
-                        <div class="fg" style="margin-bottom:0;"><select id="smDurLainnyaUnit"><option value="bulan">Bulan (kalender)</option><option value="hari_kerja">Hari Kerja</option></select></div>
-                    </div>
-                    <button class="btn-add-j" style="height:37px;padding:0 16px;" onclick="simpanDurasiJenisDefault()">💾 Simpan Durasi Default</button>
-                </div>
-
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 4px;color:#0f172a;">Status Default (Semua User)</h3>
-                    <p style="font-size:12px;color:#94a3b8;margin:0 0 12px;">Status ini otomatis berlaku untuk semua user aktif, kecuali diatur khusus per user di bawah.</p>
-                    <div style="display:grid;grid-template-columns:240px auto;gap:10px;align-items:end;">
-                        <div class="fg" style="margin-bottom:0;"><label>Status Default</label>
-                            <select id="smDefaultJenis">
-                                <option value="magang">Magang</option>
-                                <option value="ojt">OJT (On The Job Training)</option>
-                                <option value="mitra">Mitra</option>
-                                <option value="lainnya">Lainnya</option>
-                            </select>
-                        </div>
-                        <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanStatusDefault()">💾 Simpan</button>
-                    </div>
-                </div>
-
-                <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
-                    <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Status &amp; Durasi Khusus per User</h3>
-                    <div style="display:grid;grid-template-columns:1fr 190px 120px 120px auto;gap:10px;align-items:end;margin-bottom:12px;">
-                        <div class="fg" style="margin-bottom:0;"><label>User</label><select id="smUserSelect"><option value="">-- Pilih User --</option></select></div>
-                        <div class="fg" style="margin-bottom:0;"><label>Status</label>
-                            <select id="smOvJenis">
-                                <option value="magang">Magang</option>
-                                <option value="ojt">OJT (On The Job Training)</option>
-                                <option value="mitra">Mitra</option>
-                                <option value="lainnya">Lainnya</option>
-                            </select>
-                        </div>
-                        <div class="fg" style="margin-bottom:0;"><label>Durasi Khusus</label><input type="number" id="smOvNilai" min="1" placeholder="Ikut default"></div>
-                        <div class="fg" style="margin-bottom:0;"><label>Satuan</label>
-                            <select id="smOvUnit">
-                                <option value="bulan">Bulan</option>
-                                <option value="hari_kerja">Hari Kerja</option>
-                            </select>
-                        </div>
-                        <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahStatusOverride()">+ Tambah</button>
-                    </div>
-                    <div style="display:grid;grid-template-columns:200px 1fr;gap:10px 14px;align-items:center;padding-top:12px;border-top:1px dashed #e2e8f0;">
-                        <div class="fg" style="margin-bottom:0;"><label>Tanggal Mulai Manual</label><input type="date" id="smOvMulaiManual"></div>
-                        <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#334155;cursor:pointer;margin-top:14px;">
-                            <input type="checkbox" id="smOvTidakDiperpanjang" style="width:16px;height:16px;">
-                            🔒 Tidak diperpanjang (ketidakhadiran &amp; masuk hari libur tidak mengubah tanggal berakhir)
-                        </label>
-                    </div>
-                    <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;">Kosongkan "Durasi Khusus" untuk memakai durasi default sesuai status yang dipilih. Kosongkan "Tanggal Mulai Manual" agar tanggal mulai otomatis memakai tanggal absensi pertama user. Centang "Tidak diperpanjang" untuk user yang tanggal berakhirnya harus tetap sesuai tanggal mulai + durasi.</p>
-                </div>
-                <div class="tcard" style="margin-bottom:24px;"><table>
-                    <thead><tr><th>User</th><th>Status</th><th>Durasi Berlaku</th><th>Mulai</th><th>Perpanjangan</th><th>Aksi</th></tr></thead>
-                    <tbody id="smOverrideTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
-                </table></div>
-            </div>
+            <div class="tcard" style="margin-bottom:24px;"><table>
+                <thead><tr><th>User</th><th>Status</th><th>Durasi Berlaku</th><th>Mulai</th><th>Perpanjangan</th><th>Aksi</th></tr></thead>
+                <tbody id="smOverrideTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
+            </table></div>
         </div>
 
         <!-- PESAN PENGUMUMAN -->
@@ -1018,7 +1061,7 @@
                     <div id="psPenerimaWrap" style="display:none;">
                         <div class="user-checkbox-panel">
                             <div class="ucp-search"><input type="text" id="psUcpSearch" placeholder="🔍 Cari user..." oninput="filterPsUcp()"></div>
-                            <div class="ucp-list" id="psUcpList"></div>
+                            <div class="ucp-list" id="psUcpList"><!-- diisi JS --></div>
                             <div class="ucp-footer">
                                 <span class="ucp-count" id="psUcpCount">0 user dipilih</span>
                                 <button class="ucp-selall" id="psUcpSelall" onclick="togglePsSelectAll()">Pilih Semua</button>
@@ -1047,11 +1090,12 @@
         <div class="mhead"><h3 id="mJudul">Tambah Jadwal</h3><button onclick="closeModal('modalJadwal')">✕</button></div>
         <div class="mbody">
             <input type="hidden" id="mf_id">
+            <!-- USER PEMILIK: multi-checkbox untuk Tambah, dropdown untuk Edit -->
             <div class="fg" id="fg_user_multi">
                 <label>User Pemilik <span style="font-weight:400;color:#94a3b8;text-transform:none;font-size:10px;">(bisa pilih lebih dari satu)</span></label>
                 <div class="user-checkbox-panel">
                     <div class="ucp-search"><input type="text" id="ucpSearch" placeholder="🔍 Cari user..." oninput="filterUCP()"></div>
-                    <div class="ucp-list" id="ucpList"></div>
+                    <div class="ucp-list" id="ucpList"><!-- diisi JS --></div>
                     <div class="ucp-footer">
                         <span class="ucp-count" id="ucpCount">0 user dipilih</span>
                         <button class="ucp-selall" onclick="toggleSelectAll()">Pilih Semua</button>
@@ -1059,6 +1103,7 @@
                 </div>
                 <div class="selected-tags" id="selectedTags"></div>
             </div>
+            <!-- USER PEMILIK: dropdown untuk mode Edit -->
             <div class="fg" id="fg_user_single" style="display:none;">
                 <label>User Pemilik</label>
                 <select id="mf_user"><option value="">-- Pilih User --</option></select>
@@ -1075,6 +1120,7 @@
                 </select>
             </div>
             <div class="fg"><label>Keterangan</label><textarea id="mf_ket" rows="3" placeholder="Nama peserta / lokasi..."></textarea></div>
+            <!-- LAMPIRAN JADWAL -->
             <div class="fg">
                 <label>📎 Lampiran <span style="font-weight:500;color:#94a3b8;text-transform:none;letter-spacing:0;">(opsional)</span></label>
                 <div style="display:flex;gap:0;background:#f1f5f9;border-radius:8px;padding:3px;margin-bottom:8px;">
@@ -1108,7 +1154,7 @@
     </div>
 </div>
 
-<!-- MODAL GRUP -->
+<!-- MODAL GRUP JADWAL (detail saat 1 baris mewakili beberapa jadwal sejenis) -->
 <div class="overlay" id="modalGrupJAdmin" onclick="closeModal('modalGrupJAdmin')">
     <div class="mbox" style="max-width:380px;" onclick="event.stopPropagation()">
         <div class="mhead"><h3 id="mGrupJudulAdmin">Detail</h3><button onclick="closeModal('modalGrupJAdmin')">✕</button></div>
@@ -1116,7 +1162,7 @@
     </div>
 </div>
 
-<!-- MODAL FOTO -->
+<!-- MODAL FOTO ABSENSI -->
 <div class="overlay" id="modalFoto" onclick="closeModal('modalFoto')">
     <div class="mbox" style="max-width:380px;" onclick="event.stopPropagation()">
         <div class="mhead"><h3>Foto Absensi</h3><button onclick="closeModal('modalFoto')">✕</button></div>
@@ -1124,7 +1170,7 @@
     </div>
 </div>
 
-<!-- MODAL DETAIL -->
+<!-- MODAL DETAIL TIDAK HADIR / MASUK LIBUR / LIBUR NASIONAL (Masa Berakhir Magang) -->
 <div class="overlay" id="modalMbDetail" onclick="tutupMbDetail()">
     <div class="mbox" style="max-width:420px;" onclick="event.stopPropagation()">
         <div class="mhead"><h3 id="mbDetailJudul">Detail</h3><button onclick="tutupMbDetail()">✕</button></div>
@@ -1132,7 +1178,7 @@
     </div>
 </div>
 
-<!-- MODAL KET TH -->
+<!-- MODAL TAMBAH/EDIT KETERANGAN TIDAK HADIR -->
 <div class="overlay" id="modalKetTH" onclick="tutupKetTH()">
     <div class="mbox" style="max-width:380px;" onclick="event.stopPropagation()">
         <div class="mhead"><h3>🏷️ Keterangan Tidak Hadir</h3><button onclick="tutupKetTH()">✕</button></div>
@@ -1158,27 +1204,26 @@
     </div>
 </div>
 
-<!-- MODAL KONTROL INFO (untuk popup ℹ️) -->
-<div class="overlay" id="modalKontrolInfo" onclick="closeModal('modalKontrolInfo')">
-    <div class="mbox" style="max-width:560px;" onclick="event.stopPropagation()">
-        <div class="mhead"><h3 id="kInfoJudul">ℹ️ Info</h3><button onclick="closeModal('modalKontrolInfo')">✕</button></div>
-        <div class="mbody kinfo-content" id="kInfoBody"></div>
-    </div>
-</div>
-
-<!-- MODAL BUKTI -->
+<!-- MODAL GALLERY BUKTI JADWAL DONE -->
 <div class="overlay" id="modalFotoBukti" onclick="closeModal('modalFotoBukti')">
     <div class="mbox" style="max-width:500px;" onclick="event.stopPropagation()">
-        <div class="mhead"><h3>📸 Bukti Kegiatan</h3><button onclick="closeModal('modalFotoBukti')">✕</button></div>
+        <div class="mhead">
+            <h3>📸 Bukti Kegiatan</h3>
+            <button onclick="closeModal('modalFotoBukti')">✕</button>
+        </div>
         <div class="mbody">
             <div id="fotoBuktiInfo" style="background:#f8fafc;border-radius:8px;padding:10px 14px;margin-bottom:14px;text-align:left;font-size:12px;color:#475569;"></div>
+            <!-- Single image view -->
             <div id="galleryImgWrap" style="text-align:center;display:none;">
                 <img id="mFotoBuktiImg" src="" style="max-width:100%;max-height:360px;border-radius:10px;border:1px solid #e2e8f0;display:block;margin:0 auto;" onerror="this.style.display='none';document.getElementById('fotoBuktiErr').style.display='block'">
                 <div id="fotoBuktiErr" style="display:none;color:#ef4444;font-size:13px;padding:20px;">&#9888;&#65039; Gambar tidak dapat dimuat.</div>
             </div>
+            <!-- File list (for non-image or multiple) -->
             <div id="galleryFileList"></div>
+            <!-- Gallery grid for multiple images -->
             <div id="galleryGrid" class="gallery-grid"></div>
-            <div id="galleryLightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;align-items:center;justify-content:center;flex-direction:column;" onclick="closeLightbox()">
+            <!-- Single image lightbox overlay -->
+            <div id="galleryLightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column;" onclick="closeLightbox()">
                 <button onclick="closeLightbox()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:white;font-size:28px;cursor:pointer;z-index:10;">✕</button>
                 <img id="lbImg" src="" style="max-width:92vw;max-height:85vh;border-radius:8px;object-fit:contain;" onclick="event.stopPropagation()">
                 <div id="lbCaption" style="color:rgba(255,255,255,0.6);font-size:12px;margin-top:10px;"></div>
@@ -1203,18 +1248,19 @@ const TJ   = 'jadwal_magang';
 const TA   = 'absensi';
 const TBLK = 'kontrol_admin';
 const KONTROL_LIBUR_ID = 5;
-const KONTROL_KET_ID = 5;
-const KONTROL_KET_MASUK_ID = 5;
-const KONTROL_PESAN_ID = 5;
-const KONTROL_JAMKERJA_ID = 5;
-const KONTROL_KEGIATAN_ID = 5;
-const KONTROL_PULANG_ID = 5;
-const KONTROL_BEBAS_LIBUR_ID = 5;
-const KONTROL_STATUS_ID = 5;
+const KONTROL_KET_ID = 5; // sama baris (id_x=5) dengan libur nasional, tapi kolom x_02 (tidak hadir)
+const KONTROL_KET_MASUK_ID = 5; // sama baris (id_x=5), kolom x_03 (masuk hari libur)
+const KONTROL_PESAN_ID = 5; // sama baris (id_x=5), kolom x_04 (pesan pengumuman untuk peserta)
+const KONTROL_JAMKERJA_ID = 5; // sama baris (id_x=5), kolom x_05 (jam kerja standar + khusus per user)
+const KONTROL_KEGIATAN_ID = 5; // sama baris (id_x=5), kolom x_06 (minimal kegiatan absen masuk + wajib keterangan)
+const KONTROL_PULANG_ID = 5;   // sama baris (id_x=5), kolom x_07 (syarat & approval absen pulang)
+const KONTROL_BEBAS_LIBUR_ID = 5; // sama baris (id_x=5), kolom x_09 (bebaskan syarat minimal jadwal & approval di hari libur)
+const KONTROL_STATUS_ID = 5;   // sama baris (id_x=5), kolom x_08 (status magang: jenis + durasi kerja per user)
 let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
 let kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true, approvalHariIni: false };
 let pulangConfig   = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false, wajibJadwalBesok: { default: false, override: {} }, approvalJadwalBesok: false };
-let bebasApprovalLibur = false;
+let bebasApprovalLibur = false; // kontrol_admin id_x=5, kolom x_09 — jika aktif, di hari libur SEMUA syarat minimal jadwal & approval (masuk & pulang) dibebaskan
+// Status magang: jenis (magang/ojt/mitra/lainnya) + durasi kerja, dengan default per-jenis dan pengecualian per user
 const JENIS_STATUS_LABEL = { magang: 'Magang', ojt: 'OJT (On The Job Training)', mitra: 'Mitra', lainnya: 'Lainnya' };
 const JENIS_STATUS_WARNA = {
     magang:  { bg: '#dbeafe', c: '#1e40af' },
@@ -1230,16 +1276,19 @@ let statusMagangConfig = {
         lainnya: { nilai: 5, unit: 'bulan' }
     },
     default: { jenis: 'magang' },
-    override: {}
+    override: {} // { username: { jenis, durasiKhusus: {nilai, unit} | null } }
 };
 let ketTidakHadirList = [];
-let ketTidakHadirMap  = {};
+let ketTidakHadirMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
 let ketMasukLiburList = [];
-let ketMasukLiburMap  = {};
-let pesanPengumumanList = [];
+let ketMasukLiburMap  = {}; // key: `${user}|${tanggal}` -> {user, tanggal, jenis, ket}
+let pesanPengumumanList = []; // [{id, tanggal:'YYYY-MM-DD', pesan, mode:'sekali'|'berulang'}]
 let _editPesanId = null;
 function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+// ===== BUKTI SELESAI (x_08): keterangan hasil + link/file bukti digabung jadi 1 objek JSON =====
+// Format baru : {"ket":"<keterangan hasil dari peserta>","bukti":"<url tunggal | array url | LINK:...>"}
+// Format lama (data sebelum fitur keterangan hasil ada) : url polos / array url / "LINK:..." — tetap didukung baca-nya.
 function parseBuktiX08(raw) {
     if (!raw) return { ket: '', bukti: null };
     try {
@@ -1247,8 +1296,8 @@ function parseBuktiX08(raw) {
         if (p && typeof p === 'object' && !Array.isArray(p) && ('bukti' in p || 'ket' in p)) {
             return { ket: p.ket || '', bukti: (p.bukti !== undefined ? p.bukti : null) };
         }
-        if (Array.isArray(p)) return { ket: '', bukti: p };
-    } catch (e) { }
+        if (Array.isArray(p)) return { ket: '', bukti: p }; // format lama: array url
+    } catch (e) { /* bukan JSON -> string polos (url biasa atau "LINK:..."), format lama */ }
     return { ket: '', bukti: raw };
 }
 const ASSETS = 'https://assets.lidan.co.id/';
@@ -1258,39 +1307,52 @@ let currentTab = 'aktif';
 let dashJadwalTab       = 'aktif';
 let allUsers   = [];
 let adminUser  = '';
-let dashPeriod = 'harian';
-let liburNasionalList = [];
-let liburNasionalSet  = new Set();
-let currentKontrolTab = 'masuk';
+let dashPeriod = 'harian'; // 'harian' | 'mingguan' | 'bulanan'
+let liburNasionalList = []; // [{tanggal:'YYYY-MM-DD', ket:'...'}]
+let liburNasionalSet  = new Set(); // Set('YYYY-MM-DD') untuk lookup cepat
 
-let ptUser      = '';
-let ptPeriod    = 'harian';
-let ptBulanSel  = new Date().getMonth() + 1;
+// ===== PREVIEW TUGAS: state =====
+let ptUser      = '';                          // username yang sedang dipilih (tab aktif)
+let ptPeriod    = 'harian';                    // 'harian' | 'mingguan' | 'bulanan' | 'bulan' | 'tanggal'
+let ptBulanSel  = new Date().getMonth() + 1;   // untuk periode 'bulan' (pilih bulan tertentu)
 let ptTahunSel  = new Date().getFullYear();
-let ptTanggalSel = localDate();
+let ptTanggalSel = localDate();                // untuk periode 'tanggal' (pilih tanggal tertentu)
 
+// Helper: format tanggal lokal (bukan UTC) ke YYYY-MM-DD
 function localDate(d) {
     const dt = d || new Date();
     return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
 }
+
+// Helper: hitung range tanggal berdasar periode
 function getPeriodRange(period) {
     const now = new Date();
     const today = localDate(now);
     const bln   = now.getMonth() + 1;
     const thn   = now.getFullYear();
+
     if (period === 'harian') {
-        return { type:'harian', today, bln, thn, tgl: now.getDate(), label: 'Hari Ini (' + today + ')', shortLabel: 'Hari Ini' };
+        return { type:'harian', today, bln, thn, tgl: now.getDate(),
+            label: 'Hari Ini (' + today + ')',
+            shortLabel: 'Hari Ini' };
     }
     if (period === 'mingguan') {
-        const day = now.getDay();
+        // Senin s/d Minggu minggu ini
+        const day = now.getDay(); // 0=Sun
         const diffMon = (day === 0) ? -6 : 1 - day;
         const mon = new Date(now); mon.setDate(now.getDate() + diffMon);
         const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
         const fmt = d => localDate(d);
-        return { type:'mingguan', dateFrom: fmt(mon), dateTo: fmt(sun), label: fmt(mon) + ' s/d ' + fmt(sun), shortLabel: 'Minggu Ini' };
+        return { type:'mingguan', dateFrom: fmt(mon), dateTo: fmt(sun),
+            label: fmt(mon) + ' s/d ' + fmt(sun),
+            shortLabel: 'Minggu Ini' };
     }
-    return { type:'bulanan', bln, thn, label: 'Bulan ' + bln + '/' + thn, shortLabel: 'Bulan Ini' };
+    // bulanan
+    return { type:'bulanan', bln, thn,
+        label: 'Bulan ' + bln + '/' + thn,
+        shortLabel: 'Bulan Ini' };
 }
+
 function setPeriod(period) {
     dashPeriod = period;
     ['harian','mingguan','bulanan'].forEach(p => {
@@ -1300,11 +1362,13 @@ function setPeriod(period) {
     loadDashboard();
 }
 
+// ===== HELPERS =====
 const api = q => fetch(API + q, { headers: { 'X-Custom-Auth': AUTH } }).then(r => r.json());
 const pj  = s => { try { return s ? JSON.parse(s) : null; } catch { return null; } };
 const tr  = (s, n=40) => s && s.length > n ? s.slice(0,n)+'…' : (s||'-');
 const loading = (id, cols) => document.getElementById(id).innerHTML = `<tr class="lr"><td colspan="${cols}"><span class="sp"></span>Memuat...</td></tr>`;
 
+// ===== AUTH =====
 async function handleLogin() {
     const u   = document.getElementById('l_user').value.trim();
     const p   = document.getElementById('l_pass').value.trim();
@@ -1315,6 +1379,7 @@ async function handleLogin() {
     if (res.success && res.data?.length > 0) {
         adminUser = res.data[0].x_01;
         if (rem) {
+            // Simpan ke localStorage dengan expiry 1 bulan
             const expire = Date.now() + 30 * 24 * 60 * 60 * 1000;
             localStorage.setItem('lidan_admin', JSON.stringify({ user: adminUser, expire }));
         } else {
@@ -1326,8 +1391,10 @@ async function handleLogin() {
     }
 }
 function checkAuth() {
+    // Cek sessionStorage
     const ss = sessionStorage.getItem('lidan_admin');
     if (ss) { adminUser = ss; showApp(); return; }
+    // Cek localStorage (remember me) dengan validasi expiry
     const ls = localStorage.getItem('lidan_admin');
     if (ls) {
         try {
@@ -1337,6 +1404,7 @@ function checkAuth() {
                 showApp();
                 return;
             } else {
+                // Expired - hapus
                 localStorage.removeItem('lidan_admin');
             }
         } catch { localStorage.removeItem('lidan_admin'); }
@@ -1373,6 +1441,7 @@ async function showApp() {
     loadApproverBadge();
 }
 
+// ===== JAM KERJA (satu baris dengan libur nasional: id_x = 5, kolom x_05 berisi JSON {default,override}) =====
 async function ambilJamKerja() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_JAMKERJA_ID}&limit=1`);
@@ -1389,12 +1458,14 @@ async function ambilJamKerja() {
         jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
     }
 }
+
 async function simpanJamKerja(cfg) {
     const body = JSON.stringify({ x_05: JSON.stringify(cfg) });
     let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_JAMKERJA_ID}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (!res.success) {
+        // Baris belum ada di tabel -> buat baru dengan id_x tetap
         res = await fetch(`${API}?table=${TBLK}`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
             body: JSON.stringify({ id_x: KONTROL_JAMKERJA_ID, x_05: JSON.stringify(cfg) })
@@ -1402,6 +1473,8 @@ async function simpanJamKerja(cfg) {
     }
     return res;
 }
+
+// Jam kerja efektif untuk seorang user: pakai pengaturan khusus kalau ada, jika tidak pakai standar
 function getJamKerjaUser(user) {
     const ov = jamKerjaConfig.override[user];
     return {
@@ -1409,12 +1482,15 @@ function getJamKerjaUser(user) {
         pulang: (ov && ov.pulang) ? ov.pulang : jamKerjaConfig.default.pulang
     };
 }
+
+// Ubah string jam ("08:00" atau "08.05" dari toLocaleTimeString id-ID) jadi total menit, untuk perbandingan yang aman
 function jamKeMenitAdm(jamStr) {
     if (!jamStr) return null;
     const m = String(jamStr).match(/(\d{1,2})[.:](\d{2})/);
     if (!m) return null;
     return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
 }
+
 function loadJamKerja() {
     document.getElementById('jkDefMasuk').value  = jamKerjaConfig.default.masuk;
     document.getElementById('jkDefPulang').value = jamKerjaConfig.default.pulang;
@@ -1422,6 +1498,7 @@ function loadJamKerja() {
     if (sel) sel.innerHTML = '<option value="">-- Pilih User --</option>' + getActiveUsers().map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
     renderJamKerjaOverrideTable();
 }
+
 function renderJamKerjaOverrideTable() {
     const tbody = document.getElementById('jkOverrideTable');
     const keys = Object.keys(jamKerjaConfig.override);
@@ -1436,6 +1513,7 @@ function renderJamKerjaOverrideTable() {
         </tr>`;
     }).join('') : '<tr class="er"><td colspan="4">Belum ada pengaturan jam kerja khusus</td></tr>';
 }
+
 async function simpanJamKerjaDefault() {
     const masuk  = document.getElementById('jkDefMasuk').value;
     const pulang = document.getElementById('jkDefPulang').value;
@@ -1449,6 +1527,7 @@ async function simpanJamKerjaDefault() {
         alert('Gagal menyimpan jam kerja standar. Coba lagi.');
     }
 }
+
 async function tambahJamKerjaOverride() {
     const userEl   = document.getElementById('jkUserSelect');
     const masukEl  = document.getElementById('jkOvMasuk');
@@ -1467,6 +1546,7 @@ async function tambahJamKerjaOverride() {
         alert('Gagal menyimpan pengaturan jam kerja khusus. Coba lagi.');
     }
 }
+
 async function hapusJamKerjaOverride(user) {
     if (!confirm(`Hapus pengaturan jam kerja khusus untuk ${user}?`)) return;
     const overrideBaru = { ...jamKerjaConfig.override };
@@ -1482,6 +1562,7 @@ async function hapusJamKerjaOverride(user) {
     }
 }
 
+// ===== KONTROL ABSENSI: MINIMAL KEGIATAN & WAJIB KETERANGAN (id_x=5, kolom x_06) =====
 async function ambilKegiatanConfig() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_KEGIATAN_ID}&limit=1`);
@@ -1516,6 +1597,7 @@ async function simpanKegiatanConfig(cfg) {
     return res;
 }
 
+// ===== KONTROL ABSENSI: BEBASKAN SYARAT DI HARI LIBUR (id_x=5, kolom x_09) =====
 async function ambilBebasApprovalLibur() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_BEBAS_LIBUR_ID}&limit=1`);
@@ -1565,6 +1647,10 @@ function loadKontrolAbsen() {
     renderJadwalBesokOverrideTable();
 }
 
+function loadKontrolStatus() {
+    loadStatusMagangUI();
+}
+
 function renderMinKegiatanOverrideTable() {
     const tbody = document.getElementById('mkOverrideTable');
     const ov = kegiatanConfig.minimalKegiatan.override;
@@ -1575,6 +1661,7 @@ function renderMinKegiatanOverrideTable() {
             <td><button class="btn-del" onclick="hapusMinKegiatanOverride('${uEsc}')">🗑 Hapus</button></td></tr>`;
     }).join('') : '<tr class="er"><td colspan="3">Belum ada pengaturan khusus per user</td></tr>';
 }
+
 async function simpanMinKegiatanDefault() {
     const val = parseInt(document.getElementById('mkDefault').value, 10);
     if (isNaN(val) || val < 0) return alert('Isi angka minimal kegiatan (0 = bebas).');
@@ -1582,6 +1669,7 @@ async function simpanMinKegiatanDefault() {
     const res = await simpanKegiatanConfig(cfgBaru);
     if (res.success) { kegiatanConfig = cfgBaru; } else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function tambahMinKegiatanOverride() {
     const userEl = document.getElementById('mkUserSelect'), valEl = document.getElementById('mkOvVal');
     const user = userEl.value, val = parseInt(valEl.value, 10);
@@ -1591,6 +1679,7 @@ async function tambahMinKegiatanOverride() {
     const res = await simpanKegiatanConfig(cfgBaru);
     if (res.success) { kegiatanConfig = cfgBaru; userEl.value=''; valEl.value=''; renderMinKegiatanOverrideTable(); } else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function hapusMinKegiatanOverride(user) {
     if (!confirm(`Hapus pengaturan minimal kegiatan khusus untuk ${user}?`)) return;
     const overrideBaru = { ...kegiatanConfig.minimalKegiatan.override };
@@ -1599,17 +1688,20 @@ async function hapusMinKegiatanOverride(user) {
     const res = await simpanKegiatanConfig(cfgBaru);
     if (res.success) { kegiatanConfig = cfgBaru; renderMinKegiatanOverrideTable(); } else alert('Gagal menghapus. Coba lagi.');
 }
+
 async function simpanWajibKeterangan() {
     const cfgBaru = { ...kegiatanConfig, wajibKeterangan: document.getElementById('wkAktif').checked };
     const res = await simpanKegiatanConfig(cfgBaru);
     if (res.success) { kegiatanConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function simpanApprovalHariIni() {
     const cfgBaru = { ...kegiatanConfig, approvalHariIni: document.getElementById('apHariIni').checked };
     const res = await simpanKegiatanConfig(cfgBaru);
     if (res.success) { kegiatanConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
 }
 
+// ===== KONTROL ABSENSI: SYARAT & PERSETUJUAN ABSEN PULANG (id_x=5, kolom x_07) =====
 async function ambilPulangConfig() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_PULANG_ID}&limit=1`);
@@ -1648,6 +1740,7 @@ async function simpanPulangConfig(cfg) {
     }
     return res;
 }
+
 function renderWajibSelesaiOverrideTable() {
     const tbody = document.getElementById('wsOverrideTable');
     const ov = pulangConfig.wajibSelesai.override;
@@ -1658,11 +1751,13 @@ function renderWajibSelesaiOverrideTable() {
             <td><button class="btn-del" onclick="hapusWajibSelesaiOverride('${uEsc}')">🗑 Hapus</button></td></tr>`;
     }).join('') : '<tr class="er"><td colspan="3">Belum ada pengecualian / pengaturan khusus per user</td></tr>';
 }
+
 async function simpanWajibSelesaiDefault() {
     const cfgBaru = { ...pulangConfig, wajibSelesai: { default: document.getElementById('wsDefault').checked, override: pulangConfig.wajibSelesai.override } };
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function tambahWajibSelesaiOverride() {
     const userEl = document.getElementById('wsUserSelect'), valEl = document.getElementById('wsOvVal');
     const user = userEl.value;
@@ -1672,6 +1767,7 @@ async function tambahWajibSelesaiOverride() {
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; userEl.value=''; renderWajibSelesaiOverrideTable(); } else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function hapusWajibSelesaiOverride(user) {
     if (!confirm(`Hapus pengecualian untuk ${user}?`)) return;
     const overrideBaru = { ...pulangConfig.wajibSelesai.override };
@@ -1680,11 +1776,17 @@ async function hapusWajibSelesaiOverride(user) {
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; renderWajibSelesaiOverrideTable(); } else alert('Gagal menghapus. Coba lagi.');
 }
+
 async function simpanApprovalPulang() {
     const cfgBaru = { ...pulangConfig, approvalDone: document.getElementById('apDone').checked, approvalNonDone: document.getElementById('apNonDone').checked };
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
 }
+
+// ===== SYARAT: WAJIB SUDAH BUAT JADWAL UNTUK HARI KERJA BERIKUTNYA =====
+// (bagian dari pulangConfig, kolom x_07). Kalau hari ini Jumat, yang wajib bukan Sabtu (libur)
+// tapi Senin (hari kerja berikutnya). Punya 2 opsi: tanpa approval admin, atau wajib disetujui admin dulu
+// (karena peserta bisa saja asal isi jadwal supaya syarat terpenuhi).
 function renderJadwalBesokOverrideTable() {
     const tbody = document.getElementById('jbOverrideTable');
     if (!tbody) return;
@@ -1696,11 +1798,13 @@ function renderJadwalBesokOverrideTable() {
             <td><button class="btn-del" onclick="hapusJadwalBesokOverride('${uEsc}')">🗑 Hapus</button></td></tr>`;
     }).join('') : '<tr class="er"><td colspan="3">Belum ada pengecualian / pengaturan khusus per user</td></tr>';
 }
+
 async function simpanWajibJadwalBesokDefault() {
     const cfgBaru = { ...pulangConfig, wajibJadwalBesok: { default: document.getElementById('jbDefault').checked, override: pulangConfig.wajibJadwalBesok.override } };
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function tambahJadwalBesokOverride() {
     const userEl = document.getElementById('jbUserSelect'), valEl = document.getElementById('jbOvVal');
     const user = userEl.value;
@@ -1710,6 +1814,7 @@ async function tambahJadwalBesokOverride() {
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; userEl.value=''; renderJadwalBesokOverrideTable(); } else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function hapusJadwalBesokOverride(user) {
     if (!confirm(`Hapus pengecualian untuk ${user}?`)) return;
     const overrideBaru = { ...pulangConfig.wajibJadwalBesok.override };
@@ -1718,12 +1823,14 @@ async function hapusJadwalBesokOverride(user) {
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; renderJadwalBesokOverrideTable(); } else alert('Gagal menghapus. Coba lagi.');
 }
+
 async function simpanApprovalJadwalBesok() {
     const cfgBaru = { ...pulangConfig, approvalJadwalBesok: document.getElementById('apJadwalBesok').checked };
     const res = await simpanPulangConfig(cfgBaru);
     if (res.success) { pulangConfig = cfgBaru; alert('Pengaturan disimpan.'); } else alert('Gagal menyimpan. Coba lagi.');
 }
 
+// ===== KONTROL ABSENSI: STATUS MAGANG & DURASI KERJA (id_x=5, kolom x_08) =====
 async function ambilStatusMagang() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_STATUS_ID}&limit=1`);
@@ -1761,6 +1868,7 @@ async function simpanStatusMagang(cfg) {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (!res.success) {
+        // Baris belum ada di tabel -> buat baru dengan id_x tetap
         res = await fetch(`${API}?table=${TBLK}`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
             body: JSON.stringify({ id_x: KONTROL_STATUS_ID, x_08: JSON.stringify(cfg) })
@@ -1768,6 +1876,8 @@ async function simpanStatusMagang(cfg) {
     }
     return res;
 }
+
+// Status & durasi efektif untuk seorang user: pakai pengaturan khusus kalau ada, jika tidak pakai default sesuai jenis
 function getStatusUser(user) {
     const ov = statusMagangConfig.override[user];
     const jenis = (ov && ov.jenis) ? ov.jenis : statusMagangConfig.default.jenis;
@@ -1781,6 +1891,7 @@ function renderJenisBadge(user) {
     const w = JENIS_STATUS_WARNA[jenis] || JENIS_STATUS_WARNA.lainnya;
     return `<span class="mb-badge" style="background:${w.bg};color:${w.c};" title="Durasi: ${labelDurasi(durasi)}">${escHtml(JENIS_STATUS_LABEL[jenis] || jenis)}</span>`;
 }
+
 function loadStatusMagangUI() {
     const jd = statusMagangConfig.jenisDurasiDefault;
     document.getElementById('smDurMagangNilai').value  = jd.magang.nilai;
@@ -1796,7 +1907,9 @@ function loadStatusMagangUI() {
     const smSel = document.getElementById('smUserSelect'); if (smSel) smSel.innerHTML = optsHtml;
     renderStatusOverrideTable();
 }
+
 function parseTglStrAdm(s) { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); }
+// Pengaturan tambahan per user: tanggal mulai manual (opsional) & apakah tanggal berakhir tidak diperpanjang oleh ketidakhadiran
 function getOverrideExtra(user) {
     const ov = statusMagangConfig.override[user] || {};
     return { tanggalMulaiManual: ov.tanggalMulaiManual || null, tidakDiperpanjang: !!ov.tidakDiperpanjang };
@@ -1830,6 +1943,7 @@ function renderStatusOverrideTable() {
         </tr>`;
     }).join('') : '<tr class="er"><td colspan="6">Belum ada pengaturan status khusus per user (semua memakai status default)</td></tr>';
 }
+
 async function simpanDurasiJenisDefault() {
     const gv = id => parseInt(document.getElementById(id).value, 10);
     const nMagang = gv('smDurMagangNilai'), nOjt = gv('smDurOjtNilai'), nMitra = gv('smDurMitraNilai'), nLainnya = gv('smDurLainnyaNilai');
@@ -1847,6 +1961,7 @@ async function simpanDurasiJenisDefault() {
     if (res.success) { statusMagangConfig = cfgBaru; renderStatusOverrideTable(); loadMasaBerakhir(); alert('Durasi default per status disimpan.'); }
     else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function simpanStatusDefault() {
     const jenis = document.getElementById('smDefaultJenis').value;
     const cfgBaru = { ...statusMagangConfig, default: { jenis } };
@@ -1854,6 +1969,7 @@ async function simpanStatusDefault() {
     if (res.success) { statusMagangConfig = cfgBaru; renderStatusOverrideTable(); loadMasaBerakhir(); alert('Status default disimpan.'); }
     else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function tambahStatusOverride() {
     const userEl = document.getElementById('smUserSelect');
     const jenisEl = document.getElementById('smOvJenis');
@@ -1881,6 +1997,7 @@ async function tambahStatusOverride() {
         loadMasaBerakhir();
     } else alert('Gagal menyimpan. Coba lagi.');
 }
+
 async function hapusStatusOverride(user) {
     if (!confirm(`Hapus pengaturan status khusus untuk ${user}? User akan kembali memakai status default.`)) return;
     const overrideBaru = { ...statusMagangConfig.override };
@@ -1891,6 +2008,10 @@ async function hapusStatusOverride(user) {
     else alert('Gagal menghapus. Coba lagi.');
 }
 
+// Persetujuan admin untuk 1 item jadwal. Kolom x_10: '' = belum direview, '1' = disetujui, '0' = ditolak (perlu revisi).
+// Kolom x_12 = alasan penolakan, ditampilkan ke peserta agar tahu apa yang harus diperbaiki pada Keterangan.
+
+// Tombol/badge approval dipakai di listing Jadwal (dipanggil dari renderJadwalRow & loadJenisPage)
 function renderApprovalBtn(d) {
     const st = d.x_10 || '';
     if (st === '1') {
@@ -1905,6 +2026,8 @@ function renderApprovalBtn(d) {
         <button class="btn-add-j" style="padding:4px 8px;font-size:11px;background:#fff1f2;color:#e11d48;border:1px solid #fecdd3;" onclick="tolakJadwal('${d.id_x}')" title="Tolak — peserta harus perbaiki keterangan">❌ Tolak</button>
     </span>`;
 }
+
+// Setujui (x_10='1', bersihkan alasan tolak lama)
 async function setujuiJadwal(id) {
     const res = await fetch(`${API}?table=${TJ}&id_x=${id}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
@@ -1912,9 +2035,11 @@ async function setujuiJadwal(id) {
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (res.success) { loadJadwal(); loadKegiatanHariIni(); refreshApproverJikaAda(); } else alert('Gagal menyetujui.');
 }
+
+// Tolak — minta alasan dulu, simpan x_10='0' + x_12=alasan. Peserta akan diminta memperbaiki Keterangan.
 async function tolakJadwal(id) {
     const alasan = prompt('Alasan penolakan (akan dilihat peserta agar tahu apa yang harus diperbaiki pada Keterangan):');
-    if (alasan === null) return;
+    if (alasan === null) return; // batal
     if (!alasan.trim()) return alert('Alasan wajib diisi agar peserta tahu apa yang harus diperbaiki.');
     const res = await fetch(`${API}?table=${TJ}&id_x=${id}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
@@ -1922,6 +2047,8 @@ async function tolakJadwal(id) {
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (res.success) { loadJadwal(); loadKegiatanHariIni(); refreshApproverJikaAda(); } else alert('Gagal menolak.');
 }
+
+// Batalkan persetujuan (dipakai saat klik badge "✅ Disetujui" utk kembalikan ke belum-direview)
 async function toggleSetujuiJadwal(id, disetujuiSekarang) {
     if (!disetujuiSekarang) return;
     const res = await fetch(`${API}?table=${TJ}&id_x=${id}`, {
@@ -1930,6 +2057,8 @@ async function toggleSetujuiJadwal(id, disetujuiSekarang) {
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (res.success) { loadJadwal(); loadKegiatanHariIni(); refreshApproverJikaAda(); } else alert('Gagal mengubah status persetujuan.');
 }
+
+// Refresh tabel Approver kalau sedang dibuka, dan badge-nya selalu (dipanggil dari mana saja jadwal bisa berubah)
 function refreshApproverJikaAda() {
     const activePage = document.querySelector('.page.active');
     if (activePage && activePage.id === 'page-approver') loadApprover();
@@ -1937,6 +2066,11 @@ function refreshApproverJikaAda() {
     if (activePage && activePage.id === 'page-dashboard') loadMenungguApprove();
 }
 
+// ===== APPROVER: antrean semua jadwal (semua jenis) yang belum direview admin =====
+// Cakupan: bulan berjalan + bulan depan (supaya jadwal utk hari kerja berikutnya yang jatuh
+// di awal bulan depan tetap ikut ke-cover), khusus milik user aktif.
+// Berlaku mulai HARI INI — tanggal yang sudah lewat (backlog sebelum fitur ini ada) sengaja
+// dikecualikan, meski masih berstatus belum direview, supaya tidak ikut nyangkut di antrean.
 async function ambilJadwalMenungguReview() {
     const now = new Date();
     const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
@@ -1949,6 +2083,8 @@ async function ambilJadwalMenungguReview() {
     ]);
     const activeSet = getActiveUserNames();
     const gabung = [...(r1.data || []), ...(r2.data || [])];
+    // x_10 kosong/undefined = belum direview. '0' (ditolak) sengaja TIDAK ikut —
+    // itu tanggung jawab peserta memperbaiki keterangan, bukan antrean aksi admin.
     return gabung
         .map(d => ({ d, tglStr: `${d.x_07}-${String(d.x_06).padStart(2,'0')}-${String(d.x_01).padStart(2,'0')}` }))
         .filter(({ d, tglStr }) => activeSet.has(d.x_09) && !d.x_10 && tglStr >= todayStr)
@@ -1956,33 +2092,41 @@ async function ambilJadwalMenungguReview() {
         .map(({ d }) => d);
 }
 
+// ===== Card "Absen Masuk & Keluar Hari Ini" di Dashboard =====
 async function loadAbsenHariIni() {
     const elMasuk  = document.getElementById('ahMasukList');
     const elPulang = document.getElementById('ahPulangList');
     const elBelum  = document.getElementById('ahBelumList');
     const elTgl    = document.getElementById('ahTglLabel');
     [elMasuk, elPulang, elBelum].forEach(el => { if (el) el.innerHTML = '<div class="ma-empty"><span class="sp"></span> Memuat...</div>'; });
+
     const now = new Date();
     const todayStr = tglKeStrAdm(now);
     if (elTgl) elTgl.textContent = fmtTglIndoSingkat(now);
+
     const activeUsers = getActiveUsers();
     const activeSet   = getActiveUserNames();
     const res  = await api(`?table=${TA}&x_02_eq=${todayStr}`);
     const data = (res.data || []).filter(d => activeSet.has(d.x_01));
+
     const masuk  = data.filter(d => d.x_05 === 'MASUK').sort((a,b) => (a.x_03||'').localeCompare(b.x_03||''));
     const pulang = data.filter(d => d.x_05 === 'PULANG').sort((a,b) => (a.x_03||'').localeCompare(b.x_03||''));
     const sudahMasukSet = new Set(masuk.map(d => d.x_01));
     const belum = activeUsers.filter(u => !sudahMasukSet.has(u.x_01));
+
     const cM = document.getElementById('ahMasukCount');  if (cM) cM.textContent  = masuk.length;
     const cP = document.getElementById('ahPulangCount'); if (cP) cP.textContent  = pulang.length;
     const cB = document.getElementById('ahBelumCount');  if (cB) cB.textContent  = belum.length;
+
     const rowAbsen = d => `<div class="ah-row"><span class="uchip"><span class="udot"></span>${d.x_01||'-'}</span><span class="ah-jam">${d.x_03||'-'}</span></div>`;
     const rowUser  = u => `<div class="ah-row"><span class="uchip"><span class="udot"></span>${u.x_01}</span></div>`;
+
     if (elMasuk)  elMasuk.innerHTML  = masuk.length  ? masuk.map(rowAbsen).join('')   : '<div class="ma-empty">Belum ada yang absen masuk</div>';
     if (elPulang) elPulang.innerHTML = pulang.length ? pulang.map(rowAbsen).join('')  : '<div class="ma-empty">Belum ada yang absen pulang</div>';
     if (elBelum)  elBelum.innerHTML  = belum.length  ? belum.map(rowUser).join('')    : '<div class="ma-empty">🎉 Semua sudah absen masuk</div>';
 }
 
+// ===== Card ringkas "Menunggu Approve" di Dashboard (preview dari antrean Approver) =====
 async function loadMenungguApprove() {
     const listEl = document.getElementById('maList');
     const countEl = document.getElementById('maCount');
@@ -2068,6 +2212,9 @@ async function loadApprover() {
     }
     loadApproverBadge(data.length);
 }
+
+// Update badge angka di menu sidebar. Kalau count sudah diketahui (dipanggil dari loadApprover), pakai itu;
+// kalau tidak (mis. dipanggil dari showApp/refresh lain), hitung ulang.
 async function loadApproverBadge(knownCount) {
     const el = document.getElementById('cnt-approver');
     if (!el) return;
@@ -2075,6 +2222,8 @@ async function loadApproverBadge(knownCount) {
     el.textContent = `(${count})`;
 }
 
+
+// ===== LIBUR NASIONAL (tersimpan di tabel kontrol_admin, id_x = 5, kolom x_01 berisi JSON) =====
 async function ambilLiburNasional() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_LIBUR_ID}&limit=1`);
@@ -2093,6 +2242,8 @@ async function ambilLiburNasional() {
     const elLc = document.getElementById('mbLiburCount');
     if (elLc) elLc.textContent = `🎌 ${liburNasionalList.length} libur`;
 }
+
+// Popup daftar libur nasional (info saja, read di halaman manapun via card Masa Berakhir Magang)
 function bukaLiburInfoAdm() {
     const judul = document.getElementById('mbDetailJudul');
     const body  = document.getElementById('mbDetailBody');
@@ -2108,6 +2259,7 @@ function bukaLiburInfoAdm() {
     document.getElementById('modalMbDetail').style.display = 'flex';
 }
 
+// ===== KETERANGAN TIDAK HADIR (satu baris dengan libur nasional: tabel kontrol_admin, id_x = 5, tapi kolom x_02 berisi JSON) =====
 async function ambilKetTidakHadir() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_KET_ID}&limit=1`);
@@ -2125,12 +2277,14 @@ async function ambilKetTidakHadir() {
         ketTidakHadirMap  = {};
     }
 }
+
 async function simpanKetTidakHadir(list) {
     const body = JSON.stringify({ x_02: JSON.stringify(list) });
     let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_KET_ID}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (!res.success) {
+        // Baris belum ada di tabel -> buat baru dengan id_x tetap
         res = await fetch(`${API}?table=${TBLK}`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
             body: JSON.stringify({ id_x: KONTROL_KET_ID, x_02: JSON.stringify(list) })
@@ -2139,6 +2293,7 @@ async function simpanKetTidakHadir(list) {
     return res;
 }
 
+// ===== KETERANGAN MASUK HARI LIBUR (satu baris dengan libur nasional: id_x = 5, kolom x_03 berisi JSON) =====
 async function ambilKetMasukLibur() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_KET_MASUK_ID}&limit=1`);
@@ -2156,12 +2311,14 @@ async function ambilKetMasukLibur() {
         ketMasukLiburMap  = {};
     }
 }
+
 async function simpanKetMasukLibur(list) {
     const body = JSON.stringify({ x_03: JSON.stringify(list) });
     let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_KET_MASUK_ID}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (!res.success) {
+        // Baris belum ada di tabel -> buat baru dengan id_x tetap
         res = await fetch(`${API}?table=${TBLK}`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
             body: JSON.stringify({ id_x: KONTROL_KET_MASUK_ID, x_03: JSON.stringify(list) })
@@ -2170,6 +2327,7 @@ async function simpanKetMasukLibur(list) {
     return res;
 }
 
+// ===== PESAN PENGUMUMAN (satu baris dengan libur nasional: id_x = 5, kolom x_04 berisi JSON) =====
 async function ambilPesanPengumuman() {
     try {
         const res = await api(`?table=${TBLK}&id_x_eq=${KONTROL_PESAN_ID}&limit=1`);
@@ -2184,12 +2342,14 @@ async function ambilPesanPengumuman() {
         pesanPengumumanList = [];
     }
 }
+
 async function simpanPesanPengumuman(list) {
     const body = JSON.stringify({ x_04: JSON.stringify(list) });
     let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_PESAN_ID}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (!res.success) {
+        // Baris belum ada di tabel -> buat baru dengan id_x tetap
         res = await fetch(`${API}?table=${TBLK}`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
             body: JSON.stringify({ id_x: KONTROL_PESAN_ID, x_04: JSON.stringify(list) })
@@ -2197,11 +2357,13 @@ async function simpanPesanPengumuman(list) {
     }
     return res;
 }
+
 function loadPesanPengumuman() {
     const tbody = document.getElementById('pesanTable');
     tbody.innerHTML = '<tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr>';
     ambilPesanPengumuman().then(renderPesanTable);
 }
+
 function renderPesanTable() {
     const tbody = document.getElementById('pesanTable');
     if (!pesanPengumumanList.length) { tbody.innerHTML = '<tr class="er"><td colspan="4">Belum ada pesan pengumuman ditambahkan</td></tr>'; return; }
@@ -2225,6 +2387,8 @@ function renderPesanTable() {
         </tr>`;
     }).join('');
 }
+
+// ----- Picker penerima (checkbox + search), pola sama seperti "User Pemilik" di modal Jadwal -----
 function renderPsUcpList(users) {
     const list = document.getElementById('psUcpList');
     if (!list) return;
@@ -2237,18 +2401,22 @@ function renderPsUcpList(users) {
                 ${u.x_01}
             </label>
         </div>`).join('');
+    // Terapkan kembali centang yang sudah dipilih sebelumnya (search/reload tidak menghapus pilihan)
     document.querySelectorAll('.ps-ucp-cb').forEach(cb => {
         cb.checked = !!(window._psUcpChecked && window._psUcpChecked.has(cb.value));
     });
 }
+
 function togglePsUcpItem(val) {
     const cb = document.getElementById('psucb_' + val);
     if (cb) { cb.checked = !cb.checked; updatePsSelectedTags(); }
 }
+
 function filterPsUcp() {
     const q = document.getElementById('psUcpSearch').value.toLowerCase();
     renderPsUcpList(getActiveUsers().filter(u => u.x_01.toLowerCase().includes(q)));
 }
+
 function updatePsSelectedTags() {
     const checked = Array.from(document.querySelectorAll('.ps-ucp-cb:checked'));
     window._psUcpChecked = new Set(checked.map(cb => cb.value));
@@ -2257,12 +2425,14 @@ function updatePsSelectedTags() {
         `<span class="sel-tag">${escHtml(cb.value)} <span class="rm" onclick="uncheckPsUser('${cb.value}')">×</span></span>`
     ).join('');
 }
+
 function uncheckPsUser(val) {
     const cb = document.getElementById('psucb_' + val);
     if (cb) cb.checked = false;
     if (window._psUcpChecked) window._psUcpChecked.delete(val);
     updatePsSelectedTags();
 }
+
 function togglePsSelectAll() {
     const cbs = document.querySelectorAll('.ps-ucp-cb');
     const allChecked = cbs.length > 0 && Array.from(cbs).every(cb => cb.checked);
@@ -2271,23 +2441,26 @@ function togglePsSelectAll() {
     const btn = document.getElementById('psUcpSelall');
     if (btn) btn.textContent = allChecked ? 'Pilih Semua' : 'Batal Semua';
 }
+
 function togglePenerimaMode() {
     const mode = document.querySelector('input[name="ps_penerima_mode"]:checked').value;
     const wrap = document.getElementById('psPenerimaWrap');
     if (mode === 'pilih') {
         wrap.style.display = 'block';
         document.getElementById('psUcpSearch').value = '';
-        renderPsUcpList(getActiveUsers());
+        renderPsUcpList(getActiveUsers()); // selalu render ulang: data user terkini + centang yang sudah dipilih tetap terjaga
         updatePsSelectedTags();
     } else {
         wrap.style.display = 'none';
     }
 }
+
 function getPenerimaFromForm() {
     const mode = document.querySelector('input[name="ps_penerima_mode"]:checked').value;
     if (mode === 'semua') return 'semua';
     return Array.from(document.querySelectorAll('.ps-ucp-cb:checked')).map(cb => cb.value);
 }
+
 function setPenerimaToForm(penerima) {
     const isSemua = !penerima || penerima === 'semua';
     document.querySelector(`input[name="ps_penerima_mode"][value="${isSemua ? 'semua' : 'pilih'}"]`).checked = true;
@@ -2302,6 +2475,7 @@ function setPenerimaToForm(penerima) {
         updatePsSelectedTags();
     }
 }
+
 function resetFormPesan() {
     _editPesanId = null;
     document.getElementById('ps_tgl').value = '';
@@ -2313,6 +2487,7 @@ function resetFormPesan() {
     document.querySelector('input[name="ps_penerima_mode"][value="semua"]').checked = true;
     document.getElementById('psPenerimaWrap').style.display = 'none';
 }
+
 function editPesanPengumuman(id) {
     const item = pesanPengumumanList.find(p => String(p.id) === String(id));
     if (!item) return;
@@ -2325,6 +2500,7 @@ function editPesanPengumuman(id) {
     document.getElementById('btnPesanBatal').style.display = 'inline-block';
     document.getElementById('page-pesan').scrollIntoView({ behavior:'smooth', block:'start' });
 }
+
 async function simpanFormPesan() {
     const tglEl  = document.getElementById('ps_tgl');
     const teksEl = document.getElementById('ps_teks');
@@ -2345,19 +2521,20 @@ async function simpanFormPesan() {
     listBaru.sort((a, b) => String(b.tanggal).localeCompare(String(a.tanggal)));
     const res = await simpanPesanPengumuman(listBaru);
     if (res.success) {
-        pesanPengumumanList = listBaru;
+        pesanPengumumanList = listBaru; // update lokal langsung, tidak bergantung fetch ulang (hindari lag/cache)
         resetFormPesan();
         renderPesanTable();
     } else {
         alert('Gagal menyimpan pesan pengumuman. Coba lagi.');
     }
 }
+
 async function hapusPesanPengumuman(id) {
     if (!confirm('Hapus pesan pengumuman ini?')) return;
     const listBaru = pesanPengumumanList.filter(p => String(p.id) !== String(id));
     const res = await simpanPesanPengumuman(listBaru);
     if (res.success) {
-        pesanPengumumanList = listBaru;
+        pesanPengumumanList = listBaru; // update lokal langsung, tidak bergantung fetch ulang (hindari lag/cache)
         if (String(_editPesanId) === String(id)) resetFormPesan();
         renderPesanTable();
     } else {
@@ -2386,6 +2563,7 @@ function bukaKetTH(user, tglStr, mode) {
     document.getElementById('modalKetTH').style.display = 'flex';
 }
 function tutupKetTH() { document.getElementById('modalKetTH').style.display = 'none'; }
+
 async function simpanKetTH() {
     const jenis = document.getElementById('kth_jenis').value;
     const ket   = document.getElementById('kth_ket').value.trim();
@@ -2402,6 +2580,7 @@ async function simpanKetTH() {
         alert('Gagal menyimpan keterangan. Coba lagi.');
     }
 }
+
 async function hapusKetTH() {
     if (!confirm('Hapus keterangan untuk tanggal ini?')) return;
     const isMasukLibur = _kthMode === 'masuklibur';
@@ -2416,12 +2595,14 @@ async function hapusKetTH() {
         alert('Gagal menghapus keterangan. Coba lagi.');
     }
 }
+
 async function simpanLiburNasional(list) {
     const body = JSON.stringify({ x_01: JSON.stringify(list) });
     let res = await fetch(`${API}?table=${TBLK}&id_x=${KONTROL_LIBUR_ID}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH }, body
     }).then(r => r.json()).catch(() => ({ success: false }));
     if (!res.success) {
+        // Baris belum ada di tabel -> buat baru dengan id_x tetap
         res = await fetch(`${API}?table=${TBLK}`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': AUTH },
             body: JSON.stringify({ id_x: KONTROL_LIBUR_ID, x_01: JSON.stringify(list) })
@@ -2429,6 +2610,7 @@ async function simpanLiburNasional(list) {
     }
     return res;
 }
+
 function loadLiburNasional() {
     const tbody = document.getElementById('liburTable');
     tbody.innerHTML = '<tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr>';
@@ -2447,6 +2629,7 @@ function loadLiburNasional() {
         }).join('');
     });
 }
+
 async function tambahLiburNasional() {
     const tglEl = document.getElementById('lb_tgl');
     const blnEl = document.getElementById('lb_bln');
@@ -2472,6 +2655,7 @@ async function tambahLiburNasional() {
         alert('Gagal menyimpan libur nasional. Coba lagi.');
     }
 }
+
 async function hapusLiburNasional(tanggalStr) {
     if (!confirm('Hapus tanggal libur nasional ini?')) return;
     const listBaru = liburNasionalList.filter(l => l.tanggal !== tanggalStr);
@@ -2484,6 +2668,12 @@ async function hapusLiburNasional(tanggalStr) {
     }
 }
 
+// ===== MASA BERAKHIR MAGANG =====
+// Batas akhir DASAR (kalender/hari kerja) = tanggal absensi pertama user + durasi status (lihat Kontrol Absensi),
+// lalu disesuaikan: tiap hari kerja tidak hadir -> +1 hari, tiap masuk di hari libur -> -1 hari.
+// Sisa & progres dihitung dalam HARI KERJA (Senin-Jumat).
+// Hanya user dengan x_10 = 'aktif' (tabel users) yang ditampilkan.
+// durasi: { nilai, unit } dengan unit 'bulan' (kalender) atau 'hari_kerja'. Default: 5 bulan (Magang).
 function hitungTglBerakhirMagangDasar(mulaiStr, durasi) {
     durasi = durasi || { nilai: 5, unit: 'bulan' };
     const [y, m, d] = mulaiStr.split('-').map(Number);
@@ -2494,6 +2684,7 @@ function hitungTglBerakhirMagangDasar(mulaiStr, durasi) {
     end.setDate(end.getDate() - 1);
     return end;
 }
+// Tanggal hari kerja ke-N dihitung mulai dari mulaiDate (inklusif, mulaiDate dihitung sebagai hari ke-1 jika hari kerja)
 function tambahNHariKerjaAdm(mulaiDate, n) {
     let count = 0;
     const cur = new Date(mulaiDate);
@@ -2516,6 +2707,7 @@ function fmtTglIndoLengkapAdm(d) {
 }
 function isAkhirPekanAdm(d) { const h = d.getDay(); return h === 0 || h === 6; }
 function tglKeStrAdm(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+// Hari libur = Sabtu/Minggu ATAU tanggal libur nasional (dari kontrol_admin id_x=5)
 function isHariLiburAdm(d) { return isAkhirPekanAdm(d) || liburNasionalSet.has(tglKeStrAdm(d)); }
 function hitungHariKerjaAntaraAdm(dariDate, sampaiDate) {
     if (dariDate > sampaiDate) return 0;
@@ -2528,25 +2720,22 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
     const [my, mm, md] = mulaiStr.split('-').map(Number);
     const mulaiDate = new Date(my, mm - 1, md);
     const today = new Date(); today.setHours(0, 0, 0, 0);
+    const jamStandar = getJamKerjaUser(user);
+    const batasMasuk  = jamKeMenitAdm(jamStandar.masuk);
+    const batasPulang = jamKeMenitAdm(jamStandar.pulang);
 
-    // Peta per-tanggal: { masuk:'08:00', pulang:'17:00', stdMasuk:'08:00', stdPulang:'17:00' }
-    // stdMasuk/stdPulang = snapshot jam standar yang berlaku SAAT absensi dilakukan
-    // (tersimpan di kolom x_06 & x_07). Ini kunci agar perubahan jam kerja admin
-    // TIDAK retroaktif mengubah penilaian terlambat/cepat pulang pada data lama.
+    // Peta per-tanggal: { masuk: '08:00', pulang: '17:00' }
     const peta = {};
     (absensiRecords || []).forEach(r => {
         if (!r.x_02) return;
         if (!peta[r.x_02]) peta[r.x_02] = {};
-        if (r.x_05 === 'MASUK') {
-            peta[r.x_02].masuk = r.x_03 || '-';
-            peta[r.x_02].stdMasuk = r.x_06 || null;   // snapshot standar masuk
-        }
-        if (r.x_05 === 'PULANG') {
-            peta[r.x_02].pulang = r.x_03 || '-';
-            peta[r.x_02].stdPulang = r.x_07 || null;  // snapshot standar pulang
-        }
+        if (r.x_05 === 'MASUK')  peta[r.x_02].masuk  = r.x_03 || '-';
+        if (r.x_05 === 'PULANG') peta[r.x_02].pulang = r.x_03 || '-';
     });
 
+    // Hari kerja (Sen-Jum, dan bukan libur nasional) sejak sehari setelah mulai s/d kemarin:
+    // Untuk hari yang SUDAH LEWAT: dianggap tidak masuk kalau salah satu tidak ada
+    // (tidak ada absensi masuk ATAU tidak ada absensi keluar/pulang pada hari itu).
     const tidakHadir = [];
     const kemarin = new Date(today); kemarin.setDate(kemarin.getDate() - 1);
     {
@@ -2561,8 +2750,11 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
             cur.setDate(cur.getDate() + 1);
         }
     }
-    const BATAS_TANPA_MASUK_MENIT  = 9  * 60;
-    const BATAS_TANPA_PULANG_MENIT = 19 * 60;
+    // Khusus HARI INI (bukan hari libur): pakai batas waktu toleransi, bukan langsung dianggap tidak masuk.
+    // - Belum absen masuk sampai jam 09:00 -> dianggap tidak masuk (kecuali nanti tetap absen -> jadi terlambat, bukan tidak masuk)
+    // - Sudah absen masuk tapi belum absen pulang sampai jam 19:00 -> dianggap tidak masuk
+    const BATAS_TANPA_MASUK_MENIT  = 9  * 60; // 09:00
+    const BATAS_TANPA_PULANG_MENIT = 19 * 60; // 19:00
     if (!isHariLiburAdm(today) && today >= mulaiDate) {
         const sHariIni = tglKeStrAdm(today);
         const recHariIni = peta[sHariIni];
@@ -2575,6 +2767,7 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
     }
     const absenPenuhCount = tidakHadir.length;
 
+    // Masuk di hari libur: tanggal dengan MASUK yang jatuh di Sabtu/Minggu ATAU libur nasional, sejak mulai s/d hari ini
     const masukLibur = [];
     Object.keys(peta).forEach(s => {
         if (!peta[s].masuk) return;
@@ -2587,32 +2780,26 @@ function hitungMasaKerjaLengkapAdm(mulaiStr, absensiRecords, user) {
     masukLibur.sort((a, b) => a.tanggal - b.tanggal);
     tidakHadir.sort((a, b) => a.tanggal - b.tanggal);
 
-    // === TERLAMBAT & CEPAT PULANG ===
-    // PERUBAHAN PENTING: gunakan snapshot jam standar dari record absensi itu sendiri
-    // (x_06 untuk MASUK, x_07 untuk PULANG). Kalau record TIDAK punya snapshot (data lama
-    // sebelum fitur ini ada), SKIP dari perhitungan supaya tidak salah menuduh terlambat.
+    // Terlambat & cepat pulang: hari kerja biasa (bukan hari libur) sejak mulai s/d hari ini,
+    // dibandingkan terhadap jam kerja standar/khusus user (kontrol_admin id_x=5, kolom x_05).
     const terlambat = [];
     const cepatPulang = [];
-    Object.keys(peta).forEach(s => {
-        const [y, m, d] = s.split('-').map(Number);
-        const dt = new Date(y, m - 1, d);
-        if (dt < mulaiDate || dt > today || isHariLiburAdm(dt)) return;
-        const rec = peta[s];
-        if (rec.masuk && rec.stdMasuk) {
-            const mnt    = jamKeMenitAdm(rec.masuk);
-            const stdMnt = jamKeMenitAdm(rec.stdMasuk);
-            if (mnt != null && stdMnt != null && mnt > stdMnt) {
-                terlambat.push({ tanggal: dt, jamMasuk: rec.masuk, standar: rec.stdMasuk, selisih: mnt - stdMnt });
+    if (batasMasuk != null || batasPulang != null) {
+        Object.keys(peta).forEach(s => {
+            const [y, m, d] = s.split('-').map(Number);
+            const dt = new Date(y, m - 1, d);
+            if (dt < mulaiDate || dt > today || isHariLiburAdm(dt)) return;
+            const rec = peta[s];
+            if (batasMasuk != null && rec.masuk) {
+                const mnt = jamKeMenitAdm(rec.masuk);
+                if (mnt != null && mnt > batasMasuk) terlambat.push({ tanggal: dt, jamMasuk: rec.masuk, standar: jamStandar.masuk, selisih: mnt - batasMasuk });
             }
-        }
-        if (rec.pulang && rec.stdPulang) {
-            const mnt    = jamKeMenitAdm(rec.pulang);
-            const stdMnt = jamKeMenitAdm(rec.stdPulang);
-            if (mnt != null && stdMnt != null && mnt < stdMnt) {
-                cepatPulang.push({ tanggal: dt, jamPulang: rec.pulang, standar: rec.stdPulang, selisih: stdMnt - mnt });
+            if (batasPulang != null && rec.pulang) {
+                const mnt = jamKeMenitAdm(rec.pulang);
+                if (mnt != null && mnt < batasPulang) cepatPulang.push({ tanggal: dt, jamPulang: rec.pulang, standar: jamStandar.pulang, selisih: batasPulang - mnt });
             }
-        }
-    });
+        });
+    }
     terlambat.sort((a, b) => a.tanggal - b.tanggal);
     cepatPulang.sort((a, b) => a.tanggal - b.tanggal);
 
@@ -2637,6 +2824,9 @@ async function loadMasaBerakhir() {
     }
     body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:18px;color:#94a3b8;"><span class="sp"></span> Memuat...</td></tr>';
     try {
+        // Limit besar (bukan 1) karena API tidak punya parameter sort/order,
+        // jadi limit=1 tidak menjamin record absensi paling awal yang terambil.
+        // Ambil semua absensi tiap user lalu cari tanggal x_02 paling kecil di client.
         const results = await Promise.all(
             usersAktif.map(u => api(`?table=${TA}&x_01_eq=${u.x_01}&limit=2000`))
         );
@@ -2700,6 +2890,7 @@ async function loadMasaBerakhir() {
     }
 }
 
+// Popup detail Tidak Hadir / Masuk Hari Libur (per user, tabel Masa Berakhir Magang)
 function bukaMbDetail(user, jenis) {
     const r = (window._mbRows || []).find(x => x.user === user);
     if (!r) return;
@@ -2745,13 +2936,13 @@ function bukaMbDetail(user, jenis) {
         judul.textContent = `⏰ Terlambat Absen — ${user}`;
         body.innerHTML = r.terlambat.map(t => `<div class="mkd-row mkd-row-oranye">
                 <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
-                <div class="mkd-ket">Masuk jam ${t.jamMasuk} &middot; standar saat itu ${t.standar} &middot; terlambat ${t.selisih} menit</div>
+                <div class="mkd-ket">Masuk jam ${t.jamMasuk} &middot; standar ${t.standar} &middot; terlambat ${t.selisih} menit</div>
             </div>`).join('') || '<div class="mkd-empty">Tidak ada data</div>';
     } else {
         judul.textContent = `🏃 Cepat Pulang — ${user}`;
         body.innerHTML = r.cepatPulang.map(t => `<div class="mkd-row mkd-row-biru">
                 <div class="mkd-tgl">${fmtTglIndoLengkapAdm(t.tanggal)}</div>
-                <div class="mkd-ket">Pulang jam ${t.jamPulang} &middot; standar saat itu ${t.standar} &middot; lebih cepat ${t.selisih} menit</div>
+                <div class="mkd-ket">Pulang jam ${t.jamPulang} &middot; standar ${t.standar} &middot; lebih cepat ${t.selisih} menit</div>
             </div>`).join('') || '<div class="mkd-empty">Tidak ada data</div>';
     }
     document.getElementById('modalMbDetail').style.display = 'flex';
@@ -2764,91 +2955,25 @@ function showPage(pg) {
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('page-'+pg).classList.add('active');
     document.getElementById('nav-'+pg).classList.add('active');
+    // Close mobile sidebar
     const sb = document.querySelector('.sidebar');
     const ov = document.getElementById('sbOverlayAdm');
     const btn = document.getElementById('btnBurger');
     if (sb) sb.classList.remove('sb-open');
     if (ov) ov.classList.remove('open');
     if (btn) btn.classList.remove('open');
-    const map = { dashboard: loadDashboard, approver: loadApprover, previewtugas: loadPreviewTugas, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman, kontrol: loadKontrol };
+    const map = { dashboard: loadDashboard, approver: loadApprover, previewtugas: loadPreviewTugas, jadwal: loadJadwal, absensi: loadAbsensi, users: loadUsers, akun: loadAkun, jamkerja: loadJamKerja, libur: loadLiburNasional, pesan: loadPesanPengumuman, kontrolabsen: loadKontrolAbsen, kontrolstatus: loadKontrolStatus };
     if (map[pg]) map[pg]();
     else if (pg.startsWith('jenis-')) loadJenisPage(pg.slice(6));
 }
 
-// ===== KONTROL (merged page) =====
-function loadKontrol() {
-    loadKontrolAbsen();
-    loadStatusMagangUI();
-    switchKontrolTab(currentKontrolTab || 'masuk');
+// ===== USERS =====
+// Hanya user dengan x_10 = 'aktif' yang dianggap aktif magang.
+function getActiveUsers() {
+    return allUsers.filter(u => String(u.x_10 || '').toLowerCase().trim() === 'aktif');
 }
-function switchKontrolTab(tab) {
-    currentKontrolTab = tab;
-    document.querySelectorAll('.ktab').forEach(b => b.classList.toggle('active', b.dataset.ktab === tab));
-    document.querySelectorAll('.ktab-panel').forEach(p => p.classList.toggle('active', p.id === 'kpanel-' + tab));
-}
-const KONTROL_INFO = {
-    masuk: {
-        judul: 'ℹ️ Info: Syarat Absen Masuk',
-        html: `
-            <h4>Apa isi tab ini?</h4>
-            <p>Tab ini mengatur syarat-syarat yang harus dipenuhi peserta <b>sebelum boleh absen masuk</b> pada hari itu:</p>
-            <ul>
-                <li><b>🎌 Bebaskan Syarat Khusus Hari Libur</b> — kalau aktif, di hari Sabtu/Minggu &amp; Libur Nasional, semua syarat absen masuk &amp; pulang otomatis dilewati. Cocok kalau peserta memang diminta masuk di hari libur, jadi tidak "terjebak" syarat administratif.</li>
-                <li><b>1️⃣ Minimal Kegiatan</b> — jumlah minimal kegiatan yang harus sudah dijadwalkan hari itu sebelum boleh absen masuk. Cegah peserta absen tanpa rencana kerja.</li>
-                <li><b>Persetujuan Admin untuk Jadwal Hari Ini</b> — kalau aktif, jadwal yang dibuat hari itu (mis. oleh peserta baru atau yang baru masuk lagi) wajib ditandai "Disetujui" admin dulu. Mencegah peserta asal isi keterangan hanya supaya bisa absen.</li>
-                <li><b>4️⃣ Wajib Isi Keterangan</b> — peserta tidak bisa menyimpan jadwal baru tanpa mengisi Keterangan.</li>
-            </ul>
-            <div class="kinfo-benefit">
-                <b>Manfaat:</b> memastikan setiap kehadiran punya dasar kegiatan yang jelas, menghindari absen tanpa rencana kerja, dan menjaga kualitas data sebelum dipakai untuk penilaian.
-            </div>`
-    },
-    pulang: {
-        judul: 'ℹ️ Info: Syarat Absen Pulang',
-        html: `
-            <h4>Apa isi tab ini?</h4>
-            <p>Tab ini mengatur syarat-syarat yang harus dipenuhi peserta <b>sebelum boleh absen pulang</b>:</p>
-            <ul>
-                <li><b>2️⃣ Wajib Selesai Semua Kegiatan</b> — peserta hanya boleh pulang setelah semua kegiatan hari itu berstatus <b>Done</b>.</li>
-                <li><b>3️⃣ Persetujuan Admin Sebelum Pulang</b> — kegiatan Done dan/atau reschedule (belum Done) wajib ditandai "Disetujui" admin dulu. Mencegah peserta asal klaim selesai.</li>
-                <li><b>5️⃣ Wajib Jadwal Hari Kerja Berikutnya</b> — peserta wajib sudah membuat minimal 1 jadwal untuk hari kerja berikutnya sebelum bisa pulang. Hari libur (Sabtu/Minggu &amp; tanggal Libur Nasional) otomatis dilewati, jadi kalau hari ini Jumat, yang wajib adalah Senin.</li>
-                <li><b>Persetujuan Jadwal Hari Kerja Berikutnya</b> — sama seperti di atas, tapi untuk jadwal besok — wajib ditandai "Disetujui" admin dulu.</li>
-            </ul>
-            <div class="kinfo-benefit">
-                <b>Manfaat:</b> memastikan pekerjaan hari ini benar-benar tuntas sebelum pulang, dan memastikan peserta punya rencana kerja yang jelas untuk hari berikutnya — tidak ada kegiatan yang tertinggal tanpa jejak.
-            </div>`
-    },
-    status: {
-        judul: 'ℹ️ Info: Status &amp; Durasi',
-        html: `
-            <h4>Apa isi tab ini?</h4>
-            <p>Tab ini mengatur <b>status keikutsertaan</b> dan <b>durasi kerja</b> setiap peserta, yang dipakai untuk menghitung "Masa Berakhir Magang" pada Dashboard:</p>
-            <ul>
-                <li><b>Durasi Default per Status</b> — nilai durasi bawaan untuk masing-masing status:
-                    <br>🔵 <b>Magang</b> (contoh: 5 bulan kalender)
-                    <br>🟣 <b>OJT</b> (contoh: 5 hari kerja)
-                    <br>🟠 <b>Mitra</b> (contoh: 1 bulan)
-                    <br>⚪ <b>Lainnya</b> (bebas)</li>
-                <li><b>Status Default (Semua User)</b> — status yang otomatis berlaku untuk semua peserta, kecuali diatur khusus per orang.</li>
-                <li><b>Status &amp; Durasi Khusus per User</b> — override khusus per peserta:
-                    <ul>
-                        <li>Pilih status spesifik (mis. mengubah peserta X dari Magang jadi Mitra).</li>
-                        <li>Isi Durasi Khusus kalau peserta tsb beda dari default statusnya (mis. Magang 3 bulan saja).</li>
-                        <li>Isi Tanggal Mulai Manual kalau tanggal mulai bukan dari absensi pertama (mis. baru mulai aktif kerja setelah beberapa hari orientasi).</li>
-                        <li>Centang 🔒 Tidak diperpanjang kalau tanggal berakhir harus tetap sesuai tanggal mulai + durasi, walau ada hari tidak hadir atau masuk di hari libur.</li>
-                    </ul>
-                </li>
-            </ul>
-            <div class="kinfo-benefit">
-                <b>Manfaat:</b> masa berakhir magang dihitung akurat sesuai jenis kontrak (magang/OJT/mitra) dan sesuai kondisi tiap peserta. Mendukung durasi "hari kerja" untuk OJT sehingga tidak terpengaruh Sabtu/Minggu &amp; libur nasional, sementara magang tetap pakai kalender bulanan.
-            </div>`
-    }
-};
-function showKontrolInfo(tab) {
-    const info = KONTROL_INFO[tab];
-    if (!info) return;
-    document.getElementById('kInfoJudul').innerHTML = info.judul;
-    document.getElementById('kInfoBody').innerHTML = info.html;
-    document.getElementById('modalKontrolInfo').style.display = 'flex';
+function getActiveUserNames() {
+    return new Set(getActiveUsers().map(u => u.x_01));
 }
 
 async function loadAllUsers() {
@@ -2859,15 +2984,11 @@ async function loadAllUsers() {
         const opts = aktifUsers.map(u => `<option value="${u.x_01}">${u.x_01}</option>`).join('');
         ['jFU','aFU'].forEach(id => document.getElementById(id).innerHTML = '<option value="">-- Semua --</option>' + opts);
         document.getElementById('mf_user').innerHTML = '<option value="">-- Pilih User --</option>' + opts;
+        // Render checkbox list
         renderUCPList(aktifUsers);
     }
 }
-function getActiveUsers() {
-    return allUsers.filter(u => String(u.x_10 || '').toLowerCase().trim() === 'aktif');
-}
-function getActiveUserNames() {
-    return new Set(getActiveUsers().map(u => u.x_01));
-}
+
 function renderUCPList(users) {
     const list = document.getElementById('ucpList');
     if(!list) return;
@@ -2880,19 +3001,23 @@ function renderUCPList(users) {
             </label>
         </div>`).join('');
 }
+
 function toggleUCPItem(val) {
     const cb = document.getElementById('ucb_' + val);
     if(cb) { cb.checked = !cb.checked; updateSelectedTags(); }
 }
+
 function filterUCP() {
     const q = document.getElementById('ucpSearch').value.toLowerCase();
     const filtered = getActiveUsers().filter(u => u.x_01.toLowerCase().includes(q));
     renderUCPList(filtered);
+    // Restore checked state
     document.querySelectorAll('.ucp-cb').forEach(cb => {
         const prevChecked = window._ucpChecked && window._ucpChecked.has(cb.value);
         cb.checked = prevChecked || false;
     });
 }
+
 function updateSelectedTags() {
     const checked = Array.from(document.querySelectorAll('.ucp-cb:checked'));
     window._ucpChecked = new Set(checked.map(cb => cb.value));
@@ -2902,12 +3027,14 @@ function updateSelectedTags() {
         `<span class="sel-tag">${cb.value} <span class="rm" onclick="uncheckUser('${cb.value}')">×</span></span>`
     ).join('');
 }
+
 function uncheckUser(val) {
     const cb = document.getElementById('ucb_' + val);
     if(cb) cb.checked = false;
     if(window._ucpChecked) window._ucpChecked.delete(val);
     updateSelectedTags();
 }
+
 function toggleSelectAll() {
     const cbs = document.querySelectorAll('.ucp-cb');
     const allChecked = Array.from(cbs).every(cb => cb.checked);
@@ -2916,8 +3043,11 @@ function toggleSelectAll() {
     document.getElementById('ucpSelall') && (document.getElementById('ucpSelall').textContent = allChecked ? 'Pilih Semua' : 'Batal Semua');
 }
 
+// ===== DASHBOARD =====
 async function loadDashboard() {
     const pr = getPeriodRange(dashPeriod);
+
+    // Update labels
     document.getElementById('dashPeriodeLabel').textContent = pr.shortLabel;
     document.getElementById('periodInfoText').textContent   = pr.label;
     ['dashJadwalPeriodeTitle'].forEach(id => {
@@ -2926,33 +3056,42 @@ async function loadDashboard() {
     const absTitleEl = document.getElementById('dashAbsensiPeriodeTitle');
     if (absTitleEl) absTitleEl.textContent = (dashPeriod==='harian') ? 'Hari Ini' : pr.shortLabel;
     document.querySelectorAll('.scard-period').forEach(el => el.textContent = pr.shortLabel);
+
+    // Build query
     let qBase = `?table=${TJ}`;
     let qAbs  = `?table=${TA}`;
     if (pr.type === 'harian') {
         qBase += `&x_01_eq=${pr.tgl}&x_06_eq=${pr.bln}&x_07_eq=${pr.thn}`;
         qAbs  += `&x_02_eq=${pr.today}`;
     } else if (pr.type === 'mingguan') {
+        // Fetch bulan ini lalu filter client-side
         qBase += `&x_06_eq=${new Date().getMonth()+1}&x_07_eq=${new Date().getFullYear()}`;
         qAbs  += `&x_02_gte=${pr.dateFrom}&x_02_lte=${pr.dateTo}`;
     } else {
         qBase += `&x_06_eq=${pr.bln}&x_07_eq=${pr.thn}`;
         qAbs  += `&x_02_gte=${pr.thn}-${String(pr.bln).padStart(2,'0')}-01`;
     }
+
     const [rA,rP,rD,rAbs] = await Promise.all([
         api(qBase + '&x_05_eq=aktif'),
         api(qBase + '&x_05_eq=pending'),
         api(qBase + '&x_05_eq=done'),
         api(qAbs),
     ]);
+
     let aktifData   = rA.data   || [];
     let pendingData = rP.data   || [];
     let doneData    = rD.data   || [];
     let absData     = rAbs.data || [];
+
+    // Hanya tampilkan data milik user yang x_10 = 'aktif'
     const activeSet = getActiveUserNames();
     aktifData   = aktifData.filter(d => activeSet.has(d.x_09));
     pendingData = pendingData.filter(d => activeSet.has(d.x_09));
     doneData    = doneData.filter(d => activeSet.has(d.x_09));
     absData     = absData.filter(d => activeSet.has(d.x_01));
+
+    // Filter mingguan client-side
     if (pr.type === 'mingguan') {
         const inWeek = item => {
             const d = `${item.x_07}-${String(item.x_06).padStart(2,'0')}-${String(item.x_01).padStart(2,'0')}`;
@@ -2963,14 +3102,18 @@ async function loadDashboard() {
         doneData    = doneData.filter(inWeek);
         absData     = absData.filter(d => d.x_02 >= pr.dateFrom && d.x_02 <= pr.dateTo);
     }
+
     const jAll = [...aktifData, ...pendingData, ...doneData];
     document.getElementById('stTotal').textContent   = jAll.length;
     document.getElementById('stAktif').textContent   = aktifData.length;
     document.getElementById('stDone').textContent    = doneData.length;
     document.getElementById('stAbsensi').textContent = absData.length;
+
     window._dashJadwalData = { aktif: aktifData, pending: pendingData, done: doneData };
     renderDashJadwal();
-    const absShow = absData.slice(0, 15).sort((a,b) => (b.x_02||'').localeCompare(a.x_02||''));
+
+    const absShow = absData.slice(0, 15)
+        .sort((a,b) => (b.x_02||'').localeCompare(a.x_02||''));
     document.getElementById('dAbsensi').innerHTML = absShow.length
         ? absShow.map(d => `<tr>
             <td>${d.x_02||''}</td>
@@ -2980,21 +3123,28 @@ async function loadDashboard() {
             <td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')">`:'-'}</td>
           </tr>`).join('')
         : `<tr class="er"><td colspan="5">Tidak ada absensi ${pr.shortLabel.toLowerCase()}</td></tr>`;
+
 }
+// ===== DASH JADWAL TAB =====
 function setDashTab(tab) {
     dashJadwalTab = tab;
+    // Update tampilan tombol
     ['aktif','pending','done','all'].forEach(t => {
         const el = document.getElementById('dtab-'+t);
         if (el) el.className = 'dtab' + (t === tab ? ' da-'+tab : '');
     });
     renderDashJadwal();
 }
+
 function renderDashJadwal() {
     const d = window._dashJadwalData;
     if (!d) return;
     let data;
-    if (dashJadwalTab === 'all') data = [...d.aktif, ...d.pending, ...d.done];
-    else data = d[dashJadwalTab] || [];
+    if (dashJadwalTab === 'all') {
+        data = [...d.aktif, ...d.pending, ...d.done];
+    } else {
+        data = d[dashJadwalTab] || [];
+    }
     data = data.sort((a,b) => Number(b.x_01)-Number(a.x_01)).slice(0, 15);
     document.getElementById('dJadwal').innerHTML = data.length
         ? data.map(d => {
@@ -3015,6 +3165,7 @@ function renderDashJadwal() {
             } else if (d.x_05 === 'done') {
                 viewBtn = `<button class="btn-view" disabled style="opacity:0.4;cursor:default;">👁 View</button>`;
             }
+            // lampiran badge x_11
             let lamBtn = '';
             if (d.x_11) {
                 if (d.x_11.startsWith('LINK:')) {
@@ -3029,12 +3180,14 @@ function renderDashJadwal() {
         : '<tr class="er"><td colspan="7">Tidak ada data</td></tr>';
 }
 
+// ===== JADWAL =====
 function setTab(tab) {
     currentTab = tab;
     document.querySelectorAll('.stab').forEach(b => b.className='stab');
     document.getElementById('stab-'+tab).className = `stab a-${tab}`;
     loadJadwal();
 }
+// Simpan bukti data di sini agar onclick bisa akses tanpa masalah escaping
 const _buktiStore = {};
 
 async function loadJadwal() {
@@ -3045,17 +3198,25 @@ async function loadJadwal() {
     const res = await api(q);
     const activeSet = getActiveUserNames();
     const data = (res.data||[]).filter(d => activeSet.has(d.x_09)).sort((a,b)=>Number(b.x_01)-Number(a.x_01));
+
+    // Kelompokkan per (tanggal+bulan+tahun+jenis+user) — kalau user yang sama punya
+    // beberapa jadwal sejenis di hari yang sama, cukup 1 baris ringkasan dengan badge jumlah.
     const groups = {};
     data.forEach(d => {
         const key = `${d.x_01}|${d.x_06}|${d.x_07}|${d.x_03}|${d.x_09}`;
         if(!groups[key]) groups[key] = [];
         groups[key].push(d);
     });
-    window._jGroups = groups;
+    window._jGroups = groups; // dipakai saat buka detail grup
+
     document.getElementById('jTable').innerHTML = Object.keys(groups).length
         ? Object.entries(groups).map(([key, items]) => renderJadwalRow(key, items)).join('')
         : '<tr class="er"><td colspan="6">Tidak ada data</td></tr>';
 }
+
+// Render 1 baris tabel jadwal. Kalau grup berisi >1 jadwal sejenis di hari yang sama,
+// tampil sebagai 1 baris ringkasan dengan badge jumlah — klik untuk lihat detail,
+// lalu klik salah satu item detail untuk baru membuka modal edit seperti biasa.
 function renderJadwalRow(key, items) {
     if (items.length === 1) {
         const d = items[0];
@@ -3066,6 +3227,7 @@ function renderJadwalRow(key, items) {
             if (px.bukti) {
                 _buktiStore[storeKey] = { rawUrl: px.bukti, user: d.x_09||'', ket: px.ket || (d.x_04||'').replace(/\n/g,' ') };
                 if (typeof px.bukti === 'string' && px.bukti.startsWith('LINK:')) {
+                    // Bukti berupa link eksternal — tampil sebagai tombol buka link
                     const actualLink = px.bukti.substring(5);
                     fotoBtnHtml = `<a href="${actualLink}" target="_blank" rel="noopener noreferrer" class="btn-view" style="text-decoration:none;background:#10b981;color:#fff;" onclick="event.stopPropagation()">🔗 Buka Link</a>`;
                 } else {
@@ -3096,6 +3258,7 @@ function renderJadwalRow(key, items) {
             ${renderApprovalBtn(d)}
         </td></tr>`;
     }
+    // Grup > 1 item sejenis di tanggal & user yang sama -> 1 baris ringkasan
     const first = items[0];
     const jenisLabel = (JENIS_META[first.x_03]||{}).label || first.x_03;
     const statuses = [...new Set(items.map(x=>x.x_05))];
@@ -3112,6 +3275,8 @@ function renderJadwalRow(key, items) {
     <td></td>
     <td onclick="event.stopPropagation()"><button class="btn-view" onclick="bukaGrupJadwalAdmin('${keySafe}')">👁 Lihat ${items.length}</button></td></tr>`;
 }
+
+// Popup detail isi grup — klik salah satu item baru membuka modal edit.
 function bukaGrupJadwalAdmin(key) {
     const items = (window._jGroups || {})[key];
     if (!items) return;
@@ -3132,6 +3297,7 @@ function bukaGrupJadwalAdmin(key) {
     document.getElementById('modalGrupJAdmin').style.display='flex';
 }
 
+// ===== JENIS PER KATEGORI (khusus hari ini) =====
 const JENIS_META = {
     meeting:   { label: 'Meeting',   icon: '🧑‍🤝‍🧑' },
     tes:       { label: 'Tes',       icon: '📝' },
@@ -3140,17 +3306,21 @@ const JENIS_META = {
     others:    { label: 'Other',     icon: '🗂️' }
 };
 
+// Ambil semua jadwal hari ini (semua jenis, semua status) milik user aktif — dipakai untuk badge sidebar & halaman jenis
 async function ambilJadwalHariIni() {
     const now = new Date(), tgl = now.getDate(), bln = now.getMonth()+1, thn = now.getFullYear();
     const res = await api(`?table=${TJ}&x_01_eq=${tgl}&x_06_eq=${bln}&x_07_eq=${thn}`);
     const activeSet = getActiveUserNames();
     return (res.data||[]).filter(d => activeSet.has(d.x_09));
 }
+
+// Card "Kegiatan Hari Ini" di dashboard — per jenis: jumlah user unik / total kegiatan
 async function loadKegiatanHariIni() {
     const grid = document.getElementById('khGrid');
     if (!grid) return;
     const tglEl = document.getElementById('khTanggal');
     if (tglEl) tglEl.textContent = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long' });
+
     const data = await ambilJadwalHariIni();
     const stats = {};
     Object.keys(JENIS_META).forEach(k => stats[k] = { users: new Set(), total: 0 });
@@ -3160,6 +3330,7 @@ async function loadKegiatanHariIni() {
             if (d.x_09) stats[d.x_03].users.add(d.x_09);
         }
     });
+
     const adaIsi = Object.entries(JENIS_META).filter(([key]) => stats[key].total > 0);
     grid.innerHTML = adaIsi.length
         ? adaIsi.map(([key, meta]) => {
@@ -3173,6 +3344,8 @@ async function loadKegiatanHariIni() {
         }).join('')
         : `<div class="kh-empty">Belum ada kegiatan terjadwal hari ini</div>`;
 }
+
+// Refresh badge count sidebar + halaman jenis kalau sedang dibuka
 function refreshJenisSemua() {
     loadJenisSidebarCounts();
     loadKegiatanHariIni();
@@ -3180,6 +3353,7 @@ function refreshJenisSemua() {
     const activePage = document.querySelector('.page.active');
     if (activePage && activePage.id.startsWith('page-jenis-')) loadJenisPage(activePage.id.slice(10));
 }
+
 async function loadJenisSidebarCounts() {
     const data = await ambilJadwalHariIni();
     const counts = {};
@@ -3190,6 +3364,7 @@ async function loadJenisSidebarCounts() {
         if (el) el.textContent = `(${counts[k]})`;
     });
 }
+
 async function loadJenisPage(jenisKey) {
     const meta = JENIS_META[jenisKey];
     const pageEl = document.getElementById('page-jenis-'+jenisKey);
@@ -3209,6 +3384,7 @@ async function loadJenisPage(jenisKey) {
             <thead><tr><th>Jam</th><th>User</th><th>Keterangan</th><th>Status</th><th>Aksi</th></tr></thead>
             <tbody id="jnTable-${jenisKey}"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
         </table></div>`;
+
     const data = (await ambilJadwalHariIni()).filter(d => d.x_03 === jenisKey).sort((a,b)=>(a.x_02||'').localeCompare(b.x_02||''));
     const total = data.length, done = data.filter(d => d.x_05 === 'done').length;
     const pct = total ? Math.round(done/total*100) : 0;
@@ -3216,6 +3392,7 @@ async function loadJenisPage(jenisKey) {
     document.getElementById(`jnDone-${jenisKey}`).textContent = done;
     document.getElementById(`jnPct-${jenisKey}`).textContent = pct + '%';
     document.getElementById(`jnBar-${jenisKey}`).style.width = pct + '%';
+
     document.getElementById(`jnTable-${jenisKey}`).innerHTML = data.length
         ? data.map(d => `<tr onclick="openModalEdit(${JSON.stringify(d).replace(/"/g,'&quot;')})">
             <td>${d.x_02||'-'}</td>
@@ -3230,25 +3407,34 @@ async function loadJenisPage(jenisKey) {
         : '<tr class="er"><td colspan="5">Tidak ada kegiatan hari ini</td></tr>';
 }
 
+// ===== PREVIEW TUGAS =====
+// Menu ringkasan: per user aktif (tab), tampilkan SEMUA kegiatan (semua jenis)
+// pada periode terpilih (hari ini / minggu ini / bulan ini / pilih bulan / pilih tanggal),
+// lengkap dengan status & link bukti yang bisa diklik.
+
 function loadPreviewTugas() {
     const pageEl = document.getElementById('page-previewtugas');
     if (!pageEl) return;
+
     const aktifUsers = getActiveUsers();
     if (!ptUser || !aktifUsers.some(u => u.x_01 === ptUser)) {
         ptUser = aktifUsers.length ? aktifUsers[0].x_01 : '';
     }
+
     if (!aktifUsers.length) {
         pageEl.innerHTML = `
             <div class="pg-header"><h2>🔍 Preview Tugas</h2><p>Semua kegiatan per user, lengkap dengan status &amp; bukti</p></div>
             <div class="pt-empty-user">Tidak ada user aktif</div>`;
         return;
     }
+
     const BLN_NAMA = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
     const bulanOpts = Array.from({length:12}, (_,i)=>i+1)
         .map(b => `<option value="${b}" ${b===ptBulanSel?'selected':''}>${BLN_NAMA[b-1]}</option>`).join('');
     const tahunNow = new Date().getFullYear();
     const tahunOpts = [tahunNow-1, tahunNow, tahunNow+1]
         .map(t => `<option value="${t}" ${t===ptTahunSel?'selected':''}>${t}</option>`).join('');
+
     pageEl.innerHTML = `
         <div class="pg-header"><h2>🔍 Preview Tugas</h2><p>Semua kegiatan (Meeting/Tes/Konseling/Seminar/Other) per user, lengkap dengan status &amp; bukti</p></div>
         <div class="pt-filterbar">
@@ -3277,11 +3463,14 @@ function loadPreviewTugas() {
             <thead><tr><th>Tgl/Jam</th><th>Jenis</th><th>Keterangan</th><th>Status</th><th>Keterangan Akhir</th><th>Bukti</th></tr></thead>
             <tbody id="ptTable"><tr class="lr"><td colspan="6"><span class="sp"></span>Memuat...</td></tr></tbody>
         </table></div>`;
+
     loadPtData();
     loadPtCounts();
 }
+
 function setPtUser(u) { ptUser = u; loadPreviewTugas(); }
 function setPtPeriod(p) { ptPeriod = p; loadPreviewTugas(); }
+
 function onPtBulanChange() {
     const bEl = document.getElementById('ptBulanSel'), tEl = document.getElementById('ptTahunSel');
     if (bEl) ptBulanSel = parseInt(bEl.value, 10);
@@ -3295,12 +3484,17 @@ function onPtTanggalChange() {
     loadPtData();
     loadPtCounts();
 }
+
+// Hitung jumlah kegiatan per user aktif untuk periode yang sedang dipilih,
+// lalu tampilkan sebagai "(n)" di sebelah nama pada tab user.
 async function loadPtCounts() {
     const aktifUsers = getActiveUsers();
     if (!aktifUsers.length) return;
+
     const now = new Date();
     let q = `?table=${TJ}`;
     let weekRange = null;
+
     if (ptPeriod === 'harian') {
         q += `&x_01_eq=${now.getDate()}&x_06_eq=${now.getMonth()+1}&x_07_eq=${now.getFullYear()}`;
     } else if (ptPeriod === 'mingguan') {
@@ -3316,14 +3510,17 @@ async function loadPtCounts() {
         if (!ty || !tm || !td) { renderPtUserCounts({}); return; }
         q += `&x_01_eq=${td}&x_06_eq=${tm}&x_07_eq=${ty}`;
     }
+
     const res = await api(q);
     let data = res.data || [];
+
     if (weekRange) {
         data = data.filter(d => {
             const ds = `${d.x_07}-${String(d.x_06).padStart(2,'0')}-${String(d.x_01).padStart(2,'0')}`;
             return ds >= weekRange.dateFrom && ds <= weekRange.dateTo;
         });
     }
+
     const activeSet = new Set(aktifUsers.map(u => u.x_01));
     const counts = {};
     data.forEach(d => {
@@ -3332,6 +3529,7 @@ async function loadPtCounts() {
     });
     renderPtUserCounts(counts);
 }
+
 function renderPtUserCounts(counts) {
     const aktifUsers = getActiveUsers();
     aktifUsers.forEach((u, i) => {
@@ -3339,11 +3537,13 @@ function renderPtUserCounts(counts) {
         if (el) el.textContent = `(${counts[u.x_01] || 0})`;
     });
 }
+
 async function loadPtData() {
     if (!ptUser) return;
     const now = new Date();
     let q = `?table=${TJ}&x_09_eq=${encodeURIComponent(ptUser)}`;
     let weekRange = null;
+
     if (ptPeriod === 'harian') {
         q += `&x_01_eq=${now.getDate()}&x_06_eq=${now.getMonth()+1}&x_07_eq=${now.getFullYear()}`;
     } else if (ptPeriod === 'mingguan') {
@@ -3359,23 +3559,30 @@ async function loadPtData() {
         if (!ty || !tm || !td) { renderPtTable([]); return; }
         q += `&x_01_eq=${td}&x_06_eq=${tm}&x_07_eq=${ty}`;
     }
+
     const tbody = document.getElementById('ptTable');
     if (tbody) loading('ptTable', 6);
     const res = await api(q);
     let data = res.data || [];
+
+    // 'Minggu ini' hanya bisa difilter tepat di sisi client (x_01/x_06/x_07 kolom terpisah,
+    // sama seperti pendekatan yang dipakai loadDashboard untuk periode mingguan).
     if (weekRange) {
         data = data.filter(d => {
             const ds = `${d.x_07}-${String(d.x_06).padStart(2,'0')}-${String(d.x_01).padStart(2,'0')}`;
             return ds >= weekRange.dateFrom && ds <= weekRange.dateTo;
         });
     }
+
     data.sort((a,b) => {
         const ka = `${a.x_07}-${String(a.x_06).padStart(2,'0')}-${String(a.x_01).padStart(2,'0')} ${a.x_02||''}`;
         const kb = `${b.x_07}-${String(b.x_06).padStart(2,'0')}-${String(b.x_01).padStart(2,'0')} ${b.x_02||''}`;
         return kb.localeCompare(ka);
     });
+
     renderPtTable(data);
 }
+
 function renderPtTable(data) {
     const total = data.length, done = data.filter(d => d.x_05 === 'done').length;
     const pct = total ? Math.round(done/total*100) : 0;
@@ -3383,8 +3590,10 @@ function renderPtTable(data) {
     const doneEl  = document.getElementById('ptDone');  if (doneEl)  doneEl.textContent  = done;
     const pctEl   = document.getElementById('ptPct');   if (pctEl)   pctEl.textContent   = pct + '%';
     const barEl   = document.getElementById('ptBar');   if (barEl)   barEl.style.width   = pct + '%';
+
     const tbody = document.getElementById('ptTable');
     if (!tbody) return;
+
     tbody.innerHTML = data.length ? data.map(d => {
         let buktiHtml = '<span style="color:#94a3b8;font-size:11px;">-</span>';
         const px = parseBuktiX08(d.x_08);
@@ -3413,15 +3622,19 @@ function renderPtTable(data) {
         </tr>`;
     }).join('') : '<tr class="er"><td colspan="6">Tidak ada kegiatan pada periode ini</td></tr>';
 }
+
+// Wrapper: ambil data dari store lalu panggil showFotoBukti
 function showFotoBuktiByKey(key) {
     const d = _buktiStore[key];
     if (!d) return;
     showFotoBukti(d.rawUrl, d.user, d.ket);
 }
 
+// ===== ABSENSI =====
 let _absensiData = [];
 let _absensiPage = 1;
 const ABSENSI_PAGE_SIZE = 15;
+
 async function loadAbsensi() {
     const user=document.getElementById('aFU').value, dari=document.getElementById('aFD').value, sampai=document.getElementById('aFS').value;
     let q=`?table=${TA}`; if(user) q+=`&x_01_eq=${user}`; if(dari) q+=`&x_02_gte=${dari}`; if(sampai) q+=`&x_02_lte=${sampai}`;
@@ -3432,12 +3645,14 @@ async function loadAbsensi() {
     _absensiPage = 1;
     renderAbsensiTable();
 }
+
 function renderAbsensiTable() {
     const data = _absensiData;
     const totalPages = Math.max(1, Math.ceil(data.length / ABSENSI_PAGE_SIZE));
     if (_absensiPage > totalPages) _absensiPage = totalPages;
     const start = (_absensiPage - 1) * ABSENSI_PAGE_SIZE;
     const pageData = data.slice(start, start + ABSENSI_PAGE_SIZE);
+
     document.getElementById('aTable').innerHTML = pageData.length
         ? pageData.map(d => `<tr>
             <td>${d.x_02||'-'}</td>
@@ -3446,15 +3661,22 @@ function renderAbsensiTable() {
             <td><b>${d.x_03||'-'}</b></td>
             <td>${d.x_04?`<img src="${ASSETS}${d.x_04}" class="foto-thumb" onclick="showFoto('${ASSETS}${d.x_04}')" title="Klik untuk lihat">`:'<span style="color:#94a3b8;font-size:11px;">-</span>'}</td></tr>`).join('')
         : '<tr class="er"><td colspan="5">Tidak ada data absensi</td></tr>';
+
     renderPagination('aPagination', data.length, _absensiPage, totalPages, ABSENSI_PAGE_SIZE, 'absensiGoToPage');
 }
+
 function absensiGoToPage(p) { _absensiPage = p; renderAbsensiTable(); }
+
+// Komponen pagination generik — bisa dipakai ulang untuk tabel lain.
+// changeFnName = nama fungsi global yang dipanggil dengan 1 argumen (nomor halaman).
 function renderPagination(containerId, totalItems, currentPage, totalPages, pageSize, changeFnName) {
     const el = document.getElementById(containerId);
     if (!el) return;
     if (totalItems === 0) { el.innerHTML = ''; return; }
+
     const startItem = (currentPage - 1) * pageSize + 1;
     const endItem = Math.min(currentPage * pageSize, totalItems);
+
     let pages = [];
     const add = (p) => pages.push(p);
     add(1);
@@ -3463,6 +3685,7 @@ function renderPagination(containerId, totalItems, currentPage, totalPages, page
     if (currentPage < totalPages-2) add('...');
     if (totalPages > 1) add(totalPages);
     pages = [...new Set(pages)];
+
     el.innerHTML = `
         <span class="pgn-info">${startItem}-${endItem} dari ${totalItems}</span>
         <button class="pgn-btn" ${currentPage<=1?'disabled':''} onclick="${changeFnName}(${currentPage-1})">‹</button>
@@ -3473,6 +3696,7 @@ function renderPagination(containerId, totalItems, currentPage, totalPages, page
     `;
 }
 
+// ===== USERS PAGE =====
 async function loadUsers() {
     const grid = document.getElementById('usersGrid');
     grid.innerHTML = '<div style="color:#94a3b8;font-size:13px;"><span class="sp"></span> Memuat...</div>';
@@ -3505,6 +3729,7 @@ async function loadUsers() {
 }
 function viewUserJadwal(u) { showPage('jadwal'); document.getElementById('jFU').value=u; loadJadwal(); }
 
+// ===== USERS & PASSWORD =====
 function loadAkun() {
     const tbody = document.getElementById('akunTable');
     if (!allUsers.length) { tbody.innerHTML = '<tr class="er"><td colspan="4">Tidak ada user</td></tr>'; return; }
@@ -3522,6 +3747,7 @@ function loadAkun() {
         </tr>`;
     }).join('');
 }
+
 function togglePw(username) {
     const el = document.getElementById('pw_' + username);
     if (!el) return;
@@ -3537,6 +3763,7 @@ function togglePw(username) {
         if (btn) btn.textContent = '🙈 Sembunyikan';
     }
 }
+
 async function toggleAktifUser(username, id, currentlyAktif) {
     const aksi = currentlyAktif ? 'menonaktifkan' : 'mengaktifkan';
     if (!confirm(`Yakin ingin ${aksi} akun "${username}"?`)) return;
@@ -3555,8 +3782,13 @@ async function toggleAktifUser(username, id, currentlyAktif) {
     }
 }
 
+// ===== MODAL JADWAL =====
+/* ==============================
+   LAMPIRAN ADMIN (x_11)
+   ============================== */
 const ADM_R2 = 'https://lidan.co.id/api/upload_r2_lidan';
 const ADM_CDN = 'https://assets.lidan.co.id/';
+
 let _admLampiranTab = 'file';
 function switchAdmLampiranTab(tab) {
     _admLampiranTab = tab;
@@ -3569,6 +3801,7 @@ function switchAdmLampiranTab(tab) {
         el.style.color = k===tab ? '#fff' : '#64748b';
     });
 }
+
 function resetAdmLampiranForm() {
     switchAdmLampiranTab('file');
     document.getElementById('adm_lampiranFile').value = '';
@@ -3589,6 +3822,7 @@ function resetAdmLampiranForm() {
         } else { prev.style.display = 'none'; }
     };
 }
+
 function tampilkanAdmExistingLampiran(x11val) {
     const el = document.getElementById('adm_existingLampiran');
     if (!x11val) { el.style.display='none'; return; }
@@ -3615,6 +3849,7 @@ function tampilkanAdmExistingLampiran(x11val) {
         switchAdmLampiranTab('none');
     }
 }
+
 function hapusAdmLampiran() {
     const el = document.getElementById('adm_existingLampiran');
     el.style.display = 'none';
@@ -3622,6 +3857,7 @@ function hapusAdmLampiran() {
     el.dataset.cleared = '1';
     switchAdmLampiranTab('file');
 }
+
 function bukaAdmLampiranFiles(urls) {
     if (!urls || !urls.length) return;
     urls.forEach((fn, i) => {
@@ -3635,6 +3871,7 @@ function bukaAdmLampiranFiles(urls) {
         } else { window.open(url, '_blank'); }
     });
 }
+
 async function uploadAdmLampiranFiles(files) {
     const uploaded = [];
     for (let i = 0; i < files.length; i++) {
@@ -3648,8 +3885,10 @@ async function uploadAdmLampiranFiles(files) {
     }
     return uploaded;
 }
+
 async function getAdmLampiranValue() {
     const existEl = document.getElementById('adm_existingLampiran');
+
     if (_admLampiranTab === 'none') {
         if (existEl.dataset.cleared === '1') return 'CLEAR';
         return null;
@@ -3671,6 +3910,24 @@ async function getAdmLampiranValue() {
     }
     return null;
 }
+
+function renderLampiranBadge(x11val, idJadwal) {
+    if (!x11val) return '<td></td>';
+    if (x11val.startsWith('LINK:')) {
+        const url = x11val.substring(5);
+        return `<td><a href="${url}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;color:#059669;text-decoration:none;">🔗 Link</a></td>`;
+    } else {
+        let cnt = 1; try { const p=JSON.parse(x11val); if(Array.isArray(p)) cnt=p.length; } catch {}
+        return `<td><button data-x11="${encodeURIComponent(x11val)}" onclick="event.stopPropagation();bukaAdmLampiranEncoded(this)" style="display:inline-flex;align-items:center;gap:4px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:700;color:#2563eb;cursor:pointer;">📎 ${cnt} file</button></td>`;
+    }
+}
+
+function bukaAdmLampiranBadge(filesJsonStr) {
+    let files = [];
+    try { files = JSON.parse(filesJsonStr.replace(/'/g,'"')); } catch { files = [filesJsonStr]; }
+    if (!Array.isArray(files)) files = [filesJsonStr];
+    bukaAdmLampiranFiles(files);
+}
 function bukaAdmLampiranEncoded(btn) {
     const raw = decodeURIComponent(btn.dataset.x11 || '');
     if (!raw) return;
@@ -3688,8 +3945,10 @@ function openModalAdd() {
     document.getElementById('mf_jenis').value='meeting';
     resetAdmLampiranForm();
     document.getElementById('mStatusArea').style.display='none';
+    // Tampilkan multi-checkbox, sembunyikan single dropdown
     document.getElementById('fg_user_multi').style.display='block';
     document.getElementById('fg_user_single').style.display='none';
+    // Reset checkbox
     document.querySelectorAll('.ucp-cb').forEach(cb => cb.checked = false);
     document.getElementById('ucpSearch').value = '';
     filterUCP();
@@ -3704,6 +3963,7 @@ function openModalEdit(item) {
     document.getElementById('mf_jam').value  = item.x_02||'08:00';
     document.getElementById('mf_jenis').value= item.x_03||'meeting';
     document.getElementById('mf_ket').value  = item.x_04||'';
+    // Tampilkan single dropdown, sembunyikan multi-checkbox
     document.getElementById('fg_user_multi').style.display='none';
     document.getElementById('fg_user_single').style.display='block';
     document.getElementById('mf_user').value = item.x_09||'';
@@ -3722,7 +3982,9 @@ async function saveJadwal(fs) {
     if(!date) return alert('Isi tanggal!');
     var dp = date.split('-');
     var thnBaru = dp[0], blnBaru = String(parseInt(dp[1],10)), tglBaru = String(parseInt(dp[2],10));
+
     if(id) {
+        // MODE EDIT: single user
         const user = document.getElementById('mf_user').value;
         if(!user) return alert('Pilih user!');
         const payload = { x_01:tglBaru, x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:blnBaru, x_07:thnBaru, x_09:user };
@@ -3732,6 +3994,7 @@ async function saveJadwal(fs) {
         const res = await fetch(`${API}?table=${TJ}&id_x=${id}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Custom-Auth':AUTH},body:JSON.stringify(payload)}).then(r=>r.json());
         if(res.success){ closeModal('modalJadwal'); loadJadwal(); loadDashboard(); refreshJenisSemua(); } else alert('Gagal menyimpan!');
     } else {
+        // MODE TAMBAH: multi user via checkbox
         const selectedUsers = Array.from(document.querySelectorAll('.ucp-cb:checked')).map(cb => cb.value);
         if(selectedUsers.length === 0) return alert('Pilih minimal satu user!');
         const basePayload = { x_01:tglBaru, x_02:document.getElementById('mf_jam').value, x_03:document.getElementById('mf_jenis').value, x_04:document.getElementById('mf_ket').value, x_06:blnBaru, x_07:thnBaru, x_05: fs||'aktif' };
@@ -3759,8 +4022,11 @@ async function deleteJadwal(id) {
     if(res.success){ loadJadwal(); loadDashboard(); refreshJenisSemua(); } else alert('Gagal menghapus!');
 }
 
+// ===== UTILS =====
 function closeModal(id) { document.getElementById(id).style.display='none'; }
 function showFoto(url) { document.getElementById('mFotoImg').src=url; document.getElementById('modalFoto').style.display='flex'; }
+
+// ===== SIDEBAR MOBILE =====
 function toggleSidebarMobile() {
     const sb = document.getElementById('sidebar') || document.querySelector('.sidebar');
     const ov = document.getElementById('sbOverlayAdm');
@@ -3769,21 +4035,40 @@ function toggleSidebarMobile() {
     if (ov) ov.classList.toggle('open');
     if (btn) btn.classList.toggle('open');
 }
+
+// ===== SIDEBAR DESKTOP (bisa disembunyikan/ditampilkan lewat tombol ✕ / ☰) =====
 function toggleSidebarDesktop() {
     document.body.classList.toggle('sb-collapsed');
 }
 
+// ===== GALLERY / BUKTI VIEWER =====
 let _galleryImages = [];
 let _galleryIdx = 0;
-function isImageUrl(url) { return /\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?.*)?$/i.test(url); }
-function isPdfUrl(url) { return /\.pdf(\?.*)?$/i.test(url); }
-function isVideoUrl(url) { return /\.(mp4|mov|avi|mkv|webm)(\?.*)?$/i.test(url); }
-function getFileName(url) { try { return decodeURIComponent(url.split('/').pop().split('?')[0]); } catch { return url; } }
+
+function isImageUrl(url) {
+    return /\.(jpg|jpeg|png|gif|webp|bmp|svg)(\?.*)?$/i.test(url);
+}
+function isPdfUrl(url) {
+    return /\.pdf(\?.*)?$/i.test(url);
+}
+function isVideoUrl(url) {
+    return /\.(mp4|mov|avi|mkv|webm)(\?.*)?$/i.test(url);
+}
+function getFileIcon(url) {
+    if (isImageUrl(url)) return '🖼️';
+    if (isPdfUrl(url)) return '📄';
+    if (isVideoUrl(url)) return '🎬';
+    return '📎';
+}
+function getFileName(url) {
+    try { return decodeURIComponent(url.split('/').pop().split('?')[0]); } catch { return url; }
+}
+
 function renderMediaItem(url, idx) {
     const name = getFileName(url);
     if (isImageUrl(url)) {
         return `<div class="gallery-item" onclick="openLightbox(${idx})">
-            <img src="${url}" onerror="this.src='';this.parentElement.style.background='#fee2e2'" alt="Bukti ${idx+1}">
+            <img src="${url}" onerror="this.src=\'\';this.parentElement.style.background=\'#fee2e2\'" alt="Bukti ${idx+1}">
             <div class="gi-name">🖼️ ${name}</div>
         </div>`;
     } else if (isPdfUrl(url)) {
@@ -3814,6 +4099,7 @@ function renderMediaItem(url, idx) {
             </video>
         </div>`;
     } else {
+        // File lain - tampil sebagai link download
         return `<a class="gallery-file-item" href="${url}" target="_blank" onclick="event.stopPropagation()">
             <span class="gallery-file-icon">📎</span>
             <div class="gallery-file-info">
@@ -3824,6 +4110,7 @@ function renderMediaItem(url, idx) {
         </a>`;
     }
 }
+
 function showFotoBukti(rawUrl, user, ket) {
     let urls = [];
     try {
@@ -3833,20 +4120,27 @@ function showFotoBukti(rawUrl, user, ket) {
     } catch {
         urls = [rawUrl];
     }
+
     document.getElementById('fotoBuktiInfo').innerHTML = '<b>User:</b> ' + (user||'-') + '<br><b>Kegiatan:</b> ' + (ket||'-');
+
     const imgWrap  = document.getElementById('galleryImgWrap');
     const fileList = document.getElementById('galleryFileList');
     const grid     = document.getElementById('galleryGrid');
     const lnk      = document.getElementById('fotoBuktiLink');
+
     imgWrap.style.display = 'none';
     fileList.innerHTML = '';
     grid.innerHTML = '';
     lnk.style.display = 'none';
+
+    // Pisahkan gambar dari non-gambar untuk lightbox
     _galleryImages = urls.filter(isImageUrl);
     _galleryIdx = 0;
+
     if (urls.length === 1) {
         const url = urls[0];
         if (isImageUrl(url)) {
+            // Single image - tampil langsung
             imgWrap.style.display = 'block';
             const img = document.getElementById('mFotoBuktiImg');
             img.style.display = 'block';
@@ -3854,9 +4148,11 @@ function showFotoBukti(rawUrl, user, ket) {
             img.src = url;
             lnk.href = url; lnk.style.display = 'block';
         } else {
+            // Single PDF/video/file
             fileList.innerHTML = renderMediaItem(url, 0);
         }
     } else {
+        // Multiple files - render semua
         let imgIdx = 0;
         const parts = urls.map(url => {
             const isImg = isImageUrl(url);
@@ -3864,20 +4160,25 @@ function showFotoBukti(rawUrl, user, ket) {
             if (isImg) imgIdx++;
             return html;
         });
+        // Gambar di grid, media lain di fileList
         const imgItems = parts.filter((_, i) => isImageUrl(urls[i]));
         const otherItems = parts.filter((_, i) => !isImageUrl(urls[i]));
         if (imgItems.length > 0) grid.innerHTML = imgItems.join('');
         if (otherItems.length > 0) fileList.innerHTML = otherItems.join('');
     }
+
     document.getElementById('modalFotoBukti').style.display='flex';
 }
+
 function openLightbox(idx) {
     _galleryIdx = idx;
     const lb = document.getElementById('galleryLightbox');
     lb.style.display = 'flex';
     updateLightbox();
 }
-function closeLightbox() { document.getElementById('galleryLightbox').style.display = 'none'; }
+function closeLightbox() {
+    document.getElementById('galleryLightbox').style.display = 'none';
+}
 function lbNav(dir) {
     _galleryIdx = (_galleryIdx + dir + _galleryImages.length) % _galleryImages.length;
     updateLightbox();
@@ -3890,6 +4191,8 @@ function updateLightbox() {
     document.getElementById('lbNext').style.display = _galleryImages.length > 1 ? 'block' : 'none';
 }
 
+
+// ===== INIT =====
 window.onload = function() {
     checkAuth();
     const now=new Date(), bln=now.getMonth()+1, thn=now.getFullYear(), today=localDate(now);
