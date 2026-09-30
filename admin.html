@@ -746,6 +746,7 @@
                     <div class="fg" style="margin-bottom:0;"><label>Jam Pulang</label><input type="time" id="jkDefPulang" value="17:00"></div>
                     <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="simpanJamKerjaDefault()">💾 Simpan</button>
                 </div>
+                <div style="margin-top:12px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;">Hari Kerja</label><div id="jkDefHari"></div></div>
             </div>
             <div class="tcard" style="padding:16px 18px;margin-bottom:18px;">
                 <h3 style="font-size:13px;margin:0 0 12px;color:#0f172a;">Jam Kerja Khusus per User</h3>
@@ -755,13 +756,14 @@
                     <div class="fg" style="margin-bottom:0;"><label>Jam Pulang</label><input type="time" id="jkOvPulang"></div>
                     <button class="btn-add-j" style="height:41px;padding:0 18px;white-space:nowrap;margin-left:0;" onclick="tambahJamKerjaOverride()">+ Tambah</button>
                 </div>
+                <div style="margin-top:12px;"><label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;">Hari Kerja</label><div id="jkOvHari"></div></div>
             </div>
             <div class="tcard" style="padding:14px 18px;margin-bottom:18px;background:#fffbeb;border:1px solid #fde68a;font-size:12.5px;color:#92400e;line-height:1.65;">
                 ℹ️ <b>Catatan penting:</b> Perubahan jam kerja di sini <b>tidak akan mengubah penilaian terlambat/cepat pulang pada absensi yang sudah tercatat sebelumnya</b>. Setiap record absensi menyimpan snapshot jam standar yang berlaku pada saat absen dilakukan, sehingga histori tetap adil meski jam kerja diubah nanti.
             </div>
             <div class="tcard"><table>
-                <thead><tr><th>User</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Aksi</th></tr></thead>
-                <tbody id="jkOverrideTable"><tr class="lr"><td colspan="4"><span class="sp"></span>Memuat...</td></tr></tbody>
+                <thead><tr><th>User</th><th>Jam Masuk</th><th>Jam Pulang</th><th>Hari Kerja</th><th>Aksi</th></tr></thead>
+                <tbody id="jkOverrideTable"><tr class="lr"><td colspan="5"><span class="sp"></span>Memuat...</td></tr></tbody>
             </table></div>
         </div>
 
@@ -1211,7 +1213,8 @@ const KONTROL_KEGIATAN_ID = 5;
 const KONTROL_PULANG_ID = 5;
 const KONTROL_BEBAS_LIBUR_ID = 5;
 const KONTROL_STATUS_ID = 5;
-let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
+const HARI_KERJA_DEFAULT = [1,2,3,4,5];
+let jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00', hari: HARI_KERJA_DEFAULT }, override: {} };
 let kegiatanConfig = { minimalKegiatan: { default: 0, override: {} }, wajibKeterangan: true, approvalHariIni: false };
 let pulangConfig   = { wajibSelesai: { default: false, override: {} }, approvalDone: false, approvalNonDone: false, wajibJadwalBesok: { default: false, override: {} }, approvalJadwalBesok: false };
 let bebasApprovalLibur = false;
@@ -1381,12 +1384,12 @@ async function ambilJamKerja() {
         if (row && row.x_05) { try { cfg = JSON.parse(row.x_05); } catch { cfg = null; } }
         if (!cfg || typeof cfg !== 'object') cfg = {};
         jamKerjaConfig = {
-            default: { masuk: (cfg.default && cfg.default.masuk) || '08:00', pulang: (cfg.default && cfg.default.pulang) || '17:00' },
+            default: { masuk: (cfg.default && cfg.default.masuk) || '08:00', pulang: (cfg.default && cfg.default.pulang) || '17:00', hari: normHari(cfg.default && cfg.default.hari) },
             override: (cfg.override && typeof cfg.override === 'object') ? cfg.override : {}
         };
     } catch (e) {
         console.error(e);
-        jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00' }, override: {} };
+        jamKerjaConfig = { default: { masuk: '08:00', pulang: '17:00', hari: HARI_KERJA_DEFAULT }, override: {} };
     }
 }
 async function simpanJamKerja(cfg) {
@@ -1406,8 +1409,35 @@ function getJamKerjaUser(user) {
     const ov = jamKerjaConfig.override[user];
     return {
         masuk:  (ov && ov.masuk)  ? ov.masuk  : jamKerjaConfig.default.masuk,
-        pulang: (ov && ov.pulang) ? ov.pulang : jamKerjaConfig.default.pulang
+        pulang: (ov && ov.pulang) ? ov.pulang : jamKerjaConfig.default.pulang,
+        hari:   (ov && Array.isArray(ov.hari) && ov.hari.length) ? ov.hari : jamKerjaConfig.default.hari
     };
+}
+// ===== Hari kerja (0=Minggu ... 6=Sabtu, sama dengan Date.getDay()) =====
+const HARI_URUT  = [1,2,3,4,5,6,0];
+const HARI_NAMA  = { 1:'Senin', 2:'Selasa', 3:'Rabu', 4:'Kamis', 5:'Jumat', 6:'Sabtu', 0:'Minggu' };
+function normHari(arr) {
+    if (!Array.isArray(arr)) return HARI_KERJA_DEFAULT.slice();
+    const out = HARI_URUT.filter(d => arr.map(Number).includes(d));
+    return out.length ? out : HARI_KERJA_DEFAULT.slice();
+}
+function formatHari(arr) {
+    const h = normHari(arr);
+    if (h.length === 7) return 'Setiap hari';
+    const runs = []; let cur = [];
+    HARI_URUT.forEach(d => {
+        if (h.includes(d)) cur.push(d);
+        else { if (cur.length) runs.push(cur); cur = []; }
+    });
+    if (cur.length) runs.push(cur);
+    return runs.map(r => r.length >= 3 ? `${HARI_NAMA[r[0]]}–${HARI_NAMA[r[r.length-1]]}` : r.map(d => HARI_NAMA[d]).join(', ')).join(', ');
+}
+function hariChipsHtml(prefix, selected) {
+    const sel = normHari(selected);
+    return HARI_URUT.map(d => `<label style="display:inline-flex;align-items:center;gap:5px;margin:0 6px 6px 0;padding:5px 10px;border:1px solid #cbd5e1;border-radius:999px;font-size:12px;font-weight:500;color:#334155;cursor:pointer;background:#fff;"><input type="checkbox" class="${prefix}" value="${d}" ${sel.includes(d) ? 'checked' : ''} style="margin:0;width:auto;">${HARI_NAMA[d]}</label>`).join('');
+}
+function bacaHari(prefix) {
+    return HARI_URUT.filter(d => { const el = document.querySelector(`.${prefix}[value="${d}"]`); return el && el.checked; });
 }
 function jamKeMenitAdm(jamStr) {
     if (!jamStr) return null;
@@ -1418,6 +1448,8 @@ function jamKeMenitAdm(jamStr) {
 function loadJamKerja() {
     document.getElementById('jkDefMasuk').value  = jamKerjaConfig.default.masuk;
     document.getElementById('jkDefPulang').value = jamKerjaConfig.default.pulang;
+    document.getElementById('jkDefHari').innerHTML = hariChipsHtml('jkDefHariCb', jamKerjaConfig.default.hari);
+    document.getElementById('jkOvHari').innerHTML  = hariChipsHtml('jkOvHariCb', HARI_KERJA_DEFAULT);
     const sel = document.getElementById('jkUserSelect');
     if (sel) sel.innerHTML = '<option value="">-- Pilih User --</option>' + getActiveUsers().map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
     renderJamKerjaOverrideTable();
@@ -1435,6 +1467,7 @@ function renderJamKerjaOverrideTable() {
             <td>${chip}</td>
             <td><input type="time" id="jkEditMasuk" value="${escHtml(ov.masuk || '')}" style="padding:5px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;"></td>
             <td><input type="time" id="jkEditPulang" value="${escHtml(ov.pulang || '')}" style="padding:5px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;"></td>
+            <td>${hariChipsHtml('jkEditHariCb', ov.hari)}</td>
             <td>
                 <button class="btn-edit" style="background:#dcfce7;color:#15803d;" onclick="simpanEditJamKerjaOverride('${uEsc}')">💾 Simpan</button>
                 <button class="btn-del" style="background:#f1f5f9;color:#475569;" onclick="batalEditJamKerjaOverride()">Batal</button>
@@ -1445,12 +1478,13 @@ function renderJamKerjaOverrideTable() {
             <td>${chip}</td>
             <td>${escHtml(ov.masuk || '-')}</td>
             <td>${escHtml(ov.pulang || '-')}</td>
+            <td>${escHtml(formatHari(ov.hari))}</td>
             <td>
                 <button class="btn-edit" onclick="editJamKerjaOverride('${uEsc}')">✏️ Edit</button>
                 <button class="btn-del" onclick="hapusJamKerjaOverride('${uEsc}')">🗑 Hapus</button>
             </td>
         </tr>`;
-    }).join('') : '<tr class="er"><td colspan="4">Belum ada pengaturan jam kerja khusus</td></tr>';
+    }).join('') : '<tr class="er"><td colspan="5">Belum ada pengaturan jam kerja khusus</td></tr>';
 }
 function editJamKerjaOverride(user) {
     jkEditingUser = user;
@@ -1464,7 +1498,9 @@ async function simpanEditJamKerjaOverride(user) {
     const masuk  = document.getElementById('jkEditMasuk').value;
     const pulang = document.getElementById('jkEditPulang').value;
     if (!masuk || !pulang) return alert('Jam masuk & pulang wajib diisi.');
-    const cfgBaru = { default: jamKerjaConfig.default, override: { ...jamKerjaConfig.override, [user]: { masuk, pulang } } };
+    const hari = bacaHari('jkEditHariCb');
+    if (!hari.length) return alert('Pilih minimal satu hari kerja.');
+    const cfgBaru = { default: jamKerjaConfig.default, override: { ...jamKerjaConfig.override, [user]: { masuk, pulang, hari } } };
     const res = await simpanJamKerja(cfgBaru);
     if (res.success) {
         jamKerjaConfig = cfgBaru;
@@ -1479,7 +1515,9 @@ async function simpanJamKerjaDefault() {
     const masuk  = document.getElementById('jkDefMasuk').value;
     const pulang = document.getElementById('jkDefPulang').value;
     if (!masuk || !pulang) return alert('Jam masuk & pulang wajib diisi.');
-    const cfgBaru = { default: { masuk, pulang }, override: jamKerjaConfig.override };
+    const hari = bacaHari('jkDefHariCb');
+    if (!hari.length) return alert('Pilih minimal satu hari kerja.');
+    const cfgBaru = { default: { masuk, pulang, hari }, override: jamKerjaConfig.override };
     const res = await simpanJamKerja(cfgBaru);
     if (res.success) {
         jamKerjaConfig = cfgBaru;
@@ -1495,11 +1533,14 @@ async function tambahJamKerjaOverride() {
     const user = userEl.value;
     if (!user) return alert('Pilih user terlebih dahulu.');
     if (!masukEl.value || !pulangEl.value) return alert('Jam masuk & pulang wajib diisi.');
-    const cfgBaru = { default: jamKerjaConfig.default, override: { ...jamKerjaConfig.override, [user]: { masuk: masukEl.value, pulang: pulangEl.value } } };
+    const hari = bacaHari('jkOvHariCb');
+    if (!hari.length) return alert('Pilih minimal satu hari kerja.');
+    const cfgBaru = { default: jamKerjaConfig.default, override: { ...jamKerjaConfig.override, [user]: { masuk: masukEl.value, pulang: pulangEl.value, hari } } };
     const res = await simpanJamKerja(cfgBaru);
     if (res.success) {
         jamKerjaConfig = cfgBaru;
         userEl.value = ''; masukEl.value = ''; pulangEl.value = '';
+        document.getElementById('jkOvHari').innerHTML = hariChipsHtml('jkOvHariCb', HARI_KERJA_DEFAULT);
         renderJamKerjaOverrideTable();
         loadMasaBerakhir();
     } else {
