@@ -1422,19 +1422,58 @@ function loadJamKerja() {
     if (sel) sel.innerHTML = '<option value="">-- Pilih User --</option>' + getActiveUsers().map(u => `<option value="${escHtml(u.x_01)}">${escHtml(u.x_01)}</option>`).join('');
     renderJamKerjaOverrideTable();
 }
+let jkEditingUser = null;
 function renderJamKerjaOverrideTable() {
     const tbody = document.getElementById('jkOverrideTable');
     const keys = Object.keys(jamKerjaConfig.override);
     tbody.innerHTML = keys.length ? keys.map(u => {
         const ov = jamKerjaConfig.override[u];
         const uEsc = u.replace(/'/g, "\\'");
+        const chip = `<span class="uchip"><span class="udot"></span>${escHtml(u)}</span>`;
+        if (jkEditingUser === u) {
+            return `<tr>
+            <td>${chip}</td>
+            <td><input type="time" id="jkEditMasuk" value="${escHtml(ov.masuk || '')}" style="padding:5px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;"></td>
+            <td><input type="time" id="jkEditPulang" value="${escHtml(ov.pulang || '')}" style="padding:5px 8px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;"></td>
+            <td>
+                <button class="btn-edit" style="background:#dcfce7;color:#15803d;" onclick="simpanEditJamKerjaOverride('${uEsc}')">💾 Simpan</button>
+                <button class="btn-del" style="background:#f1f5f9;color:#475569;" onclick="batalEditJamKerjaOverride()">Batal</button>
+            </td>
+        </tr>`;
+        }
         return `<tr>
-            <td><span class="uchip"><span class="udot"></span>${escHtml(u)}</span></td>
+            <td>${chip}</td>
             <td>${escHtml(ov.masuk || '-')}</td>
             <td>${escHtml(ov.pulang || '-')}</td>
-            <td><button class="btn-del" onclick="hapusJamKerjaOverride('${uEsc}')">🗑 Hapus</button></td>
+            <td>
+                <button class="btn-edit" onclick="editJamKerjaOverride('${uEsc}')">✏️ Edit</button>
+                <button class="btn-del" onclick="hapusJamKerjaOverride('${uEsc}')">🗑 Hapus</button>
+            </td>
         </tr>`;
     }).join('') : '<tr class="er"><td colspan="4">Belum ada pengaturan jam kerja khusus</td></tr>';
+}
+function editJamKerjaOverride(user) {
+    jkEditingUser = user;
+    renderJamKerjaOverrideTable();
+}
+function batalEditJamKerjaOverride() {
+    jkEditingUser = null;
+    renderJamKerjaOverrideTable();
+}
+async function simpanEditJamKerjaOverride(user) {
+    const masuk  = document.getElementById('jkEditMasuk').value;
+    const pulang = document.getElementById('jkEditPulang').value;
+    if (!masuk || !pulang) return alert('Jam masuk & pulang wajib diisi.');
+    const cfgBaru = { default: jamKerjaConfig.default, override: { ...jamKerjaConfig.override, [user]: { masuk, pulang } } };
+    const res = await simpanJamKerja(cfgBaru);
+    if (res.success) {
+        jamKerjaConfig = cfgBaru;
+        jkEditingUser = null;
+        renderJamKerjaOverrideTable();
+        loadMasaBerakhir();
+    } else {
+        alert('Gagal memperbarui jam kerja. Coba lagi.');
+    }
 }
 async function simpanJamKerjaDefault() {
     const masuk  = document.getElementById('jkDefMasuk').value;
