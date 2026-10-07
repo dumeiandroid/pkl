@@ -25,24 +25,62 @@
   /* HEADER */
   header { background:#0b4ea2; color:#fff; padding:12px 20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
   header h1 { font-size:15px; margin:0; font-weight:600; white-space:nowrap; }
-  header input { padding:6px 10px; border-radius:6px; border:0; font-size:12px; flex:1; max-width:300px; }
   header button { background:#fff; color:#0b4ea2; border:0; padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; }
   header button:hover { background:#e8f0ff; }
   header .status { font-size:11px; opacity:.85; }
-  header .user-info { font-size:11px; background:rgba(255,255,255,.2); padding:5px 10px; border-radius:6px; display:flex; gap:8px; align-items:center; }
+  header .user-info { font-size:11px; background:rgba(255,255,255,.2); padding:5px 10px; border-radius:6px; display:flex; gap:8px; align-items:center; margin-left:auto; }
   header .user-info .role { background:#ffd60a; color:#333; font-weight:700; padding:1px 6px; border-radius:4px; font-size:10px; }
   header .user-info button { background:rgba(255,255,255,.3); color:#fff; padding:4px 8px; font-size:11px; }
   header .user-info button:hover { background:rgba(255,255,255,.5); }
 
-  /* TABS */
+  /* MAIN TABS */
   .tabs { background:#fff; border-bottom:1px solid #e3e6ea; display:flex; overflow-x:auto; padding:0 20px; }
   .tabs .tab { padding:12px 18px; cursor:pointer; font-size:13px; font-weight:600; color:#666; border-bottom:2px solid transparent; white-space:nowrap; }
   .tabs .tab:hover { color:#0b4ea2; }
   .tabs .tab.active { color:#0b4ea2; border-bottom-color:#0b4ea2; }
   .tabs .tab .count { background:#e8f0ff; color:#0b4ea2; font-size:10px; padding:1px 6px; border-radius:8px; margin-left:6px; }
+  .tabs .tab.submissions-tab.active { color:#3fb950; border-bottom-color:#3fb950; }
+  .tabs .tab.submissions-tab .count { background:#e6f4ea; color:#1e7a3b; }
+  .tabs .tab.tasks-tab.active { color:#e67e22; border-bottom-color:#e67e22; }
+  .tabs .tab.tasks-tab .count { background:#fff3e0; color:#b25e00; }
+
+  /* SUB TABS */
+  .subtabs { background:#f6f8fb; border-bottom:1px solid #e3e6ea; display:flex; overflow-x:auto; padding:0 20px; gap:6px; align-items:center; min-height:40px; }
+  .subtabs:empty { display:none; }
+  .subtabs .label { font-size:11px; color:#888; font-weight:600; text-transform:uppercase; letter-spacing:.5px; padding:10px 4px 10px 0; }
+  .subtabs .subtab { padding:6px 12px; margin:6px 0; cursor:pointer; font-size:12px; font-weight:600; color:#555; background:#fff; border:1px solid #e3e6ea; border-radius:16px; white-space:nowrap; }
+  .subtabs .subtab:hover { color:#0b4ea2; border-color:#0b4ea2; }
+  .subtabs .subtab.active { background:#0b4ea2; color:#fff; border-color:#0b4ea2; }
+  .subtabs .subtab .count { background:rgba(0,0,0,.06); color:inherit; font-size:10px; padding:0px 5px; border-radius:6px; margin-left:5px; }
+  .subtabs .subtab.active .count { background:rgba(255,255,255,.25); }
+
+  /* SEARCH TOOLBAR */
+  .searchbar { background:#fff; border-bottom:1px solid #e3e6ea; padding:10px 20px; display:flex; gap:10px; align-items:center; }
+  .searchbar .search-wrap { flex:1; position:relative; }
+  .searchbar .search-wrap input {
+    width:100%; padding:9px 12px 9px 34px; border:1px solid #d0d7de; border-radius:8px;
+    font-size:13px; font-family:inherit; background:#f9fafb;
+  }
+  .searchbar .search-wrap input:focus { outline:none; border-color:#0b4ea2; background:#fff; box-shadow:0 0 0 3px rgba(11,78,162,.08); }
+  .searchbar .search-wrap::before {
+    content:"🔍"; position:absolute; left:11px; top:50%; transform:translateY(-50%);
+    font-size:13px; pointer-events:none; opacity:.6;
+  }
+  .searchbar .clear-btn {
+    position:absolute; right:8px; top:50%; transform:translateY(-50%);
+    background:none; border:0; cursor:pointer; font-size:14px; color:#888; padding:4px 6px; display:none;
+  }
+  .searchbar .clear-btn.show { display:block; }
+  .searchbar .mode-toggle {
+    padding:8px 14px; border:1px solid #d0d7de; border-radius:8px; background:#fff;
+    font-size:12px; font-weight:600; cursor:pointer; color:#333; white-space:nowrap;
+    display:flex; align-items:center; gap:6px;
+  }
+  .searchbar .mode-toggle:hover { background:#f5f8ff; border-color:#0b4ea2; color:#0b4ea2; }
+  .searchbar .search-info { font-size:11px; color:#888; white-space:nowrap; }
 
   /* LAYOUT */
-  .layout { display:grid; grid-template-columns: 360px 1fr; height: calc(100vh - 100px); }
+  .layout { display:grid; grid-template-columns: 360px 1fr; height: calc(100vh - 180px); }
   .sidebar { background:#fff; border-right:1px solid #e3e6ea; overflow-y:auto; }
   .sidebar .item { padding:12px 16px; border-bottom:1px solid #f0f2f5; cursor:pointer; position:relative; }
   .sidebar .item:hover { background:#f5f8ff; }
@@ -50,25 +88,43 @@
   .sidebar .item .kode { font-size:11px; color:#0b4ea2; font-weight:700; }
   .sidebar .item .judul { font-size:13px; margin-top:2px; font-weight:600; padding-right:80px; }
   .sidebar .item .ringkas { font-size:11px; color:#666; margin-top:3px; line-height:1.35; }
-  .sidebar .item .meta { font-size:10px; color:#888; margin-top:4px; display:flex; gap:8px; flex-wrap:wrap; }
+  .sidebar .item .meta { font-size:10px; color:#888; margin-top:4px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
   .sidebar .item .row-actions { position:absolute; top:10px; right:10px; display:none; gap:4px; }
   .sidebar .item:hover .row-actions { display:flex; }
   .sidebar .item .row-actions button { padding:3px 7px; border:0; border-radius:4px; font-size:10px; cursor:pointer; font-weight:600; }
   .sidebar .item .row-actions .btn-edit { background:#e8f0ff; color:#0b4ea2; }
   .sidebar .item .row-actions .btn-del { background:#fdecea; color:#b42318; }
 
+  /* COMPACT MODE */
+  .sidebar.compact .item { padding:9px 14px; }
+  .sidebar.compact .item.active { padding-left:11px; }
+  .sidebar.compact .item .kode { font-size:10px; display:inline; margin-right:6px; }
+  .sidebar.compact .item .judul { font-size:12.5px; display:inline; margin-top:0; padding-right:60px; }
+  .sidebar.compact .item .ringkas,
+  .sidebar.compact .item .meta { display:none; }
+  .sidebar.compact .item .row-actions { top:8px; right:8px; }
+
+  .empty-search { padding:30px 20px; text-align:center; color:#999; font-size:13px; }
+  .empty-search .hint { font-size:11px; color:#bbb; margin-top:6px; }
+
   /* CONTENT */
   .content { overflow-y:auto; padding:24px 32px; position:relative; }
-  .content h2 { margin:0 0 4px 0; font-size:22px; padding-right:180px; }
+  .content h2 { margin:0 0 4px 0; font-size:22px; padding-right:280px; }
   .content .sub { color:#666; font-size:13px; margin-bottom:16px; }
   .content .header-meta { display:flex; gap:10px; font-size:12px; color:#555; margin-bottom:20px; flex-wrap:wrap; }
   .content .header-meta div { background:#fff; padding:6px 12px; border-radius:6px; border:1px solid #e3e6ea; }
-  .doc-actions { position:absolute; top:24px; right:32px; display:flex; gap:8px; }
+  .doc-actions { position:absolute; top:24px; right:32px; display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
   .doc-actions button { padding:7px 14px; border:0; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; }
   .doc-actions .btn-edit { background:#0b4ea2; color:#fff; }
   .doc-actions .btn-edit:hover { background:#062e63; }
   .doc-actions .btn-del { background:#fdecea; color:#b42318; }
   .doc-actions .btn-del:hover { background:#f9d6d4; }
+  .doc-actions .btn-fill { background:#3fb950; color:#fff; }
+  .doc-actions .btn-fill:hover { background:#2f9a41; }
+  .doc-actions .btn-work { background:#e67e22; color:#fff; }
+  .doc-actions .btn-work:hover { background:#c6650f; }
+  .doc-actions .btn-secondary { background:#e3e6ea; color:#333; }
+  .doc-actions .btn-secondary:hover { background:#d0d5db; }
 
   .section { background:#fff; border:1px solid #e3e6ea; border-radius:10px; padding:16px 20px; margin-bottom:14px; }
   .section h3 { margin:0 0 12px 0; font-size:13px; color:#0b4ea2; text-transform:uppercase; letter-spacing:.5px; }
@@ -85,6 +141,7 @@
   .badge.approved, .badge.active { background:#e6f4ea; color:#1e7a3b; }
   .badge.draft { background:#fff3cd; color:#8a6d00; }
   .badge.obsolete, .badge.inactive { background:#f0f0f0; color:#777; }
+  mark { background:#fff3a0; padding:0 2px; border-radius:2px; }
 
   /* MODAL */
   .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; z-index:200; padding:20px; }
@@ -144,17 +201,64 @@
   .dyn-check input { width:auto; }
   .empty-content { padding:20px; text-align:center; color:#888; font-size:12px; font-style:italic; }
 
+  /* FORM FILLER MODAL */
+  .form-modal-body { padding: 4px 0; max-height: 65vh; overflow-y: auto; padding-right: 8px; }
+  .form-field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+  .form-field label { font-size:13px; font-weight:600; color:#333; }
+  .form-field label .req { color:#b42318; }
+  .form-field input, .form-field select, .form-field textarea {
+    padding:10px 12px; border:1px solid #d0d7de; border-radius:8px; font-size:14px; font-family:inherit;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+    outline:none; border-color:#0b4ea2; box-shadow:0 0 0 3px rgba(11,78,162,.1);
+  }
+  .form-field textarea { min-height:80px; resize:vertical; }
+  .form-field .hint { font-size:11px; color:#888; }
+
+  /* SUBMISSIONS PANEL */
+  .sub-list { display:flex; flex-direction:column; gap:8px; }
+  .sub-item { display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:#f9fafb; border:1px solid #eef0f3; border-radius:8px; font-size:13px; gap:10px; }
+  .sub-item .sub-left { flex:1; min-width:0; }
+  .sub-item .sub-title { font-weight:600; }
+  .sub-item .sub-meta { font-size:11px; color:#666; margin-top:2px; }
+  .sub-status { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; white-space:nowrap; }
+  .sub-status.baru { background:#fff3cd; color:#8a6d00; }
+  .sub-status.diproses { background:#e8f0ff; color:#0b4ea2; }
+  .sub-status.selesai { background:#e6f4ea; color:#1e7a3b; }
+  .sub-empty { padding:16px; text-align:center; color:#999; font-size:13px; }
+
+  /* TASKS */
+  .task-priority { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; white-space:nowrap; text-transform:uppercase; }
+  .task-priority.low { background:#e6f4ea; color:#1e7a3b; }
+  .task-priority.medium { background:#fff3cd; color:#8a6d00; }
+  .task-priority.high { background:#fdecea; color:#b42318; }
+
+  .task-status { padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; white-space:nowrap; text-transform:uppercase; }
+  .task-status.todo { background:#f0f0f0; color:#555; }
+  .task-status.doing { background:#e8f0ff; color:#0b4ea2; }
+  .task-status.done { background:#e6f4ea; color:#1e7a3b; }
+
+  .task-form-field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+  .task-form-field label { font-size:13px; font-weight:600; color:#333; }
+  .task-form-field input, .task-form-field select, .task-form-field textarea {
+    padding:10px 12px; border:1px solid #d0d7de; border-radius:8px; font-size:14px; font-family:inherit;
+  }
+  .task-form-field input:focus, .task-form-field select:focus, .task-form-field textarea:focus {
+    outline:none; border-color:#e67e22; box-shadow:0 0 0 3px rgba(230,126,34,.1);
+  }
+
   @media (max-width: 800px) {
     .layout { grid-template-columns:1fr; } .sidebar { max-height:40vh; }
     .content h2 { padding-right:0; }
-    .doc-actions { position:static; margin-bottom:14px; }
+    .doc-actions { position:static; margin-bottom:14px; justify-content:flex-start; }
     .form-grid, .dyn-nested { grid-template-columns:1fr; }
+    .searchbar .search-info { display:none; }
   }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
+<!-- ═══════════ LOGIN ═══════════ -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <h2>📚 Lidan Knowledge Base</h2>
@@ -168,28 +272,40 @@
   </div>
 </div>
 
-<!-- APP -->
+<!-- ═══════════ MAIN APP ═══════════ -->
 <div id="app" style="display:none">
   <header>
     <h1>📚 Knowledge Base — Lidan Psikologi</h1>
-    <input id="endpoint" value="https://lidan-co-id.pages.dev/api/contacts_filter_dinamis7">
-    <button id="btnLoad">Muat Ulang</button>
     <button id="btnAdd" style="background:#3fb950;color:#fff;display:none;">+ Tambah via JSON</button>
     <span class="status" id="status">siap</span>
-    <span class="user-info" id="userInfo" style="margin-left:auto;">
+    <span class="user-info">
       <span id="userLabel">—</span>
       <span class="role" id="userRole" style="display:none;">ADMIN</span>
       <button id="btnLogout">Keluar</button>
     </span>
   </header>
+
   <div class="tabs" id="tabs"></div>
+  <div class="subtabs" id="subtabs"></div>
+
+  <div class="searchbar">
+    <div class="search-wrap">
+      <input id="searchBox" type="text" placeholder="Cari kode, judul, atau ringkasan dokumen…" autocomplete="off">
+      <button class="clear-btn" id="btnClearSearch" title="Hapus pencarian">✕</button>
+    </div>
+    <span class="search-info" id="searchInfo"></span>
+    <button class="mode-toggle" id="btnModeToggle" title="Ganti tampilan daftar">
+      <span id="modeIcon">📋</span> <span id="modeLabel">Ringkas</span>
+    </button>
+  </div>
+
   <div class="layout">
-    <aside class="sidebar" id="sidebar"><div class="loader">Memuat…</div></aside>
+    <aside class="sidebar compact" id="sidebar"><div class="loader">Memuat…</div></aside>
     <main class="content" id="content"><div class="empty">Pilih salah satu dokumen.</div></main>
   </div>
 </div>
 
-<!-- MODAL TAMBAH/EDIT -->
+<!-- ═══════════ MODAL TAMBAH / EDIT ═══════════ -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h3 id="modalTitle">Tambah Dokumen</h3>
@@ -197,13 +313,11 @@
       Paste JSON object tunggal (1 dokumen) atau array (banyak dokumen). Field: <code>x_01</code> s/d <code>x_20</code>.
     </p>
 
-    <!-- Tab mode (hanya muncul kalau EDIT) -->
     <div class="edit-tabs" id="editTabs" style="display:none;">
       <button class="edit-tab active" data-mode="form">📝 Form</button>
       <button class="edit-tab" data-mode="json">{ } JSON</button>
     </div>
 
-    <!-- MODE FORM -->
     <div id="formMode" style="display:none;">
       <div class="edit-section">
         <h4>Metadata Dokumen</h4>
@@ -219,7 +333,6 @@
       </div>
     </div>
 
-    <!-- MODE JSON -->
     <div id="jsonMode" style="display:none;">
       <div class="template-row" id="templateRow">
         <button data-template="promo">Template Promo</button>
@@ -240,7 +353,7 @@
   </div>
 </div>
 
-<!-- MODAL DELETE -->
+<!-- ═══════════ MODAL DELETE ═══════════ -->
 <div class="modal-bg" id="deleteBg">
   <div class="modal" style="max-width:480px;">
     <h3 style="color:#b42318;">⚠️ Konfirmasi Hapus</h3>
@@ -254,21 +367,173 @@
   </div>
 </div>
 
+<!-- ═══════════ MODAL ISI FORM ═══════════ -->
+<div class="modal-bg" id="formFillBg">
+  <div class="modal" style="max-width:720px;">
+    <h3 id="formFillTitle">Isi Formulir</h3>
+    <p class="hint" id="formFillDesc"></p>
+    <div class="form-modal-body" id="formFillBody">
+      <div class="loader">Memuat…</div>
+    </div>
+    <div class="actions">
+      <button class="btn-secondary" id="btnCancelFill">Batal</button>
+      <button class="btn-primary" id="btnSubmitFill">Kirim</button>
+    </div>
+    <div class="msg" id="formFillMsg"></div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL DAFTAR SUBMISSIONS ═══════════ -->
+<div class="modal-bg" id="subListBg">
+  <div class="modal" style="max-width:720px;">
+    <h3 id="subListTitle">Daftar Submission</h3>
+    <p class="hint" id="subListMeta"></p>
+    <div id="subListBody" style="max-height:60vh;overflow:auto;">
+      <div class="loader">Memuat…</div>
+    </div>
+    <div class="actions">
+      <button class="btn-secondary"
+              onclick="document.getElementById('subListBg').classList.remove('show')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL DETAIL SUBMISSION ═══════════ -->
+<div class="modal-bg" id="subViewBg">
+  <div class="modal" style="max-width:700px;">
+    <h3 id="subViewTitle">Detail Submission</h3>
+    <p class="hint" id="subViewMeta"></p>
+    <div id="subViewBody" style="font-size:13px;"></div>
+    <div class="actions">
+      <button class="btn-secondary" onclick="document.getElementById('subViewBg').classList.remove('show')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL LIHAT FIELD ═══════════ -->
+<div class="modal-bg" id="fieldViewBg">
+  <div class="modal" style="max-width:620px;">
+    <h3 id="fieldViewTitle">Detail Field</h3>
+    <p class="hint" id="fieldViewMeta"></p>
+    <div id="fieldViewBody"
+         style="font-size:14px;line-height:1.75;white-space:pre-wrap;padding:14px;background:#f9fafb;border-radius:8px;border:1px solid #eef0f3;max-height:60vh;overflow:auto;word-break:break-word;"></div>
+    <div class="actions">
+      <button class="btn-secondary"
+              onclick="document.getElementById('fieldViewBg').classList.remove('show')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL BUAT TUGAS ═══════════ -->
+<div class="modal-bg" id="taskCreateBg">
+  <div class="modal" style="max-width:560px;">
+    <h3>🛠️ Buat Tugas dari IK</h3>
+    <p class="hint" id="taskCreateHint">Isi detail tugas yang akan Anda kerjakan.</p>
+
+    <div class="task-form-field">
+      <label>Kode IK</label>
+      <input id="taskIkKode" readonly style="background:#f6f8fb;color:#666;cursor:not-allowed;">
+    </div>
+
+    <div class="task-form-field">
+      <label>Judul Tugas</label>
+      <input id="taskJudul" placeholder="Judul tugas">
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="task-form-field">
+        <label>Tanggal Kerja</label>
+        <input id="taskTanggal" type="date">
+      </div>
+      <div class="task-form-field">
+        <label>Prioritas</label>
+        <select id="taskPrioritas">
+          <option value="medium">Sedang</option>
+          <option value="high">Tinggi</option>
+          <option value="low">Rendah</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="task-form-field">
+      <label>Catatan (opsional)</label>
+      <textarea id="taskCatatan" placeholder="Detail atau target yang ingin dicapai..." style="min-height:80px;resize:vertical;"></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn-secondary" id="btnCancelTask">Batal</button>
+      <button class="btn-primary" id="btnSubmitTask" style="background:#e67e22;">Simpan Tugas</button>
+    </div>
+    <div class="msg" id="taskCreateMsg"></div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL DETAIL TUGAS ═══════════ -->
+<div class="modal-bg" id="taskViewBg">
+  <div class="modal" style="max-width:600px;">
+    <h3 id="taskViewTitle">Detail Tugas</h3>
+    <p class="hint" id="taskViewMeta"></p>
+    <div id="taskViewBody" style="font-size:13px;"></div>
+    <div class="actions">
+      <button class="btn-secondary" onclick="document.getElementById('taskViewBg').classList.remove('show')">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL DAFTAR TUGAS PER IK ═══════════ -->
+<div class="modal-bg" id="ikTasksBg">
+  <div class="modal" style="max-width:720px;">
+    <h3 id="ikTasksTitle">Tugas dari IK</h3>
+    <p class="hint" id="ikTasksMeta"></p>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:12px;background:#f9fafb;border-radius:8px;">
+      <div style="flex:1;min-width:140px;">
+        <label style="display:block;font-size:11px;color:#666;font-weight:600;margin-bottom:4px;">Tanggal</label>
+        <input id="ikTasksDate" type="date" style="width:100%;padding:8px 10px;border:1px solid #d0d7de;border-radius:6px;font-size:13px;">
+      </div>
+      <div style="flex:1;min-width:140px;">
+        <label style="display:block;font-size:11px;color:#666;font-weight:600;margin-bottom:4px;">Status</label>
+        <select id="ikTasksStatus" style="width:100%;padding:8px 10px;border:1px solid #d0d7de;border-radius:6px;font-size:13px;">
+          <option value="ALL">Semua status</option>
+          <option value="todo">Todo</option>
+          <option value="doing">Dikerjakan</option>
+          <option value="done">Selesai</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:6px;">
+        <button class="btn-secondary" id="btnIkTasksToday" style="padding:8px 12px;font-size:12px;">Hari Ini</button>
+        <button class="btn-secondary" id="btnIkTasksReset" style="padding:8px 12px;font-size:12px;">Reset</button>
+      </div>
+    </div>
+
+    <div id="ikTasksBody" style="max-height:55vh;overflow:auto;">
+      <div class="loader">Memuat…</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-secondary"
+              onclick="document.getElementById('ikTasksBg').classList.remove('show')">Tutup</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ═══════════════════════════════════════════════════════
 // KONFIG
 // ═══════════════════════════════════════════════════════
-const ENDPOINT = () => document.getElementById('endpoint').value.trim();
+const API_BASE = 'https://lidan-co-id.pages.dev/api/contacts_filter_dinamis7';
 const TABLE = 'lidan_docs';
 const USERS_TABLE = 'users';
+const SUBMIT_TABLE = 'form_submissions';
+const TASK_TABLE = 'task_assignments';
 const SECRET = 'admin';
-const ALL_TABS = ['ALL','IK','PROMO','SOP','FORM','JD','LAINNYA'];
+const ALL_TABS = ['ALL','IK','PROMO','SOP','FORM','JD','SUBMISSIONS','TASKS','LAINNYA'];
 
 const META_LABELS = {
   x_01: { label: 'Kode', type: 'text' },
   x_02: { label: 'Judul', type: 'text' },
   x_03: { label: 'Jenis', type: 'select', opts: ['IK','SOP','FORM','PROMO','JD','LAINNYA'] },
-  x_04: { label: 'Divisi', type: 'text' },
+  x_04: { label: 'Divisi', type: 'select', opts: ['Marketing','Operasional','HR','Keuangan','Layanan','Asesmen','Data','IT','Mutu','Manajemen','Umum'] },
   x_05: { label: 'Versi', type: 'text' },
   x_06: { label: 'Tanggal Berlaku', type: 'date' },
   x_07: { label: 'Status', type: 'select', opts: ['draft','approved','obsolete','active','inactive'] },
@@ -290,14 +555,27 @@ const META_EXTRA = {
 
 let ALL_DATA = [];
 let ACTIVE_TAB = 'ALL';
+let ACTIVE_SUBTAB = 'ALL';
 let ACTIVE_DOC = null;
 let SESSION = null;
+let SEARCH_QUERY = '';
+let VIEW_MODE = localStorage.getItem('lidan_view_mode') || 'compact';
 
-// Edit state
-let EDIT_MODE = null;       // null = tambah, { id_x } = edit
-let EDIT_VIEW = 'form';     // 'form' | 'json'
-let EDIT_CONTENT = {};      // parsed x_09
-let EDIT_DOC = null;        // original doc
+let EDIT_MODE = null;
+let EDIT_VIEW = 'form';
+let EDIT_CONTENT = {};
+let EDIT_DOC = null;
+
+let ACTIVE_FORM_DOC = null;
+let ACTIVE_FORM_DEF = null;
+let SUB_CACHE = [];
+let SUBMISSIONS_DATA = [];
+let CURRENT_SUB_FIELDS = [];
+
+let TASKS_DATA = [];
+let ACTIVE_TASK_IK = null;
+
+let ACTIVE_IK_TASKS_KODE = null;
 
 // ═══════════════════════════════════════════════════════
 // UTIL
@@ -305,6 +583,12 @@ let EDIT_DOC = null;        // original doc
 function esc(s) {
   if (s === null || s === undefined) return '';
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escRe(s) { return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+function highlight(text, query) {
+  if (!query || !text) return esc(text);
+  const re = new RegExp(`(${escRe(query)})`, 'gi');
+  return esc(text).replace(re, '<mark>$1</mark>');
 }
 function badge(status) {
   const s = (status || '').toLowerCase();
@@ -315,20 +599,43 @@ function tabOf(doc) {
   const j = (doc.x_03 || '').toUpperCase();
   return ALL_TABS.includes(j) ? j : 'LAINNYA';
 }
+function subOf(doc) {
+  const d = (doc.x_04 || '').trim();
+  return d || 'Umum';
+}
 function isAdmin() { return SESSION && SESSION.role === 'admin'; }
 function getByPath(obj, path) {
   if (!path) return obj;
   return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
 }
-function setByPath(obj, path, val) {
-  const keys = path.split('.');
-  let cur = obj;
-  for (let i = 0; i < keys.length - 1; i++) {
-    const k = keys[i];
-    if (!(k in cur) || typeof cur[k] !== 'object') cur[k] = {};
-    cur = cur[k];
-  }
-  cur[keys[keys.length - 1]] = val;
+function matchesSearch(doc, q) {
+  if (!q) return true;
+  const s = q.toLowerCase();
+  return (doc.x_01 || '').toLowerCase().includes(s)
+      || (doc.x_02 || '').toLowerCase().includes(s)
+      || (doc.x_08 || '').toLowerCase().includes(s)
+      || (doc.x_16 || '').toLowerCase().includes(s);
+}
+function prettify(s) {
+  if (!s) return '';
+  if (/^x_\d+$/i.test(s)) return 'Kolom ' + s.toUpperCase();
+  return s.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+function todayISO() {
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+function formatDate(s) {
+  if (!s) return '-';
+  return String(s).slice(0,10);
+}
+function formatDateIndo(iso) {
+  if (!iso) return '-';
+  try {
+    const [y, m, d] = iso.split('-');
+    const bulan = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return `${parseInt(d)} ${bulan[parseInt(m)-1]} ${y}`;
+  } catch (e) { return iso; }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -356,7 +663,7 @@ async function doLogin() {
   btn.disabled = true;
   loginMsg.className = ''; loginMsg.textContent = 'Memeriksa…';
 
-  const url = `${ENDPOINT()}?table=${USERS_TABLE}&x_01_eq=${encodeURIComponent(username)}&x_02_eq=${encodeURIComponent(password)}&limit=1`;
+  const url = `${API_BASE}?table=${USERS_TABLE}&x_01_eq=${encodeURIComponent(username)}&x_02_eq=${encodeURIComponent(password)}&limit=1`;
   try {
     const res = await fetch(url, { headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': USERS_TABLE } });
     const data = await res.json();
@@ -389,6 +696,7 @@ function showApp() {
     roleEl.style.display = 'none';
     document.getElementById('btnAdd').style.display = 'none';
   }
+  applyViewMode();
   loadData();
 }
 
@@ -400,52 +708,230 @@ document.getElementById('btnLogout').addEventListener('click', () => {
 });
 
 // ═══════════════════════════════════════════════════════
+// VIEW MODE
+// ═══════════════════════════════════════════════════════
+function applyViewMode() {
+  const sb = document.getElementById('sidebar');
+  const icon = document.getElementById('modeIcon');
+  const label = document.getElementById('modeLabel');
+  if (VIEW_MODE === 'compact') {
+    sb.classList.add('compact');
+    icon.textContent = '📋';
+    label.textContent = 'Ringkas';
+  } else {
+    sb.classList.remove('compact');
+    icon.textContent = '📄';
+    label.textContent = 'Lengkap';
+  }
+}
+document.getElementById('btnModeToggle').addEventListener('click', () => {
+  VIEW_MODE = VIEW_MODE === 'compact' ? 'full' : 'compact';
+  localStorage.setItem('lidan_view_mode', VIEW_MODE);
+  applyViewMode();
+});
+
+// ═══════════════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════════════
+const searchBox = document.getElementById('searchBox');
+const btnClearSearch = document.getElementById('btnClearSearch');
+const searchInfo = document.getElementById('searchInfo');
+
+searchBox.addEventListener('input', () => {
+  SEARCH_QUERY = searchBox.value.trim();
+  btnClearSearch.classList.toggle('show', SEARCH_QUERY.length > 0);
+  renderSidebar();
+});
+btnClearSearch.addEventListener('click', () => {
+  searchBox.value = '';
+  SEARCH_QUERY = '';
+  btnClearSearch.classList.remove('show');
+  renderSidebar();
+  searchBox.focus();
+});
+
+// ═══════════════════════════════════════════════════════
 // LOAD DATA
 // ═══════════════════════════════════════════════════════
 async function loadData() {
   document.getElementById('status').textContent = 'memuat…';
-  const url = `${ENDPOINT()}?table=${TABLE}&limit=500`;
+  const url = `${API_BASE}?table=${TABLE}&limit=500`;
   try {
     const res = await fetch(url, { headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': TABLE } });
     const data = await res.json();
     if (!data.success) throw new Error(JSON.stringify(data));
     ALL_DATA = (data.data || []).sort((a,b) => {
       const t = (a.x_03||'').localeCompare(b.x_03||'');
-      return t !== 0 ? t : (a.x_17||'').localeCompare(b.x_17||'');
+      if (t !== 0) return t;
+      const d = (a.x_04||'').localeCompare(b.x_04||'');
+      if (d !== 0) return d;
+      return (a.x_17||'').localeCompare(b.x_17||'');
     });
+
+    try {
+      const rSub = await fetch(`${API_BASE}?table=${SUBMIT_TABLE}&limit=500`, {
+        headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': SUBMIT_TABLE }
+      });
+      const dSub = await rSub.json();
+      SUBMISSIONS_DATA = dSub.success ? (dSub.data || []) : [];
+      SUBMISSIONS_DATA.sort((a,b) => (b.x_03||'').localeCompare(a.x_03||''));
+    } catch (e) { SUBMISSIONS_DATA = []; }
+
+    try {
+      const rTask = await fetch(`${API_BASE}?table=${TASK_TABLE}&limit=500`, {
+        headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': TASK_TABLE }
+      });
+      const dTask = await rTask.json();
+      TASKS_DATA = dTask.success ? (dTask.data || []) : [];
+      TASKS_DATA.sort((a,b) => (b.x_06||'').localeCompare(a.x_06||''));
+    } catch (e) { TASKS_DATA = []; }
+
     renderTabs();
+    renderSubtabs();
     renderSidebar();
-    document.getElementById('status').textContent = `${ALL_DATA.length} dokumen termuat`;
+    document.getElementById('status').textContent =
+      `${ALL_DATA.length} dok · ${SUBMISSIONS_DATA.length} sub · ${TASKS_DATA.length} tugas`;
   } catch (e) {
     document.getElementById('sidebar').innerHTML = `<div class="empty">Gagal memuat: ${esc(e.message)}</div>`;
     document.getElementById('status').textContent = 'error';
   }
 }
 
+function myTasks() {
+  if (isAdmin()) return TASKS_DATA;
+  return TASKS_DATA.filter(t => t.x_02 === SESSION.username);
+}
+
 function renderTabs() {
   const counts = {};
   ALL_TABS.forEach(t => counts[t] = 0);
   ALL_DATA.forEach(d => { counts[tabOf(d)]++; counts.ALL++; });
+  counts.SUBMISSIONS = SUBMISSIONS_DATA.length;
+  counts.TASKS = myTasks().length;
+  counts.ALL += counts.SUBMISSIONS + counts.TASKS;
+
   const el = document.getElementById('tabs');
   el.innerHTML = ALL_TABS.map(t => {
     const c = counts[t] || 0;
     if (t === 'LAINNYA' && c === 0) return '';
-    return `<div class="tab ${t===ACTIVE_TAB?'active':''}" data-tab="${t}">${t} <span class="count">${c}</span></div>`;
+    if (t === 'SUBMISSIONS' && c === 0) return '';
+    let cls = '';
+    if (t === 'SUBMISSIONS') cls = ' submissions-tab';
+    if (t === 'TASKS') cls = ' tasks-tab';
+    return `<div class="tab${cls} ${t===ACTIVE_TAB?'active':''}" data-tab="${t}">${t} <span class="count">${c}</span></div>`;
   }).join('');
   el.querySelectorAll('.tab').forEach(x => {
-    x.addEventListener('click', () => { ACTIVE_TAB = x.dataset.tab; renderTabs(); renderSidebar(); });
+    x.addEventListener('click', () => {
+      ACTIVE_TAB = x.dataset.tab;
+      ACTIVE_SUBTAB = 'ALL';
+      renderTabs();
+      renderSubtabs();
+      renderSidebar();
+    });
+  });
+}
+
+function renderSubtabs() {
+  const el = document.getElementById('subtabs');
+  if (ACTIVE_TAB === 'ALL') { el.innerHTML = ''; return; }
+
+  if (ACTIVE_TAB === 'SUBMISSIONS') {
+    const counts = {};
+    SUBMISSIONS_DATA.forEach(s => {
+      const k = s.x_10 || s.x_11 || 'LAINNYA';
+      counts[k] = (counts[k]||0) + 1;
+    });
+    const forms = Object.keys(counts).sort();
+    if (forms.length === 0) { el.innerHTML = ''; return; }
+    const total = SUBMISSIONS_DATA.length;
+    let html = `<span class="label">Form:</span>`;
+    html += `<div class="subtab ${ACTIVE_SUBTAB==='ALL'?'active':''}" data-sub="ALL">Semua <span class="count">${total}</span></div>`;
+    html += forms.map(f => `
+      <div class="subtab ${ACTIVE_SUBTAB===f?'active':''}" data-sub="${esc(f)}">
+        ${esc(f)} <span class="count">${counts[f]}</span>
+      </div>`).join('');
+    el.innerHTML = html;
+    el.querySelectorAll('.subtab').forEach(x => {
+      x.addEventListener('click', () => {
+        ACTIVE_SUBTAB = x.dataset.sub;
+        renderSubtabs();
+        renderSidebar();
+      });
+    });
+    return;
+  }
+
+  if (ACTIVE_TAB === 'TASKS') {
+    const list = myTasks();
+    const counts = { todo: 0, doing: 0, done: 0 };
+    list.forEach(t => {
+      const s = (t.x_04 || 'todo').toLowerCase();
+      if (counts[s] !== undefined) counts[s]++;
+    });
+    const total = list.length;
+    let html = `<span class="label">Status:</span>`;
+    html += `<div class="subtab ${ACTIVE_SUBTAB==='ALL'?'active':''}" data-sub="ALL">Semua <span class="count">${total}</span></div>`;
+    html += `<div class="subtab ${ACTIVE_SUBTAB==='todo'?'active':''}" data-sub="todo">Todo <span class="count">${counts.todo}</span></div>`;
+    html += `<div class="subtab ${ACTIVE_SUBTAB==='doing'?'active':''}" data-sub="doing">Dikerjakan <span class="count">${counts.doing}</span></div>`;
+    html += `<div class="subtab ${ACTIVE_SUBTAB==='done'?'active':''}" data-sub="done">Selesai <span class="count">${counts.done}</span></div>`;
+    el.innerHTML = html;
+    el.querySelectorAll('.subtab').forEach(x => {
+      x.addEventListener('click', () => {
+        ACTIVE_SUBTAB = x.dataset.sub;
+        renderSubtabs();
+        renderSidebar();
+      });
+    });
+    return;
+  }
+
+  const inTab = ALL_DATA.filter(d => tabOf(d) === ACTIVE_TAB);
+  const counts = {};
+  inTab.forEach(d => { const s = subOf(d); counts[s] = (counts[s]||0) + 1; });
+  const divs = Object.keys(counts).sort();
+  if (divs.length === 0) { el.innerHTML = ''; return; }
+  const total = inTab.length;
+  let html = `<span class="label">Divisi:</span>`;
+  html += `<div class="subtab ${ACTIVE_SUBTAB==='ALL'?'active':''}" data-sub="ALL">Semua <span class="count">${total}</span></div>`;
+  html += divs.map(d => `
+    <div class="subtab ${ACTIVE_SUBTAB===d?'active':''}" data-sub="${esc(d)}">
+      ${esc(d)} <span class="count">${counts[d]}</span>
+    </div>`).join('');
+  el.innerHTML = html;
+  el.querySelectorAll('.subtab').forEach(x => {
+    x.addEventListener('click', () => {
+      ACTIVE_SUBTAB = x.dataset.sub;
+      renderSubtabs();
+      renderSidebar();
+    });
   });
 }
 
 function renderSidebar() {
   const el = document.getElementById('sidebar');
-  const list = ACTIVE_TAB === 'ALL' ? ALL_DATA : ALL_DATA.filter(d => tabOf(d) === ACTIVE_TAB);
+
+  if (ACTIVE_TAB === 'SUBMISSIONS') { renderSubmissionSidebar(); return; }
+  if (ACTIVE_TAB === 'TASKS') { renderTaskSidebar(); return; }
+
+  let list = ALL_DATA;
+  if (ACTIVE_TAB !== 'ALL') list = list.filter(d => tabOf(d) === ACTIVE_TAB);
+  if (ACTIVE_SUBTAB !== 'ALL') list = list.filter(d => subOf(d) === ACTIVE_SUBTAB);
+  if (SEARCH_QUERY) list = list.filter(d => matchesSearch(d, SEARCH_QUERY));
+
+  searchInfo.textContent = SEARCH_QUERY ? `${list.length} dari ${ALL_DATA.length} dokumen cocok` : '';
+
   if (list.length === 0) {
-    el.innerHTML = `<div class="empty">Belum ada dokumen.</div>`;
-    document.getElementById('content').innerHTML = `<div class="empty">Pilih tab lain atau tambah dokumen.</div>`;
+    if (SEARCH_QUERY) {
+      el.innerHTML = `<div class="empty-search">Tidak ada dokumen cocok dengan "<b>${esc(SEARCH_QUERY)}</b>".<div class="hint">Coba kata kunci lain atau ubah tab/divisi.</div></div>`;
+    } else {
+      el.innerHTML = `<div class="empty">Belum ada dokumen di kategori ini.</div>`;
+      document.getElementById('content').innerHTML = `<div class="empty">Pilih tab lain atau tambah dokumen.</div>`;
+    }
     return;
   }
+
   const showActions = isAdmin();
+  const q = SEARCH_QUERY;
   el.innerHTML = list.map(d => {
     const idx = ALL_DATA.indexOf(d);
     const actions = showActions ? `
@@ -455,10 +941,10 @@ function renderSidebar() {
       </div>` : '';
     return `<div class="item" data-idx="${idx}">
       ${actions}
-      <div class="kode">${esc(d.x_01)}</div>
-      <div class="judul">${esc(d.x_02)}</div>
-      <div class="ringkas">${esc((d.x_08||'').slice(0,100))}${(d.x_08||'').length>100?'…':''}</div>
-      <div class="meta">${badge(d.x_07)}<span>v${esc(d.x_05||'-')}</span></div>
+      <div class="kode">${highlight(d.x_01||'', q)}</div>
+      <div class="judul">${highlight(d.x_02||'', q)}</div>
+      <div class="ringkas">${highlight((d.x_08||'').slice(0,100), q)}${(d.x_08||'').length>100?'…':''}</div>
+      <div class="meta">${badge(d.x_07)}<span>v${esc(d.x_05||'-')}</span><span>${esc(subOf(d))}</span></div>
     </div>`;
   }).join('');
 
@@ -484,21 +970,144 @@ function renderSidebar() {
   if (first) first.click();
 }
 
+function renderSubmissionSidebar() {
+  const el = document.getElementById('sidebar');
+  let list = SUBMISSIONS_DATA;
+  if (ACTIVE_SUBTAB !== 'ALL') list = list.filter(s => (s.x_10 || s.x_11) === ACTIVE_SUBTAB);
+  if (SEARCH_QUERY) {
+    const q = SEARCH_QUERY.toLowerCase();
+    list = list.filter(s => {
+      let parsed = {};
+      try { parsed = JSON.parse(s.x_09 || '{}'); } catch (e) {}
+      const hay = [s.x_01, s.x_02, s.x_05, s.x_10].filter(Boolean).join(' ');
+      if (Array.isArray(parsed.fields)) {
+        parsed.fields.forEach(f => { hay += ' ' + (f.value || '') + ' ' + (f.label || ''); });
+      } else {
+        Object.values(parsed).forEach(v => { hay += ' ' + v; });
+      }
+      return hay.toLowerCase().includes(q);
+    });
+  }
+
+  searchInfo.textContent = SEARCH_QUERY ? `${list.length} dari ${SUBMISSIONS_DATA.length} submission cocok` : '';
+
+  if (list.length === 0) {
+    el.innerHTML = `<div class="empty-search">Belum ada submission${SEARCH_QUERY ? ' cocok dengan pencarian' : ''}.<div class="hint">Submission akan muncul setelah pengguna mengisi form.</div></div>`;
+    document.getElementById('content').innerHTML = `<div class="empty">Belum ada submission untuk ditampilkan.</div>`;
+    return;
+  }
+
+  const q = SEARCH_QUERY;
+  el.innerHTML = list.map(s => {
+    const judul = s.x_05 || s.x_02 || '(tanpa judul)';
+    const status = (s.x_04 || 'baru').toLowerCase();
+    const tgl = (s.x_03 || '').slice(0,16).replace('T',' ');
+    return `<div class="item" data-sub-id="${s.id_x}">
+      <div class="kode">${highlight(s.x_10 || s.x_11 || 'FORM', q)}</div>
+      <div class="judul">${highlight(judul, q)}</div>
+      <div class="ringkas">${highlight((s.x_05||'').slice(0,80), q)}</div>
+      <div class="meta">
+        <span class="sub-status ${esc(status)}" style="padding:1px 6px;border-radius:8px;font-size:10px;font-weight:700;">${esc(s.x_04 || 'baru')}</span>
+        <span>${esc(tgl)}</span>
+        <span>oleh ${esc(s.x_02||'-')}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  el.querySelectorAll('.item').forEach(it => {
+    it.addEventListener('click', () => {
+      el.querySelectorAll('.item').forEach(x => x.classList.remove('active'));
+      it.classList.add('active');
+      const id = parseInt(it.dataset.subId);
+      openSubListAll(id);
+    });
+  });
+
+  const first = el.querySelector('.item');
+  if (first) first.click();
+}
+
+function renderTaskSidebar() {
+  const el = document.getElementById('sidebar');
+  let list = myTasks();
+  if (ACTIVE_SUBTAB !== 'ALL') list = list.filter(t => (t.x_04 || 'todo').toLowerCase() === ACTIVE_SUBTAB);
+  if (SEARCH_QUERY) {
+    const q = SEARCH_QUERY.toLowerCase();
+    list = list.filter(t => {
+      const hay = [t.x_01, t.x_02, t.x_05, t.x_06, t.x_08].filter(Boolean).join(' ').toLowerCase();
+      return hay.includes(q);
+    });
+  }
+
+  searchInfo.textContent = SEARCH_QUERY ? `${list.length} dari ${myTasks().length} tugas cocok` : '';
+
+  if (list.length === 0) {
+    el.innerHTML = `<div class="empty-search">Belum ada tugas${SEARCH_QUERY ? ' cocok dengan pencarian' : ''}.<div class="hint">Buka IK mana pun dan klik "🛠 Kerjakan" untuk membuat tugas.</div></div>`;
+    document.getElementById('content').innerHTML = `<div class="empty">Belum ada tugas.</div>`;
+    return;
+  }
+
+  const q = SEARCH_QUERY;
+  const today = todayISO();
+
+  el.innerHTML = list.map(t => {
+    const status = (t.x_04 || 'todo').toLowerCase();
+    const prio = (t.x_07 || 'medium').toLowerCase();
+    const judul = t.x_05 || t.x_01 || '(tanpa judul)';
+    const tgl = formatDate(t.x_06);
+    const lewat = tgl < today && status !== 'done';
+    return `<div class="item" data-task-id="${t.id_x}">
+      <div class="kode">${highlight(t.x_01||'', q)}</div>
+      <div class="judul">${highlight(judul, q)}</div>
+      <div class="ringkas">${esc((t.x_08||'').slice(0,80))}</div>
+      <div class="meta">
+        <span class="task-status ${esc(status)}">${esc(status)}</span>
+        <span class="task-priority ${esc(prio)}">${esc(prio)}</span>
+        <span style="${lewat?'color:#b42318;font-weight:700':''}">${esc(tgl)}</span>
+        ${isAdmin() ? `<span>oleh ${esc(t.x_02||'-')}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  el.querySelectorAll('.item').forEach(it => {
+    it.addEventListener('click', () => {
+      el.querySelectorAll('.item').forEach(x => x.classList.remove('active'));
+      it.classList.add('active');
+      const id = parseInt(it.dataset.taskId);
+      openTaskView(id);
+    });
+  });
+
+  const first = el.querySelector('.item');
+  if (first) first.click();
+}
+
 // ═══════════════════════════════════════════════════════
-// DETAIL
+// DETAIL DOKUMEN
 // ═══════════════════════════════════════════════════════
 function renderDetail(doc) {
   let isi = {};
   try { isi = JSON.parse(doc.x_09 || '{}'); } catch (e) {}
 
-  const actions = isAdmin() ? `
-    <div class="doc-actions">
-      <button class="btn-edit" onclick="__editCurrent()">✎ Edit</button>
-      <button class="btn-del" onclick="__deleteCurrent()">🗑 Hapus</button>
-    </div>` : '';
+  const isForm = (doc.x_03 || '').toUpperCase() === 'FORM';
+  const isIK = (doc.x_03 || '').toUpperCase() === 'IK';
+  const admin = isAdmin();
+
+  let actionsHtml = '';
+  if (isForm) {
+    actionsHtml += `<button class="btn-fill" onclick="__openFill('${esc(doc.x_01)}')">➕ Isi Form</button>`;
+  }
+  if (isIK) {
+    actionsHtml += `<button class="btn-secondary" onclick="__openIkTasks('${esc(doc.x_01)}')">📅 Tugas Saya</button>`;
+    actionsHtml += `<button class="btn-work" onclick="__openTaskCreate('${esc(doc.x_01)}')">🛠 Kerjakan</button>`;
+  }
+  if (admin) {
+    actionsHtml += `<button class="btn-edit" onclick="__editCurrent()">✎ Edit</button>`;
+    actionsHtml += `<button class="btn-del" onclick="__deleteCurrent()">🗑 Hapus</button>`;
+  }
 
   document.getElementById('content').innerHTML = `
-    ${actions}
+    ${actionsHtml ? `<div class="doc-actions">${actionsHtml}</div>` : ''}
     <h2>${esc(doc.x_01)} — ${esc(doc.x_02)}</h2>
     <div class="sub">${esc(doc.x_08||'')}</div>
     <div class="header-meta">
@@ -510,12 +1119,33 @@ function renderDetail(doc) {
       <div><b>Parent:</b> ${esc(doc.x_15||'-')}</div>
     </div>
     ${renderAutoSections(isi)}
+    ${isForm ? `<div class="section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <h3 style="margin:0;">Submissions</h3>
+        <button class="btn-fill" style="padding:6px 12px;font-size:12px;border-radius:6px;"
+                onclick="__openSubList('${esc(doc.x_01)}')">📋 Lihat Semua</button>
+      </div>
+      <div id="subPanel"><div class="loader">Memuat submissions…</div></div>
+    </div>` : ''}
     ${renderMetadataSection(doc)}
   `;
   document.getElementById('content').scrollTop = 0;
+
+  if (isForm) loadSubmissions(doc.x_01);
 }
 window.__editCurrent = () => { if (ACTIVE_DOC) openEditModal(ACTIVE_DOC); };
 window.__deleteCurrent = () => { if (ACTIVE_DOC) openDeleteModal(ACTIVE_DOC); };
+window.__openFill = (kode) => {
+  const doc = ALL_DATA.find(d => d.x_01 === kode);
+  if (doc) openFormFill(doc);
+};
+window.__viewSub = (id) => openSubView(id);
+window.__openSubList = (kodeForm) => openSubList(kodeForm);
+window.__openTaskCreate = (ikKode) => {
+  const doc = ALL_DATA.find(d => d.x_01 === ikKode);
+  if (doc) openTaskCreate(doc);
+};
+window.__openIkTasks = (ikKode) => openIkTasks(ikKode);
 
 function renderAutoSections(obj) {
   if (!obj || typeof obj !== 'object') return '';
@@ -608,7 +1238,6 @@ function openEditModal(doc) {
   btnValidate.style.display = 'none';
   btnSubmit.textContent = 'Update Dokumen';
 
-  // Render metadata + content
   document.getElementById('metaForm').innerHTML = renderMetaFields(doc);
   document.getElementById('metaExtraForm').innerHTML = renderMetaExtraFields(doc);
   document.getElementById('contentForm').innerHTML = renderContentFields();
@@ -617,18 +1246,15 @@ function openEditModal(doc) {
   showModal();
 }
 
-// ── Tab switch ──
 document.querySelectorAll('.edit-tab').forEach(t => {
   t.addEventListener('click', () => setEditView(t.dataset.mode));
 });
 
 function setEditView(view) {
-  // Kalau pindah dari form ke json: serialize
   if (EDIT_VIEW === 'form' && view === 'json' && EDIT_MODE) {
     const doc = collectDocFromForm();
     jsonInput.value = JSON.stringify(doc, null, 2);
   }
-  // Kalau pindah dari json ke form: parse & re-render
   if (EDIT_VIEW === 'json' && view === 'form' && EDIT_MODE) {
     try {
       const parsed = JSON.parse(jsonInput.value);
@@ -647,7 +1273,6 @@ function setEditView(view) {
   jsonMode.style.display = view === 'json' ? 'block' : 'none';
 }
 
-// ── Render metadata fields ──
 function renderField(col, cfg, value) {
   const v = value == null ? '' : String(value);
   const full = cfg.full ? ' full' : '';
@@ -672,7 +1297,6 @@ function renderMetaExtraFields(doc) {
   return Object.entries(META_EXTRA).map(([col, cfg]) => renderField(col, cfg, doc[col])).join('');
 }
 
-// ── Render content dinamis (x_09) ──
 function renderContentFields() {
   if (!EDIT_CONTENT || Object.keys(EDIT_CONTENT).length === 0) {
     return `<div class="empty-content">Konten kosong. Pindah ke tab JSON untuk mengisi.</div>`;
@@ -748,7 +1372,6 @@ function renderObjectArray(arr, path) {
   return html;
 }
 
-// ── Event: add/remove row ──
 document.getElementById('contentForm').addEventListener('click', e => {
   const addBtn = e.target.closest('.dyn-add-row');
   const delBtn = e.target.closest('.dyn-del-row');
@@ -760,9 +1383,7 @@ document.getElementById('contentForm').addEventListener('click', e => {
     if (Array.isArray(arr)) {
       const template = arr.length > 0 ? arr[arr.length - 1] : {};
       const blank = {};
-      for (const k of Object.keys(template)) {
-        blank[k] = typeof template[k] === 'number' ? 0 : '';
-      }
+      for (const k of Object.keys(template)) blank[k] = typeof template[k] === 'number' ? 0 : '';
       arr.push(blank);
     }
     document.getElementById('contentForm').innerHTML = renderContentFields();
@@ -778,7 +1399,6 @@ document.getElementById('contentForm').addEventListener('click', e => {
   }
 });
 
-// ── Read values from form ──
 function collectContentFromForm(struct) {
   const out = {};
   for (const [k, v] of Object.entries(struct)) {
@@ -822,7 +1442,6 @@ function collectDocFromForm() {
   document.querySelectorAll('.meta-input').forEach(el => { doc[el.dataset.col] = el.value; });
   const content = collectContentFromForm(EDIT_CONTENT);
   doc.x_09 = JSON.stringify(content);
-  // Pastikan x_01..x_20 lengkap (yang tidak ada di form ambil dari EDIT_DOC)
   if (EDIT_DOC) {
     for (let i = 1; i <= 20; i++) {
       const col = 'x_' + String(i).padStart(2,'0');
@@ -832,7 +1451,6 @@ function collectDocFromForm() {
   return doc;
 }
 
-// ── Submit ──
 btnSubmit.addEventListener('click', async () => {
   if (!isAdmin()) { setModalMsg('❌ Hanya admin yang diizinkan.', 'err'); return; }
 
@@ -846,13 +1464,13 @@ btnSubmit.addEventListener('click', async () => {
 
   let url, method;
   if (EDIT_MODE) {
-    url = `${ENDPOINT()}?table=${TABLE}&id_x=${EDIT_MODE.id_x}`;
+    url = `${API_BASE}?table=${TABLE}&id_x=${EDIT_MODE.id_x}`;
     method = 'PUT';
   } else if (Array.isArray(body)) {
-    url = `${ENDPOINT()}?table=${TABLE}&action=bulk_insert`;
+    url = `${API_BASE}?table=${TABLE}&action=bulk_insert`;
     method = 'POST';
   } else {
-    url = `${ENDPOINT()}?table=${TABLE}`;
+    url = `${API_BASE}?table=${TABLE}`;
     method = 'POST';
   }
 
@@ -893,12 +1511,11 @@ btnValidate.addEventListener('click', () => {
   } catch (e) { setModalMsg(`❌ JSON tidak valid: ${e.message}`, 'err'); }
 });
 
-// ── Template ──
 const TEMPLATES = {
-  promo: { x_01:"PROMO-002", x_02:"Judul Promo Baru", x_03:"PROMO", x_04:"Marketing", x_05:"1.0", x_07:"active", x_08:"Ringkasan singkat promo", x_09: JSON.stringify({ nama_promo:"Judul Promo", tipe:"volume_discount", target_segment:"Siswa SMA", minimal_peserta:5, free_quota:1, harga_normal:350000, harga_promo:100000, cashback:{persen:50,ke:"Sekolah"}, periode:{mulai:"2026-10-01",selesai:"2026-12-31"}, mekanisme:["Langkah 1","Langkah 2"], syarat:["Syarat 1"], larangan:["Larangan 1"] }), x_15:"SOP-MKT-001", x_16:"promo" },
+  promo: { x_01:"PROMO-002", x_02:"Judul Promo Baru", x_03:"PROMO", x_04:"Marketing", x_05:"1.0", x_07:"active", x_08:"Ringkasan singkat promo", x_09: JSON.stringify({ nama_promo:"Judul Promo", tipe:"volume_discount", target_segment:"Siswa SMA", minimal_peserta:6, free_quota:5, harga_normal:350000, harga_promo:100000, cashback:{persen:50,ke:"Sekolah"}, periode:{mulai:"2026-10-01",selesai:"2026-12-31"}, mekanisme:["5 siswa pertama GRATIS","Siswa ke-6 dst bayar Rp 100.000","Cashback 50% ke sekolah"], syarat:["Minimal 6 siswa per batch"], larangan:["Menjanjikan di luar tertulis"] }), x_15:"SOP-MKT-001", x_16:"promo" },
   ik: { x_01:"IK-XXX-000", x_02:"Judul IK", x_03:"IK", x_04:"Marketing", x_05:"1.0", x_07:"draft", x_08:"Ringkasan IK", x_09: JSON.stringify({ tujuan:"…", alat_bahan:["…"], langkah:[{no:1,aksi:"…",standar:"…"}], larangan:["…"] }), x_15:"SOP-MKT-001", x_16:"ik" },
   sop: { x_01:"SOP-XXX-000", x_02:"Judul SOP", x_03:"SOP", x_04:"Marketing", x_05:"1.0", x_07:"draft", x_08:"Ringkasan SOP", x_09: JSON.stringify({ tujuan:"…", ruang_lingkup:["…"], definisi:{istilah:"arti"}, tanggung_jawab:[{pihak:"…",tugas:"…"}], prosedur:[{tahap:"…",pelaksana:"…",output:"…"}] }), x_16:"sop" },
-  form: { x_01:"F-XXX-00", x_02:"Nama Formulir", x_03:"FORM", x_04:"Marketing", x_05:"1.0", x_07:"approved", x_08:"Deskripsi formulir", x_09: JSON.stringify({ field:[{nama:"…",tipe:"text",wajib:true}], petunjuk:["…"] }), x_16:"form" }
+  form: { x_01:"F-XXX-00", x_02:"Nama Formulir", x_03:"FORM", x_04:"Marketing", x_05:"1.0", x_07:"approved", x_08:"Deskripsi formulir", x_09: JSON.stringify({ kode_form:"F-XXX-00", judul_form:"Nama Formulir", deskripsi:"…", target_table:"form_submissions", field:[{kode:"nama",label:"Nama",tipe:"text",wajib:true,is_judul:true}], petunjuk:["…"] }), x_16:"form" }
 };
 
 document.querySelectorAll('[data-template]').forEach(btn => {
@@ -922,7 +1539,7 @@ function openDeleteModal(doc) {
   DELETE_TARGET = doc;
   document.getElementById('deleteInfo').innerHTML = `
     <b>${esc(doc.x_01)}</b> — ${esc(doc.x_02)}<br>
-    <span style="color:#666;">id_x: ${esc(doc.id_x)} | Jenis: ${esc(doc.x_03)} | Status: ${esc(doc.x_07)}</span>`;
+    <span style="color:#666;">id_x: ${esc(doc.id_x)} | Jenis: ${esc(doc.x_03)} | Divisi: ${esc(doc.x_04)} | Status: ${esc(doc.x_07)}</span>`;
   deleteMsg.className = 'msg'; deleteMsg.textContent = '';
   deleteBg.classList.add('show');
 }
@@ -935,7 +1552,7 @@ document.getElementById('btnConfirmDel').addEventListener('click', async () => {
   if (!isAdmin()) { deleteMsg.className = 'msg show err'; deleteMsg.textContent = 'Hanya admin.'; return; }
   const btn = document.getElementById('btnConfirmDel');
   btn.disabled = true;
-  const url = `${ENDPOINT()}?table=${TABLE}&id_x=${DELETE_TARGET.id_x}`;
+  const url = `${API_BASE}?table=${TABLE}&id_x=${DELETE_TARGET.id_x}`;
   try {
     const res = await fetch(url, { method: 'DELETE', headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': TABLE, 'X-Role': SESSION.role } });
     const data = await res.json();
@@ -950,7 +1567,774 @@ document.getElementById('btnConfirmDel').addEventListener('click', async () => {
   }
 });
 
-document.getElementById('btnLoad').addEventListener('click', loadData);
+// ═══════════════════════════════════════════════════════
+// FORM FILLER
+// ═══════════════════════════════════════════════════════
+function openFormFill(doc) {
+  ACTIVE_FORM_DOC = doc;
+  let def = {};
+  try { def = JSON.parse(doc.x_09 || '{}'); } catch (e) {}
+
+  if (!def.field || !Array.isArray(def.field) || def.field.length === 0) {
+    alert('Formulir ini belum punya definisi field. Edit dulu dokumen FORM-nya.');
+    return;
+  }
+  ACTIVE_FORM_DEF = def;
+
+  document.getElementById('formFillTitle').textContent = def.judul_form || doc.x_02;
+  document.getElementById('formFillDesc').textContent = def.deskripsi || doc.x_08 || '';
+  document.getElementById('formFillBody').innerHTML = renderFormFields(def);
+  document.getElementById('formFillMsg').className = 'msg';
+  document.getElementById('formFillBg').classList.add('show');
+}
+
+function renderFormFields(def) {
+  const fields = def.field || [];
+  const petunjuk = (def.petunjuk || []).map(p => `<li>${esc(p)}</li>`).join('');
+  let html = petunjuk ? `<ul style="font-size:12px;color:#666;padding-left:20px;margin-bottom:16px">${petunjuk}</ul>` : '';
+  html += fields.map(f => {
+    const req = f.wajib ? '<span class="req">*</span>' : '';
+    const hint = f.placeholder ? `<span class="hint">${esc(f.placeholder)}</span>` : '';
+    let input = '';
+    if (f.tipe === 'textarea') {
+      input = `<textarea data-fkode="${esc(f.kode)}" data-fwajib="${f.wajib?1:0}" placeholder="${esc(f.placeholder||'')}"></textarea>`;
+    } else if (f.tipe === 'select') {
+      const opts = (f.opsi || []).map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('');
+      input = `<select data-fkode="${esc(f.kode)}" data-fwajib="${f.wajib?1:0}">
+        <option value="">-- Pilih --</option>${opts}</select>`;
+    } else {
+      const typeMap = { text:'text', email:'email', tel:'tel', number:'number', date:'date' };
+      const t = typeMap[f.tipe] || 'text';
+      input = `<input type="${t}" data-fkode="${esc(f.kode)}" data-fwajib="${f.wajib?1:0}" placeholder="${esc(f.placeholder||'')}">`;
+    }
+    return `<div class="form-field">
+      <label>${esc(f.label)} ${req}</label>
+      ${input}${hint}
+    </div>`;
+  }).join('');
+  return html;
+}
+
+document.getElementById('btnSubmitFill').addEventListener('click', async () => {
+  if (!ACTIVE_FORM_DOC || !ACTIVE_FORM_DEF) return;
+  const btn = document.getElementById('btnSubmitFill');
+  btn.disabled = true;
+  const msgEl = document.getElementById('formFillMsg');
+  msgEl.className = 'msg';
+
+  const fields = ACTIVE_FORM_DEF.field || [];
+  const collected = [];
+  let valid = true, firstErr = null;
+
+  for (const f of fields) {
+    const el = document.querySelector(`[data-fkode="${f.kode}"]`);
+    if (!el) continue;
+    const raw = (el.value || '').trim();
+    if (f.wajib && !raw) {
+      el.style.borderColor = '#b42318';
+      if (!firstErr) firstErr = f.label;
+      valid = false;
+    } else {
+      el.style.borderColor = '';
+    }
+    const value = f.tipe === 'number' ? (parseFloat(raw) || 0) : raw;
+    collected.push({ kode: f.kode, label: f.label, value });
+  }
+
+  if (!valid) {
+    msgEl.className = 'msg show err';
+    msgEl.textContent = `❌ Field wajib belum diisi: ${firstErr}`;
+    btn.disabled = false;
+    return;
+  }
+
+  let judulField = '';
+  for (const f of fields) {
+    if (f.is_judul) {
+      const found = collected.find(c => c.kode === f.kode);
+      if (found && found.value) { judulField = String(found.value); break; }
+    }
+  }
+  if (!judulField) {
+    const first = collected.find(c => c.value !== '' && c.value !== 0);
+    judulField = first ? String(first.value) : '';
+  }
+  const judul = judulField
+    ? `${ACTIVE_FORM_DOC.x_02} — ${judulField}`.slice(0, 200)
+    : ACTIVE_FORM_DOC.x_02;
+
+  const now = new Date().toISOString();
+  const payload = {
+    x_01: ACTIVE_FORM_DEF.kode_form || ACTIVE_FORM_DOC.x_01,
+    x_02: SESSION ? SESSION.username : 'public',
+    x_03: now,
+    x_04: 'baru',
+    x_05: judul,
+    x_09: JSON.stringify({ fields: collected }),
+    x_10: ACTIVE_FORM_DOC.x_01,
+    x_11: ACTIVE_FORM_DOC.x_01,
+    x_20: JSON.stringify({ sumber: 'viewer-fill-form' })
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}?table=${SUBMIT_TABLE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Custom-Auth': SECRET,
+        'X-Table-Name': SUBMIT_TABLE,
+        'X-Role': SESSION ? SESSION.role : 'user'
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      msgEl.className = 'msg show ok';
+      msgEl.textContent = `✅ Berhasil disimpan. ID #${data.id_x}`;
+      setTimeout(() => {
+        document.getElementById('formFillBg').classList.remove('show');
+        btn.disabled = false;
+        loadData().then(() => {
+          if (ACTIVE_FORM_DOC) loadSubmissions(ACTIVE_FORM_DOC.x_01);
+        });
+      }, 900);
+    } else {
+      msgEl.className = 'msg show err';
+      msgEl.textContent = `❌ Gagal: ${JSON.stringify(data)}`;
+      btn.disabled = false;
+    }
+  } catch (e) {
+    msgEl.className = 'msg show err';
+    msgEl.textContent = `❌ Error: ${e.message}`;
+    btn.disabled = false;
+  }
+});
+
+document.getElementById('btnCancelFill').addEventListener('click', () => {
+  document.getElementById('formFillBg').classList.remove('show');
+});
+document.getElementById('formFillBg').addEventListener('click', e => {
+  if (e.target === document.getElementById('formFillBg')) {
+    document.getElementById('formFillBg').classList.remove('show');
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+// SUBMISSIONS PANEL
+// ═══════════════════════════════════════════════════════
+async function loadSubmissions(kodeForm) {
+  const panel = document.getElementById('subPanel');
+  if (!panel) return;
+  panel.innerHTML = `<div class="loader">Memuat submissions…</div>`;
+
+  let list = SUBMISSIONS_DATA.filter(s => (s.x_10 || s.x_11) === kodeForm);
+  SUB_CACHE = list;
+
+  if (list.length === 0) {
+    panel.innerHTML = `<div class="sub-empty">Belum ada submission untuk form ini. <a href="#" onclick="__openFill('${kodeForm}'); return false;" style="color:#0b4ea2;font-weight:600;">Isi sekarang →</a></div>`;
+    return;
+  }
+
+  panel.innerHTML = `<div class="sub-list">` +
+    list.map(s => {
+      const judul = s.x_05 || s.x_02 || '(tanpa judul)';
+      const status = (s.x_04 || 'baru').toLowerCase();
+      const tgl = (s.x_03 || '').slice(0,19).replace('T',' ');
+      return `<div class="sub-item">
+        <div class="sub-left">
+          <div class="sub-title">${esc(judul)}</div>
+          <div class="sub-meta">ID #${esc(s.id_x)} • ${esc(s.x_02||'-')} • ${esc(tgl)}</div>
+        </div>
+        <span class="sub-status ${esc(status)}">${esc(s.x_04 || 'baru')}</span>
+        <button class="btn-secondary" style="padding:6px 12px;font-size:12px;border-radius:6px;" onclick="__viewSub(${s.id_x})">Lihat</button>
+      </div>`;
+    }).join('') + `</div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// SUBMISSIONS POPUP LIST & VIEW
+// ═══════════════════════════════════════════════════════
+function openSubListAll(highlightId) {
+  const list = SUBMISSIONS_DATA;
+  document.getElementById('subListTitle').textContent = 'Daftar Submission';
+  document.getElementById('subListMeta').textContent = `${list.length} submission ditemukan. Klik baris untuk lihat detail.`;
+  const body = document.getElementById('subListBody');
+  if (list.length === 0) { body.innerHTML = `<div class="sub-empty">Belum ada submission.</div>`; document.getElementById('subListBg').classList.add('show'); return; }
+
+  body.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;">` +
+    list.map(s => renderSubListRow(s, highlightId, false)).join('') + `</div>`;
+  document.getElementById('subListBg').classList.add('show');
+  bindSubListRows(body);
+  if (highlightId) {
+    const t = body.querySelector(`.sub-list-row[data-sub-id="${highlightId}"]`);
+    if (t) setTimeout(() => t.scrollIntoView({ block:'center', behavior:'smooth' }), 100);
+  }
+}
+
+function openSubList(kodeForm) {
+  let list = SUBMISSIONS_DATA;
+  if (kodeForm) list = list.filter(s => (s.x_10 || s.x_11) === kodeForm);
+  document.getElementById('subListTitle').textContent = kodeForm ? `Daftar Submission — ${kodeForm}` : 'Daftar Submission';
+  document.getElementById('subListMeta').textContent = `${list.length} submission ditemukan. Klik baris untuk lihat detail.`;
+  const body = document.getElementById('subListBody');
+  if (list.length === 0) { body.innerHTML = `<div class="sub-empty">Belum ada submission.</div>`; document.getElementById('subListBg').classList.add('show'); return; }
+
+  body.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;">` +
+    list.map(s => renderSubListRow(s, null, false)).join('') + `</div>`;
+  document.getElementById('subListBg').classList.add('show');
+  bindSubListRows(body);
+}
+
+function renderSubListRow(s, highlightId, h) {
+  const judul = s.x_05 || s.x_02 || '(tanpa judul)';
+  const status = (s.x_04 || 'baru').toLowerCase();
+  const tgl = (s.x_03 || '').slice(0,16).replace('T',' ');
+  const form = s.x_10 || s.x_11 || '-';
+  const isHighlight = (highlightId && s.id_x === highlightId);
+  const bg = isHighlight ? '#e8f0ff' : '#f9fafb';
+  const bd = isHighlight ? '#0b4ea2' : '#eef0f3';
+  return `<div class="sub-list-row" data-sub-id="${s.id_x}"
+    style="display:flex;align-items:center;gap:14px;padding:12px 14px;background:${bg};border:1px solid ${bd};border-radius:8px;cursor:pointer;transition:all .15s;"
+    onmouseover="this.style.background='#e8f0ff';this.style.borderColor='#0b4ea2';"
+    onmouseout="this.style.background='${bg}';this.style.borderColor='${bd}';">
+    <div style="width:44px;height:44px;border-radius:50%;background:#0b4ea2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;">#${esc(s.id_x)}</div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:14px;font-weight:600;color:#1f2328;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(judul)}</div>
+      <div style="font-size:11px;color:#666;margin-top:3px;display:flex;gap:10px;flex-wrap:wrap;">
+        <span><b>Form:</b> ${esc(form)}</span>
+        <span><b>Pengisi:</b> ${esc(s.x_02 || '-')}</span>
+        <span><b>Waktu:</b> ${esc(tgl)}</span>
+      </div>
+    </div>
+    <span class="sub-status ${esc(status)}" style="padding:3px 10px;border-radius:10px;">${esc(s.x_04 || 'baru')}</span>
+    <span style="color:#0b4ea2;font-size:20px;font-weight:700;">›</span>
+  </div>`;
+}
+
+function bindSubListRows(body) {
+  body.querySelectorAll('.sub-list-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = parseInt(row.dataset.subId);
+      document.getElementById('subListBg').classList.remove('show');
+      setTimeout(() => openSubView(id), 150);
+    });
+  });
+}
+
+function openSubView(id, fromSidebar) {
+  let s = SUBMISSIONS_DATA.find(x => x.id_x === id) || SUB_CACHE.find(x => x.id_x === id);
+  if (!s) return;
+  let parsed = {};
+  try { parsed = JSON.parse(s.x_09 || '{}'); } catch (e) {}
+
+  const status = (s.x_04 || 'baru').toLowerCase();
+  const admin = isAdmin();
+  const judul = s.x_05 || s.x_02 || '(tanpa judul)';
+  const formCode = s.x_10 || s.x_11 || '';
+
+  let fields = [];
+  if (Array.isArray(parsed.fields)) {
+    fields = parsed.fields.map(f => ({
+      kode: f.kode || '',
+      label: f.label || f.kode || '(tanpa label)',
+      value: String(f.value ?? '')
+    }));
+  } else if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+    let labels = {};
+    if (formCode) {
+      const formDoc = ALL_DATA.find(d => d.x_01 === formCode);
+      if (formDoc) {
+        try {
+          const def = JSON.parse(formDoc.x_09 || '{}');
+          (def.field || []).forEach(f => { if (f.kode) labels[f.kode] = f.label || f.kode; });
+        } catch (e) {}
+      }
+    }
+    for (const [k, v] of Object.entries(parsed)) {
+      fields.push({ kode: k, label: labels[k] || prettify(k), value: String(v ?? '') });
+    }
+  } else {
+    const systemCols = ['x_03','x_04','x_10','x_11','x_20'];
+    for (let i = 1; i <= 20; i++) {
+      const col = 'x_' + String(i).padStart(2,'0');
+      const v = s[col];
+      if (v === null || v === undefined || v === '') continue;
+      if (systemCols.includes(col)) continue;
+      fields.push({ kode: col, label: prettify(col), value: String(v) });
+    }
+  }
+
+  const metaHtml = `
+    <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;color:#555;margin-bottom:14px;">
+      <span style="background:#f0f4f9;padding:3px 8px;border-radius:6px;"><b>ID:</b> #${esc(s.id_x)}</span>
+      <span style="background:#f0f4f9;padding:3px 8px;border-radius:6px;"><b>Form:</b> ${esc(formCode || '-')}</span>
+      <span style="background:#f0f4f9;padding:3px 8px;border-radius:6px;"><b>Pengisi:</b> ${esc(s.x_02 || '-')}</span>
+      <span style="background:#f0f4f9;padding:3px 8px;border-radius:6px;"><b>Waktu:</b> ${esc((s.x_03||'').slice(0,19).replace('T',' '))}</span>
+      <span class="sub-status ${esc(status)}" style="padding:3px 8px;border-radius:6px;">${esc(s.x_04 || 'baru')}</span>
+    </div>`;
+
+  const actionsHtml = admin ? `
+    <div style="display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid #eef0f3;align-items:center;flex-wrap:wrap;">
+      <span style="font-size:12px;color:#666;">Ubah status:</span>
+      <button class="btn-secondary" onclick="__changeSubStatus(${id}, 'baru')" ${status==='baru'?'disabled style="opacity:.5"':''}>Baru</button>
+      <button class="btn-secondary" onclick="__changeSubStatus(${id}, 'diproses')" ${status==='diproses'?'disabled style="opacity:.5"':''}>Diproses</button>
+      <button class="btn-secondary" onclick="__changeSubStatus(${id}, 'selesai')" ${status==='selesai'?'disabled style="opacity:.5"':''}>Selesai</button>
+      <button class="btn-danger" style="margin-left:auto;" onclick="__deleteSubmission(${id})">🗑 Hapus</button>
+    </div>
+    <div id="subActionMsg" class="msg" style="margin-top:8px;"></div>` : '';
+
+  document.getElementById('subViewTitle').textContent = `Submission #${s.id_x}`;
+  document.getElementById('subViewMeta').innerHTML = metaHtml;
+
+  let html = `<div style="padding:12px 14px;background:#e8f0ff;border-radius:8px;margin-bottom:14px;">
+    <div style="font-size:10px;color:#0b4ea2;font-weight:700;text-transform:uppercase;letter-spacing:.5px;">Judul Submission</div>
+    <div style="font-size:15px;font-weight:600;margin-top:3px;">${esc(judul)}</div>
+  </div>`;
+
+  if (fields.length === 0) {
+    html += `<div class="sub-empty">Tidak ada data terisi.</div>`;
+  } else {
+    html += `<div style="font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">
+      ${fields.length} field — klik untuk lihat isi lengkap
+    </div><div style="display:flex;flex-direction:column;gap:6px;">`;
+    fields.forEach((f, i) => {
+      const val = f.value || '';
+      const preview = val.length > 70 ? val.slice(0, 70) + '…' : val;
+      const empty = !val;
+      html += `<div class="field-row" data-field-idx="${i}"
+        style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:#f9fafb;border:1px solid #eef0f3;border-radius:8px;cursor:pointer;transition:all .15s;"
+        onmouseover="this.style.background='#e8f0ff';this.style.borderColor='#0b4ea2';"
+        onmouseout="this.style.background='#f9fafb';this.style.borderColor='#eef0f3';">
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:11px;color:#666;font-weight:600;">${esc(f.label)}</div>
+          <div style="font-size:13px;color:#1f2328;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+            ${empty ? '<i style="color:#aaa">(kosong)</i>' : esc(preview)}
+          </div>
+        </div>
+        <span style="color:#0b4ea2;font-size:16px;font-weight:700;">›</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('subViewBody').innerHTML = html + actionsHtml;
+  document.getElementById('subViewBg').classList.add('show');
+
+  CURRENT_SUB_FIELDS = fields;
+  document.querySelectorAll('#subViewBody .field-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const i = parseInt(row.dataset.fieldIdx);
+      openFieldView(CURRENT_SUB_FIELDS[i]);
+    });
+  });
+}
+
+window.openFieldView = function(field) {
+  if (!field) return;
+  document.getElementById('fieldViewTitle').textContent = field.label || '-';
+  document.getElementById('fieldViewMeta').textContent = 'Field: ' + (field.kode || '-');
+  document.getElementById('fieldViewBody').textContent = field.value || '(kosong)';
+  document.getElementById('fieldViewBg').classList.add('show');
+};
+
+window.__changeSubStatus = async (id, newStatus) => {
+  if (!isAdmin()) return;
+  const s = SUBMISSIONS_DATA.find(x => x.id_x === id) || SUB_CACHE.find(x => x.id_x === id);
+  if (!s) return;
+  const msg = document.getElementById('subActionMsg');
+  if (msg) { msg.className = 'msg'; msg.textContent = ''; }
+  try {
+    const res = await fetch(`${API_BASE}?table=${SUBMIT_TABLE}&id_x=${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': SECRET, 'X-Table-Name': SUBMIT_TABLE, 'X-Role': SESSION.role },
+      body: JSON.stringify({ x_04: newStatus })
+    });
+    const data = await res.json();
+    if (data.success) {
+      s.x_04 = newStatus;
+      document.getElementById('subViewBg').classList.remove('show');
+      renderSidebar();
+      setTimeout(() => openSubView(id), 200);
+    } else {
+      if (msg) { msg.className = 'msg show err'; msg.textContent = '❌ Gagal: ' + JSON.stringify(data); }
+    }
+  } catch (e) {
+    if (msg) { msg.className = 'msg show err'; msg.textContent = '❌ Error: ' + e.message; }
+  }
+};
+
+window.__deleteSubmission = async (id) => {
+  if (!isAdmin()) return;
+  if (!confirm('Yakin ingin menghapus submission ini?')) return;
+  const msg = document.getElementById('subActionMsg');
+  try {
+    const res = await fetch(`${API_BASE}?table=${SUBMIT_TABLE}&id_x=${id}`, {
+      method: 'DELETE',
+      headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': SUBMIT_TABLE, 'X-Role': SESSION.role }
+    });
+    const data = await res.json();
+    if (data.success) {
+      SUBMISSIONS_DATA = SUBMISSIONS_DATA.filter(x => x.id_x !== id);
+      document.getElementById('subViewBg').classList.remove('show');
+      renderTabs();
+      renderSubtabs();
+      renderSidebar();
+    } else {
+      if (msg) { msg.className = 'msg show err'; msg.textContent = '❌ Gagal: ' + JSON.stringify(data); }
+    }
+  } catch (e) {
+    if (msg) { msg.className = 'msg show err'; msg.textContent = '❌ Error: ' + e.message; }
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+// TASKS — BUAT TUGAS DARI IK
+// ═══════════════════════════════════════════════════════
+function openTaskCreate(ikDoc) {
+  ACTIVE_TASK_IK = ikDoc;
+  document.getElementById('taskCreateHint').textContent =
+    `Tugas dari ${ikDoc.x_01} — ${ikDoc.x_02}`;
+  document.getElementById('taskIkKode').value = ikDoc.x_01;
+  document.getElementById('taskJudul').value = ikDoc.x_02 || '';
+  document.getElementById('taskTanggal').value = todayISO();
+  document.getElementById('taskPrioritas').value = 'medium';
+  document.getElementById('taskCatatan').value = '';
+  document.getElementById('taskCreateMsg').className = 'msg';
+  document.getElementById('taskCreateBg').classList.add('show');
+}
+
+document.getElementById('btnCancelTask').addEventListener('click', () => {
+  document.getElementById('taskCreateBg').classList.remove('show');
+});
+document.getElementById('taskCreateBg').addEventListener('click', e => {
+  if (e.target === document.getElementById('taskCreateBg')) {
+    document.getElementById('taskCreateBg').classList.remove('show');
+  }
+});
+
+document.getElementById('btnSubmitTask').addEventListener('click', async () => {
+  if (!ACTIVE_TASK_IK || !SESSION) return;
+  const btn = document.getElementById('btnSubmitTask');
+  const msgEl = document.getElementById('taskCreateMsg');
+  btn.disabled = true;
+  msgEl.className = 'msg';
+
+  const judul = document.getElementById('taskJudul').value.trim();
+  const tgl = document.getElementById('taskTanggal').value;
+  const prio = document.getElementById('taskPrioritas').value;
+  const catatan = document.getElementById('taskCatatan').value.trim();
+
+  if (!judul) { msgEl.className = 'msg show err'; msgEl.textContent = '❌ Judul wajib diisi.'; btn.disabled = false; return; }
+  if (!tgl) { msgEl.className = 'msg show err'; msgEl.textContent = '❌ Tanggal wajib diisi.'; btn.disabled = false; return; }
+
+  const now = new Date().toISOString();
+  const payload = {
+    x_01: ACTIVE_TASK_IK.x_01,
+    x_02: SESSION.username,
+    x_03: now,
+    x_04: 'todo',
+    x_05: judul,
+    x_06: tgl,
+    x_07: prio,
+    x_08: catatan,
+    x_09: JSON.stringify({
+      ik_kode: ACTIVE_TASK_IK.x_01,
+      ik_judul: ACTIVE_TASK_IK.x_02,
+      ik_divisi: ACTIVE_TASK_IK.x_04,
+      ik_ringkasan: ACTIVE_TASK_IK.x_08
+    }),
+    x_10: ACTIVE_TASK_IK.x_01,
+    x_11: ACTIVE_TASK_IK.x_04 || '',
+    x_12: SESSION.username,
+    x_13: now.slice(0,10),
+    x_14: '',
+    x_15: '',
+    x_16: (ACTIVE_TASK_IK.x_16 || '') + ',tugas',
+    x_17: '',
+    x_18: '',
+    x_19: 'private',
+    x_20: JSON.stringify({ sumber: 'viewer-task-create' })
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}?table=${TASK_TABLE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Custom-Auth': SECRET,
+        'X-Table-Name': TASK_TABLE,
+        'X-Role': SESSION.role
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      msgEl.className = 'msg show ok';
+      msgEl.textContent = `✅ Tugas berhasil dibuat. ID #${data.id_x}`;
+      setTimeout(() => {
+        document.getElementById('taskCreateBg').classList.remove('show');
+        btn.disabled = false;
+        loadData().then(() => {
+          ACTIVE_TAB = 'TASKS';
+          ACTIVE_SUBTAB = 'ALL';
+          renderTabs();
+          renderSubtabs();
+          renderSidebar();
+        });
+      }, 900);
+    } else {
+      msgEl.className = 'msg show err';
+      msgEl.textContent = `❌ Gagal: ${JSON.stringify(data)}`;
+      btn.disabled = false;
+    }
+  } catch (e) {
+    msgEl.className = 'msg show err';
+    msgEl.textContent = `❌ Error: ${e.message}`;
+    btn.disabled = false;
+  }
+});
+
+// ═══════════════════════════════════════════════════════
+// TASK VIEW & ACTIONS
+// ═══════════════════════════════════════════════════════
+function openTaskView(id) {
+  let t = TASKS_DATA.find(x => x.id_x === id);
+  if (!t) return;
+  if (!isAdmin() && t.x_02 !== SESSION.username) {
+    alert('Anda hanya bisa melihat tugas milik sendiri.');
+    return;
+  }
+
+  let snap = {};
+  try { snap = JSON.parse(t.x_09 || '{}'); } catch (e) {}
+
+  const status = (t.x_04 || 'todo').toLowerCase();
+  const prio = (t.x_07 || 'medium').toLowerCase();
+  const judul = t.x_05 || t.x_01 || '(tanpa judul)';
+  const tgl = formatDate(t.x_06);
+  const today = todayISO();
+  const lewat = tgl < today && status !== 'done';
+
+  document.getElementById('taskViewTitle').textContent = judul;
+  document.getElementById('taskViewMeta').innerHTML = `
+    <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;color:#555;margin-bottom:14px;">
+      <span style="background:#f0f4f9;padding:3px 8px;border-radius:6px;"><b>ID:</b> #${esc(t.id_x)}</span>
+      <span style="background:#f0f4f9;padding:3px 8px;border-radius:6px;"><b>IK:</b> ${esc(t.x_01||'-')}</span>
+      <span style="background:#f0f4f9;padding:3px 8px;border-radius:6px;"><b>Divisi:</b> ${esc(t.x_11||'-')}</span>
+      <span style="background:#f0f4f9;padding:3px 8px;border-radius:6px;"><b>Pemilik:</b> ${esc(t.x_02||'-')}</span>
+      <span class="task-status ${esc(status)}" style="padding:3px 8px;border-radius:6px;">${esc(status)}</span>
+      <span class="task-priority ${esc(prio)}" style="padding:3px 8px;border-radius:6px;">${esc(prio)}</span>
+    </div>`;
+
+  let html = '';
+  html += `<div class="section" style="margin-bottom:14px;">
+    <h3 style="font-size:12px;">Informasi Tugas</h3>
+    <table>
+      <tr><th style="width:180px">Tanggal Kerja</th><td style="${lewat?'color:#b42318;font-weight:700':''}">${esc(tgl)}${lewat?' <span style="font-size:11px;">(terlewat)</span>':''}</td></tr>
+      <tr><th>Status</th><td>${esc(t.x_04||'todo')}</td></tr>
+      <tr><th>Prioritas</th><td>${esc(t.x_07||'medium')}</td></tr>
+      <tr><th>Dibuat</th><td>${esc((t.x_13||'').slice(0,10) || '-')}</td></tr>
+      ${t.x_14 ? `<tr><th>Selesai</th><td>${esc((t.x_14||'').slice(0,10))}</td></tr>` : ''}
+    </table>
+  </div>`;
+
+  if (snap.ik_judul) {
+    html += `<div class="section" style="margin-bottom:14px;">
+      <h3 style="font-size:12px;">Referensi IK</h3>
+      <table>
+        <tr><th style="width:180px">Kode IK</th><td>${esc(snap.ik_kode || '-')}</td></tr>
+        <tr><th>Judul IK</th><td>${esc(snap.ik_judul || '-')}</td></tr>
+        <tr><th>Divisi IK</th><td>${esc(snap.ik_divisi || '-')}</td></tr>
+        ${snap.ik_ringkasan ? `<tr><th>Ringkasan</th><td>${esc(snap.ik_ringkasan)}</td></tr>` : ''}
+      </table>
+    </div>`;
+  }
+
+  if (t.x_08) {
+    html += `<div class="section" style="margin-bottom:14px;">
+      <h3 style="font-size:12px;">Catatan</h3>
+      <div class="note">${esc(t.x_08)}</div>
+    </div>`;
+  }
+
+  const canEdit = (isAdmin() || t.x_02 === SESSION.username);
+  const actionsHtml = canEdit ? `
+    <div style="display:flex;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid #eef0f3;align-items:center;flex-wrap:wrap;">
+      <span style="font-size:12px;color:#666;">Ubah status:</span>
+      <button class="btn-secondary" onclick="__changeTaskStatus(${t.id_x}, 'todo')" ${status==='todo'?'disabled style="opacity:.5"':''}>Todo</button>
+      <button class="btn-secondary" onclick="__changeTaskStatus(${t.id_x}, 'doing')" ${status==='doing'?'disabled style="opacity:.5"':''}>Dikerjakan</button>
+      <button class="btn-secondary" onclick="__changeTaskStatus(${t.id_x}, 'done')" ${status==='done'?'disabled style="opacity:.5"':''}>Selesai</button>
+      <button class="btn-danger" style="margin-left:auto;" onclick="__deleteTask(${t.id_x})">🗑 Hapus</button>
+    </div>
+    <div id="taskActionMsg" class="msg" style="margin-top:8px;"></div>` : '';
+
+  document.getElementById('taskViewBody').innerHTML = html + actionsHtml;
+  document.getElementById('taskViewBg').classList.add('show');
+}
+
+window.__changeTaskStatus = async (id, newStatus) => {
+  const t = TASKS_DATA.find(x => x.id_x === id);
+  if (!t) return;
+  if (!isAdmin() && t.x_02 !== SESSION.username) return;
+  const msg = document.getElementById('taskActionMsg');
+  if (msg) { msg.className = 'msg'; msg.textContent = ''; }
+
+  const payload = { x_04: newStatus };
+  if (newStatus === 'done') payload.x_14 = new Date().toISOString();
+
+  try {
+    const res = await fetch(`${API_BASE}?table=${TASK_TABLE}&id_x=${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Custom-Auth': SECRET, 'X-Table-Name': TASK_TABLE, 'X-Role': SESSION.role },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      t.x_04 = newStatus;
+      if (newStatus === 'done') t.x_14 = payload.x_14;
+      document.getElementById('taskViewBg').classList.remove('show');
+      renderTabs();
+      renderSubtabs();
+      renderSidebar();
+      setTimeout(() => openTaskView(id), 200);
+    } else {
+      if (msg) { msg.className = 'msg show err'; msg.textContent = '❌ Gagal: ' + JSON.stringify(data); }
+    }
+  } catch (e) {
+    if (msg) { msg.className = 'msg show err'; msg.textContent = '❌ Error: ' + e.message; }
+  }
+};
+
+window.__deleteTask = async (id) => {
+  const t = TASKS_DATA.find(x => x.id_x === id);
+  if (!t) return;
+  if (!isAdmin() && t.x_02 !== SESSION.username) return;
+  if (!confirm('Hapus tugas ini?')) return;
+  const msg = document.getElementById('taskActionMsg');
+  try {
+    const res = await fetch(`${API_BASE}?table=${TASK_TABLE}&id_x=${id}`, {
+      method: 'DELETE',
+      headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': TASK_TABLE, 'X-Role': SESSION.role }
+    });
+    const data = await res.json();
+    if (data.success) {
+      TASKS_DATA = TASKS_DATA.filter(x => x.id_x !== id);
+      document.getElementById('taskViewBg').classList.remove('show');
+      renderTabs();
+      renderSubtabs();
+      renderSidebar();
+    } else {
+      if (msg) { msg.className = 'msg show err'; msg.textContent = '❌ Gagal: ' + JSON.stringify(data); }
+    }
+  } catch (e) {
+    if (msg) { msg.className = 'msg show err'; msg.textContent = '❌ Error: ' + e.message; }
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+// IK TASKS VIEWER (per IK)
+// ═══════════════════════════════════════════════════════
+function openIkTasks(ikKode) {
+  ACTIVE_IK_TASKS_KODE = ikKode;
+  const ikDoc = ALL_DATA.find(d => d.x_01 === ikKode);
+  const ikJudul = ikDoc ? ikDoc.x_02 : ikKode;
+
+  document.getElementById('ikTasksTitle').textContent = `Tugas dari ${ikKode}`;
+  document.getElementById('ikTasksMeta').textContent = ikJudul;
+
+  document.getElementById('ikTasksDate').value = todayISO();
+  document.getElementById('ikTasksStatus').value = 'ALL';
+
+  document.getElementById('ikTasksBg').classList.add('show');
+  renderIkTasksList();
+}
+
+function renderIkTasksList() {
+  const tgl = document.getElementById('ikTasksDate').value;
+  const statusFilter = document.getElementById('ikTasksStatus').value;
+  const body = document.getElementById('ikTasksBody');
+
+  let list = TASKS_DATA.filter(t => t.x_01 === ACTIVE_IK_TASKS_KODE);
+
+  if (!isAdmin()) {
+    list = list.filter(t => t.x_02 === SESSION.username);
+  }
+
+  if (tgl) list = list.filter(t => (t.x_06 || '') === tgl);
+
+  if (statusFilter !== 'ALL') {
+    list = list.filter(t => (t.x_04 || 'todo').toLowerCase() === statusFilter);
+  }
+
+  list.sort((a,b) => (b.x_03||'').localeCompare(a.x_03||''));
+
+  if (list.length === 0) {
+    body.innerHTML = `<div class="sub-empty">
+      ${tgl ? `Tidak ada tugas pada ${formatDateIndo(tgl)}` : 'Tidak ada tugas'}
+      ${!isAdmin() ? ' untuk Anda' : ''} dari IK ini.
+      ${statusFilter !== 'ALL' ? ` (status: ${statusFilter})` : ''}
+    </div>`;
+    return;
+  }
+
+  const today = todayISO();
+
+  body.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;">` +
+    list.map(t => {
+      const status = (t.x_04 || 'todo').toLowerCase();
+      const prio = (t.x_07 || 'medium').toLowerCase();
+      const judul = t.x_05 || t.x_01 || '(tanpa judul)';
+      const tglTask = formatDate(t.x_06);
+      const lewat = tglTask < today && status !== 'done';
+      const catatan = (t.x_08 || '').slice(0, 80);
+
+      return `<div class="ik-task-row" data-task-id="${t.id_x}"
+        style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:#fff;border:1px solid #eef0f3;border-radius:8px;cursor:pointer;transition:all .15s;"
+        onmouseover="this.style.background='#fff9ee';this.style.borderColor='#e67e22';"
+        onmouseout="this.style.background='#fff';this.style.borderColor='#eef0f3';">
+        <div style="width:6px;height:44px;border-radius:3px;background:${prio==='high'?'#b42318':prio==='low'?'#1e7a3b':'#e67e22'};flex-shrink:0;"></div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13.5px;font-weight:600;color:#1f2328;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(judul)}</div>
+          <div style="font-size:11px;color:#666;margin-top:3px;display:flex;gap:10px;flex-wrap:wrap;">
+            <span style="${lewat?'color:#b42318;font-weight:700':''}">📅 ${esc(tglTask)}${lewat?' (terlewat)':''}</span>
+            <span class="task-priority ${esc(prio)}" style="padding:1px 6px;border-radius:6px;">${esc(prio)}</span>
+            ${isAdmin() ? `<span>👤 ${esc(t.x_02||'-')}</span>` : ''}
+            ${catatan ? `<span style="color:#888;">💬 ${esc(catatan)}${(t.x_08||'').length>80?'…':''}</span>` : ''}
+          </div>
+        </div>
+        <span class="task-status ${esc(status)}" style="padding:3px 10px;border-radius:10px;">${esc(status)}</span>
+        <span style="color:#e67e22;font-size:18px;font-weight:700;">›</span>
+      </div>`;
+    }).join('') + `</div>`;
+
+  body.querySelectorAll('.ik-task-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = parseInt(row.dataset.taskId);
+      document.getElementById('ikTasksBg').classList.remove('show');
+      setTimeout(() => openTaskView(id), 150);
+    });
+  });
+}
+
+document.getElementById('ikTasksDate').addEventListener('change', renderIkTasksList);
+document.getElementById('ikTasksStatus').addEventListener('change', renderIkTasksList);
+
+document.getElementById('btnIkTasksToday').addEventListener('click', () => {
+  document.getElementById('ikTasksDate').value = todayISO();
+  renderIkTasksList();
+});
+
+document.getElementById('btnIkTasksReset').addEventListener('click', () => {
+  document.getElementById('ikTasksDate').value = '';
+  document.getElementById('ikTasksStatus').value = 'ALL';
+  renderIkTasksList();
+});
+
+document.getElementById('ikTasksBg').addEventListener('click', e => {
+  if (e.target === document.getElementById('ikTasksBg')) {
+    document.getElementById('ikTasksBg').classList.remove('show');
+  }
+});
 </script>
 </body>
 </html>
