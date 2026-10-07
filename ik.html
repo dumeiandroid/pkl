@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Knowledge Base — Lidan Psikologi</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, sans-serif; background:#f5f6f8; color:#1f2328; }
+
+  /* LOGIN */
+  .login-screen { position:fixed; inset:0; background:linear-gradient(135deg,#0b4ea2 0%,#062e63 100%); display:flex; align-items:center; justify-content:center; z-index:1000; padding:20px; }
+  .login-box { background:#fff; padding:36px 32px; border-radius:14px; width:100%; max-width:380px; box-shadow:0 20px 60px rgba(0,0,0,.3); }
+  .login-box h2 { margin:0 0 6px 0; font-size:20px; color:#0b4ea2; }
+  .login-box p { margin:0 0 20px 0; color:#666; font-size:13px; }
+  .login-box label { display:block; font-size:12px; font-weight:600; color:#333; margin-bottom:6px; margin-top:14px; }
+  .login-box input { width:100%; padding:10px 12px; border:1px solid #d0d7de; border-radius:8px; font-size:14px; }
+  .login-box input:focus { outline:none; border-color:#0b4ea2; }
+  .login-box button { width:100%; padding:12px; background:#0b4ea2; color:#fff; border:0; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; margin-top:20px; }
+  .login-box button:hover { background:#062e63; }
+  .login-box button:disabled { background:#98b6e0; cursor:not-allowed; }
+  #loginMsg { margin-top:14px; font-size:13px; text-align:center; min-height:18px; }
+  #loginMsg.err { color:#b42318; } #loginMsg.ok { color:#1e7a3b; }
+
+  /* HEADER */
+  header { background:#0b4ea2; color:#fff; padding:12px 20px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  header h1 { font-size:15px; margin:0; font-weight:600; white-space:nowrap; }
+  header input { padding:6px 10px; border-radius:6px; border:0; font-size:12px; flex:1; max-width:300px; }
+  header button { background:#fff; color:#0b4ea2; border:0; padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer; font-weight:600; }
+  header button:hover { background:#e8f0ff; }
+  header .status { font-size:11px; opacity:.85; }
+  header .user-info { font-size:11px; background:rgba(255,255,255,.2); padding:5px 10px; border-radius:6px; display:flex; gap:8px; align-items:center; }
+  header .user-info .role { background:#ffd60a; color:#333; font-weight:700; padding:1px 6px; border-radius:4px; font-size:10px; }
+  header .user-info button { background:rgba(255,255,255,.3); color:#fff; padding:4px 8px; font-size:11px; }
+  header .user-info button:hover { background:rgba(255,255,255,.5); }
+
+  /* TABS */
+  .tabs { background:#fff; border-bottom:1px solid #e3e6ea; display:flex; overflow-x:auto; padding:0 20px; }
+  .tabs .tab { padding:12px 18px; cursor:pointer; font-size:13px; font-weight:600; color:#666; border-bottom:2px solid transparent; white-space:nowrap; }
+  .tabs .tab:hover { color:#0b4ea2; }
+  .tabs .tab.active { color:#0b4ea2; border-bottom-color:#0b4ea2; }
+  .tabs .tab .count { background:#e8f0ff; color:#0b4ea2; font-size:10px; padding:1px 6px; border-radius:8px; margin-left:6px; }
+
+  /* LAYOUT */
+  .layout { display:grid; grid-template-columns: 360px 1fr; height: calc(100vh - 100px); }
+  .sidebar { background:#fff; border-right:1px solid #e3e6ea; overflow-y:auto; }
+  .sidebar .item { padding:12px 16px; border-bottom:1px solid #f0f2f5; cursor:pointer; position:relative; }
+  .sidebar .item:hover { background:#f5f8ff; }
+  .sidebar .item.active { background:#e8f0ff; border-left:3px solid #0b4ea2; padding-left:13px; }
+  .sidebar .item .kode { font-size:11px; color:#0b4ea2; font-weight:700; }
+  .sidebar .item .judul { font-size:13px; margin-top:2px; font-weight:600; padding-right:80px; }
+  .sidebar .item .ringkas { font-size:11px; color:#666; margin-top:3px; line-height:1.35; }
+  .sidebar .item .meta { font-size:10px; color:#888; margin-top:4px; display:flex; gap:8px; flex-wrap:wrap; }
+  .sidebar .item .row-actions { position:absolute; top:10px; right:10px; display:none; gap:4px; }
+  .sidebar .item:hover .row-actions { display:flex; }
+  .sidebar .item .row-actions button { padding:3px 7px; border:0; border-radius:4px; font-size:10px; cursor:pointer; font-weight:600; }
+  .sidebar .item .row-actions .btn-edit { background:#e8f0ff; color:#0b4ea2; }
+  .sidebar .item .row-actions .btn-del { background:#fdecea; color:#b42318; }
+
+  /* CONTENT */
+  .content { overflow-y:auto; padding:24px 32px; position:relative; }
+  .content h2 { margin:0 0 4px 0; font-size:22px; padding-right:180px; }
+  .content .sub { color:#666; font-size:13px; margin-bottom:16px; }
+  .content .header-meta { display:flex; gap:10px; font-size:12px; color:#555; margin-bottom:20px; flex-wrap:wrap; }
+  .content .header-meta div { background:#fff; padding:6px 12px; border-radius:6px; border:1px solid #e3e6ea; }
+  .doc-actions { position:absolute; top:24px; right:32px; display:flex; gap:8px; }
+  .doc-actions button { padding:7px 14px; border:0; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; }
+  .doc-actions .btn-edit { background:#0b4ea2; color:#fff; }
+  .doc-actions .btn-edit:hover { background:#062e63; }
+  .doc-actions .btn-del { background:#fdecea; color:#b42318; }
+  .doc-actions .btn-del:hover { background:#f9d6d4; }
+
+  .section { background:#fff; border:1px solid #e3e6ea; border-radius:10px; padding:16px 20px; margin-bottom:14px; }
+  .section h3 { margin:0 0 12px 0; font-size:13px; color:#0b4ea2; text-transform:uppercase; letter-spacing:.5px; }
+  .section ul, .section ol { margin:0; padding-left:20px; font-size:13.5px; line-height:1.7; }
+  .section li { margin-bottom:4px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid #eef0f3; vertical-align:top; }
+  th { background:#f6f8fb; font-weight:600; font-size:12px; color:#444; }
+  .empty { padding:60px 20px; text-align:center; color:#999; font-size:14px; }
+  .loader { padding:40px; text-align:center; color:#666; }
+  .note { background:#fff9e6; border-left:3px solid #f0ad4e; padding:10px 14px; font-size:13px; border-radius:4px; margin-bottom:10px; }
+  .larangan li { color:#b42318; }
+  .badge { display:inline-block; padding:1px 6px; border-radius:8px; font-size:10px; font-weight:600; }
+  .badge.approved, .badge.active { background:#e6f4ea; color:#1e7a3b; }
+  .badge.draft { background:#fff3cd; color:#8a6d00; }
+  .badge.obsolete, .badge.inactive { background:#f0f0f0; color:#777; }
+
+  /* MODAL */
+  .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; z-index:200; padding:20px; }
+  .modal-bg.show { display:flex; }
+  .modal { background:#fff; border-radius:12px; max-width:1000px; width:100%; max-height:92vh; overflow:auto; padding:24px; }
+  .modal h3 { margin:0 0 6px 0; }
+  .modal p.hint { color:#666; font-size:12px; margin:0 0 16px 0; }
+  .modal textarea { width:100%; min-height:340px; padding:14px; border:1px solid #d0d7de; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.5; }
+  .modal button { padding:8px 16px; border:0; border-radius:6px; font-size:13px; cursor:pointer; font-weight:600; }
+  .modal .btn-primary { background:#0b4ea2; color:#fff; }
+  .modal .btn-primary:hover { background:#062e63; }
+  .modal .btn-secondary { background:#e3e6ea; color:#333; }
+  .modal .btn-danger { background:#b42318; color:#fff; }
+  .modal .actions { display:flex; gap:10px; justify-content:flex-end; margin-top:14px; position:sticky; bottom:0; background:#fff; padding-top:14px; border-top:1px solid #eef0f3; }
+  .modal .msg { font-size:12px; margin-top:10px; padding:8px 12px; border-radius:6px; display:none; }
+  .modal .msg.show { display:block; }
+  .modal .msg.ok { background:#e6f4ea; color:#1e7a3b; }
+  .modal .msg.err { background:#fdecea; color:#b42318; }
+  .modal .template-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  .modal .template-row button { background:#f0f4f9; color:#0b4ea2; font-size:11px; padding:6px 10px; }
+  .modal .template-row button:hover { background:#e8f0ff; }
+
+  /* EDIT MODE TABS */
+  .edit-tabs { display:flex; gap:0; margin-bottom:16px; border-bottom:1px solid #e3e6ea; }
+  .edit-tab { padding:10px 20px; background:none; border:0; font-size:13px; font-weight:600; color:#666; cursor:pointer; border-bottom:2px solid transparent; }
+  .edit-tab.active { color:#0b4ea2; border-bottom-color:#0b4ea2; }
+  .edit-tab:hover { color:#0b4ea2; }
+
+  /* FORM MODE */
+  .edit-section { margin-bottom:20px; padding:16px; background:#f9fafb; border-radius:8px; }
+  .edit-section h4 { margin:0 0 12px 0; font-size:12px; color:#0b4ea2; text-transform:uppercase; letter-spacing:.5px; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .dyn-field { display:flex; flex-direction:column; gap:4px; }
+  .dyn-field.full { grid-column:1/-1; }
+  .dyn-field label { font-size:11px; color:#666; font-weight:600; text-transform:capitalize; }
+  .dyn-field input, .dyn-field textarea, .dyn-field select {
+    padding:8px 10px; border:1px solid #d0d7de; border-radius:6px; font-size:13px;
+    font-family:inherit; width:100%;
+  }
+  .dyn-field textarea { min-height:70px; resize:vertical; }
+  .dyn-field input:focus, .dyn-field textarea:focus, .dyn-field select:focus { outline:none; border-color:#0b4ea2; }
+  .dyn-group { background:#fff; padding:12px; border-radius:6px; margin-bottom:10px; border:1px solid #e3e6ea; }
+  .dyn-group-title { font-size:11px; font-weight:700; color:#0b4ea2; margin-bottom:8px; text-transform:uppercase; letter-spacing:.3px; }
+  .dyn-nested { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .dyn-obj-array { overflow-x:auto; }
+  .dyn-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .dyn-table th { background:#f0f4f9; padding:6px 8px; font-size:11px; text-align:left; }
+  .dyn-table td { padding:4px; border-bottom:1px solid #eef0f3; }
+  .dyn-table input, .dyn-table textarea {
+    padding:6px 8px; border:1px solid #d0d7de; border-radius:4px; font-size:12px; width:100%;
+    font-family:inherit;
+  }
+  .dyn-table textarea { min-height:50px; resize:vertical; }
+  .dyn-del-row { background:#fdecea; color:#b42318; border:0; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px; }
+  .dyn-add-row { margin-top:8px; background:#e8f0ff; color:#0b4ea2; border:0; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:12px; font-weight:600; }
+  .dyn-check { display:flex; align-items:center; gap:6px; font-size:13px; padding:8px 0; }
+  .dyn-check input { width:auto; }
+  .empty-content { padding:20px; text-align:center; color:#888; font-size:12px; font-style:italic; }
+
+  @media (max-width: 800px) {
+    .layout { grid-template-columns:1fr; } .sidebar { max-height:40vh; }
+    .content h2 { padding-right:0; }
+    .doc-actions { position:static; margin-bottom:14px; }
+    .form-grid, .dyn-nested { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h2>📚 Lidan Knowledge Base</h2>
+    <p>Masuk untuk mengakses dokumen SOP, IK, dan Promo.</p>
+    <label>Username</label>
+    <input id="loginUser" placeholder="username" autocomplete="username">
+    <label>Password</label>
+    <input id="loginPass" type="password" placeholder="••••••••" autocomplete="current-password">
+    <button id="btnLogin">Masuk</button>
+    <div id="loginMsg"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <header>
+    <h1>📚 Knowledge Base — Lidan Psikologi</h1>
+    <input id="endpoint" value="https://lidan-co-id.pages.dev/api/contacts_filter_dinamis7">
+    <button id="btnLoad">Muat Ulang</button>
+    <button id="btnAdd" style="background:#3fb950;color:#fff;display:none;">+ Tambah via JSON</button>
+    <span class="status" id="status">siap</span>
+    <span class="user-info" id="userInfo" style="margin-left:auto;">
+      <span id="userLabel">—</span>
+      <span class="role" id="userRole" style="display:none;">ADMIN</span>
+      <button id="btnLogout">Keluar</button>
+    </span>
+  </header>
+  <div class="tabs" id="tabs"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"><div class="loader">Memuat…</div></aside>
+    <main class="content" id="content"><div class="empty">Pilih salah satu dokumen.</div></main>
+  </div>
+</div>
+
+<!-- MODAL TAMBAH/EDIT -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 id="modalTitle">Tambah Dokumen</h3>
+    <p class="hint" id="modalHint">
+      Paste JSON object tunggal (1 dokumen) atau array (banyak dokumen). Field: <code>x_01</code> s/d <code>x_20</code>.
+    </p>
+
+    <!-- Tab mode (hanya muncul kalau EDIT) -->
+    <div class="edit-tabs" id="editTabs" style="display:none;">
+      <button class="edit-tab active" data-mode="form">📝 Form</button>
+      <button class="edit-tab" data-mode="json">{ } JSON</button>
+    </div>
+
+    <!-- MODE FORM -->
+    <div id="formMode" style="display:none;">
+      <div class="edit-section">
+        <h4>Metadata Dokumen</h4>
+        <div id="metaForm" class="form-grid"></div>
+      </div>
+      <div class="edit-section">
+        <h4>Konten (x_09)</h4>
+        <div id="contentForm"></div>
+      </div>
+      <div class="edit-section">
+        <h4>Metadata Tambahan</h4>
+        <div id="metaExtraForm" class="form-grid"></div>
+      </div>
+    </div>
+
+    <!-- MODE JSON -->
+    <div id="jsonMode" style="display:none;">
+      <div class="template-row" id="templateRow">
+        <button data-template="promo">Template Promo</button>
+        <button data-template="ik">Template IK</button>
+        <button data-template="sop">Template SOP</button>
+        <button data-template="form">Template Formulir</button>
+        <button data-template="clear" style="background:#fdecea;color:#b42318;">Kosongkan</button>
+      </div>
+      <textarea id="jsonInput" placeholder='{ "x_01": "PROMO-002", "x_02": "Judul", "x_03": "PROMO", ... }'></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn-secondary" id="btnValidate" style="display:none;">Validasi JSON</button>
+      <button class="btn-secondary" id="btnCancel">Batal</button>
+      <button class="btn-primary" id="btnSubmit">Simpan ke Database</button>
+    </div>
+    <div class="msg" id="modalMsg"></div>
+  </div>
+</div>
+
+<!-- MODAL DELETE -->
+<div class="modal-bg" id="deleteBg">
+  <div class="modal" style="max-width:480px;">
+    <h3 style="color:#b42318;">⚠️ Konfirmasi Hapus</h3>
+    <p class="hint">Tindakan ini tidak dapat dibatalkan. Dokumen akan dihapus permanen.</p>
+    <div id="deleteInfo" style="background:#f6f8fb;padding:12px;border-radius:8px;font-size:13px;margin-bottom:14px;"></div>
+    <div class="actions">
+      <button class="btn-secondary" id="btnCancelDel">Batal</button>
+      <button class="btn-danger" id="btnConfirmDel">Ya, Hapus</button>
+    </div>
+    <div class="msg" id="deleteMsg"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// KONFIG
+// ═══════════════════════════════════════════════════════
+const ENDPOINT = () => document.getElementById('endpoint').value.trim();
+const TABLE = 'lidan_docs';
+const USERS_TABLE = 'users';
+const SECRET = 'admin';
+const ALL_TABS = ['ALL','IK','PROMO','SOP','FORM','JD','LAINNYA'];
+
+const META_LABELS = {
+  x_01: { label: 'Kode', type: 'text' },
+  x_02: { label: 'Judul', type: 'text' },
+  x_03: { label: 'Jenis', type: 'select', opts: ['IK','SOP','FORM','PROMO','JD','LAINNYA'] },
+  x_04: { label: 'Divisi', type: 'text' },
+  x_05: { label: 'Versi', type: 'text' },
+  x_06: { label: 'Tanggal Berlaku', type: 'date' },
+  x_07: { label: 'Status', type: 'select', opts: ['draft','approved','obsolete','active','inactive'] },
+  x_08: { label: 'Ringkasan', type: 'textarea', full: true }
+};
+const META_EXTRA = {
+  x_10: { label: 'Lampiran URL', type: 'text' },
+  x_11: { label: 'Dibuat oleh', type: 'text' },
+  x_12: { label: 'Disetujui oleh', type: 'text' },
+  x_13: { label: 'Tanggal Dibuat', type: 'date' },
+  x_14: { label: 'Revisi Terakhir', type: 'date' },
+  x_15: { label: 'Parent Kode', type: 'text' },
+  x_16: { label: 'Tags', type: 'text' },
+  x_17: { label: 'Urutan', type: 'text' },
+  x_18: { label: 'Catatan', type: 'text' },
+  x_19: { label: 'Akses Level', type: 'select', opts: ['internal','public','confidential'] },
+  x_20: { label: 'Metadata (JSON)', type: 'textarea', full: true }
+};
+
+let ALL_DATA = [];
+let ACTIVE_TAB = 'ALL';
+let ACTIVE_DOC = null;
+let SESSION = null;
+
+// Edit state
+let EDIT_MODE = null;       // null = tambah, { id_x } = edit
+let EDIT_VIEW = 'form';     // 'form' | 'json'
+let EDIT_CONTENT = {};      // parsed x_09
+let EDIT_DOC = null;        // original doc
+
+// ═══════════════════════════════════════════════════════
+// UTIL
+// ═══════════════════════════════════════════════════════
+function esc(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function badge(status) {
+  const s = (status || '').toLowerCase();
+  const cls = ['approved','active'].includes(s) ? 'approved' : s === 'draft' ? 'draft' : 'obsolete';
+  return `<span class="badge ${cls}">${esc(status)}</span>`;
+}
+function tabOf(doc) {
+  const j = (doc.x_03 || '').toUpperCase();
+  return ALL_TABS.includes(j) ? j : 'LAINNYA';
+}
+function isAdmin() { return SESSION && SESSION.role === 'admin'; }
+function getByPath(obj, path) {
+  if (!path) return obj;
+  return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+}
+function setByPath(obj, path, val) {
+  const keys = path.split('.');
+  let cur = obj;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const k = keys[i];
+    if (!(k in cur) || typeof cur[k] !== 'object') cur[k] = {};
+    cur = cur[k];
+  }
+  cur[keys[keys.length - 1]] = val;
+}
+
+// ═══════════════════════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════════════════════
+const loginScreen = document.getElementById('loginScreen');
+const app = document.getElementById('app');
+const loginMsg = document.getElementById('loginMsg');
+
+(function restore() {
+  try {
+    const s = sessionStorage.getItem('lidan_session');
+    if (s) { SESSION = JSON.parse(s); showApp(); }
+  } catch (e) {}
+})();
+
+document.getElementById('btnLogin').addEventListener('click', doLogin);
+document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+  const username = document.getElementById('loginUser').value.trim();
+  const password = document.getElementById('loginPass').value;
+  if (!username || !password) { loginMsg.className = 'err'; loginMsg.textContent = 'Wajib diisi.'; return; }
+  const btn = document.getElementById('btnLogin');
+  btn.disabled = true;
+  loginMsg.className = ''; loginMsg.textContent = 'Memeriksa…';
+
+  const url = `${ENDPOINT()}?table=${USERS_TABLE}&x_01_eq=${encodeURIComponent(username)}&x_02_eq=${encodeURIComponent(password)}&limit=1`;
+  try {
+    const res = await fetch(url, { headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': USERS_TABLE } });
+    const data = await res.json();
+    if (!data.success) throw new Error(JSON.stringify(data));
+    if (!data.data || data.data.length === 0) {
+      loginMsg.className = 'err'; loginMsg.textContent = '❌ Username atau password salah.';
+      btn.disabled = false; return;
+    }
+    const user = data.data[0];
+    const role = (user.x_03 || '').toLowerCase() === 'admin' ? 'admin' : 'user';
+    SESSION = { username: user.x_01, role, id_x: user.id_x };
+    sessionStorage.setItem('lidan_session', JSON.stringify(SESSION));
+    loginMsg.className = 'ok'; loginMsg.textContent = '✅ Berhasil masuk.';
+    setTimeout(showApp, 300);
+  } catch (e) {
+    loginMsg.className = 'err'; loginMsg.textContent = '❌ Gagal: ' + e.message;
+  }
+  btn.disabled = false;
+}
+
+function showApp() {
+  loginScreen.style.display = 'none';
+  app.style.display = 'block';
+  document.getElementById('userLabel').textContent = SESSION.username;
+  const roleEl = document.getElementById('userRole');
+  if (isAdmin()) {
+    roleEl.style.display = 'inline-block';
+    document.getElementById('btnAdd').style.display = 'inline-block';
+  } else {
+    roleEl.style.display = 'none';
+    document.getElementById('btnAdd').style.display = 'none';
+  }
+  loadData();
+}
+
+document.getElementById('btnLogout').addEventListener('click', () => {
+  if (!confirm('Yakin ingin keluar?')) return;
+  sessionStorage.removeItem('lidan_session');
+  SESSION = null;
+  location.reload();
+});
+
+// ═══════════════════════════════════════════════════════
+// LOAD DATA
+// ═══════════════════════════════════════════════════════
+async function loadData() {
+  document.getElementById('status').textContent = 'memuat…';
+  const url = `${ENDPOINT()}?table=${TABLE}&limit=500`;
+  try {
+    const res = await fetch(url, { headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': TABLE } });
+    const data = await res.json();
+    if (!data.success) throw new Error(JSON.stringify(data));
+    ALL_DATA = (data.data || []).sort((a,b) => {
+      const t = (a.x_03||'').localeCompare(b.x_03||'');
+      return t !== 0 ? t : (a.x_17||'').localeCompare(b.x_17||'');
+    });
+    renderTabs();
+    renderSidebar();
+    document.getElementById('status').textContent = `${ALL_DATA.length} dokumen termuat`;
+  } catch (e) {
+    document.getElementById('sidebar').innerHTML = `<div class="empty">Gagal memuat: ${esc(e.message)}</div>`;
+    document.getElementById('status').textContent = 'error';
+  }
+}
+
+function renderTabs() {
+  const counts = {};
+  ALL_TABS.forEach(t => counts[t] = 0);
+  ALL_DATA.forEach(d => { counts[tabOf(d)]++; counts.ALL++; });
+  const el = document.getElementById('tabs');
+  el.innerHTML = ALL_TABS.map(t => {
+    const c = counts[t] || 0;
+    if (t === 'LAINNYA' && c === 0) return '';
+    return `<div class="tab ${t===ACTIVE_TAB?'active':''}" data-tab="${t}">${t} <span class="count">${c}</span></div>`;
+  }).join('');
+  el.querySelectorAll('.tab').forEach(x => {
+    x.addEventListener('click', () => { ACTIVE_TAB = x.dataset.tab; renderTabs(); renderSidebar(); });
+  });
+}
+
+function renderSidebar() {
+  const el = document.getElementById('sidebar');
+  const list = ACTIVE_TAB === 'ALL' ? ALL_DATA : ALL_DATA.filter(d => tabOf(d) === ACTIVE_TAB);
+  if (list.length === 0) {
+    el.innerHTML = `<div class="empty">Belum ada dokumen.</div>`;
+    document.getElementById('content').innerHTML = `<div class="empty">Pilih tab lain atau tambah dokumen.</div>`;
+    return;
+  }
+  const showActions = isAdmin();
+  el.innerHTML = list.map(d => {
+    const idx = ALL_DATA.indexOf(d);
+    const actions = showActions ? `
+      <div class="row-actions">
+        <button class="btn-edit" data-act="edit" data-idx="${idx}" title="Edit">✎</button>
+        <button class="btn-del" data-act="del" data-idx="${idx}" title="Hapus">🗑</button>
+      </div>` : '';
+    return `<div class="item" data-idx="${idx}">
+      ${actions}
+      <div class="kode">${esc(d.x_01)}</div>
+      <div class="judul">${esc(d.x_02)}</div>
+      <div class="ringkas">${esc((d.x_08||'').slice(0,100))}${(d.x_08||'').length>100?'…':''}</div>
+      <div class="meta">${badge(d.x_07)}<span>v${esc(d.x_05||'-')}</span></div>
+    </div>`;
+  }).join('');
+
+  el.querySelectorAll('.item').forEach(it => {
+    it.addEventListener('click', ev => {
+      if (ev.target.closest('.row-actions')) return;
+      el.querySelectorAll('.item').forEach(x => x.classList.remove('active'));
+      it.classList.add('active');
+      ACTIVE_DOC = ALL_DATA[parseInt(it.dataset.idx)];
+      renderDetail(ACTIVE_DOC);
+    });
+  });
+  el.querySelectorAll('[data-act]').forEach(btn => {
+    btn.addEventListener('click', ev => {
+      ev.stopPropagation();
+      const doc = ALL_DATA[parseInt(btn.dataset.idx)];
+      if (btn.dataset.act === 'edit') openEditModal(doc);
+      else openDeleteModal(doc);
+    });
+  });
+
+  const first = el.querySelector('.item');
+  if (first) first.click();
+}
+
+// ═══════════════════════════════════════════════════════
+// DETAIL
+// ═══════════════════════════════════════════════════════
+function renderDetail(doc) {
+  let isi = {};
+  try { isi = JSON.parse(doc.x_09 || '{}'); } catch (e) {}
+
+  const actions = isAdmin() ? `
+    <div class="doc-actions">
+      <button class="btn-edit" onclick="__editCurrent()">✎ Edit</button>
+      <button class="btn-del" onclick="__deleteCurrent()">🗑 Hapus</button>
+    </div>` : '';
+
+  document.getElementById('content').innerHTML = `
+    ${actions}
+    <h2>${esc(doc.x_01)} — ${esc(doc.x_02)}</h2>
+    <div class="sub">${esc(doc.x_08||'')}</div>
+    <div class="header-meta">
+      <div><b>Jenis:</b> ${esc(doc.x_03)}</div>
+      <div><b>Divisi:</b> ${esc(doc.x_04)}</div>
+      <div><b>Versi:</b> ${esc(doc.x_05)}</div>
+      <div><b>Status:</b> ${badge(doc.x_07)}</div>
+      <div><b>Berlaku:</b> ${esc(doc.x_06)}</div>
+      <div><b>Parent:</b> ${esc(doc.x_15||'-')}</div>
+    </div>
+    ${renderAutoSections(isi)}
+    ${renderMetadataSection(doc)}
+  `;
+  document.getElementById('content').scrollTop = 0;
+}
+window.__editCurrent = () => { if (ACTIVE_DOC) openEditModal(ACTIVE_DOC); };
+window.__deleteCurrent = () => { if (ACTIVE_DOC) openDeleteModal(ACTIVE_DOC); };
+
+function renderAutoSections(obj) {
+  if (!obj || typeof obj !== 'object') return '';
+  let html = '';
+  for (const [key, val] of Object.entries(obj)) {
+    if (val === null || val === undefined || val === '') continue;
+    const title = key.replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+    if (Array.isArray(val)) {
+      if (val.length === 0) continue;
+      if (typeof val[0] === 'object' && val[0] !== null) {
+        const keys = Object.keys(val[0]);
+        html += `<div class="section"><h3>${esc(title)}</h3><table>
+          <thead><tr>${keys.map(k=>`<th>${esc(k.replace(/_/g,' '))}</th>`).join('')}</tr></thead>
+          <tbody>${val.map(row => `<tr>${keys.map(k=>`<td>${esc(row[k])}</td>`).join('')}</tr>`).join('')}</tbody>
+        </table></div>`;
+      } else {
+        const cls = key === 'larangan' ? 'larangan' : '';
+        html += `<div class="section"><h3>${esc(title)}</h3><ul class="${cls}">${val.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
+      }
+    } else if (typeof val === 'object') {
+      const inner = Object.entries(val).map(([k,v]) =>
+        `<tr><th style="width:180px">${esc(k.replace(/_/g,' '))}</th><td>${esc(v)}</td></tr>`
+      ).join('');
+      html += `<div class="section"><h3>${esc(title)}</h3><table>${inner}</table></div>`;
+    } else {
+      const isLong = String(val).length > 80;
+      html += `<div class="section"><h3>${esc(title)}</h3>${isLong ? `<div class="note">${esc(val)}</div>` : `<p style="font-size:13.5px;line-height:1.7;margin:0">${esc(val)}</p>`}</div>`;
+    }
+  }
+  return html;
+}
+
+function renderMetadataSection(doc) {
+  return `<div class="section"><h3>Metadata</h3><table>
+    <tr><th style="width:180px">Dibuat oleh</th><td>${esc(doc.x_11||'-')}</td></tr>
+    <tr><th>Disetujui oleh</th><td>${esc(doc.x_12||'-')}</td></tr>
+    <tr><th>Tanggal dibuat</th><td>${esc(doc.x_13||'-')}</td></tr>
+    <tr><th>Revisi terakhir</th><td>${esc(doc.x_14||'-')}</td></tr>
+    <tr><th>Tags</th><td>${esc(doc.x_16||'-')}</td></tr>
+    <tr><th>Akses</th><td>${esc(doc.x_19||'-')}</td></tr>
+    <tr><th>id_x</th><td>${esc(doc.id_x)}</td></tr>
+  </table></div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// MODAL TAMBAH / EDIT
+// ═══════════════════════════════════════════════════════
+const modalBg = document.getElementById('modalBg');
+const jsonInput = document.getElementById('jsonInput');
+const modalMsg = document.getElementById('modalMsg');
+const modalTitle = document.getElementById('modalTitle');
+const modalHint = document.getElementById('modalHint');
+const btnSubmit = document.getElementById('btnSubmit');
+const editTabs = document.getElementById('editTabs');
+const formMode = document.getElementById('formMode');
+const jsonMode = document.getElementById('jsonMode');
+const templateRow = document.getElementById('templateRow');
+const btnValidate = document.getElementById('btnValidate');
+
+function showModal() { modalBg.classList.add('show'); modalMsg.classList.remove('show'); }
+function hideModal() { modalBg.classList.remove('show'); EDIT_MODE = null; EDIT_DOC = null; }
+function setModalMsg(text, cls) { modalMsg.className = 'msg show ' + cls; modalMsg.textContent = text; }
+
+document.getElementById('btnAdd').addEventListener('click', () => {
+  if (!isAdmin()) return alert('Hanya admin yang dapat menambah dokumen.');
+  EDIT_MODE = null; EDIT_DOC = null; EDIT_VIEW = 'json';
+  modalTitle.textContent = 'Tambah Dokumen via JSON';
+  modalHint.innerHTML = 'Paste JSON object tunggal (1 dokumen) atau array (banyak dokumen). Field: <code>x_01</code> s/d <code>x_20</code>.';
+  editTabs.style.display = 'none';
+  formMode.style.display = 'none';
+  jsonMode.style.display = 'block';
+  templateRow.style.display = 'flex';
+  btnValidate.style.display = 'inline-block';
+  btnSubmit.textContent = 'Simpan ke Database';
+  jsonInput.value = '';
+  showModal();
+});
+
+function openEditModal(doc) {
+  if (!isAdmin()) return;
+  EDIT_MODE = { id_x: doc.id_x };
+  EDIT_DOC = doc;
+  EDIT_VIEW = 'form';
+  try { EDIT_CONTENT = JSON.parse(doc.x_09 || '{}'); } catch (e) { EDIT_CONTENT = {}; }
+
+  modalTitle.textContent = `Edit: ${doc.x_01} — ${doc.x_02}`;
+  modalHint.textContent = 'Ubah data di tab Form, atau pindah ke tab JSON untuk edit mentah.';
+  editTabs.style.display = 'flex';
+  templateRow.style.display = 'none';
+  btnValidate.style.display = 'none';
+  btnSubmit.textContent = 'Update Dokumen';
+
+  // Render metadata + content
+  document.getElementById('metaForm').innerHTML = renderMetaFields(doc);
+  document.getElementById('metaExtraForm').innerHTML = renderMetaExtraFields(doc);
+  document.getElementById('contentForm').innerHTML = renderContentFields();
+
+  setEditView('form');
+  showModal();
+}
+
+// ── Tab switch ──
+document.querySelectorAll('.edit-tab').forEach(t => {
+  t.addEventListener('click', () => setEditView(t.dataset.mode));
+});
+
+function setEditView(view) {
+  // Kalau pindah dari form ke json: serialize
+  if (EDIT_VIEW === 'form' && view === 'json' && EDIT_MODE) {
+    const doc = collectDocFromForm();
+    jsonInput.value = JSON.stringify(doc, null, 2);
+  }
+  // Kalau pindah dari json ke form: parse & re-render
+  if (EDIT_VIEW === 'json' && view === 'form' && EDIT_MODE) {
+    try {
+      const parsed = JSON.parse(jsonInput.value);
+      try { EDIT_CONTENT = JSON.parse(parsed.x_09 || '{}'); } catch (e) { EDIT_CONTENT = {}; }
+      document.getElementById('metaForm').innerHTML = renderMetaFields(parsed);
+      document.getElementById('metaExtraForm').innerHTML = renderMetaExtraFields(parsed);
+      document.getElementById('contentForm').innerHTML = renderContentFields();
+    } catch (e) {
+      alert('JSON tidak valid, tidak bisa pindah ke Form.\n\n' + e.message);
+      return;
+    }
+  }
+  EDIT_VIEW = view;
+  document.querySelectorAll('.edit-tab').forEach(x => x.classList.toggle('active', x.dataset.mode === view));
+  formMode.style.display = view === 'form' ? 'block' : 'none';
+  jsonMode.style.display = view === 'json' ? 'block' : 'none';
+}
+
+// ── Render metadata fields ──
+function renderField(col, cfg, value) {
+  const v = value == null ? '' : String(value);
+  const full = cfg.full ? ' full' : '';
+  const label = `${esc(cfg.label)} <span style="color:#aaa">(${esc(col)})</span>`;
+  if (cfg.type === 'textarea') {
+    return `<div class="dyn-field${full}"><label>${label}</label><textarea class="meta-input" data-col="${col}">${esc(v)}</textarea></div>`;
+  }
+  if (cfg.type === 'select') {
+    const opts = cfg.opts.map(o => `<option value="${esc(o)}" ${v===o?'selected':''}>${esc(o)}</option>`).join('');
+    return `<div class="dyn-field${full}"><label>${label}</label><select class="meta-input" data-col="${col}">${opts}</select></div>`;
+  }
+  if (cfg.type === 'date') {
+    return `<div class="dyn-field${full}"><label>${label}</label><input type="date" class="meta-input" data-col="${col}" value="${esc(v)}"></div>`;
+  }
+  return `<div class="dyn-field${full}"><label>${label}</label><input type="text" class="meta-input" data-col="${col}" value="${esc(v)}"></div>`;
+}
+
+function renderMetaFields(doc) {
+  return Object.entries(META_LABELS).map(([col, cfg]) => renderField(col, cfg, doc[col])).join('');
+}
+function renderMetaExtraFields(doc) {
+  return Object.entries(META_EXTRA).map(([col, cfg]) => renderField(col, cfg, doc[col])).join('');
+}
+
+// ── Render content dinamis (x_09) ──
+function renderContentFields() {
+  if (!EDIT_CONTENT || Object.keys(EDIT_CONTENT).length === 0) {
+    return `<div class="empty-content">Konten kosong. Pindah ke tab JSON untuk mengisi.</div>`;
+  }
+  let html = '';
+  for (const [k, v] of Object.entries(EDIT_CONTENT)) {
+    if (typeof v === 'object' && v !== null && !Array.isArray(v)) {
+      html += `<div class="dyn-group"><div class="dyn-group-title">${esc(k.replace(/_/g,' '))}</div>${renderNested(v, k)}</div>`;
+    } else {
+      html += `<div class="dyn-field full" style="margin-bottom:12px"><label>${esc(k.replace(/_/g,' '))}</label>${renderValueInput(v, k)}</div>`;
+    }
+  }
+  return html;
+}
+
+function renderNested(obj, path) {
+  let html = '<div class="dyn-nested">';
+  for (const [k, v] of Object.entries(obj)) {
+    if (typeof v === 'object' && v !== null && !Array.isArray(v)) {
+      html += `<div class="dyn-group" style="grid-column:1/-1"><div class="dyn-group-title">${esc(k.replace(/_/g,' '))}</div>${renderNested(v, path+'.'+k)}</div>`;
+    } else {
+      html += `<div class="dyn-field"><label>${esc(k.replace(/_/g,' '))}</label>${renderValueInput(v, path+'.'+k)}</div>`;
+    }
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderValueInput(val, path) {
+  if (typeof val === 'number') {
+    return `<input type="number" class="dyn-input" data-path="${esc(path)}" data-type="number" value="${val}">`;
+  }
+  if (typeof val === 'boolean') {
+    return `<label class="dyn-check"><input type="checkbox" class="dyn-input" data-path="${esc(path)}" data-type="boolean" ${val?'checked':''}> Ya</label>`;
+  }
+  if (Array.isArray(val)) {
+    if (val.length === 0 || typeof val[0] !== 'object') {
+      return `<textarea class="dyn-input" data-path="${esc(path)}" data-type="array-string" placeholder="Satu item per baris">${esc(val.join('\n'))}</textarea>`;
+    }
+    return renderObjectArray(val, path);
+  }
+  const s = String(val == null ? '' : val);
+  if (s.length > 80 || s.includes('\n')) {
+    return `<textarea class="dyn-input" data-path="${esc(path)}" data-type="string">${esc(s)}</textarea>`;
+  }
+  return `<input type="text" class="dyn-input" data-path="${esc(path)}" data-type="string" value="${esc(s)}">`;
+}
+
+function renderObjectArray(arr, path) {
+  const keys = Object.keys(arr[0] || {});
+  let html = `<div class="dyn-obj-array" data-obj-array="${esc(path)}"><table class="dyn-table"><thead><tr>`;
+  html += keys.map(k => `<th>${esc(k.replace(/_/g,' '))}</th>`).join('');
+  html += `<th style="width:40px"></th></tr></thead><tbody>`;
+  arr.forEach((row, i) => {
+    html += `<tr>`;
+    keys.forEach(k => {
+      const v = row[k];
+      const p = `${path}.${i}.${k}`;
+      if (typeof v === 'number') {
+        html += `<td><input type="number" class="dyn-input" data-path="${esc(p)}" data-type="number" value="${v}"></td>`;
+      } else if (typeof v === 'string' && v.length > 40) {
+        html += `<td><textarea class="dyn-input" data-path="${esc(p)}" data-type="string">${esc(v)}</textarea></td>`;
+      } else {
+        html += `<td><input type="text" class="dyn-input" data-path="${esc(p)}" data-type="string" value="${esc(v)}"></td>`;
+      }
+    });
+    html += `<td><button type="button" class="dyn-del-row" data-del-path="${esc(path)}" data-row="${i}" title="Hapus baris">✕</button></td>`;
+    html += `</tr>`;
+  });
+  html += `</tbody></table>`;
+  html += `<button type="button" class="dyn-add-row" data-add-path="${esc(path)}">+ Tambah Baris</button>`;
+  html += `</div>`;
+  return html;
+}
+
+// ── Event: add/remove row ──
+document.getElementById('contentForm').addEventListener('click', e => {
+  const addBtn = e.target.closest('.dyn-add-row');
+  const delBtn = e.target.closest('.dyn-del-row');
+
+  if (addBtn) {
+    const path = addBtn.dataset.addPath;
+    EDIT_CONTENT = collectContentFromForm(EDIT_CONTENT);
+    const arr = getByPath(EDIT_CONTENT, path);
+    if (Array.isArray(arr)) {
+      const template = arr.length > 0 ? arr[arr.length - 1] : {};
+      const blank = {};
+      for (const k of Object.keys(template)) {
+        blank[k] = typeof template[k] === 'number' ? 0 : '';
+      }
+      arr.push(blank);
+    }
+    document.getElementById('contentForm').innerHTML = renderContentFields();
+  }
+
+  if (delBtn) {
+    const path = delBtn.dataset.delPath;
+    const row = parseInt(delBtn.dataset.row);
+    EDIT_CONTENT = collectContentFromForm(EDIT_CONTENT);
+    const arr = getByPath(EDIT_CONTENT, path);
+    if (Array.isArray(arr)) arr.splice(row, 1);
+    document.getElementById('contentForm').innerHTML = renderContentFields();
+  }
+});
+
+// ── Read values from form ──
+function collectContentFromForm(struct) {
+  const out = {};
+  for (const [k, v] of Object.entries(struct)) {
+    out[k] = readValueFromForm(k, v);
+  }
+  return out;
+}
+
+function readValueFromForm(path, originalValue) {
+  if (Array.isArray(originalValue)) {
+    if (originalValue.length === 0 || typeof originalValue[0] !== 'object') {
+      const el = document.querySelector(`.dyn-input[data-path="${path}"][data-type="array-string"]`);
+      return el ? el.value.split('\n').map(s => s.trim()).filter(Boolean) : originalValue;
+    }
+    const arr = [];
+    for (let i = 0; i < originalValue.length; i++) {
+      const item = {};
+      for (const key of Object.keys(originalValue[i])) {
+        item[key] = readValueFromForm(`${path}.${i}.${key}`, originalValue[i][key]);
+      }
+      arr.push(item);
+    }
+    return arr;
+  }
+  if (typeof originalValue === 'object' && originalValue !== null) {
+    const obj = {};
+    for (const [k, v] of Object.entries(originalValue)) {
+      obj[k] = readValueFromForm(`${path}.${k}`, v);
+    }
+    return obj;
+  }
+  const el = document.querySelector(`.dyn-input[data-path="${path}"]`);
+  if (!el) return originalValue;
+  if (el.dataset.type === 'number') return parseFloat(el.value) || 0;
+  if (el.dataset.type === 'boolean') return el.checked;
+  return el.value;
+}
+
+function collectDocFromForm() {
+  const doc = {};
+  document.querySelectorAll('.meta-input').forEach(el => { doc[el.dataset.col] = el.value; });
+  const content = collectContentFromForm(EDIT_CONTENT);
+  doc.x_09 = JSON.stringify(content);
+  // Pastikan x_01..x_20 lengkap (yang tidak ada di form ambil dari EDIT_DOC)
+  if (EDIT_DOC) {
+    for (let i = 1; i <= 20; i++) {
+      const col = 'x_' + String(i).padStart(2,'0');
+      if (!(col in doc)) doc[col] = EDIT_DOC[col] ?? '';
+    }
+  }
+  return doc;
+}
+
+// ── Submit ──
+btnSubmit.addEventListener('click', async () => {
+  if (!isAdmin()) { setModalMsg('❌ Hanya admin yang diizinkan.', 'err'); return; }
+
+  let body;
+  if (EDIT_MODE && EDIT_VIEW === 'form') {
+    body = collectDocFromForm();
+  } else {
+    try { body = JSON.parse(jsonInput.value); }
+    catch (e) { setModalMsg(`❌ JSON tidak valid: ${e.message}`, 'err'); return; }
+  }
+
+  let url, method;
+  if (EDIT_MODE) {
+    url = `${ENDPOINT()}?table=${TABLE}&id_x=${EDIT_MODE.id_x}`;
+    method = 'PUT';
+  } else if (Array.isArray(body)) {
+    url = `${ENDPOINT()}?table=${TABLE}&action=bulk_insert`;
+    method = 'POST';
+  } else {
+    url = `${ENDPOINT()}?table=${TABLE}`;
+    method = 'POST';
+  }
+
+  setModalMsg('Mengirim…', 'ok');
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Custom-Auth': SECRET,
+        'X-Table-Name': TABLE,
+        'X-Role': SESSION.role
+      },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      const info = EDIT_MODE ? `id_x=${EDIT_MODE.id_x} updated` :
+                   Array.isArray(body) ? `${data.inserted} baris` :
+                   `id_x=${data.id_x}`;
+      setModalMsg(`✅ Berhasil. ${info}`, 'ok');
+      setTimeout(() => { hideModal(); loadData(); }, 900);
+    } else {
+      setModalMsg(`❌ Gagal: ${JSON.stringify(data)}`, 'err');
+    }
+  } catch (e) {
+    setModalMsg(`❌ Error: ${e.message}`, 'err');
+  }
+});
+
+document.getElementById('btnCancel').addEventListener('click', hideModal);
+modalBg.addEventListener('click', e => { if (e.target === modalBg) hideModal(); });
+
+btnValidate.addEventListener('click', () => {
+  try {
+    const parsed = JSON.parse(jsonInput.value);
+    setModalMsg(`✅ JSON valid. ${Array.isArray(parsed)?parsed.length+' dokumen':1+' dokumen'} siap dikirim.`, 'ok');
+  } catch (e) { setModalMsg(`❌ JSON tidak valid: ${e.message}`, 'err'); }
+});
+
+// ── Template ──
+const TEMPLATES = {
+  promo: { x_01:"PROMO-002", x_02:"Judul Promo Baru", x_03:"PROMO", x_04:"Marketing", x_05:"1.0", x_07:"active", x_08:"Ringkasan singkat promo", x_09: JSON.stringify({ nama_promo:"Judul Promo", tipe:"volume_discount", target_segment:"Siswa SMA", minimal_peserta:5, free_quota:1, harga_normal:350000, harga_promo:100000, cashback:{persen:50,ke:"Sekolah"}, periode:{mulai:"2026-10-01",selesai:"2026-12-31"}, mekanisme:["Langkah 1","Langkah 2"], syarat:["Syarat 1"], larangan:["Larangan 1"] }), x_15:"SOP-MKT-001", x_16:"promo" },
+  ik: { x_01:"IK-XXX-000", x_02:"Judul IK", x_03:"IK", x_04:"Marketing", x_05:"1.0", x_07:"draft", x_08:"Ringkasan IK", x_09: JSON.stringify({ tujuan:"…", alat_bahan:["…"], langkah:[{no:1,aksi:"…",standar:"…"}], larangan:["…"] }), x_15:"SOP-MKT-001", x_16:"ik" },
+  sop: { x_01:"SOP-XXX-000", x_02:"Judul SOP", x_03:"SOP", x_04:"Marketing", x_05:"1.0", x_07:"draft", x_08:"Ringkasan SOP", x_09: JSON.stringify({ tujuan:"…", ruang_lingkup:["…"], definisi:{istilah:"arti"}, tanggung_jawab:[{pihak:"…",tugas:"…"}], prosedur:[{tahap:"…",pelaksana:"…",output:"…"}] }), x_16:"sop" },
+  form: { x_01:"F-XXX-00", x_02:"Nama Formulir", x_03:"FORM", x_04:"Marketing", x_05:"1.0", x_07:"approved", x_08:"Deskripsi formulir", x_09: JSON.stringify({ field:[{nama:"…",tipe:"text",wajib:true}], petunjuk:["…"] }), x_16:"form" }
+};
+
+document.querySelectorAll('[data-template]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const key = btn.dataset.template;
+    if (key === 'clear') { jsonInput.value = ''; return; }
+    jsonInput.value = JSON.stringify(TEMPLATES[key], null, 2);
+    modalMsg.classList.remove('show');
+  });
+});
+
+// ═══════════════════════════════════════════════════════
+// DELETE
+// ═══════════════════════════════════════════════════════
+const deleteBg = document.getElementById('deleteBg');
+const deleteMsg = document.getElementById('deleteMsg');
+let DELETE_TARGET = null;
+
+function openDeleteModal(doc) {
+  if (!isAdmin()) return;
+  DELETE_TARGET = doc;
+  document.getElementById('deleteInfo').innerHTML = `
+    <b>${esc(doc.x_01)}</b> — ${esc(doc.x_02)}<br>
+    <span style="color:#666;">id_x: ${esc(doc.id_x)} | Jenis: ${esc(doc.x_03)} | Status: ${esc(doc.x_07)}</span>`;
+  deleteMsg.className = 'msg'; deleteMsg.textContent = '';
+  deleteBg.classList.add('show');
+}
+
+document.getElementById('btnCancelDel').addEventListener('click', () => { deleteBg.classList.remove('show'); DELETE_TARGET = null; });
+deleteBg.addEventListener('click', e => { if (e.target === deleteBg) { deleteBg.classList.remove('show'); DELETE_TARGET = null; } });
+
+document.getElementById('btnConfirmDel').addEventListener('click', async () => {
+  if (!DELETE_TARGET) return;
+  if (!isAdmin()) { deleteMsg.className = 'msg show err'; deleteMsg.textContent = 'Hanya admin.'; return; }
+  const btn = document.getElementById('btnConfirmDel');
+  btn.disabled = true;
+  const url = `${ENDPOINT()}?table=${TABLE}&id_x=${DELETE_TARGET.id_x}`;
+  try {
+    const res = await fetch(url, { method: 'DELETE', headers: { 'X-Custom-Auth': SECRET, 'X-Table-Name': TABLE, 'X-Role': SESSION.role } });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      deleteMsg.className = 'msg show ok'; deleteMsg.textContent = '✅ Dokumen dihapus.';
+      setTimeout(() => { deleteBg.classList.remove('show'); DELETE_TARGET = null; btn.disabled = false; loadData(); }, 800);
+    } else {
+      deleteMsg.className = 'msg show err'; deleteMsg.textContent = `❌ Gagal: ${JSON.stringify(data)}`; btn.disabled = false;
+    }
+  } catch (e) {
+    deleteMsg.className = 'msg show err'; deleteMsg.textContent = `❌ Error: ${e.message}`; btn.disabled = false;
+  }
+});
+
+document.getElementById('btnLoad').addEventListener('click', loadData);
+</script>
+</body>
+</html>
